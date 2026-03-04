@@ -12,6 +12,7 @@ import OurLocations from '@/components/OurLocations';
 import DuaSection from '@/components/DuaSection';
 import NumberTickerDemo from '@/components/Statistics';
 import NewsSlider from '@/components/NewsSlider';
+import InnovationSection from '@/components/InnovationSection';
 
 const Index = () => {
   return (
@@ -24,6 +25,7 @@ const Index = () => {
         <OurClients />
         <DuaSection />
         <NumberTickerDemo />
+        <InnovationSection />
         <ShopifyProducts />
       </main>
       <Footer />
