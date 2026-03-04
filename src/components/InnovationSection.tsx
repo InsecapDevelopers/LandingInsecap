@@ -64,7 +64,9 @@ function AppStoreBadge() {
 function GooglePlayBadge() {
   return (
     <a
-      href="#"
+      href="https://play.google.com/store/apps/details?id=com.insecap.relatoresya&pcampaignid=web_share"
+      target="_blank"
+      rel="noopener noreferrer"
       className="inline-flex items-center gap-2 bg-black text-white rounded-lg px-5 py-2.5 hover:bg-gray-800 transition-colors"
     >
       {/* Play triangle icon */}
@@ -238,45 +240,15 @@ export default function InnovationSection() {
               </div>
             </div>
 
-            {/* Teléfono con cards flotantes */}
+            {/* Teléfono con mockup real */}
             <div className="flex justify-center md:justify-end">
               <div className="relative">
-                {/* Floating card top-left */}
-                <div className="absolute -top-4 -left-8 bg-white rounded-xl shadow-lg px-4 py-3 border border-gray-100 z-20 hidden md:flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
-                    <CalendarCheck className="w-4 h-4 text-green-600" />
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-bold text-gray-800">Nueva Oferta</p>
-                    <p className="text-[9px] text-gray-400">Curso Seguridad</p>
-                  </div>
-                </div>
-
-                {/* Floating card bottom-left */}
-                <div className="absolute bottom-16 -left-10 bg-white rounded-xl shadow-lg px-4 py-3 border border-gray-100 z-20 hidden md:flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
-                    <ClipboardList className="w-4 h-4 text-purple-600" />
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-bold text-gray-800">Asistencia</p>
-                    <p className="text-[9px] text-gray-400">12/15 alumnos</p>
-                  </div>
-                </div>
-
                 <PhoneMockup>
-                  <div className="flex flex-col items-center justify-center h-full bg-gradient-to-b from-purple-700 to-indigo-600 p-6 text-white">
-                    <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center mb-4">
-                      <Mic className="w-7 h-7 text-white" />
-                    </div>
-                    <p className="text-sm font-bold tracking-wide">RelatoresYA</p>
-                    <p className="text-[10px] opacity-75 mb-6">INSECAP</p>
-                    <div className="w-full space-y-3">
-                      <div className="bg-white/10 rounded-lg px-3 py-2 text-xs">📅 Mi Agenda</div>
-                      <div className="bg-white/10 rounded-lg px-3 py-2 text-xs">✅ Asistencia</div>
-                      <div className="bg-white/10 rounded-lg px-3 py-2 text-xs">💬 Coordinación</div>
-                      <div className="bg-white/20 rounded-full py-2 text-xs text-center font-semibold mt-2">Ingresar</div>
-                    </div>
-                  </div>
+                  <img
+                    src="/mockups/RelatoresYA.png"
+                    alt="RelatoresYA app"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </PhoneMockup>
               </div>
             </div>

@@ -1,10 +1,18 @@
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Send, Phone, Mail, MapPin } from 'lucide-react';
+import { Send, Phone, Mail, MapPin, User } from 'lucide-react';
+import { getLiderComercial, LiderComercial } from '@/lib/tmsApi';
 
 const ContactCTA = () => {
+  const [lider, setLider] = useState<LiderComercial | null>(null);
+
+  useEffect(() => {
+    getLiderComercial().then(setLider);
+  }, []);
+
   return (
     <section id="contacto" className="py-16 lg:py-24 relative overflow-hidden">
       {/* Background Pattern */}
@@ -31,6 +39,32 @@ const ContactCTA = () => {
 
             {/* Contact Info */}
             <div className="space-y-4">
+
+              {/* Líder Comercial */}
+              {lider && (
+                <div className="flex items-center gap-4 p-4 rounded-xl bg-secondary/5 border border-secondary/20">
+                  {lider.foto ? (
+                    <img src={lider.foto} alt={lider.nombre} className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
+                      <User className="w-5 h-5 text-secondary" />
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-xs text-secondary font-medium uppercase tracking-wide">Tu Líder Comercial</p>
+                    <p className="font-semibold text-foreground">{lider.nombre}</p>
+                    <div className="flex flex-col gap-0.5 mt-1">
+                      <a href={`mailto:${lider.correo}`} className="text-sm text-muted-foreground hover:text-secondary transition-colors flex items-center gap-1.5">
+                        <Mail className="w-3 h-3" />{lider.correo}
+                      </a>
+                      <a href={`tel:${lider.telefono}`} className="text-sm text-muted-foreground hover:text-secondary transition-colors flex items-center gap-1.5">
+                        <Phone className="w-3 h-3" />{lider.telefono}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center">
                   <Mail className="w-5 h-5 text-secondary" />

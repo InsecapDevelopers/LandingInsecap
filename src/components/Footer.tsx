@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Linkedin } from 'lucide-react';
+import { Instagram, Facebook, Linkedin, Phone, Mail } from 'lucide-react';
 import ContactCTA from './ContactCTA';
+import { getLiderComercial, LiderComercial } from '@/lib/tmsApi';
 
 // Componentes de iconos personalizados
 const XIcon = ({ className }: { className?: string }) => (
@@ -16,7 +17,28 @@ const TikTokIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const SkeletonLider = () => (
+  <div className="flex items-center gap-4 animate-pulse">
+    <div className="w-16 h-16 rounded-full bg-primary-foreground/20 flex-shrink-0" />
+    <div className="space-y-2">
+      <div className="h-4 w-32 rounded bg-primary-foreground/20" />
+      <div className="h-3 w-48 rounded bg-primary-foreground/20" />
+      <div className="h-3 w-36 rounded bg-primary-foreground/20" />
+    </div>
+  </div>
+);
+
 const Footer = () => {
+  const [lider, setLider] = useState<LiderComercial | null>(null);
+  const [loadingLider, setLoadingLider] = useState(true);
+
+  useEffect(() => {
+    getLiderComercial().then((data) => {
+      setLider(data);
+      setLoadingLider(false);
+    });
+  }, []);
+
   const locations = [
     { name: "Sucursal Antofagasta", address: "Copiapó 956, Antofagasta", phone: "55 294 8575" },
     { name: "Casa Matríz", address: "La Cascada 1513, Calama", phone: "55 292 6431" },
@@ -27,7 +49,7 @@ const Footer = () => {
     { label: "Inicio", href: "/" },
     { label: "Cursos", href: "/cursos" },
     { label: "Nosotros", href: "/nosotros" },
-    { label: "Contacto", href: "/contacto" },
+    { label: "Contacto", href: "/#contacto" },
   ];
 
   const handleLogoClick = () => {
@@ -86,17 +108,77 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-lg mb-6">Mapa Web</h4>
             <ul className="space-y-3">
-              {siteMap.map((item) => (
-                <li key={item.label}>
-                  <Link to={item.href} className="text-sm text-primary-foreground/70 hover:text-secondary flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {siteMap.map((item) => {
+                const isAnchor = item.href.includes('#');
+                const anchorId = isAnchor ? item.href.split('#')[1] : null;
+
+                const handleClick = (e: React.MouseEvent) => {
+                  if (!anchorId) return;
+                  const el = document.getElementById(anchorId);
+                  if (el) {
+                    e.preventDefault();
+                    el.scrollIntoView({ behavior: 'smooth' });
+                  }
+                };
+
+                return (
+                  <li key={item.label}>
+                    <Link
+                      to={item.href}
+                      onClick={handleClick}
+                      className="text-sm text-primary-foreground/70 hover:text-secondary flex items-center gap-2"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
+
+        {/* Líder Comercial de Turno */}
+        {(loadingLider || lider) && (
+          <div className="mt-10 pt-8 border-t border-primary-foreground/10">
+            <h4 className="font-semibold text-lg mb-4">Tu Líder Comercial</h4>
+
+            {loadingLider && <SkeletonLider />}
+
+            {!loadingLider && lider && (
+              <div className="flex items-center gap-4">
+                {lider.foto ? (
+                  <img
+                    src={lider.foto}
+                    alt={lider.nombre}
+                    className="w-16 h-16 rounded-full object-cover flex-shrink-0"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-primary-foreground/20 flex items-center justify-center text-xl font-bold flex-shrink-0">
+                    {lider.nombre.charAt(0)}
+                  </div>
+                )}
+                <div>
+                  <p className="font-medium">{lider.nombre}</p>
+                  <a
+                    href={`mailto:${lider.correo}`}
+                    className="text-sm text-white/80 hover:text-white hover:underline flex items-center gap-1.5 mt-0.5"
+                  >
+                    <Mail className="w-3.5 h-3.5 flex-shrink-0" />
+                    {lider.correo}
+                  </a>
+                  <a
+                    href={`tel:${lider.telefono}`}
+                    className="text-sm text-white/80 hover:text-white hover:underline flex items-center gap-1.5 mt-0.5"
+                  >
+                    <Phone className="w-3.5 h-3.5 flex-shrink-0" />
+                    {lider.telefono}
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Bottom Bar */}
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 text-center md:text-left">

@@ -23,9 +23,9 @@ const Index = () => {
         <NewsSlider />
         <Catalog />
         <OurClients />
-        <DuaSection />
-        <NumberTickerDemo />
         <InnovationSection />
+        <NumberTickerDemo />
+        <DuaSection />
         <ShopifyProducts />
       </main>
       <Footer />

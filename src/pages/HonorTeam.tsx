@@ -1,9 +1,73 @@
-import { Star, Award, Trophy, MessageSquare, Coins, Gift } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Star, Award, Trophy, Coins, Gift } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
+import {
+  getMuroFamaPodio, PodioItem,
+  getPodioInsecoins, PodioInsecoinsItem,
+} from '@/lib/tmsApi';
+
+const medalEmoji = ['🥇', '🥈', '🥉'];
+
+const cardBorder = [
+  'border-2 border-yellow-400 md:scale-110',
+  'border border-gray-400',
+  'border border-amber-700',
+];
+
+const PodioCard = ({ item, position }: { item: PodioItem; position: number }) => (
+  <div
+    className={`bg-card rounded-2xl p-6 flex flex-col items-center text-center shadow-md w-full md:w-64 ${cardBorder[position - 1]}`}
+  >
+    <span className="text-3xl mb-3">{medalEmoji[position - 1]}</span>
+    {item.foto ? (
+      <img
+        src={item.foto}
+        alt={item.nombre}
+        className="w-20 h-20 rounded-full object-cover mb-3"
+      />
+    ) : (
+      <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center text-2xl font-bold mb-3">
+        {item.nombre.charAt(0)}
+      </div>
+    )}
+    <p className="font-bold text-foreground text-lg leading-tight">{item.nombre}</p>
+    <p className="text-sm text-muted-foreground mt-1">{item.rol}</p>
+    <p className="text-sm text-muted-foreground">{item.mes}</p>
+    <p className="text-xs text-muted-foreground italic mt-2">{item.logro}</p>
+  </div>
+);
+
+const PodioSkeleton = () => (
+  <div className="flex flex-col md:flex-row gap-6 items-center justify-center py-8 px-4">
+    {[0, 1, 2].map((i) => (
+      <div
+        key={i}
+        className="bg-card rounded-2xl p-6 flex flex-col items-center w-full md:w-64 animate-pulse"
+      >
+        <div className="w-10 h-10 rounded-full bg-muted mb-3" />
+        <div className="w-20 h-20 rounded-full bg-muted mb-3" />
+        <div className="h-4 w-32 rounded bg-muted mb-2" />
+        <div className="h-3 w-24 rounded bg-muted mb-1" />
+        <div className="h-3 w-20 rounded bg-muted" />
+      </div>
+    ))}
+  </div>
+);
 
 const HonorTeam = () => {
+  const [podio, setPodio] = useState<PodioItem[]>([]);
+  const [loadingPodio, setLoadingPodio] = useState(true);
+
+  const [podioInsecoins, setPodioInsecoins] = useState<PodioInsecoinsItem[]>([]);
+  const [loadingInsecoins, setLoadingInsecoins] = useState(true);
+
+  useEffect(() => {
+    getMuroFamaPodio().then((data) => { setPodio(data); setLoadingPodio(false); });
+    getPodioInsecoins().then((data) => { setPodioInsecoins(data); setLoadingInsecoins(false); });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -23,53 +87,33 @@ const HonorTeam = () => {
 
           {/* Muro de la Fama Section */}
           <section className="mb-20">
-            <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
-              <div className="flex-1">
-                <h2 className="text-3xl font-bold text-foreground mb-6 flex items-center gap-3">
-                  <Trophy className="w-8 h-8 text-secondary" />
-                  Muro de la Fama
-                </h2>
-                <div className="prose prose-blue max-w-none text-muted-foreground">
-                  <p className="text-justify leading-relaxed">
-                    Cada mes, llenos de gratitud, formamos una terna aleatoria de 3 colaboradores que, tras evaluar las contribuciones y el espíritu de equipo, nominan a 4 compañeros para el <strong>"Colaborador del Mes"</strong>. 🌟 A continuación, todo el personal vota para decidir quién será homenajeado por su dedicación y energía.
-                  </p>
-                  <p className="text-justify leading-relaxed mt-4">
-                    Al mismo tiempo, las distintas áreas de Insecap nominan a 4 Facilitadores sobresalientes; luego, entre todos los colaboradores, se escoge al <strong>"Facilitador del Mes"</strong> para reconocer su pasión y compromiso en la formación. 🎓❤️
-                  </p>
-                  <p className="text-justify leading-relaxed mt-4">
-                    De este modo, nuestro Muro de la Fama se llena cada mes de historias de esfuerzo, inspiración y celebración colectiva.
-                  </p>
-                </div>
-              </div>
-              <div className="w-full md:w-1/3 flex justify-center">
-                <img
-                  src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Capin-19.png?v=1769112910"
-                  alt="Muro de la Fama Mascot"
-                  className="w-48 h-auto object-contain animate-bounce-slow"
-                />
-              </div>
+            <h2 className="text-3xl font-bold text-foreground mb-4 flex items-center gap-3">
+              <Trophy className="w-8 h-8 text-secondary" />
+              Muro de la Fama
+            </h2>
+            <div className="prose prose-blue max-w-none text-muted-foreground mb-8">
+              <p className="text-justify leading-relaxed">
+                Cada mes, una terna aleatoria de colaboradores nomina al <strong>"Colaborador del Mes"</strong> y las distintas áreas al <strong>"Facilitador del Mes"</strong>. Todo el equipo vota, y el Muro de la Fama se llena de historias de esfuerzo y celebración colectiva. 🌟
+              </p>
             </div>
 
-            {/* Fama Iframe Container */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-lg p-1 bg-gradient-to-br from-secondary/5 to-primary/5">
-              <div className="relative w-full overflow-hidden" style={{ minHeight: '1100px' }}>
-                <iframe
-                  id="iframeFama"
-                  src="https://tms.insecap.cl/murofama/resumenfamaweb"
-                  className="w-full border-0 min-h-[1100px]"
-                  scrolling="no"
-                  title="Resumen Fama Web"
-                  onLoad={(e) => {
-                    const iframe = e.currentTarget;
-                    window.addEventListener('message', (ev) => {
-                      if (ev.origin !== 'https://tms.insecap.cl') return;
-                      if (ev.data.type === 'setHeight') {
-                        iframe.style.height = ev.data.height + 'px';
-                      }
-                    }, false);
-                  }}
-                />
-              </div>
+            {/* Podio Muro de la Fama */}
+            <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-lg p-6 bg-gradient-to-br from-secondary/5 to-primary/5">
+              {loadingPodio && <PodioSkeleton />}
+
+              {!loadingPodio && podio.length === 0 && (
+                <p className="text-center text-muted-foreground py-12">
+                  El podio se actualizará próximamente.
+                </p>
+              )}
+
+              {!loadingPodio && podio.length > 0 && (
+                <div className="flex flex-col md:flex-row gap-6 items-end justify-center py-8 px-4">
+                  {podio.map((item, idx) => (
+                    <PodioCard key={item.nombre} item={item} position={idx + 1} />
+                  ))}
+                </div>
+              )}
             </div>
           </section>
 
@@ -126,39 +170,55 @@ const HonorTeam = () => {
                     </div>
                   </div>
                   <div className="w-full md:w-80">
-                    <div className="bg-background rounded-2xl p-6 border border-border shadow-inner text-center">
-                      <h4 className="font-bold text-foreground mb-4">Podio Mensual</h4>
-                      <p className="text-sm text-muted-foreground mb-6">Top 3 de quienes han recibido más Insecoins.</p>
-                      <div className="flex justify-center">
-                        <Trophy className="w-16 h-16 text-primary animate-pulse" />
-                      </div>
+                    <div className="bg-background rounded-2xl p-6 border border-border shadow-inner">
+                      <h4 className="font-bold text-foreground mb-1 text-center">Podio Mensual</h4>
+                      <p className="text-xs text-muted-foreground text-center mb-4">Top 3 · más Insecoins del mes</p>
+
+                      {loadingInsecoins && (
+                        <div className="space-y-3">
+                          {[0,1,2].map(i => (
+                            <div key={i} className="flex items-center gap-3 animate-pulse">
+                              <div className="w-8 h-8 rounded-full bg-muted flex-shrink-0" />
+                              <div className="h-3 w-28 rounded bg-muted" />
+                              <div className="ml-auto h-3 w-10 rounded bg-muted" />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {!loadingInsecoins && podioInsecoins.length === 0 && (
+                        <div className="text-center py-4">
+                          <Trophy className="w-10 h-10 text-muted-foreground/30 mx-auto mb-2" />
+                          <p className="text-xs text-muted-foreground">Sin datos aún</p>
+                        </div>
+                      )}
+
+                      {!loadingInsecoins && podioInsecoins.length > 0 && (
+                        <ol className="space-y-3">
+                          {podioInsecoins.map((item) => (
+                            <li key={item.puesto} className="flex items-center gap-3">
+                              <span className="text-lg w-6 text-center flex-shrink-0">
+                                {['🥇','🥈','🥉'][item.puesto - 1] ?? item.puesto}
+                              </span>
+                              {item.foto ? (
+                                <img src={item.foto} alt={item.nombre} className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                              ) : (
+                                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                  {item.nombre.charAt(0)}
+                                </div>
+                              )}
+                              <span className="text-sm text-foreground truncate flex-1">{item.nombre}</span>
+                              <span className="text-xs font-semibold text-primary flex-shrink-0">{item.totalInsecoins} 🪙</span>
+                            </li>
+                          ))}
+                        </ol>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Felicidad Iframe Container */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-lg">
-              <div className="p-4 bg-muted/30 border-b border-border flex items-center justify-between">
-                <span className="text-sm font-medium text-muted-foreground">Podio de Estrellas en Vivo</span>
-                <div className="flex gap-2">
-                  <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                </div>
-              </div>
-              <div className="relative w-full overflow-hidden" style={{ paddingTop: '75%' }}>
-                <iframe
-                  src="https://tms.insecap.cl/MuroFelicidad/podioestrellas"
-                  className="absolute top-0 left-0 w-full h-full border-0"
-                  allowFullScreen
-                  title="Podio de Estrellas"
-                />
-              </div>
-              <div className="p-4 text-center text-xs text-muted-foreground md:hidden">
-                * Desliza dentro del cuadro para ver más detalles
-              </div>
-            </div>
           </section>
         </div>
       </main>

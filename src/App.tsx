@@ -31,7 +31,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BackToTop />
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ScrollToTop />
           {/*<PromoPopup />*/}
           <Routes>
