@@ -1,0 +1,234 @@
+/* Import fonts FIRST - required by CSS spec */
+@import '@fontsource/montserrat/400.css';
+@import '@fontsource/montserrat/500.css';
+@import '@fontsource/montserrat/600.css';
+@import '@fontsource/montserrat/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Insecap Design System - All colors in HSL */
+
+@layer base {
+  :root {
+    /* Insecap Brand Colors */
+    --insecap-blue: 231 54% 53%;
+    /* #485CC7 */
+    --insecap-blue-light: 231 60% 65%;
+    --insecap-cyan: 190 100% 44%;
+    /* #00B8DE */
+    --insecap-orange: 190 100% 44%;
+    /* Replaced with cyan */
+    --insecap-orange-light: 190 100% 50%;
+    /* Replaced with cyan-light */
+
+    /* Core tokens */
+    --background: 210 20% 98%;
+    --foreground: 222 65% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 65% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 65% 15%;
+
+    --primary: 231 54% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 190 100% 44%;
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 190 100% 44%;
+    --accent-foreground: 0 0% 100%;
+
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 231 54% 53%;
+
+    --radius: 0.5rem;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 0%) 0%, hsl(0 0% 20%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 20% 98%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(190 100% 44%) 0%, hsl(190 100% 55%) 100%);
+    --gradient-footer: linear-gradient(180deg, hsl(231 54% 53%) 0%, hsl(231 54% 40%) 100%);
+
+    /* Shadows */
+    --shadow-card: 0 4px 20px -4px hsl(231 54% 53% / 0.1);
+    --shadow-hover: 0 8px 30px -4px hsl(222 65% 28% / 0.15);
+    --shadow-cta: 0 4px 14px -2px hsl(24 95% 53% / 0.4);
+
+    /* Sidebar tokens */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222 65% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 65% 12%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 65% 12%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 192 100% 45%;
+    --primary-foreground: 222 65% 15%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 24 95% 53%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 192 100% 45%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .theme {
+    --animate-marquee: marquee var(--duration) infinite linear;
+    --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+    --animate-rippling: rippling var(--duration) ease-out;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* Ensure Montserrat is applied on mobile devices */
+  @media (max-width: 767px) {
+
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    span,
+    div,
+    a,
+    button,
+    input,
+    textarea,
+    select {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    }
+  }
+}
+
+@layer utilities {
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-cta {
+    background: var(--gradient-cta);
+  }
+
+  .gradient-footer {
+    background: var(--gradient-footer);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-card-hover {
+    box-shadow: var(--shadow-hover);
+  }
+
+  .shadow-cta {
+    box-shadow: var(--shadow-cta);
+  }
+
+  /* Hide scrollbar but keep scroll functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@theme inline {
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+
+  @keyframes rippling {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+export const clientLogos = [
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/berliam-768x226.png?v=1767899314', alt: 'Berliam' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/icv-768x226.png?v=1767899337', alt: 'ICV' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/joyglobal-768x226.png?v=1767899358', alt: 'Joy Global' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/komatsu-768x226.png?v=1767899380', alt: 'Komatsu' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/maquinaria-768x226.png?v=1767899380', alt: 'Maquinaria' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/LogosParaWeb-01.jpg?v=1767899149', alt: 'FLSmidth' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/LogosParaWeb-02.jpg?v=1767899195', alt: 'THIES' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/LogosParaWeb-03.jpg?v=1767899229', alt: 'AftaMinerals' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/LogosParaWeb-05.jpg?v=1767899275', alt: 'ElAbra' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/LogosParaWeb-06.jpg?v=1767899296', alt: 'FCAB' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Logo_Lomas_png.png?v=1769689735', alt: 'Lomas' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo-sierra-gorda2.png?v=1769689739', alt: 'Sierra gorda' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Codelco_logo_svg.png?v=1769689740', alt: 'Codelco' },
+];
