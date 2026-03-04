@@ -4,8 +4,8 @@ import { Users, GraduationCap, Clock3, List } from "lucide-react";
 
 const stats = [
   {
-    label: "Usuarios Capacitados",
-    value: 34094,
+    label: "Usuarios Capacitados en 2025",
+    value:'47700',
     icon: <Users className="w-10 h-10 text-white" />,
     suffix: "+"
   },

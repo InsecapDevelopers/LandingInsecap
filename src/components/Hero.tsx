@@ -335,7 +335,7 @@ const Hero = () => {
               className="flex gap-8 sm:gap-10 justify-center lg:justify-start"
             >
               {[
-                { icon: <Users className="w-5 h-5 text-sky-400" />, value: '34K+', label: 'Usuarios Capacitados' },
+                { icon: <Users className="w-5 h-5 text-sky-400" />, value: '47k+', label: 'Usuarios Capacitados en 2025' },
                 { icon: <GraduationCap className="w-5 h-5 text-sky-400" />, value: '1,5K+', label: 'Cursos Realizados' },
                 { icon: <Clock className="w-5 h-5 text-sky-400" />, value: '16 años', label: 'Experiencia' },
               ].map((stat, i) => (
