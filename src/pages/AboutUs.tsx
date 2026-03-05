@@ -147,7 +147,7 @@ const AboutUs = () => {
                 <ul className="space-y-4 mb-8">
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
-                    <span>16 años realizando capacitación en la región.</span>
+                    <span>{new Date().getFullYear() - 2010} años realizando capacitación en la región.</span>
                   </li>
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
@@ -265,7 +265,7 @@ const AboutUs = () => {
                   <ul className="space-y-4">
                     <li className="flex gap-4 items-center">
                       <CheckCircle2 className="w-6 h-6 text-blue-400 shrink-0" />
-                      <span className="text-lg">3 años realizando capacitaciones online con éxito.</span>
+                      <span className="text-lg">{new Date().getFullYear() - 2020} años realizando capacitaciones online con éxito.</span>
                     </li>
                     <li className="flex gap-4 items-center">
                       <CheckCircle2 className="w-6 h-6 text-blue-400 shrink-0" />
