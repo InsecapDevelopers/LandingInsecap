@@ -1,3 +1,4 @@
+import React, { useState, useCallback } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import BackToTop from "./components/BackToTop";
 import ScrollToTop from "./components/ScrollToTop";
+import SplashScreen from "./components/SplashScreen";
 // import PromoPopup from "./components/PromoPopup";
 import Index from "./pages/Index";
 import CourseDetail from "./pages/CourseDetail";
@@ -25,8 +27,22 @@ import ExperienciaYRespaldo from "./pages/Xp";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <HelmetProvider>
+const App = () => {
+  // showSplash: muestra el splash
+  // showApp: difiere el montado de la app pesada hasta que el splash haya terminado
+  const [showSplash, setShowSplash] = useState(true);
+  const [showApp, setShowApp] = useState(false);
+
+  const handleSplashDone = useCallback(() => {
+    setShowSplash(false);
+    setShowApp(true);
+  }, []);
+
+  return (
+    <HelmetProvider>
+      {showSplash && <SplashScreen onDone={handleSplashDone} />}
+      {showApp && (
+      <div className="app-reveal">
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
@@ -61,7 +77,9 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
-  </HelmetProvider>
-);
-
+      </div>
+      )}
+    </HelmetProvider>
+  );
+};
 export default App;
