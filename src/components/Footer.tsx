@@ -92,13 +92,13 @@ const Footer = () => {
 
           {/* Locations */}
           <div className="lg:col-span-2">
-            <h4 className="font-semibold text-lg mb-6">Ubicaciones</h4>
+            <h4 className="font-bold text-xl text-white mb-6 tracking-wide">Ubicaciones</h4>
             <div className="grid sm:grid-cols-3 gap-6">
               {locations.map((loc) => (
                 <div key={loc.name}>
-                  <h5 className="font-medium text-secondary mb-2">{loc.name}</h5>
-                  <p className="text-sm text-primary-foreground/70">{loc.address}</p>
-                  <a href={`tel:${loc.phone}`} className="text-sm text-secondary hover:underline">{loc.phone}</a>
+                  <h5 className="font-semibold text-white mb-2">{loc.name}</h5>
+                  <p className="text-sm text-white/80">{loc.address}</p>
+                  <a href={`tel:${loc.phone}`} className="text-sm text-white/80 hover:text-white hover:underline">{loc.phone}</a>
                 </div>
               ))}
             </div>
@@ -106,7 +106,7 @@ const Footer = () => {
 
           {/* Site Map */}
           <div>
-            <h4 className="font-semibold text-lg mb-6">Mapa Web</h4>
+            <h4 className="font-bold text-xl text-white mb-6 tracking-wide">Mapa Web</h4>
             <ul className="space-y-3">
               {siteMap.map((item) => {
                 const isAnchor = item.href.includes('#');
@@ -126,7 +126,7 @@ const Footer = () => {
                     <Link
                       to={item.href}
                       onClick={handleClick}
-                      className="text-sm text-primary-foreground/70 hover:text-secondary flex items-center gap-2"
+                      className="text-sm text-white/85 hover:text-white flex items-center gap-2 transition-colors"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
                       {item.label}
@@ -141,7 +141,7 @@ const Footer = () => {
         {/* Líder Comercial de Turno */}
         {(loadingLider || lider) && (
           <div className="mt-10 pt-8 border-t border-primary-foreground/10">
-            <h4 className="font-semibold text-lg mb-4">Tu Líder Comercial</h4>
+            <h4 className="font-bold text-xl text-white mb-4 tracking-wide">Tu Líder Comercial</h4>
 
             {loadingLider && <SkeletonLider />}
 
@@ -182,12 +182,12 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-2 text-center md:text-left">
-          <p className="text-sm text-primary-foreground/60">
+          <p className="text-sm text-white/70">
             © {new Date().getFullYear()} Insecap Capacitación.
           </p>
           <a
             href="/politica-de-privacidad"
-            className="text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200 underline underline-offset-4"
+            className="text-sm text-white/70 hover:text-white transition-colors duration-200 underline underline-offset-4"
           >
             Política de Privacidad
           </a>
