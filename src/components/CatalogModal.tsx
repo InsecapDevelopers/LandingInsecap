@@ -23,17 +23,17 @@ export function CatalogModalContent() {
       
       <div className="space-y-4">
         <div className="p-4 bg-blue-50 rounded-lg">
-          <h5 className="font-semibold text-blue-900 mb-2">Cursos Disponibles</h5>
+          <h5 className="font-semibold text-blue-950 mb-2">Cursos Disponibles</h5>
           <p className="text-sm text-blue-700">Accede a una amplia variedad de programas educativos diseñados para potenciar tus habilidades profesionales.</p>
         </div>
         
         <div className="p-4 bg-blue-50 rounded-lg">
-          <h5 className="font-semibold text-blue-900 mb-2">Capacitación Continua</h5>
+          <h5 className="font-semibold text-blue-950 mb-2">Capacitación Continua</h5>
           <p className="text-sm text-blue-700">Mantente actualizado con nuestros cursos de capacitación continua adaptados a las tendencias del mercado.</p>
         </div>
         
         <div className="p-4 bg-blue-50 rounded-lg">
-          <h5 className="font-semibold text-blue-900 mb-2">Flexibilidad Horaria</h5>
+          <h5 className="font-semibold text-blue-950 mb-2">Flexibilidad Horaria</h5>
           <p className="text-sm text-blue-700">Estudia a tu propio ritmo con opciones presenciales, online e híbridas.</p>
         </div>
       </div>

@@ -11,7 +11,7 @@ const OurLocations: React.FC = () => {
           <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-2 block">
             Nuestras Sedes
           </p>
-          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">
+          <h2 className="text-3xl md:text-5xl font-bold text-blue-950 mb-6">
             Nos encontramos en las siguientes regiones
           </h2>
 

@@ -128,7 +128,7 @@ const NewsSlider: React.FC = () => {
           <Badge variant="outline" className="mb-4 text-insecap-cyan border-insecap-cyan">
             Noticias
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-blue-950 mb-4">
             Últimas <span className="text-insecap-cyan">Noticias</span>
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">

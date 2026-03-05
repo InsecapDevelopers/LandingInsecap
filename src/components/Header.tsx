@@ -4,6 +4,7 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { RippleButton } from "@/components/ui/ripple-button";
 import CartDrawer from './CartDrawer';
+import { isEcommerceEnabled } from '@/lib/featureFlags';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -224,7 +225,7 @@ const Header = () => {
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            <CartDrawer />
+            {isEcommerceEnabled && <CartDrawer />}
           </div>
 
           {/* Mobile Menu Button */}

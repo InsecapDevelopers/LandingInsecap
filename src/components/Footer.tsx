@@ -181,10 +181,16 @@ const Footer = () => {
         )}
 
         {/* Bottom Bar */}
-        <div className="border-t border-primary-foreground/10 mt-12 pt-8 text-center md:text-left">
+        <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-2 text-center md:text-left">
           <p className="text-sm text-primary-foreground/60">
             © {new Date().getFullYear()} Insecap Capacitación.
           </p>
+          <a
+            href="/politica-de-privacidad"
+            className="text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200 underline underline-offset-4"
+          >
+            Política de Privacidad
+          </a>
         </div>
       </div>
     </footer>

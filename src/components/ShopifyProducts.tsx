@@ -2,11 +2,20 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ShopifyProduct, fetchProducts, fetchProductsByCollection, formatPrice } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
+import { isEcommerceEnabled } from "@/lib/featureFlags";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ShoppingCart, Clock, Monitor, Award, ChevronRight, ChevronLeft } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { ShoppingCart, Clock, Monitor, Award, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 
 const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
@@ -86,21 +95,23 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-4 border-t border-border">
-            <div>
-              <span className="text-xl font-bold text-insecap-cyan">
-                {formatPrice(price.amount, price.currencyCode)}
-              </span>
+          {isEcommerceEnabled && (
+            <div className="flex items-center justify-between pt-4 border-t border-border">
+              <div>
+                <span className="text-xl font-bold text-insecap-cyan">
+                  {formatPrice(price.amount, price.currencyCode)}
+                </span>
+              </div>
+              <Button
+                onClick={handleAddToCart}
+                size="sm"
+                className="bg-insecap-blue hover:bg-insecap-blue/90 text-white"
+              >
+                <ShoppingCart className="h-4 w-4 mr-1" />
+                Agregar
+              </Button>
             </div>
-            <Button
-              onClick={handleAddToCart}
-              size="sm"
-              className="bg-insecap-blue hover:bg-insecap-blue/90 text-white"
-            >
-              <ShoppingCart className="h-4 w-4 mr-1" />
-              Agregar
-            </Button>
-          </div>
+          )}
         </CardContent>
       </Card>
     </Link>
@@ -138,19 +149,7 @@ export const ShopifyProducts = ({
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const PRODUCTS_PER_PAGE = 4;
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 767px)');
-    setIsMobile(mediaQuery.matches);
-
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mediaQuery.addEventListener('change', handler);
-
-    return () => mediaQuery.removeEventListener('change', handler);
-  }, []);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -182,20 +181,6 @@ export const ShopifyProducts = ({
     loadProducts();
   }, [category, collection, tag, limit]);
 
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => Math.max(0, prev - PRODUCTS_PER_PAGE));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) =>
-      Math.min(products.length - PRODUCTS_PER_PAGE, prev + PRODUCTS_PER_PAGE)
-    );
-  };
-
-  const canGoPrevious = currentIndex > 0;
-  const canGoNext = currentIndex + PRODUCTS_PER_PAGE < products.length;
-  const visibleProducts = products.slice(currentIndex, currentIndex + PRODUCTS_PER_PAGE);
-
   if (error) {
     return (
       <section className="py-20 bg-muted/30">
@@ -206,9 +191,68 @@ export const ShopifyProducts = ({
     );
   }
 
+  /* ── MOBILE: carrusel vertical ─────────────────────────────────────────── */
+  if (isMobile) {
+    return (
+      <section id="cursos-destacados" className={`py-20 ${hideHeader ? 'py-0 bg-transparent' : 'bg-muted/30'}`}>
+        <div className="container mx-auto px-8 sm:px-10 md:px-12 lg:px-4">
+          {!hideHeader && (
+            <div className="text-center mb-10">
+              <Badge className="mb-4 bg-insecap-blue/10 text-insecap-blue hover:bg-insecap-blue/20">
+                Catálogo de Cursos
+              </Badge>
+              <h2 className="text-3xl font-bold text-foreground mb-4">
+                Cursos <span className="text-insecap-cyan">Destacados</span>
+              </h2>
+              <p className="text-base text-muted-foreground max-w-2xl mx-auto">
+                Explora nuestra oferta de cursos con certificación SENCE y NCh 2728
+              </p>
+            </div>
+          )}
+
+          <div className="flex justify-center mt-16">
+            <Carousel
+              opts={{ align: "start" }}
+              orientation="vertical"
+              className="w-full max-w-sm"
+            >
+              <CarouselContent className="-mt-2 h-[520px]">
+                {isLoading
+                  ? Array.from({ length: 4 }).map((_, i) => (
+                      <CarouselItem key={i} className="pt-2 basis-[85%]">
+                        <ProductSkeleton />
+                      </CarouselItem>
+                    ))
+                  : products.map((product) => (
+                      <CarouselItem key={product.node.id} className="pt-2 basis-[85%]">
+                        <ShopifyProductCard product={product} />
+                      </CarouselItem>
+                    ))}
+              </CarouselContent>
+              <CarouselPrevious className="h-12 w-12 border-2 border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white [&_svg]:h-6 [&_svg]:w-6" />
+              <CarouselNext className="h-12 w-12 border-2 border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white [&_svg]:h-6 [&_svg]:w-6" />
+            </Carousel>
+          </div>
+
+          {!isLoading && products.length > 0 && !hideHeader && (
+            <div className="text-center mt-10">
+              <Link to="/cursos">
+                <Button size="lg" variant="outline" className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
+                  Ver todos los cursos
+                  <ChevronRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  /* ── DESKTOP / TABLET: carrusel horizontal arrastrable ─────────────────── */
   return (
     <section id="cursos-destacados" className={`py-20 ${hideHeader ? 'py-0 bg-transparent' : 'bg-muted/30'}`}>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-8 sm:px-10 md:px-12 lg:px-4">
         {!hideHeader && (
           <div className="text-center mb-12">
             <Badge className="mb-4 bg-insecap-blue/10 text-insecap-blue hover:bg-insecap-blue/20">
@@ -223,102 +267,28 @@ export const ShopifyProducts = ({
           </div>
         )}
 
-        {/* Carrusel con controles de navegación */}
-        <div className="relative">
-          {/* Botón Anterior */}
-          {!isLoading && products.length > PRODUCTS_PER_PAGE && (
-            <Button
-              onClick={handlePrevious}
-              disabled={!canGoPrevious}
-              variant="outline"
-              size="icon"
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 h-12 w-12 rounded-full bg-white shadow-lg border-insecap-cyan hover:bg-insecap-cyan hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all hidden lg:flex"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </Button>
-          )}
-
-          {/* Grid de productos */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Carousel
+          opts={{ align: "start", dragFree: false, slidesToScroll: 1 }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-4">
             {isLoading
-              ? Array.from({ length: 4 }).map((_, i) => <ProductSkeleton key={i} />)
-              : visibleProducts.map((product) => (
-                <ShopifyProductCard key={product.node.id} product={product} />
-              ))}
-          </div>
+              ? Array.from({ length: 4 }).map((_, i) => (
+                  <CarouselItem key={i} className="pl-4 md:basis-1/2 lg:basis-1/4">
+                    <ProductSkeleton />
+                  </CarouselItem>
+                ))
+              : products.map((product) => (
+                  <CarouselItem key={product.node.id} className="pl-4 md:basis-1/2 lg:basis-1/4">
+                    <ShopifyProductCard product={product} />
+                  </CarouselItem>
+                ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-0 -translate-x-5 h-12 w-12 rounded-full bg-white shadow-lg border-insecap-cyan hover:bg-insecap-cyan hover:text-white disabled:opacity-30" />
+          <CarouselNext className="right-0 translate-x-5 h-12 w-12 rounded-full bg-white shadow-lg border-insecap-cyan hover:bg-insecap-cyan hover:text-white disabled:opacity-30" />
+        </Carousel>
 
-          {/* Botón Siguiente */}
-          {!isLoading && products.length > PRODUCTS_PER_PAGE && (
-            <Button
-              onClick={handleNext}
-              disabled={!canGoNext}
-              variant="outline"
-              size="icon"
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 h-12 w-12 rounded-full bg-white shadow-lg border-insecap-cyan hover:bg-insecap-cyan hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all hidden lg:flex"
-            >
-              <ChevronRight className="h-6 w-6" />
-            </Button>
-          )}
-
-          {/* Dot indicators */}
-          {!isLoading && products.length > PRODUCTS_PER_PAGE && (
-            <div className="flex justify-center items-center gap-2 mt-6">
-              {Array.from({ length: Math.ceil(products.length / PRODUCTS_PER_PAGE) }).map((_, i) => {
-                const isActive = Math.floor(currentIndex / PRODUCTS_PER_PAGE) === i;
-                return (
-                  <button
-                    key={i}
-                    onClick={() => setCurrentIndex(i * PRODUCTS_PER_PAGE)}
-                    aria-label={`Página ${i + 1}`}
-                    className={`rounded-full transition-all duration-300 ${isActive
-                        ? 'w-3 h-3 bg-insecap-cyan scale-110'
-                        : 'w-2.5 h-2.5 bg-gray-300 hover:bg-insecap-cyan/50'
-                      }`}
-                  />
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* Indicadores de página (mobile) */}
-        {!isLoading && products.length > PRODUCTS_PER_PAGE && (
-          <div className="flex justify-center items-center gap-4 mt-8 lg:hidden">
-            <Button
-              onClick={handlePrevious}
-              disabled={!canGoPrevious}
-              variant="outline"
-              size="sm"
-              className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white disabled:opacity-30"
-            >
-              <ChevronLeft className="h-4 w-4 mr-1" />
-              Anterior
-            </Button>
-            <span className="text-sm text-muted-foreground">
-              {Math.floor(currentIndex / PRODUCTS_PER_PAGE) + 1} / {Math.ceil(products.length / PRODUCTS_PER_PAGE)}
-            </span>
-            <Button
-              onClick={handleNext}
-              disabled={!canGoNext}
-              variant="outline"
-              size="sm"
-              className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white disabled:opacity-30"
-            >
-              Siguiente
-              <ChevronRight className="h-4 w-4 ml-1" />
-            </Button>
-          </div>
-        )}
-
-        {!isLoading && products.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">
-              No se encontraron cursos disponibles{collection ? ` en esta colección` : tag ? ` con la etiqueta "${tag}"` : category ? ` para la categoría "${category}"` : ''}.
-            </p>
-          </div>
-        )}
-
-        {!hideHeader && products.length > 0 && (
+        {!isLoading && products.length > 0 && !hideHeader && (
           <div className="text-center mt-12">
             <Link to="/cursos">
               <Button size="lg" variant="outline" className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">

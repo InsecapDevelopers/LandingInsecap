@@ -60,7 +60,7 @@ const DuaSection: React.FC = () => {
               <span className="text-blue-600 font-bold tracking-wider uppercase text-sm">
                 Metodología Innovadora
               </span>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+              <h2 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-tight">
                 Metodología <span className="text-blue-600">DUA</span> en nuestros cursos.
               </h2>
               <div className="w-24 h-2 bg-gradient-to-r from-blue-600 to-indigo-400 rounded-full"></div>
