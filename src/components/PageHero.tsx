@@ -1,5 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
+const PAGE_HERO_IMAGES = [
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2026-03-05_at_10.58.32_2.jpg?v=1772742132',
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2026-03-05_at_10.58.32_1.jpg?v=1772742132',
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2026-03-05_at_10.58.32.jpg?v=1772742131',
+];
+
+const pickRandom = (exclude?: string) => {
+  const options = PAGE_HERO_IMAGES.filter((img) => img !== exclude);
+  return options[Math.floor(Math.random() * options.length)];
+};
 
 interface BreadcrumbItem {
   label: string;
@@ -17,19 +28,40 @@ interface PageHeroProps {
 const PageHero = ({ 
   title, 
   subtitle, 
-  backgroundImage = "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/E-Sala-6-Image-2024-08-05-at-13.13.42-2.jpg?v=1769004992", 
+  backgroundImage,
   breadcrumbs,
   className
 }: PageHeroProps) => {
+  const location = useLocation();
+  const [activeBg, setActiveBg] = useState(backgroundImage ?? pickRandom());
+  const [visible, setVisible] = useState(true);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (backgroundImage) return;
+    // fade out → swap → fade in
+    setVisible(false);
+    const swap = setTimeout(() => {
+      setActiveBg((prev) => pickRandom(prev));
+      setVisible(true);
+    }, 300);
+    return () => clearTimeout(swap);
+  }, [location.pathname, backgroundImage]);
+
   return (
     <section 
       className={`relative w-full h-[450px] flex items-center overflow-hidden ${className || ''}`}
     >
       <div className="absolute inset-0 z-0">
         <img 
-          src={backgroundImage}
+          src={activeBg}
           alt="Background"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-opacity duration-500"
+          style={{ opacity: visible ? 1 : 0 }}
         />
         <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"></div>
       </div>

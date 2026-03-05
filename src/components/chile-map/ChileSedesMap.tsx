@@ -59,10 +59,6 @@ const ChileSedesMap: React.FC = () => {
           Sedes Virtuales
           </button>
         </div>
-        <p className="text-xs text-gray-400 flex items-center gap-1">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-          Mapa interactivo — pasa el cursor sobre una sede
-        </p>
       </div>
 
       {/* Mobile: static image */}
