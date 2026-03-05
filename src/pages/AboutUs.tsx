@@ -6,6 +6,7 @@ import MeetUs from '@/components/MeetUs';
 import OurLocations from '@/components/OurLocations';
 import PageHero from '@/components/PageHero';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
+import { Meteors } from '@/components/ui/meteors';
 import { getYearsOfExperience } from '@/lib/insecapUtils';
 // 1. IMPORTANTE: Importar el plugin de Autoplay
 import Autoplay from "embla-carousel-autoplay";
@@ -30,6 +31,12 @@ const antofagastaImages = [
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_3738-scaled-ppg1t52i12b8u8cridhak6cq62cdjqkpr69u9a0oqo.jpg?v=1769177894"
 ];
 
+const santiagoImages = [
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cascada-fachada-y-letrero-scaled.jpg?v=1767971535",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Banner-Nosotros-Web-16-anos-scaled.jpg?v=1767878773",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_111938161.png?v=1772461187",
+];
+
 const calamaImages = [
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/sede-calama.jpg?v=1768245410",
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_5579-scaled-ppg1uafedrvv12oosvcvlvx0b0oiyf4wkuz7dgbd4w.jpg?v=1769177893",
@@ -51,6 +58,8 @@ const AboutUs = () => {
   const sedeAntofCarousel = useScrollAnimation({ threshold: 0.15 });
   const sedeCalamaText = useScrollAnimation({ threshold: 0.15 });
   const sedeCalamaCarousel = useScrollAnimation({ threshold: 0.15 });
+  const sedeSantiagoText = useScrollAnimation({ threshold: 0.15 });
+  const sedeSantiagoCarousel = useScrollAnimation({ threshold: 0.15 });
   const sedeVirtualSection = useScrollAnimation({ threshold: 0.1 });
 
   // Datos de modalidades
@@ -242,15 +251,86 @@ const AboutUs = () => {
               </div>
             </div>
 
+            {/* Sede Santiago Section */}
+            <div className="mt-32 grid lg:grid-cols-2 gap-12 items-center">
+              <div
+                ref={sedeSantiagoText.ref}
+                className={`order-2 lg:order-1 transition-all duration-700 ease-out ${sedeSantiagoText.isVisible
+                  ? 'opacity-100 translate-x-0'
+                  : 'opacity-0 -translate-x-12'
+                  }`}
+              >
+                <div className="flex items-center gap-2 text-blue-600 mb-4">
+                  <MapPin className="w-6 h-6" />
+                  <span className="font-bold uppercase tracking-wider">Insecap Capacitación</span>
+                </div>
+                <h3 className="text-4xl font-bold text-blue-950 mb-6">Sede Santiago</h3>
+                <ul className="space-y-4 mb-8">
+                  <li className="flex gap-4 text-gray-600 text-lg">
+                    <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
+                    <span>Sede ubicada en el corazón de la capital, accesible desde toda la Región Metropolitana.</span>
+                  </li>
+                  <li className="flex gap-4 text-gray-600 text-lg">
+                    <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
+                    <span>Múltiples salas de capacitación equipadas con tecnología audiovisual de última generación.</span>
+                  </li>
+                  <li className="flex gap-4 text-gray-600 text-lg">
+                    <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
+                    <span>Espacio para prácticas en terreno y simulaciones controladas.</span>
+                  </li>
+                  <li className="flex gap-4 text-gray-600 text-lg">
+                    <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
+                    <span>Café y área de descanso para participantes.</span>
+                  </li>
+                </ul>
+              </div>
+              <div
+                ref={sedeSantiagoCarousel.ref}
+                className={`order-1 lg:order-2 px-8 transition-all duration-700 ease-out delay-200 ${sedeSantiagoCarousel.isVisible
+                  ? 'opacity-100 translate-x-0'
+                  : 'opacity-0 translate-x-12'
+                  }`}
+              >
+                <Carousel
+                  plugins={[Autoplay({ delay: 3200, stopOnInteraction: false })]}
+                  opts={{ loop: true }}
+                  className="w-full max-w-xl mx-auto"
+                >
+                  <CarouselContent>
+                    {santiagoImages.map((src, index) => (
+                      <CarouselItem key={index}>
+                        <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-lg">
+                          <img src={src} alt={`Santiago ${index + 1}`} className="w-full h-full object-cover" />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+              </div>
+            </div>
+
             {/* Sede Virtual Section */}
             <div
               ref={sedeVirtualSection.ref}
-              className={`mt-32 bg-primary rounded-[3rem] p-12 lg:p-20 text-white overflow-hidden relative transition-all duration-900 ease-out ${sedeVirtualSection.isVisible
+              className={`mt-32 rounded-[3rem] p-12 lg:p-20 text-white overflow-hidden relative transition-all duration-900 ease-out ${sedeVirtualSection.isVisible
                 ? 'opacity-100 translate-y-0 scale-100'
                 : 'opacity-0 translate-y-12 scale-[0.97]'
                 }`}
+              style={{ background: 'linear-gradient(135deg, #0c1a6b 0%, #1a3a8f 40%, #0e7bb5 100%)' }}
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600 rounded-full blur-[120px] opacity-20 -mr-32 -mt-32"></div>
+              {/* Orb superior derecho */}
+              <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-400 rounded-full blur-[140px] opacity-20 -mr-32 -mt-32 pointer-events-none" />
+              {/* Orb inferior izquierdo */}
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400 rounded-full blur-[120px] opacity-15 -ml-24 -mb-24 pointer-events-none" />
+              {/* Grid pattern overlay */}
+              <div
+                className="absolute inset-0 pointer-events-none opacity-[0.04]"
+                style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }}
+              />
+              {/* Meteors */}
+              <Meteors number={14} />
               <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
                 <div>
                   <div className="flex items-center gap-2 text-blue-400 mb-4">

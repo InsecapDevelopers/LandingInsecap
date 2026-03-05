@@ -119,6 +119,7 @@
     --animate-marquee: marquee var(--duration) infinite linear;
     --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
     --animate-rippling: rippling var(--duration) ease-out;
+    --animate-shine: shine var(--duration) infinite linear;
   }
 }
 
@@ -245,6 +246,17 @@
     100% {
       transform: scale(2);
       opacity: 0;
+    }
+  }
+  @keyframes shine {
+  0% {
+    background-position: 0% 0%;
+    }
+  50% {
+    background-position: 100% 100%;
+    }
+  to {
+    background-position: 0% 0%;
     }
   }
 }

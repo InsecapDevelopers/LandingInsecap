@@ -103,6 +103,11 @@ export default {
           "70%": { opacity: "1" },
           "100%": { transform: "rotate(215deg) translateX(-500px)", opacity: "0" },
         },
+        "shine": {
+          "0%": { backgroundPosition: "0% 0%" },
+          "50%": { backgroundPosition: "100% 100%" },
+          "100%": { backgroundPosition: "0% 0%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -112,6 +117,7 @@ export default {
         "scale-in": "scale-in 0.3s ease-out forwards",
         "marquee": "marquee 25s linear infinite",
         "meteor": "meteor 5s linear infinite",
+        "shine": "shine var(--duration) infinite linear",
       },
     },
   },

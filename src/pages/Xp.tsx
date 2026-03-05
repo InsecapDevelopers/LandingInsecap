@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Award,
   BookOpen,
@@ -12,19 +12,71 @@ import {
   Target,
   Users,
   Cpu,
-  Sparkles
+  Sparkles,
+  Calendar,
+  Building2
 } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import SEO from '@/components/SEO';
+import ContactCTA from '@/components/ContactCTA';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
+import { getYearsOfExperience } from '@/lib/insecapUtils';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
+import { ShineBorder } from '@/components/ui/shine-border';
 
 const ExperienciaYRespaldo = () => {
+  // Contadores animados para la card de estadísticas
+  const YEARS_TARGET = getYearsOfExperience();
+  const CLIENTS_TARGET = 1900;
+  const [yearsCount, setYearsCount] = useState(0);
+  const [clientsCount, setClientsCount] = useState(0);
+
   // Animaciones para cada sección
   const introHeader = useScrollAnimation({ threshold: 0.2 });
   const introText = useScrollAnimation({ threshold: 0.15 });
   const introCard = useScrollAnimation({ threshold: 0.15 });
+
+  // Efecto de contador animado cuando la card entra en viewport
+  useEffect(() => {
+    if (!introCard.isVisible) return;
+    const duration = 1800;
+    const fps = 60;
+    const interval = 1000 / fps;
+    const yearsSteps = Math.ceil(duration / interval);
+    const clientsSteps = Math.ceil(duration / interval);
+    let yearsFrame = 0;
+    let clientsFrame = 0;
+
+    const yearsTimer = setInterval(() => {
+      yearsFrame++;
+      const progress = Math.min(yearsFrame / yearsSteps, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setYearsCount(Math.round(eased * YEARS_TARGET));
+      if (yearsFrame >= yearsSteps) clearInterval(yearsTimer);
+    }, interval);
+
+    const clientsTimer = setInterval(() => {
+      clientsFrame++;
+      const progress = Math.min(clientsFrame / clientsSteps, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setClientsCount(Math.round(eased * CLIENTS_TARGET));
+      if (clientsFrame >= clientsSteps) clearInterval(clientsTimer);
+    }, interval);
+
+    return () => {
+      clearInterval(yearsTimer);
+      clearInterval(clientsTimer);
+    };
+  }, [introCard.isVisible, YEARS_TARGET, CLIENTS_TARGET]);
 
   const certHeader = useScrollAnimation({ threshold: 0.2 });
   const certGrid = useStaggerAnimation({ threshold: 0.1 });
@@ -174,20 +226,20 @@ const ExperienciaYRespaldo = () => {
                     : 'opacity-0 -translate-x-12'
                     }`}
                 >
-                  <p className="text-slate-600 text-lg leading-relaxed">
+                  <p className="text-slate-600 text-lg leading-relaxed text-justify">
                     En la industria en general, la capacitación no es un requisito: es un <strong className="text-blue-950">factor crítico
                       para la seguridad, la continuidad operacional y la productividad</strong>. En INSECAP
                     Capacitación entendemos esa realidad y trabajamos con un enfoque técnico,
                     riguroso y alineado a los estándares que exige el mundo laboral.
                   </p>
-                  <p className="text-slate-600 text-lg leading-relaxed">
+                  <p className="text-slate-600 text-lg leading-relaxed text-justify">
                     Nuestra trayectoria se ha construido en terreno, formando competencias clave
                     para operaciones seguras y eficientes. Hemos acompañado a empresas de
                     distintos sectores, con mayor predominancia en la <strong className="text-blue-950">Gran Minería</strong>, en el
                     desarrollo de habilidades técnicas, cumplimiento normativo y fortalecimiento de
                     equipos de trabajo.
                   </p>
-                  <p className="text-slate-600 text-lg leading-relaxed">
+                  <p className="text-slate-600 text-lg leading-relaxed text-justify">
                     Cada programa formativo que implementamos responde a necesidades reales de
                     la industria, con relatores especializados, metodologías prácticas y una ejecución
                     orientada a <strong className="text-blue-950">resultados medibles</strong>.
@@ -202,29 +254,66 @@ const ExperienciaYRespaldo = () => {
                     : 'opacity-0 translate-x-12'
                     }`}
                 >
-                  <div className="bg-primary rounded-[2rem] p-10 text-white relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-48 h-48 bg-blue-300 rounded-full blur-[100px] opacity-20 -mr-24 -mt-24"></div>
+                  {/* Fondo decorativo exterior */}
+                  <div className="absolute -inset-3 bg-gradient-to-br from-blue-600/20 to-indigo-600/10 rounded-[2.5rem] blur-2xl"></div>
+
+                  <div className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 rounded-[2rem] p-8 text-white overflow-hidden shadow-2xl">
+                    {/* Destellos decorativos */}
+                    <div className="absolute top-0 right-0 w-56 h-56 bg-blue-400 rounded-full blur-[120px] opacity-15 -mr-20 -mt-20 pointer-events-none"></div>
+                    <div className="absolute bottom-0 left-0 w-40 h-40 bg-indigo-400 rounded-full blur-[100px] opacity-10 -ml-16 -mb-16 pointer-events-none"></div>
+
                     <div className="relative z-10">
-                      <div className="flex items-center gap-3 mb-6">
-                        <div className="bg-white/20 p-3 rounded-xl">
-                          <TrendingUp className="w-6 h-6 text-white" />
+                      {/* Header de la card */}
+                      <div className="flex items-center gap-3 mb-5">
+                        <div className="bg-white/15 backdrop-blur-sm p-2.5 rounded-xl border border-white/20">
+                          <TrendingUp className="w-5 h-5 text-white" />
                         </div>
-                        <span className="text-blue-200 font-bold uppercase tracking-wider text-sm">Crecimiento Sostenido</span>
+                        <div>
+                          <span className="text-blue-200 font-bold uppercase tracking-widest text-xs block">Crecimiento Sostenido</span>
+                          <span className="text-white/60 text-xs">Nuestra trayectoria en cifras</span>
+                        </div>
                       </div>
-                      <p className="text-blue-100 text-lg leading-relaxed mb-8">
-                        Hoy, nuestro crecimiento sostenido refleja la confianza que las empresas mineras
-                        y en general de la industria depositan en <strong className="text-white">INSECAP como socio estratégico</strong> en
-                        capacitación.
+
+                      {/* Descripción */}
+                      <p className="text-blue-100/90 text-base leading-relaxed mb-7">
+                        Nuestro crecimiento sostenido refleja la confianza que la industria deposita en{' '}
+                        <strong className="text-white">INSECAP como socio estratégico</strong> en capacitación.
                       </p>
+
+                      {/* Stats */}
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
-                          <div className="text-3xl font-bold text-white mb-1">16</div>
-                          <div className="text-blue-200 text-sm">Años de Experiencia</div>
+                        {/* Años de Experiencia */}
+                        <div className="group bg-white/10 hover:bg-white/15 backdrop-blur-sm border border-white/20 rounded-2xl p-5 transition-all duration-300">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="bg-blue-400/30 p-1.5 rounded-lg">
+                              <Calendar className="w-3.5 h-3.5 text-blue-200" />
+                            </div>
+                          </div>
+                          <div className="text-4xl font-extrabold text-white tabular-nums leading-none mb-1">
+                            {yearsCount}
+                            <span className="text-blue-300 text-2xl">+</span>
+                          </div>
+                          <div className="text-blue-200 text-xs font-medium uppercase tracking-wider mt-2">Años de Experiencia</div>
                         </div>
-                        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
-                          <div className="text-3xl font-bold text-white mb-1">100+</div>
-                          <div className="text-blue-200 text-sm">Empresas Atendidas</div>
+
+                        {/* Clientes */}
+                        <div className="group bg-white/10 hover:bg-white/15 backdrop-blur-sm border border-white/20 rounded-2xl p-5 transition-all duration-300">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="bg-indigo-400/30 p-1.5 rounded-lg">
+                              <Building2 className="w-3.5 h-3.5 text-indigo-200" />
+                            </div>
+                          </div>
+                          <div className="text-4xl font-extrabold text-white tabular-nums leading-none mb-1">
+                            +{clientsCount.toLocaleString('es-CL')}
+                          </div>
+                          <div className="text-blue-200 text-xs font-medium uppercase tracking-wider mt-2">Clientes Atendidos</div>
                         </div>
+                      </div>
+
+                      {/* Separador y nota al pie */}
+                      <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                        <span className="text-white/50 text-xs">Datos actualizados al {new Date().getFullYear()}</span>
                       </div>
                     </div>
                   </div>
@@ -332,90 +421,55 @@ const ExperienciaYRespaldo = () => {
                 </p>
               </div>
 
-              {/* Grid de valores con stagger */}
-              <div ref={valGrid.ref} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {valoresTecnicos.map((valor, index) => (
-                  <div
-                    key={index}
-                    className={`bg-slate-50 border border-slate-200 p-8 rounded-3xl shadow-sm hover:shadow-lg transition-all duration-500 group relative ${valGrid.isVisible
-                      ? 'opacity-100 translate-y-0 scale-100'
-                      : 'opacity-0 translate-y-10 scale-95'
-                      }`}
-                    style={{
-                      transitionDelay: valGrid.isVisible ? valGrid.getDelay(index, 120) : '0ms'
-                    }}
-                  >
-                    {valor.highlight && (
-                      <div className="absolute top-4 right-4">
-                        <Sparkles className="w-5 h-5 text-yellow-500" />
-                      </div>
-                    )}
-                    <div className="bg-secondary/10 p-3 rounded-xl w-fit mb-6 group-hover:bg-secondary/20 transition-colors">
-                      {valor.icon}
-                    </div>
-                    <h3 className="text-xl font-bold text-blue-950 mb-3">{valor.title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">{valor.description}</p>
+              {/* Carousel de valores técnicos */}
+              <div
+                ref={valGrid.ref}
+                className={`transition-all duration-700 ease-out ${valGrid.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              >
+                <Carousel
+                  opts={{ align: 'start', loop: true }}
+                  plugins={[Autoplay({ delay: 3500, stopOnInteraction: true, stopOnMouseEnter: true })]}
+                  className="w-full"
+                >
+                  <CarouselContent className="-ml-4">
+                    {valoresTecnicos.map((valor, index) => (
+                      <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                        <div className="h-full bg-white p-8 rounded-3xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden flex flex-col">
+                          <ShineBorder
+                            shineColor={['#2563eb', '#60a5fa', '#1d4ed8']}
+                            borderWidth={2}
+                            duration={10}
+                          />
+                          {valor.highlight && (
+                            <div className="absolute top-4 right-4">
+                              <Sparkles className="w-5 h-5 text-yellow-500" />
+                            </div>
+                          )}
+                          <div className="bg-secondary/10 p-3 rounded-xl w-fit mb-6 group-hover:bg-secondary/20 transition-colors">
+                            {valor.icon}
+                          </div>
+                          <h3 className="text-xl font-bold text-blue-950 mb-3">{valor.title}</h3>
+                          <p className="text-gray-500 text-sm leading-relaxed flex-1">{valor.description}</p>
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <div className="flex justify-center gap-3 mt-8">
+                    <CarouselPrevious className="static translate-y-0 bg-white border-slate-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors" />
+                    <CarouselNext className="static translate-y-0 bg-white border-slate-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors" />
                   </div>
-                ))}
+                </Carousel>
               </div>
             </div>
           </div>
         </section>
 
         {/* =====================================================
-            SECCIÓN 4: RESUMEN VISUAL / CTA
+            SECCIÓN 4: CTA
         ===================================================== */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div className="max-w-4xl mx-auto">
-              {/* Franja visual de logos de respaldo */}
-              <div
-                ref={logosSection.ref}
-                className={`transition-all duration-700 ease-out ${logosSection.isVisible
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-8'
-                  }`}
-              >
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-blue-950 mb-4">Respaldados por los Mejores Estándares</h2>
-                  <p className="text-slate-600 text-lg">
-                    Cada certificación y membresía refuerza nuestro compromiso con la calidad y excelencia.
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap justify-center items-center gap-8 mb-16 p-8 bg-slate-50 rounded-[2rem] border border-slate-100">
-                  {[
-                    { type: 'img', src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo_slogan.svg?v=1772193702', alt: 'Certificadora NCh2728', label: 'NCh2728:2015' },
-                    { type: 'img', src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', alt: 'Certificadora ISO 9001', label: 'ISO 9001:2015' },
-                    { type: 'img', src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498', alt: 'Logo SENCE', label: 'SENCE' },
-                    { type: 'icon', icon: <Handshake className="w-6 h-6 text-white" />, label: 'CCS' },
-                    { type: 'icon', icon: <Award className="w-6 h-6 text-white" />, label: 'SICEP' },
-                  ].map((item, index) => (
-                    <React.Fragment key={index}>
-                      {index > 0 && <div className="w-px h-12 bg-slate-200 hidden md:block"></div>}
-                      <div
-                        className={`flex flex-col items-center gap-2 p-4 transition-all duration-500 ${logosSection.isVisible
-                          ? 'opacity-100 scale-100'
-                          : 'opacity-0 scale-75'
-                          }`}
-                        style={{
-                          transitionDelay: logosSection.isVisible ? `${(index + 1) * 150}ms` : '0ms'
-                        }}
-                      >
-                        {item.type === 'img' ? (
-                          <img src={item.src} alt={item.alt} className="h-12 w-auto object-contain" />
-                        ) : (
-                          <div className="bg-blue-600 w-12 h-12 rounded-xl flex items-center justify-center">
-                            {item.icon}
-                          </div>
-                        )}
-                        <span className="text-xs text-slate-500 font-medium">{item.label}</span>
-                      </div>
-                    </React.Fragment>
-                  ))}
-                </div>
-              </div>
-
               {/* CTA animado */}
               <div
                 ref={ctaSection.ref}
@@ -430,7 +484,11 @@ const ExperienciaYRespaldo = () => {
                   podemos apoyar el desarrollo de tu equipo de trabajo.
                 </p>
                 <a
-                  href="/contacto"
+                  href="#contacto"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className={`inline-flex items-center justify-center px-8 py-4 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl ${ctaSection.isVisible
                     ? 'opacity-100 scale-100'
                     : 'opacity-0 scale-90'
@@ -446,6 +504,8 @@ const ExperienciaYRespaldo = () => {
             </div>
           </div>
         </section>
+
+        <ContactCTA />
       </main>
 
       <Footer />

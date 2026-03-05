@@ -1,13 +1,10 @@
-import { useState } from 'react';
-import { Home, ChevronRight, Mail, Phone, Send } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Mail } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import PageHero from '@/components/PageHero';
+import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
+import { Meteors } from '@/components/ui/meteors';
 
 // Tipos
 interface TeamMember {
@@ -269,60 +266,104 @@ const getInitials = (name: string): string => {
   return name.substring(0, 2).toUpperCase();
 };
 
-// Componente de tarjeta de miembro
-const MemberCard = ({ member }: { member: TeamMember }) => {
+// Componente de tarjeta de miembro — glassmorphism + reveal overlay
+const MemberCard = ({ member, delay = 0 }: { member: TeamMember; delay?: number }) => {
   return (
-    <Card className="p-8 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl rounded-[25px] border-0 shadow-[0_8px_20px_rgba(0,0,0,0.12)] bg-[hsl(var(--insecap-blue))] text-white">
-      <Avatar className="w-[180px] h-[180px] mb-5 border-4 border-white shadow-xl">
-        <AvatarImage src={member.photo} alt={member.name} className="object-cover" />
-        <AvatarFallback className="text-3xl font-semibold bg-gradient-to-br from-[hsl(var(--insecap-cyan))] to-[hsl(var(--insecap-blue-light))] text-white">
-          {getInitials(member.name)}
-        </AvatarFallback>
-      </Avatar>
-      <h3 className="text-xl font-bold text-white mb-2 leading-tight font-['Montserrat']">
-        {member.name}
-      </h3>
-      <p className="text-sm text-white/90 mb-4 font-medium font-['Montserrat'] tracking-wide">
-        {member.role}
-      </p>
-      {member.email && (
-        <a
-          href={`mailto:${member.email}`}
-          className="inline-flex items-center gap-2 bg-[hsl(var(--insecap-cyan))] hover:bg-[hsl(var(--insecap-blue-light))] text-white px-5 py-2.5 rounded-full font-['Montserrat'] font-semibold text-sm transition-all duration-300 hover:shadow-lg hover:scale-105"
-        >
-          <Mail className="w-4 h-4" />
-          {member.email}
-        </a>
-      )}
-    </Card>
+    <div
+      className="group relative rounded-3xl overflow-hidden cursor-default"
+      style={{
+        animationDelay: `${delay}ms`,
+        background: 'linear-gradient(145deg, #ffffff 0%, #f0f4ff 100%)',
+        boxShadow: '0 4px 24px rgba(72,92,199,0.10)',
+        transition: 'transform 350ms cubic-bezier(.22,.68,0,1.1), box-shadow 350ms ease',
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-8px) scale(1.02)';
+        (e.currentTarget as HTMLDivElement).style.boxShadow = '0 20px 48px rgba(72,92,199,0.22)';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0) scale(1)';
+        (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 24px rgba(72,92,199,0.10)';
+      }}
+    >
+      {/* Borde gradiente superior */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00B8DE] via-[#485CC7] to-[#00B8DE] z-10" />
+
+      {/* Foto */}
+      <div className="relative w-full aspect-[3/3.4] overflow-hidden bg-gradient-to-br from-slate-100 to-blue-50">
+        <Avatar className="w-full h-full rounded-none">
+          <AvatarImage
+            src={member.photo}
+            alt={member.name}
+            className="object-cover object-top w-full h-full transition-transform duration-500 group-hover:scale-110"
+          />
+          <AvatarFallback className="w-full h-full rounded-none text-5xl font-bold bg-gradient-to-br from-[#485CC7] to-[#00B8DE] text-white">
+            {getInitials(member.name)}
+          </AvatarFallback>
+        </Avatar>
+        {/* Overlay gradiente hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0c1a6b]/80 via-[#0c1a6b]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-end justify-center pb-4">
+          {member.email && (
+            <a
+              href={`mailto:${member.email}`}
+              onClick={e => e.stopPropagation()}
+              className="inline-flex items-center gap-2 bg-white/90 hover:bg-white text-[#485CC7] px-4 py-2 rounded-full font-semibold text-xs transition-all duration-200 hover:scale-105 shadow-lg"
+            >
+              <Mail className="w-3.5 h-3.5" />
+              Contactar
+            </a>
+          )}
+        </div>
+      </div>
+
+      {/* Info inferior */}
+      <div className="px-5 py-4">
+        <h3 className="font-bold text-[#0c1a6b] text-base leading-tight mb-1">
+          {member.name}
+        </h3>
+        <p className="text-xs font-semibold text-[#485CC7] tracking-wide uppercase">
+          {member.role}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+// Sub-componente por área con scroll animation propio
+const AreaSection = ({ area }: { area: TeamArea }) => {
+  const anim = useStaggerAnimation({ threshold: 0.12 });
+  const headerAnim = useScrollAnimation({ threshold: 0.2 });
+  return (
+    <div>
+      <div
+        ref={headerAnim.ref}
+        className={`flex items-center gap-4 mb-8 transition-all duration-600 ease-out ${headerAnim.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-6'}`}
+      >
+        <h3 className="text-2xl font-bold text-[#0c1a6b] whitespace-nowrap">{area.area}</h3>
+        <div className="flex-1 h-px bg-gradient-to-r from-[#485CC7]/50 to-transparent" />
+      </div>
+      <div ref={anim.ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {area.members.map((member, i) => (
+          <div
+            key={i}
+            className={`transition-all duration-500 ease-out ${anim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            style={{ transitionDelay: anim.isVisible ? `${i * 80}ms` : '0ms' }}
+          >
+            <MemberCard member={member} />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
 const OurTeam = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Aquí iría la lógica de envío del formulario
-    console.log('Formulario enviado:', formData);
-    alert('Gracias por contactarnos. Nos comunicaremos contigo pronto.');
-    setFormData({ name: '', email: '', phone: '', message: '' });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
+  const introAnim    = useScrollAnimation({ threshold: 0.2 });
+  const descAnim     = useScrollAnimation({ threshold: 0.15 });
+  const gerenciaAnim = useStaggerAnimation({ threshold: 0.15 });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#f7f9ff]">
       <Header />
 
       <main>
@@ -331,80 +372,87 @@ const OurTeam = () => {
           subtitle="Nosotros"
           breadcrumbs={[{ label: "Nuestro Equipo" }]}
         />
+
         <div className="container mx-auto px-8 md:px-14 lg:px-16">
 
-          {/* Sección Introductoria - Equipo Destacado */}
-          <div className="py-16 text-center">
-            <p className="text-sm font-semibold text-[hsl(var(--insecap-blue))] mb-2">Equipo Insecap</p>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-3">Creciendo Juntos</h2>
-            <div className="w-48 h-1.5 mx-auto mb-6 bg-gradient-to-r from-[hsl(var(--insecap-blue))] via-[hsl(var(--insecap-cyan))] to-[hsl(var(--insecap-blue-light))] rounded-full shadow-md"></div>
-            <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
+          {/* Hero intro */}
+          <div
+            ref={introAnim.ref}
+            className={`py-20 text-center transition-all duration-700 ease-out ${introAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          >
+            <span className="inline-block text-sm font-semibold text-[#485CC7] uppercase tracking-widest mb-3">Equipo Insecap</span>
+            <h2 className="text-5xl md:text-6xl font-bold text-[#0c1a6b] mb-4">Creciendo Juntos</h2>
+            <div className="w-24 h-1.5 mx-auto mb-6 rounded-full bg-gradient-to-r from-[#00B8DE] to-[#485CC7]" />
+            <p className="text-lg text-slate-500 max-w-xl mx-auto">
               Equipo multidisciplinario encargado de dar soluciones de calidad
             </p>
-
-
           </div>
 
-          {/* Texto Descriptivo */}
-          <div className="bg-white rounded-[25px] shadow-[0_0_20px_rgba(0,0,0,0.08)] p-8 md:p-12 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[hsl(var(--insecap-blue))] mb-3">
-              ¡Bienvenidos a Insecap!
-            </h2>
-            <div className="w-40 h-1.5 mb-6 bg-gradient-to-r from-[hsl(var(--insecap-blue))] via-[hsl(var(--insecap-cyan))] to-[hsl(var(--insecap-blue-light))] rounded-full shadow-md"></div>
-            <div className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>
-                Somos una empresa de capacitación especializada en brindar soluciones integrales a la industria minera,
-                con un enfoque en el desarrollo del capital humano. En Insecap contamos con un equipo multidisciplinario
-                de expertos altamente capacitados en diversas áreas, lo que nos permite ofrecer programas de capacitación
-                personalizados y adaptados a las necesidades específicas de nuestros clientes.
-              </p>
-              <p>
-                En la industria minera, la formación y el desarrollo del capital humano son fundamentales para garantizar
-                un desempeño seguro y eficiente en las operaciones. En Insecap entendemos esta necesidad y, por lo tanto,
-                nos enfocamos en brindar soluciones efectivas y personalizadas a nuestros clientes.
-              </p>
-              <p>
-                Nuestro equipo está conformado por profesionales con amplia experiencia en áreas como la ingeniería, la
-                seguridad y salud ocupacional, la gestión de recursos humanos, entre otras. Gracias a esta diversidad de
-                conocimientos y habilidades, podemos ofrecer programas de capacitación que abarcan desde la formación
-                técnica y especializada hasta habilidades blandas y liderazgo.
-              </p>
+          {/* Card descripción con meteoros */}
+          <div
+            ref={descAnim.ref}
+            className={`relative rounded-[2rem] overflow-hidden p-10 md:p-14 mb-20 text-white transition-all duration-700 ease-out ${descAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+            style={{ background: 'linear-gradient(135deg, #0c1a6b 0%, #1a3a8f 50%, #0e7bb5 100%)' }}
+          >
+            <div className="absolute top-0 right-0 w-72 h-72 bg-cyan-300 rounded-full blur-[130px] opacity-20 -mr-24 -mt-24 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-56 h-56 bg-blue-400 rounded-full blur-[100px] opacity-15 -ml-20 -mb-20 pointer-events-none" />
+            <div
+              className="absolute inset-0 opacity-[0.035] pointer-events-none"
+              style={{ backgroundImage: 'linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)', backgroundSize: '40px 40px' }}
+            />
+            <Meteors number={12} />
+            <div className="relative z-10 grid lg:grid-cols-[1fr_auto] gap-10 items-center">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-2">¡Bienvenidos a Insecap!</h2>
+                <div className="w-16 h-1 rounded-full bg-[#00B8DE] mb-6" />
+                <div className="space-y-4 text-white/80 leading-relaxed text-[0.97rem] text-justify">
+                  <p>Somos una empresa de capacitación especializada en brindar soluciones integrales a la industria minera, con un enfoque en el desarrollo del capital humano. Contamos con un equipo multidisciplinario de expertos altamente capacitados en diversas áreas, lo que nos permite ofrecer programas personalizados y adaptados a las necesidades de cada cliente.</p>
+                  <p>Nuestro equipo está conformado por profesionales con amplia experiencia en ingeniería, seguridad y salud ocupacional, gestión de recursos humanos y más. Esa diversidad nos permite abarcar desde formación técnica especializada hasta habilidades blandas y liderazgo.</p>
+                </div>
+              </div>
+              <div className="hidden lg:flex items-center justify-center shrink-0">
+                <img
+                  src="/isotipos/Insecap_Logo-09.png"
+                  alt="Insecap isotipo"
+                  className="w-48 xl:w-56 opacity-90 drop-shadow-[0_0_32px_rgba(0,184,222,0.35)] select-none"
+                  draggable={false}
+                />
+              </div>
             </div>
           </div>
 
-          {/* Título de Secciones de Equipo */}
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[hsl(var(--insecap-blue))] mb-4">
-              Equipo Insecap
-            </h2>
-            <div className="w-48 h-1.5 mx-auto bg-gradient-to-r from-[hsl(var(--insecap-blue))] via-[hsl(var(--insecap-cyan))] to-[hsl(var(--insecap-blue-light))] rounded-full shadow-md"></div>
+          {/* Título sección equipo */}
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0c1a6b] mb-3">Equipo Insecap</h2>
+            <div className="w-24 h-1.5 mx-auto rounded-full bg-gradient-to-r from-[#00B8DE] to-[#485CC7]" />
           </div>
 
-          {/* Gerencia Destacada */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto mb-16">
-            {teamByArea[0].members.map((member, index) => (
-              <MemberCard key={index} member={member} />
+          {/* Gerencia destacada */}
+          <div ref={gerenciaAnim.ref} className="mb-16">
+            <div className="flex items-center gap-4 mb-8">
+              <h3 className="text-2xl font-bold text-[#0c1a6b]">Gerencia</h3>
+              <div className="flex-1 h-px bg-gradient-to-r from-[#485CC7]/50 to-transparent" />
+            </div>
+            <div className="grid sm:grid-cols-2 max-w-2xl mx-auto gap-6">
+              {teamByArea[0].members.map((member, i) => (
+                <div
+                  key={i}
+                  className={`transition-all duration-500 ease-out ${gerenciaAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  style={{ transitionDelay: gerenciaAnim.isVisible ? `${i * 120}ms` : '0ms' }}
+                >
+                  <MemberCard member={member} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Resto de áreas */}
+          <div className="space-y-16 pb-24">
+            {teamByArea.slice(1).map((area) => (
+              <AreaSection key={area.area} area={area} />
             ))}
           </div>
 
-          {/* Secciones por Área (sin Gerencia ya que está arriba) */}
-          <div className="space-y-16">
-            {teamByArea.slice(1).map((area, areaIndex) => (
-              <div key={areaIndex}>
-                <div className="mb-8">
-                  <h3 className="text-2xl md:text-3xl font-bold text-[hsl(var(--insecap-blue))] mb-3">
-                    {area.area}
-                  </h3>
-                  <div className="w-96 h-1.5 bg-gradient-to-r from-[hsl(var(--insecap-blue))] via-[hsl(var(--insecap-cyan))] to-[hsl(var(--insecap-blue-light))] rounded-full shadow-md"></div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {area.members.map((member, memberIndex) => (
-                    <MemberCard key={memberIndex} member={member} />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </main>
 
