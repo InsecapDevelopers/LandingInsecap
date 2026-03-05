@@ -116,11 +116,15 @@ function SlideAutoservicio() {
         </h3>
         <p className="text-insecap-blue font-semibold text-sm mb-4">{autoservicio.subtitle}</p>
         <p className="text-slate-500 text-base leading-relaxed mb-8">{autoservicio.description}</p>
-        <button className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-insecap-blue via-indigo-600 to-purple-700 text-white font-semibold text-sm shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300">
-          <Download className="w-4 h-4" />
-          Próximamente
+        <a
+          href="https://tms.insecap.cl"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-insecap-blue via-indigo-600 to-purple-700 text-white font-semibold text-sm shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300"
+        >
+          Iniciar sesión
           <ArrowRight className="w-4 h-4" />
-        </button>
+        </a>
       </div>
 
       {/* Right: grid de features */}
