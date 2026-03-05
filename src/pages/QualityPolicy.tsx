@@ -27,7 +27,7 @@ const QualityPolicy = () => {
 
         {/* Vision & Mission Section */}
         <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div className="grid md:grid-cols-2 gap-12">
               {/* Vision */}
               <div
@@ -74,7 +74,7 @@ const QualityPolicy = () => {
         {/* Main Policy Section */}
         <section className="py-20 bg-primary text-white overflow-hidden relative">
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-300 rounded-full blur-[150px] opacity-15 -mr-48 -mt-48"></div>
-          <div className="container mx-auto px-4 relative z-10">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16 relative z-10">
             <div
               ref={policyHeader.ref}
               className={`max-w-4xl mx-auto text-center mb-16 transition-all duration-700 ease-out ${policyHeader.isVisible

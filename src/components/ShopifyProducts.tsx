@@ -184,7 +184,7 @@ export const ShopifyProducts = ({
   if (error) {
     return (
       <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto px-8 md:px-14 lg:px-16 text-center">
           <p className="text-destructive">{error}</p>
         </div>
       </section>

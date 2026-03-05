@@ -132,7 +132,7 @@ const ArticleDetail = () => {
       <div className="min-h-screen bg-background">
         <Header />
         <main className="py-16">
-          <div className="container mx-auto px-4 max-w-4xl">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16 max-w-4xl">
             <Skeleton className="h-8 w-32 mb-6" />
             <Skeleton className="h-12 w-3/4 mb-4" />
             <div className="flex gap-4 mb-8">
@@ -154,7 +154,7 @@ const ArticleDetail = () => {
       <div className="min-h-screen bg-background">
         <Header />
         <main className="py-16">
-          <div className="container mx-auto px-4 text-center">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16 text-center">
             <Newspaper className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-foreground mb-2">
               Artículo no encontrado
@@ -268,7 +268,7 @@ const ArticleDetail = () => {
 
         {/* Article Content */}
         <section className="py-12">
-          <div className="container mx-auto px-4 max-w-4xl">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16 max-w-4xl">
             <div className="flex flex-wrap items-center gap-4 text-slate-500 mb-8 border-b pb-4">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
@@ -328,7 +328,7 @@ const ArticleDetail = () => {
 
         {/* Back to Blog */}
         <section className="py-8 border-t border-border">
-          <div className="container mx-auto px-4 max-w-4xl">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16 max-w-4xl">
             <Link to="/noticias">
               <Button variant="outline" className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
                 <ArrowLeft className="mr-2 h-4 w-4" />

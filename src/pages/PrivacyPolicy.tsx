@@ -115,7 +115,7 @@ const PrivacyPolicy = () => {
         {/* Intro Banner */}
         <section className="py-16 bg-primary text-white overflow-hidden relative">
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-300 rounded-full blur-[150px] opacity-10 -mr-48 -mt-48" />
-          <div className="container mx-auto px-4 relative z-10">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16 relative z-10">
             <div
               ref={introSection.ref}
               className={`max-w-3xl mx-auto text-center transition-all duration-700 ease-out ${
@@ -140,7 +140,7 @@ const PrivacyPolicy = () => {
 
         {/* Sections Grid */}
         <section className="py-20 bg-slate-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div ref={cardsSection.ref} className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
               {sections.map((sec, index) => (
                 <div
@@ -184,7 +184,7 @@ const PrivacyPolicy = () => {
 
         {/* Aceptación CTA */}
         <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div
               ref={acceptanceSection.ref}
               className={`max-w-3xl mx-auto bg-primary rounded-[2rem] p-12 text-white text-center overflow-hidden relative transition-all duration-700 ease-out ${

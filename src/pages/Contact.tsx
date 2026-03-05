@@ -33,7 +33,7 @@ const Contact = () => {
 
         {/* Sedes Section */}
         <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div className="text-center mb-16">
               <span className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-2 block">Nuestras Sedes</span>
               <h2 className="text-3xl md:text-4xl font-bold text-blue-950">Nos encontramos en las siguientes regiones</h2>

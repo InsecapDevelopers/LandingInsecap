@@ -177,7 +177,7 @@ const CourseCard = ({ course }: { course: Course }) => {
 const FeaturedCourses = () => {
   return (
     <section id="cursos" className="py-16 lg:py-24 bg-muted">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-8 md:px-14 lg:px-16">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
           <div>

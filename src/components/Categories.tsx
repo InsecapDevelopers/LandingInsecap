@@ -83,7 +83,7 @@ const Categories = () => {
 
   return (
     <section className="py-16 lg:py-24 bg-background">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-8 md:px-14 lg:px-16">
         {/* Header */}
         <div className="text-center mb-12">
           <span className="text-secondary font-medium text-sm uppercase tracking-wider">

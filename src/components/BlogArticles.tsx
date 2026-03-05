@@ -116,7 +116,7 @@ export const BlogArticles = ({ blogHandle = 'news', limit = 6, showTitle = true 
   if (error) {
     return (
       <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-8 md:px-14 lg:px-16">
           <p className="text-center text-muted-foreground">{error}</p>
         </div>
       </section>
@@ -129,7 +129,7 @@ export const BlogArticles = ({ blogHandle = 'news', limit = 6, showTitle = true 
 
   return (
     <section className="py-16 bg-muted/30">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-8 md:px-14 lg:px-16">
         {showTitle && (
           <div className="text-center mb-12">
             <Badge className="mb-4 bg-insecap-cyan/10 text-insecap-cyan border-insecap-cyan/20">

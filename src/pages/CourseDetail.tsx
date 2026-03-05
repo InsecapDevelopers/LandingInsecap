@@ -124,7 +124,7 @@ const CourseDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <main className="container mx-auto px-4 py-12">
+        <main className="container mx-auto px-8 md:px-14 lg:px-16 py-12">
           <div className="grid lg:grid-cols-2 gap-12">
             <Skeleton className="aspect-video rounded-xl" />
             <div className="space-y-4">
@@ -144,7 +144,7 @@ const CourseDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <main className="container mx-auto px-4 py-20 text-center">
+        <main className="container mx-auto px-8 md:px-14 lg:px-16 py-20 text-center">
           <h1 className="text-2xl font-bold mb-4">Curso no encontrado</h1>
           <Link to="/">
             <Button>
@@ -177,7 +177,7 @@ const CourseDetail = () => {
           ]}
         />
 
-        <div className="container mx-auto px-4 mt-12">
+        <div className="container mx-auto px-8 md:px-14 lg:px-16 mt-12">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Image Section */}
             <div className="space-y-4">

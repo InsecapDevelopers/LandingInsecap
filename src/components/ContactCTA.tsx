@@ -21,7 +21,7 @@ const ContactCTA = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-8 md:px-14 lg:px-16 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left Content */}
           <div>
@@ -140,7 +140,7 @@ const ContactCTA = () => {
 
           {/* Form */}
           <div className="w-full bg-white/5 py-12 border-b border-primary-foreground/10">
-            <div className="container mx-auto px-4 text-center">
+            <div className="container mx-auto px-8 md:px-14 lg:px-16 text-center">
               <h4 className="font-bold text-2xl mb-8 text-secondary">Mantente en Contacto</h4>
               <div className="max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl bg-white">
                 <iframe

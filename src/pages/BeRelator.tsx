@@ -25,7 +25,7 @@ const BeRelator = () => {
              />
           </div>
 
-          <div className="container mx-auto px-4 relative z-10">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16 relative z-10">
             <div className="max-w-4xl mx-auto text-center mb-16">
               <h3 className="text-2xl font-bold text-blue-600 mb-4 uppercase tracking-tight">Insecap Capacitación</h3>
               <div className="space-y-6 text-gray-700 text-lg leading-relaxed max-w-3xl mx-auto">

@@ -68,7 +68,7 @@ const NewsSlider: React.FC = () => {
   if (loading) {
     return (
       <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-4 md:px-8">
+        <div className="container mx-auto px-8 md:px-16 lg:px-20">
           {/* Header Skeleton */}
           <div className="text-center mb-12">
             <Skeleton className="h-6 w-32 mx-auto mb-4" />
@@ -102,7 +102,7 @@ const NewsSlider: React.FC = () => {
   if (error) {
     return (
       <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-4 md:px-8 text-center">
+        <div className="container mx-auto px-8 md:px-16 lg:px-20 text-center">
           <p className="text-gray-500">{error}</p>
         </div>
       </section>
@@ -113,7 +113,7 @@ const NewsSlider: React.FC = () => {
   if (articles.length === 0) {
     return (
       <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-4 md:px-8 text-center">
+        <div className="container mx-auto px-8 md:px-16 lg:px-20 text-center">
           <p className="text-gray-500">Próximamente nuevas noticias</p>
         </div>
       </section>
@@ -122,7 +122,7 @@ const NewsSlider: React.FC = () => {
 
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-8">
+      <div className="container mx-auto px-8 md:px-16 lg:px-20">
         {/* Header */}
         <div className="text-center mb-12">
           <Badge variant="outline" className="mb-4 text-insecap-cyan border-insecap-cyan">

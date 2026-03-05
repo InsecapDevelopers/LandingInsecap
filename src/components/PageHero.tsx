@@ -34,7 +34,7 @@ const PageHero = ({
         <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"></div>
       </div>
       
-      <div className="container mx-auto px-4 relative z-10 pt-20">
+      <div className="container mx-auto px-8 md:px-14 lg:px-16 relative z-10 pt-20">
         <div className="max-w-3xl">
           <span className="text-blue-400 font-semibold uppercase tracking-wider text-sm mb-4 block animate-in fade-in slide-in-from-left-4 duration-700">
             {subtitle}

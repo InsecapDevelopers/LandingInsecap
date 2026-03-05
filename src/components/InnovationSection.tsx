@@ -255,7 +255,7 @@ export default function InnovationSection() {
         <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-amber-400/[0.08] to-purple-500/[0.08] blur-3xl" />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-8 md:px-14 lg:px-16 relative z-10">
         <div
           ref={headerAnim.ref}
           className={`text-center mb-12 transition-all duration-700 ease-out ${headerAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}

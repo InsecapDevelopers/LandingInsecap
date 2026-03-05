@@ -173,7 +173,7 @@ const Footer = () => {
           ref={canvasRef}
           className="absolute inset-0 w-full h-full pointer-events-none z-[2]"
         />
-        <div className="relative z-10 container mx-auto px-8 md:px-14 py-14 lg:py-16">
+        <div className="relative z-10 container mx-auto px-8 md:px-14 lg:px-16 py-14 lg:py-16">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
             {/* Headline */}
             <div className="lg:max-w-lg">
@@ -196,7 +196,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto px-8 md:px-14 py-12 lg:py-16">
+      <div className="container mx-auto px-8 md:px-14 lg:px-16 py-12 lg:py-16">
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10">
 
           {/* Logo & Social */}

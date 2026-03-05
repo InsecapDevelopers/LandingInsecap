@@ -38,7 +38,7 @@ export function StatsSection() {
   return (
     <section ref={sectionRef} className="relative py-16 overflow-hidden bg-gradient-to-r from-[#2952cc] via-insecap-blue to-sky-400">
       <Particles className="absolute inset-0" quantity={120} color="#ffffff" staticity={30} ease={60} />
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-8 md:px-14 lg:px-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 lg:divide-x divide-white/25">
           {stats.map((stat, index) => (
             <div

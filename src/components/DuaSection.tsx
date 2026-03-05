@@ -18,7 +18,7 @@ const DuaSection: React.FC = () => {
 
   return (
     <section className="py-16 bg-white overflow-hidden">
-      <div className="container mx-auto px-4 md:px-8">
+      <div className="container mx-auto px-8 md:px-16 lg:px-20">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           
           {/* Columna Izquierda: Carrusel que se ajusta a la imagen */}

@@ -216,7 +216,7 @@ const Blog = () => {
 
         {/* Articles Grid */}
         <section className="py-16">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16">
             {isLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {Array.from({ length: 6 }).map((_, i) => (

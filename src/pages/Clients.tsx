@@ -22,7 +22,7 @@ const Clients = () => {
         />
 
         <section className="py-20 bg-slate-50 overflow-hidden">
-          <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div className="max-w-4xl mx-auto mb-16 text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-blue-700 mb-6">
                 Alianzas Estratégicas
@@ -75,7 +75,7 @@ const Clients = () => {
         </section>
 
         <section className="py-20 bg-blue-700 text-white">
-          <div className="container mx-auto px-4 text-center">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16 text-center">
             <h3 className="text-3xl font-bold mb-6">¿Quieres ser parte de nuestros clientes?</h3>
             <p className="text-blue-100 text-lg mb-10 max-w-2xl mx-auto">
               Únete a las empresas que ya están potenciando sus habilidades con Insecap. 

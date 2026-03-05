@@ -227,7 +227,7 @@ const Hero = () => {
       />
 
       {/* ── Main Content ── */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-32 pb-36 lg:pt-32 lg:pb-44">
+      <div className="container mx-auto px-8 sm:px-14 lg:px-16 relative z-10 pt-32 pb-36 lg:pt-32 lg:pb-44">
         <div className="flex flex-col lg:flex-row items-center lg:items-center gap-8 lg:gap-4">
           {/* ─── LEFT COLUMN ─── */}
           <div className="flex-1 text-center lg:text-left max-w-xl lg:max-w-[560px]">

@@ -145,7 +145,7 @@ const ExperienciaYRespaldo = () => {
             SECCIÓN 1: INTRODUCCIÓN 
         ===================================================== */}
         <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div className="max-w-5xl mx-auto">
               {/* Encabezado animado */}
               <div
@@ -238,7 +238,7 @@ const ExperienciaYRespaldo = () => {
             SECCIÓN 2: CERTIFICACIONES Y REGISTROS
         ===================================================== */}
         <section className="py-20 bg-slate-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div className="max-w-5xl mx-auto">
               {/* Encabezado animado */}
               <div
@@ -310,7 +310,7 @@ const ExperienciaYRespaldo = () => {
             SECCIÓN 3: VALORES TÉCNICOS AGREGADOS
         ===================================================== */}
         <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div className="max-w-5xl mx-auto">
               {/* Encabezado animado */}
               <div
@@ -366,7 +366,7 @@ const ExperienciaYRespaldo = () => {
             SECCIÓN 4: RESUMEN VISUAL / CTA
         ===================================================== */}
         <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div className="max-w-4xl mx-auto">
               {/* Franja visual de logos de respaldo */}
               <div

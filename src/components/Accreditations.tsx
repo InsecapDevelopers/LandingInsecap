@@ -33,7 +33,7 @@ const stats = [
 const Accreditations = () => {
   return (
     <section className="py-16 lg:py-24 bg-background">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-8 md:px-14 lg:px-16">
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {stats.map((stat, index) => (

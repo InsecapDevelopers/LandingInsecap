@@ -461,7 +461,7 @@ const CourseCatalog = () => {
           breadcrumbs={[{ label: 'Cursos' }]}
         />
 
-        <div className="container mx-auto px-4 mt-12">
+        <div className="container mx-auto px-8 md:px-14 lg:px-16 mt-12">
           {/* Intro */}
           <div className="text-center mb-8">
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">

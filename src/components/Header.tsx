@@ -90,8 +90,8 @@ const Header = () => {
       {/* Main Navigation */}
       <nav
         className={`transition-all duration-500 ease-in-out ${isAtTop
-          ? 'bg-transparent py-3 px-6 md:px-10'
-          : 'bg-gradient-to-r from-insecap-cyan/85 to-insecap-blue/95 border-b border-white/15 shadow-xl py-1.5 px-6 md:px-10'
+          ? 'bg-transparent py-3 px-8 md:px-14 lg:px-16'
+          : 'bg-gradient-to-r from-insecap-cyan/85 to-insecap-blue/95 border-b border-white/15 shadow-xl py-1.5 px-8 md:px-14 lg:px-16'
           }`}
       >
         <div className="container mx-auto flex justify-between items-center">
