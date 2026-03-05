@@ -1,13 +1,16 @@
 import React from 'react';
+import ChileSedesMap from './chile-map/ChileSedesMap';
 
 const OurLocations: React.FC = () => {
-  const mapImageUrl = "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/nosotros_cedes.svg?v=1769433643";
-
   return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-8 md:px-14 lg:px-16">
+    <section className="py-4 bg-gradient-to-b from-gray-50/50 to-white relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-100/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-cyan-100/20 rounded-full blur-3xl" />
+
+      <div className="container mx-auto px-2 sm:px-4 relative z-10">
         {/* Cabecera de la sección */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-3">
           <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-2 block">
             Nuestras Sedes
           </p>
@@ -16,17 +19,12 @@ const OurLocations: React.FC = () => {
           </h2>
 
           {/* Línea decorativa con gradiente */}
-          <div className="w-64 h-1.5 mx-auto bg-gradient-to-r from-blue-400 to-indigo-600 rounded-full"></div>
+          <div className="w-64 h-1.5 mx-auto bg-gradient-to-r from-blue-400 to-indigo-600 rounded-full" />
         </div>
 
-        {/* Contenedor de la Imagen */}
-        <div className="max-w-6xl mx-auto">
-          <img
-            src={mapImageUrl}
-            alt="Mapa de sedes regionales"
-            className="w-full h-auto object-contain"
-            loading="lazy"
-          />
+        {/* Mapa interactivo de Chile */}
+        <div className="mx-auto">
+          <ChileSedesMap />
         </div>
       </div>
     </section>

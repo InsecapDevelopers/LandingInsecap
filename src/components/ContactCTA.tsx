@@ -128,7 +128,7 @@ const ContactCTA = () => {
                 <div>
                   <p className="font-semibold text-foreground">Sucursal Vallenar</p>
                   <p className="text-sm text-muted-foreground">Río del Tránsito 1546</p>
-                  <p className="text-sm text-muted-foreground">Villa Vista Alegre</p>
+                  <p className="text-sm text-muted-foreground">Villa Vista Hermosa</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Phone className="w-3.5 h-3.5 text-secondary" />
                     <a href="tel:+56935968585" className="text-sm text-muted-foreground hover:text-secondary transition-colors">+56 9 3596 8585</a>
