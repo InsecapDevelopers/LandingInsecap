@@ -28,6 +28,8 @@ import {
 import { useCartStore } from '@/stores/cartStore';
 import { toast } from 'sonner';
 
+const isEcommerceEnabled = import.meta.env.VITE_ECOMMERCE_ENABLED !== 'false';
+
 // ─── Product Card (same design as ShopifyProducts) ──────────────────────────
 const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
   const addItem = useCartStore((state) => state.addItem);
@@ -107,19 +109,30 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
           </div>
 
           <div className="flex items-center justify-between pt-4 border-t border-border">
-            <div>
-              <span className="text-xl font-bold text-insecap-cyan">
-                {formatPrice(price.amount, price.currencyCode)}
-              </span>
-            </div>
-            <Button
-              onClick={handleAddToCart}
-              size="sm"
-              className="bg-insecap-blue hover:bg-insecap-blue/90 text-white"
-            >
-              <ShoppingCart className="h-4 w-4 mr-1" />
-              Agregar
-            </Button>
+            {isEcommerceEnabled ? (
+              <>
+                <div>
+                  <span className="text-xl font-bold text-insecap-cyan">
+                    {formatPrice(price.amount, price.currencyCode)}
+                  </span>
+                </div>
+                <Button
+                  onClick={handleAddToCart}
+                  size="sm"
+                  className="bg-insecap-blue hover:bg-insecap-blue/90 text-white"
+                >
+                  <ShoppingCart className="h-4 w-4 mr-1" />
+                  Agregar
+                </Button>
+              </>
+            ) : (
+              <Button
+                size="sm"
+                className="w-full bg-insecap-blue hover:bg-insecap-blue/90 text-white"
+              >
+                Ver curso
+              </Button>
+            )}
           </div>
         </CardContent>
       </Card>
