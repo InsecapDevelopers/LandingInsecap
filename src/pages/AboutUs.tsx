@@ -6,6 +6,7 @@ import MeetUs from '@/components/MeetUs';
 import OurLocations from '@/components/OurLocations';
 import PageHero from '@/components/PageHero';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
+import { getYearsOfExperience } from '@/lib/insecapUtils';
 // 1. IMPORTANTE: Importar el plugin de Autoplay
 import Autoplay from "embla-carousel-autoplay";
 
@@ -65,7 +66,7 @@ const AboutUs = () => {
 
       <main>
         <PageHero
-          title="Contamos con experiencia"
+          title={`Más de ${getYearsOfExperience()} años de experiencia`}
           subtitle="Nosotros"
           breadcrumbs={[{ label: "Nosotros" }]}
         />
@@ -83,7 +84,7 @@ const AboutUs = () => {
                   : 'opacity-0 translate-y-8'
                   }`}
               >
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">¿Qué hacemos?</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-6">¿Qué hacemos?</h2>
                 <p className="text-gray-600 text-lg leading-relaxed mb-8">
                   Entregamos soluciones de capacitación y entrenamientos a la medida.
                   Interactuamos con partes interesadas y usuarios finales para que la
@@ -106,7 +107,7 @@ const AboutUs = () => {
                     <div className="bg-blue-600 p-4 rounded-full mb-4">
                       {mod.icon}
                     </div>
-                    <h4 className="font-bold text-slate-900 text-xl mb-2">{mod.title}</h4>
+                    <h4 className="font-bold text-blue-950 text-xl mb-2">{mod.title}</h4>
                     <p className="text-gray-600 text-sm">{mod.desc}</p>
                   </div>
                 ))}
@@ -142,7 +143,7 @@ const AboutUs = () => {
                   <MapPin className="w-6 h-6" />
                   <span className="font-bold uppercase tracking-wider">Insecap Capacitación</span>
                 </div>
-                <h3 className="text-4xl font-bold text-slate-900 mb-6">Sede Antofagasta</h3>
+                <h3 className="text-4xl font-bold text-blue-950 mb-6">Sede Antofagasta</h3>
                 <ul className="space-y-4 mb-8">
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
@@ -227,7 +228,7 @@ const AboutUs = () => {
                   <MapPin className="w-6 h-6" />
                   <span className="font-bold uppercase tracking-wider">Insecap Capacitación</span>
                 </div>
-                <h3 className="text-4xl font-bold text-slate-900 mb-6">Sede Calama</h3>
+                <h3 className="text-4xl font-bold text-blue-950 mb-6">Sede Calama</h3>
                 <ul className="space-y-4">
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />

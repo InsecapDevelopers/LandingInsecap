@@ -40,7 +40,7 @@ const QualityPolicy = () => {
                 <div className="bg-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
                   <Eye className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-6">Visión</h2>
+                <h2 className="text-3xl font-bold text-blue-950 mb-6">Visión</h2>
                 <p className="text-slate-600 text-lg leading-relaxed italic">
                   "Ser una empresa líder en servicios de capacitación en el país, siendo referentes por la calidad
                   de competencias otorgadas a cada alumno. Asimismo, que los clientes identifiquen a INSECAP como
@@ -59,7 +59,7 @@ const QualityPolicy = () => {
                 <div className="bg-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
                   <Target className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-6">Misión</h2>
+                <h2 className="text-3xl font-bold text-blue-950 mb-6">Misión</h2>
                 <p className="text-slate-600 text-lg leading-relaxed italic">
                   "Entregar soluciones de capacitación con metodologías de vanguardia, asegurando el aprendizaje
                   efectivo en las Personas, con atención en las necesidades del mercado para enfrentar los

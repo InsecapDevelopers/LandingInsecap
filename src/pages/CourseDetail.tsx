@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchProductByHandle, formatPrice, ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
+import { isEcommerceEnabled } from "@/lib/featureFlags";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -259,27 +260,29 @@ const CourseDetail = () => {
                 </div>
               </div>
 
-              <div className="bg-muted/30 rounded-xl p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <span className="text-3xl font-bold text-insecap-cyan">
-                      {formatPrice(price.amount, price.currencyCode)}
-                    </span>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Precio por participante
-                    </p>
+              {isEcommerceEnabled && (
+                <div className="bg-muted/30 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <span className="text-3xl font-bold text-insecap-cyan">
+                        {formatPrice(price.amount, price.currencyCode)}
+                      </span>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Precio por participante
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                <Button
-                  onClick={handleAddToCart}
-                  size="lg"
-                  className="w-full bg-insecap-blue hover:bg-insecap-blue/90 text-white"
-                >
-                  <ShoppingCart className="mr-2 h-5 w-5" />
-                  Agregar al Carrito
-                </Button>
-              </div>
+                  <Button
+                    onClick={handleAddToCart}
+                    size="lg"
+                    className="w-full bg-insecap-blue hover:bg-insecap-blue/90 text-white"
+                  >
+                    <ShoppingCart className="mr-2 h-5 w-5" />
+                    Agregar al Carrito
+                  </Button>
+                </div>
+              )}
 
               <div className="space-y-3">
                 <h3 className="font-semibold text-foreground">Este curso incluye:</h3>

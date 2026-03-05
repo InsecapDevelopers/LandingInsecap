@@ -36,7 +36,7 @@ const Contact = () => {
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <span className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-2 block">Nuestras Sedes</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Nos encontramos en las siguientes regiones</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-blue-950">Nos encontramos en las siguientes regiones</h2>
             </div>
 
             <div className="max-w-6xl mx-auto mb-20">
@@ -53,7 +53,7 @@ const Contact = () => {
                 <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
                   <MapPin className="w-8 h-8 text-white -rotate-3" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-4">Sucursal Calama</h3>
+                <h3 className="text-xl font-bold text-blue-950 mb-4">Sucursal Calama</h3>
                 <div className="space-y-2 text-gray-600">
                   <p>La cascada 1513</p>
                   <p className="flex items-center justify-center gap-2">
@@ -72,7 +72,7 @@ const Contact = () => {
                 <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
                   <MapPin className="w-8 h-8 text-white -rotate-3" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-4">Sucursal Antofagasta</h3>
+                <h3 className="text-xl font-bold text-blue-950 mb-4">Sucursal Antofagasta</h3>
                 <div className="space-y-2 text-gray-600">
                   <p>Copiapó 956</p>
                   <p className="flex items-center justify-center gap-2">
@@ -91,7 +91,7 @@ const Contact = () => {
                 <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
                   <Mail className="w-8 h-8 text-white -rotate-3" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-4">Escríbenos</h3>
+                <h3 className="text-xl font-bold text-blue-950 mb-4">Escríbenos</h3>
                 <p className="text-gray-600 mb-2">Si tienes alguna consulta no dudes en escribirnos:</p>
                 <a href="mailto:contacto@insecap.cl" className="text-blue-600 font-semibold hover:underline">
                   contacto@insecap.cl
