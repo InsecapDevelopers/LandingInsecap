@@ -16,6 +16,7 @@ import AboutUs from "./pages/AboutUs";
 import OurTeam from "./pages/OurTeam";
 import HonorTeam from "./pages/HonorTeam";
 import QualityPolicy from "./pages/QualityPolicy";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Contact from "./pages/Contact";
 import BeRelator from "./pages/BeRelator";
 import Clients from "./pages/Clients";
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/nuestro-equipo" element={<OurTeam />} />
             <Route path="/equipo-honor" element={<HonorTeam />} />
             <Route path="/politica-calidad" element={<QualityPolicy />} />
+            <Route path="/politica-de-privacidad" element={<PrivacyPolicy />} />
             <Route path="/Experiencia-y-Respaldo" element={<ExperienciaYRespaldo />} />
             {/* 
               La ruta /contacto ha sido desactivada temporalmente para producción 
