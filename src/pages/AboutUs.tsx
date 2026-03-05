@@ -140,10 +140,10 @@ const AboutUs = () => {
             </div>
 
             {/* Sede Antofagasta Section */}
-            <div className="mt-24 grid lg:grid-cols-2 gap-12 items-center">
+            <div className="mt-24 grid lg:grid-cols-2 gap-12 items-stretch">
               <div
                 ref={sedeAntofText.ref}
-                className={`order-2 lg:order-1 transition-all duration-700 ease-out ${sedeAntofText.isVisible
+                className={`order-2 lg:order-1 flex flex-col transition-all duration-700 ease-out ${sedeAntofText.isVisible
                   ? 'opacity-100 translate-x-0'
                   : 'opacity-0 -translate-x-12'
                   }`}
@@ -171,6 +171,18 @@ const AboutUs = () => {
                     <span>Salas de capacitación hasta 35 personas.</span>
                   </li>
                 </ul>
+                <div className="mt-6 rounded-2xl overflow-hidden shadow-md border border-gray-100 flex-1 min-h-[200px]">
+                  <iframe
+                    title="Mapa Sede Antofagasta"
+                    src="https://maps.google.com/maps?q=Copiapo+956+Antofagasta+Chile&output=embed&z=15"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, minHeight: '200px' }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
               </div>
               <div
                 ref={sedeAntofCarousel.ref}
@@ -200,7 +212,7 @@ const AboutUs = () => {
             </div>
 
             {/* Sede Calama Section */}
-            <div className="mt-32 grid lg:grid-cols-2 gap-12 items-center">
+            <div className="mt-32 grid lg:grid-cols-2 gap-12 items-stretch">
               <div
                 ref={sedeCalamaCarousel.ref}
                 className={`px-8 transition-all duration-700 ease-out ${sedeCalamaCarousel.isVisible
@@ -228,7 +240,7 @@ const AboutUs = () => {
               </div>
               <div
                 ref={sedeCalamaText.ref}
-                className={`transition-all duration-700 ease-out delay-200 ${sedeCalamaText.isVisible
+                className={`flex flex-col transition-all duration-700 ease-out delay-200 ${sedeCalamaText.isVisible
                   ? 'opacity-100 translate-x-0'
                   : 'opacity-0 translate-x-12'
                   }`}
@@ -248,14 +260,26 @@ const AboutUs = () => {
                     <span>Coffee break exclusivos.</span>
                   </li>
                 </ul>
+                <div className="mt-6 rounded-2xl overflow-hidden shadow-md border border-gray-100 flex-1 min-h-[200px]">
+                  <iframe
+                    title="Mapa Sede Calama"
+                    src="https://maps.google.com/maps?q=La+Cascada+1513+Calama+Chile&output=embed&z=15"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, minHeight: '200px' }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Sede Santiago Section */}
-            <div className="mt-32 grid lg:grid-cols-2 gap-12 items-center">
+            <div className="mt-32 grid lg:grid-cols-2 gap-12 items-stretch">
               <div
                 ref={sedeSantiagoText.ref}
-                className={`order-2 lg:order-1 transition-all duration-700 ease-out ${sedeSantiagoText.isVisible
+                className={`order-2 lg:order-1 flex flex-col transition-all duration-700 ease-out ${sedeSantiagoText.isVisible
                   ? 'opacity-100 translate-x-0'
                   : 'opacity-0 -translate-x-12'
                   }`}
@@ -283,6 +307,18 @@ const AboutUs = () => {
                     <span>Café y área de descanso para participantes.</span>
                   </li>
                 </ul>
+                <div className="mt-6 rounded-2xl overflow-hidden shadow-md border border-gray-100 flex-1 min-h-[200px]">
+                  <iframe
+                    title="Mapa Sede Santiago"
+                    src="https://maps.google.com/maps?q=Valenzuela+Castillos+1063+Santiago+Chile&output=embed&z=15"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, minHeight: '200px' }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
               </div>
               <div
                 ref={sedeSantiagoCarousel.ref}
