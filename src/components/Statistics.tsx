@@ -5,33 +5,33 @@ import { Users, GraduationCap, Clock3, List } from "lucide-react";
 const stats = [
   {
     label: "Usuarios Capacitados en 2025",
-    value:'47700',
-    icon: <Users className="w-10 h-10 text-white" />,
+    value: 47700,
+    icon: <Users className="w-8 h-8 text-white/90" />,
     suffix: "+"
   },
   {
     label: "Facilitadores Expertos",
     value: 341,
-    icon: <GraduationCap className="w-10 h-10 text-white" />,
+    icon: <GraduationCap className="w-8 h-8 text-white/90" />,
     suffix: "+"
   },
   {
     label: "Horas de Capacitación",
     value: 895863,
-    icon: <Clock3 className="w-10 h-10 text-white" />,
+    icon: <Clock3 className="w-8 h-8 text-white/90" />,
     suffix: "+"
   },
   {
     label: "Cantidad de Cursos Diseñados",
     value: 1582,
-    icon: <List className="w-10 h-10 text-white" />,
+    icon: <List className="w-8 h-8 text-white/90" />,
     suffix: "+"
   }
 ];
 
 export function StatsSection() {
   return (
-    <section className="py-20 bg-gradient-to-t from-sky-400 via-blue-600 to-blue-800">
+    <section className="py-20 bg-gradient-to-b from-blue-950 via-insecap-blue to-insecap-blue-light">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {stats.map((stat, index) => (

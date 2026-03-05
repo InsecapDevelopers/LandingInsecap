@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
+import { ScrollProgress } from '@/components/ui/scroll-progress';
 import { Button } from '@/components/ui/button';
 import { RippleButton } from "@/components/ui/ripple-button";
 import CartDrawer from './CartDrawer';
@@ -90,7 +91,7 @@ const Header = () => {
       <nav
         className={`transition-all duration-500 ease-in-out ${isAtTop
           ? 'bg-transparent py-3 px-4'
-          : 'bg-primary/95 backdrop-blur-md py-1.5 px-4 shadow-lg'
+          : 'bg-gradient-to-r from-insecap-cyan/85 to-insecap-blue/95 backdrop-blur-xl backdrop-saturate-150 border-b border-white/15 shadow-xl py-1.5 px-4'
           }`}
       >
         <div className="container mx-auto flex justify-between items-center">
@@ -239,7 +240,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-primary/95 backdrop-blur-sm mt-3 rounded-lg p-4 animate-fade-in max-h-[80vh] overflow-y-auto">
+          <div className="lg:hidden bg-gradient-to-br from-insecap-cyan/80 to-insecap-blue/95 backdrop-blur-xl backdrop-saturate-150 border border-white/15 mt-3 rounded-lg p-4 animate-fade-in max-h-[80vh] overflow-y-auto">
             {navItems.map((item) => (
               <div key={item.label} className="border-b border-primary-foreground/10 last:border-0">
                 <div className="flex items-center justify-between">
@@ -335,6 +336,10 @@ const Header = () => {
           </div>
         )}
       </nav>
+      {/* Scroll progress bar — visible solo cuando se ha scrolleado */}
+      {!isAtTop && (
+        <ScrollProgress className="bg-gradient-to-r from-insecap-cyan via-white/80 to-insecap-blue-light" />
+      )}
     </header>
   );
 };
