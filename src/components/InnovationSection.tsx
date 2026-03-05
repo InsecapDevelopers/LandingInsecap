@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
   Users, Mic, ArrowRight, Download,
-  CalendarCheck, ClipboardList, MessageCircle, Apple, ChevronLeft, ChevronRight
+  CalendarCheck, ClipboardList, MessageCircle, Apple, ChevronLeft, ChevronRight,
+  BookOpen, Award, Clock, Bell, BarChart2
 } from 'lucide-react';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
 
@@ -85,13 +86,23 @@ function GooglePlayBadge() {
   );
 }
 
+/* ── Autoservicio feature cards data ─────────────────── */
+const autoFeatureCards = [
+  { icon: BookOpen,  color: 'bg-indigo-100 text-indigo-600',  label: 'Mis Cursos',         desc: 'Consulta tus cursos inscritos y próximos en tiempo real.' },
+  { icon: Award,     color: 'bg-purple-100 text-purple-600',  label: 'Certificados',        desc: 'Descarga tus certificados cuando los necesites.' },
+  { icon: Clock,     color: 'bg-sky-100 text-sky-600',        label: 'Historial',           desc: 'Revisa el historial completo de tus capacitaciones.' },
+  { icon: Bell,      color: 'bg-amber-100 text-amber-600',    label: 'Notificaciones',      desc: 'Recibe alertas de horarios, cambios e inscripciones.' },
+  { icon: BarChart2, color: 'bg-emerald-100 text-emerald-600',label: 'Reporte de Brechas',  desc: 'Identifica brechas de competencia y necesidades formativas.' },
+];
+
 /* ── SLIDE: Autoservicio del Cliente ────────────────── */
 function SlideAutoservicio() {
   const textAnim  = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
-  const phoneAnim = useScrollAnimation({ threshold: 0.08, triggerOnce: true });
+  const cardsAnim = useScrollAnimation({ threshold: 0.08, triggerOnce: true });
 
   return (
-    <div className="grid md:grid-cols-2 items-center gap-8 lg:gap-12">
+    <div className="grid md:grid-cols-2 items-center gap-10 lg:gap-16">
+      {/* Left: texto */}
       <div
         ref={textAnim.ref}
         className={`transition-all duration-[900ms] ease-out ${textAnim.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}
@@ -100,55 +111,39 @@ function SlideAutoservicio() {
           <Users className="w-3.5 h-3.5" />
           Para Clientes
         </span>
-        <h3 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-[1.1] mb-4">
+        <h3 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-[1.1] mb-3">
           {autoservicio.title}
         </h3>
         <p className="text-insecap-blue font-semibold text-sm mb-4">{autoservicio.subtitle}</p>
-        <p className="text-slate-500 text-base leading-relaxed mb-6">{autoservicio.description}</p>
-        <ul className="space-y-2 mb-8">
-          {autoservicio.features.map((f, i) => (
-            <li key={i} className="flex items-center gap-2 text-sm text-slate-600">
-              <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
-              {f}
-            </li>
-          ))}
-        </ul>
+        <p className="text-slate-500 text-base leading-relaxed mb-8">{autoservicio.description}</p>
         <button className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-insecap-blue via-indigo-600 to-purple-700 text-white font-semibold text-sm shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300">
           <Download className="w-4 h-4" />
           Próximamente
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>
+
+      {/* Right: grid de features */}
       <div
-        ref={phoneAnim.ref}
-        className={`flex justify-center transition-all duration-[1000ms] ease-out delay-200 ${phoneAnim.isVisible ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-12 scale-95'}`}
+        ref={cardsAnim.ref}
+        className={`grid grid-cols-2 gap-4 transition-all duration-[1000ms] ease-out delay-200 ${cardsAnim.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}
       >
-        <div className="relative">
-          <div className="absolute -inset-6 rounded-[3rem] bg-purple-300/25 blur-3xl" />
-          <div className="phone-float relative">
-            <PhoneMockup>
-              <div className="flex flex-col items-center justify-center h-full bg-gradient-to-b from-indigo-600 to-purple-700 p-6 text-white">
-                <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center mb-4">
-                  <Users className="w-7 h-7 text-white" />
-                </div>
-                <p className="text-sm font-bold tracking-wide">INSECAP</p>
-                <p className="text-[10px] opacity-75 mb-6">Autoservicio</p>
-                <div className="w-full space-y-3">
-                  <div className="bg-white/10 rounded-lg px-3 py-2 text-xs">📋 Mis Cursos</div>
-                  <div className="bg-white/10 rounded-lg px-3 py-2 text-xs">📜 Certificados</div>
-                  <div className="bg-white/10 rounded-lg px-3 py-2 text-xs">🔔 Notificaciones</div>
-                  <div className="bg-white/20 rounded-full py-2 text-xs text-center font-semibold mt-2">Ingresar</div>
-                </div>
-              </div>
-            </PhoneMockup>
-            <div className="glow-ring absolute -bottom-3 left-1/2 w-[70%] h-4 bg-purple-400/50 blur-xl rounded-full" />
-          </div>
-          <div className="absolute -right-8 top-8 grid grid-cols-4 gap-2 opacity-35">
-            {Array.from({ length: 16 }).map((_, i) => (
-              <div key={i} className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-            ))}
-          </div>
-        </div>
+        {autoFeatureCards.map((card, i) => {
+          const Icon = card.icon;
+          return (
+            <div
+              key={i}
+              className="flex flex-col gap-3 bg-white/80 backdrop-blur-sm border border-indigo-100 rounded-2xl p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+              style={{ transitionDelay: cardsAnim.isVisible ? `${i * 80}ms` : '0ms' }}
+            >
+              <span className={`w-9 h-9 rounded-xl flex items-center justify-center ${card.color}`}>
+                <Icon className="w-4 h-4" />
+              </span>
+              <p className="font-bold text-blue-950 text-sm">{card.label}</p>
+              <p className="text-slate-500 text-xs leading-relaxed">{card.desc}</p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
