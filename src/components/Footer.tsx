@@ -1,8 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Linkedin, Phone, Mail } from 'lucide-react';
-import ContactCTA from './ContactCTA';
+import { Instagram, Facebook, Linkedin, Phone, Mail, MapPin } from 'lucide-react';
 import { getLiderComercial, LiderComercial } from '@/lib/tmsApi';
+import ContactCTA from './ContactCTA';
+
+const HERO_BACKGROUNDS = [
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_111938161.png?v=1772461187',
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Banner-Nosotros-Web-16-anos-scaled.jpg?v=1767878773',
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cascada-fachada-y-letrero-scaled.jpg?v=1767971535',
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede-Antofagasta-web.jpg?v=1768245326',
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112057871.png?v=1772461266',
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112143481.png?v=1772461310',
+];
 
 // Componentes de iconos personalizados
 const XIcon = ({ className }: { className?: string }) => (
@@ -17,20 +26,11 @@ const TikTokIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const SkeletonLider = () => (
-  <div className="flex items-center gap-4 animate-pulse">
-    <div className="w-16 h-16 rounded-full bg-primary-foreground/20 flex-shrink-0" />
-    <div className="space-y-2">
-      <div className="h-4 w-32 rounded bg-primary-foreground/20" />
-      <div className="h-3 w-48 rounded bg-primary-foreground/20" />
-      <div className="h-3 w-36 rounded bg-primary-foreground/20" />
-    </div>
-  </div>
-);
-
 const Footer = () => {
   const [lider, setLider] = useState<LiderComercial | null>(null);
   const [loadingLider, setLoadingLider] = useState(true);
+  const [bgIndex, setBgIndex] = useState(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     getLiderComercial().then((data) => {
@@ -38,6 +38,97 @@ const Footer = () => {
       setLoadingLider(false);
     });
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBgIndex((prev) => (prev + 1) % HERO_BACKGROUNDS.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animId: number;
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    type Particle = {
+      x: number; y: number;
+      vx: number; vy: number;
+      radius: number;
+      opacity: number;
+      life: number; maxLife: number;
+      color: string;
+    };
+
+    const COLORS = ['255,255,255', '0,184,222', '72,92,199'];
+    const createParticle = (spread = false): Particle => {
+      const maxLife = Math.random() * 220 + 100;
+      return {
+        x: Math.random() * (canvas.width || 800),
+        y: spread ? Math.random() * (canvas.height || 400) : (canvas.height || 400) + 10,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: -(Math.random() * 0.7 + 0.25),
+        radius: Math.random() * 2.2 + 0.4,
+        opacity: 0,
+        life: spread ? Math.floor(Math.random() * maxLife) : 0,
+        maxLife,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      };
+    };
+
+    const particles: Particle[] = Array.from({ length: 70 }, () => createParticle(true));
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        p.life++;
+        p.x += p.vx;
+        p.y += p.vy;
+        const t = p.life / p.maxLife;
+        p.opacity = (t < 0.2 ? t / 0.2 : t > 0.8 ? (1 - t) / 0.2 : 1) * 0.65;
+
+        // glow
+        const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 3);
+        glow.addColorStop(0, `rgba(${p.color},${p.opacity})`);
+        glow.addColorStop(1, `rgba(${p.color},0)`);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+
+        // core dot
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.color},${Math.min(p.opacity * 1.8, 1)})`;
+        ctx.fill();
+
+        if (p.life >= p.maxLife || p.y < -10) {
+          particles[i] = createParticle();
+        }
+      });
+      animId = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
+  const scrollToContact = () => {
+    const el = document.getElementById('contacto');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const locations = [
     { name: "Sucursal Antofagasta", address: "Copiapó 956, Antofagasta", phone: "55 294 8575" },
@@ -60,75 +151,138 @@ const Footer = () => {
   };
 
   return (
-    <footer className="gradient-footer text-primary-foreground">
+    <footer className="gradient-footer text-white" id="footer-root">
 
       <ContactCTA />
 
-      <div className="container mx-auto px-4 py-12 lg:py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {/* ── Hero strip "Creciendo Juntos" con parallax ── */}
+      <div
+        className="relative overflow-hidden"
+        style={{
+          backgroundImage: `url('${HERO_BACKGROUNDS[bgIndex]}')`,
+          backgroundAttachment: 'fixed',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          transition: 'background-image 1s ease-in-out',
+        }}
+      >
+        {/* Overlay degradado para legibilidad */}
+        <div className="absolute inset-0 bg-gradient-to-r from-insecap-blue/90 via-insecap-blue/75 to-[#2952cc]/80 z-[1]" />
+        {/* Canvas de partículas */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full pointer-events-none z-[2]"
+        />
+        <div className="relative z-10 container mx-auto px-8 md:px-14 py-14 lg:py-16">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
+            {/* Headline */}
+            <div className="lg:max-w-lg">
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold italic text-white leading-tight tracking-tight">
+                " Creciendo<br />Juntos "
+              </h2>
+            </div>
+            {/* Right side */}
+            <div className="lg:max-w-md">
+              <p className="text-white/80 text-base mb-7 leading-relaxed">
+                ¿Tu empresa necesita capacitación certificada? Somos el socio estratégico que impulsa el desarrollo profesional de tus equipos en todo Chile.
+              </p>
+              <button
+                onClick={scrollToContact}
+                className="inline-flex items-center gap-2 bg-insecap-cyan hover:bg-insecap-cyan/90 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-insecap-cyan/30 hover:-translate-y-0.5"
+              >
+                Contáctanos
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="container mx-auto px-8 md:px-14 py-12 lg:py-16">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
           {/* Logo & Social */}
-          <div>
-            <Link to="/" className="flex items-center gap-2 mb-6" onClick={handleLogoClick}>
-              <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508" alt="logo" className="w-60" />
+          <div className="col-span-2 lg:col-span-1">
+            <Link to="/" className="inline-flex mb-6" onClick={handleLogoClick}>
+              <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508" alt="logo" className="w-48" />
             </Link>
-            <div className="flex items-center gap-3">
-              <a href="https://instagram.com/..." className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-secondary transition-all">
+            <div className="flex items-center gap-3 mt-4">
+              <a href="https://instagram.com/insecapcapacitacion" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="https://facebook.com/..." className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-secondary transition-all">
+              <a href="https://facebook.com/insecap" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="https://x.com/..." className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-secondary transition-all">
+              <a href="https://x.com/insecap" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
                 <XIcon className="w-5 h-5" />
               </a>
-              <a href="https://linkedin.com/..." className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-secondary transition-all">
+              <a href="https://linkedin.com/company/insecap" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href="https://tiktok.com/..." className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-secondary transition-all">
+              <a href="https://tiktok.com/@insecap" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
                 <TikTokIcon className="w-5 h-5" />
               </a>
             </div>
           </div>
 
-          {/* Locations */}
-          <div className="lg:col-span-2">
-            <h4 className="font-bold text-xl text-white mb-6 tracking-wide">Ubicaciones</h4>
-            <div className="grid sm:grid-cols-3 gap-6">
+          {/* Ubicaciones */}
+          <div className="col-span-2 lg:col-span-1">
+            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">Ubicaciones</h4>
+            <div className="space-y-5">
               {locations.map((loc) => (
-                <div key={loc.name}>
-                  <h5 className="font-semibold text-white mb-2">{loc.name}</h5>
-                  <p className="text-sm text-white/80">{loc.address}</p>
-                  <a href={`tel:${loc.phone}`} className="text-sm text-white/80 hover:text-white hover:underline">{loc.phone}</a>
+                <div key={loc.name} className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-insecap-cyan flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-white text-sm">{loc.name}</p>
+                    <p className="text-white/70 text-sm mt-0.5">{loc.address}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Site Map */}
+          {/* Contáctanos */}
           <div>
-            <h4 className="font-bold text-xl text-white mb-6 tracking-wide">Mapa Web</h4>
+            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">Contáctanos</h4>
+            <div className="space-y-4">
+              {[
+                { sucursal: 'Sucursal Antofagasta', phone: '55 294 8575', tel: '552948575' },
+                { sucursal: 'Casa Matríz (Calama)', phone: '55 292 6431', tel: '552926431' },
+                { sucursal: 'Sucursal Santiago', phone: '+56 9 8819 8254', tel: '+56988198254' },
+              ].map((c) => (
+                <div key={c.tel}>
+                  <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">{c.sucursal}</p>
+                  <a href={`tel:${c.tel}`} className="flex items-center gap-2 text-white/80 text-sm hover:text-white transition-colors">
+                    <Phone className="w-4 h-4 text-insecap-cyan flex-shrink-0" />
+                    {c.phone}
+                  </a>
+                </div>
+              ))}
+              {lider?.correo && (
+                <div>
+                  <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">Correo</p>
+                  <a href={`mailto:${lider.correo}`} className="flex items-center gap-2 text-white/80 text-sm hover:text-white transition-colors">
+                    <Mail className="w-4 h-4 text-insecap-cyan flex-shrink-0" />
+                    {lider.correo}
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Mapa Web */}
+          <div>
+            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">Mapa Web</h4>
             <ul className="space-y-3">
               {siteMap.map((item) => {
                 const isAnchor = item.href.includes('#');
                 const anchorId = isAnchor ? item.href.split('#')[1] : null;
-
                 const handleClick = (e: React.MouseEvent) => {
                   if (!anchorId) return;
                   const el = document.getElementById(anchorId);
-                  if (el) {
-                    e.preventDefault();
-                    el.scrollIntoView({ behavior: 'smooth' });
-                  }
+                  if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); }
                 };
-
                 return (
                   <li key={item.label}>
-                    <Link
-                      to={item.href}
-                      onClick={handleClick}
-                      className="text-sm text-white/85 hover:text-white flex items-center gap-2 transition-colors"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                    <Link to={item.href} onClick={handleClick} className="text-white/70 text-sm hover:text-white transition-colors">
                       {item.label}
                     </Link>
                   </li>
@@ -138,56 +292,14 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Líder Comercial de Turno */}
-        {(loadingLider || lider) && (
-          <div className="mt-10 pt-8 border-t border-primary-foreground/10">
-            <h4 className="font-bold text-xl text-white mb-4 tracking-wide">Tu Líder Comercial</h4>
-
-            {loadingLider && <SkeletonLider />}
-
-            {!loadingLider && lider && (
-              <div className="flex items-center gap-4">
-                {lider.foto ? (
-                  <img
-                    src={lider.foto}
-                    alt={lider.nombre}
-                    className="w-16 h-16 rounded-full object-cover flex-shrink-0"
-                  />
-                ) : (
-                  <div className="w-16 h-16 rounded-full bg-primary-foreground/20 flex items-center justify-center text-xl font-bold flex-shrink-0">
-                    {lider.nombre.charAt(0)}
-                  </div>
-                )}
-                <div>
-                  <p className="font-medium">{lider.nombre}</p>
-                  <a
-                    href={`mailto:${lider.correo}`}
-                    className="text-sm text-white/80 hover:text-white hover:underline flex items-center gap-1.5 mt-0.5"
-                  >
-                    <Mail className="w-3.5 h-3.5 flex-shrink-0" />
-                    {lider.correo}
-                  </a>
-                  <a
-                    href={`tel:${lider.telefono}`}
-                    className="text-sm text-white/80 hover:text-white hover:underline flex items-center gap-1.5 mt-0.5"
-                  >
-                    <Phone className="w-3.5 h-3.5 flex-shrink-0" />
-                    {lider.telefono}
-                  </a>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
         {/* Bottom Bar */}
-        <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-2 text-center md:text-left">
-          <p className="text-sm text-white/70">
-            © {new Date().getFullYear()} Insecap Capacitación.
+        <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-2 text-center md:text-left">
+          <p className="text-sm text-white/60">
+            © {new Date().getFullYear()} Insecap Capacitación. Todos los derechos reservados.
           </p>
           <a
             href="/politica-de-privacidad"
-            className="text-sm text-white/70 hover:text-white transition-colors duration-200 underline underline-offset-4"
+            className="text-sm text-white/60 hover:text-white transition-colors duration-200 underline underline-offset-4"
           >
             Política de Privacidad
           </a>
