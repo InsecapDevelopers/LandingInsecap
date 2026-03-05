@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useInView } from 'motion/react';
 import { NumberTicker } from "./ui/number-ticker";
+import { Particles } from "./ui/particles";
 import { Users, GraduationCap, Clock3, List } from "lucide-react";
 
 const stats = [
@@ -30,31 +32,32 @@ const stats = [
 ];
 
 export function StatsSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: false, margin: "-80px" });
+
   return (
-    <section className="py-20 bg-gradient-to-b from-blue-950 via-insecap-blue to-insecap-blue-light">
+    <section ref={sectionRef} className="relative py-16 overflow-hidden bg-gradient-to-r from-[#2952cc] via-insecap-blue to-sky-400">
+      <Particles className="absolute inset-0" quantity={120} color="#ffffff" staticity={30} ease={60} />
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 lg:divide-x divide-white/25">
           {stats.map((stat, index) => (
-            <div 
-              key={index} 
-              className="flex flex-col items-center p-4 bg-transparent transition-transform duration-300"
+            <div
+              key={index}
+              className="flex flex-col items-center py-8 px-6"
             >
-              {/* Ícono sin fondo circular, ahora es más grande y blanco */}
-              <div className="mb-6 opacity-90">
+              <div className="mb-4">
                 {stat.icon}
               </div>
-
-              {/* Número con efecto Ticker en blanco */}
-              <div className="flex items-center text-4xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">
-                <NumberTicker 
-                  value={stat.value} 
-                  className="text-white" 
+              <div className="flex items-baseline text-4xl md:text-5xl font-extrabold text-white mb-2 tabular-nums">
+                <NumberTicker
+                  value={stat.value}
+                  className="text-white"
+                  duration={2.2}
+                  trigger={isInView}
                 />
-                <span className="ml-1 opacity-90">{stat.suffix}</span>
+                <span className="ml-0.5">{stat.suffix}</span>
               </div>
-
-              {/* Etiqueta descriptiva en blanco con mayor legibilidad */}
-              <p className="text-white/80 font-bold text-center uppercase tracking-widest text-xs max-w-[180px]">
+              <p className="text-white/80 font-semibold text-center text-sm max-w-[160px] leading-snug">
                 {stat.label}
               </p>
             </div>

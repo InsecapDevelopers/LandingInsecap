@@ -338,7 +338,7 @@ const Header = () => {
       </nav>
       {/* Scroll progress bar — visible solo cuando se ha scrolleado */}
       {!isAtTop && (
-        <ScrollProgress className="bg-gradient-to-r from-insecap-cyan via-white/80 to-insecap-blue-light" />
+        <ScrollProgress className="bg-white" />
       )}
     </header>
   );
