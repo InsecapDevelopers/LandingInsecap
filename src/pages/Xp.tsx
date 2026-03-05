@@ -158,7 +158,7 @@ const ExperienciaYRespaldo = () => {
                 <span className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4 block">
                   Nuestra Trayectoria
                 </span>
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+                <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-6">
                   La Experiencia no se Improvisa: <span className="text-blue-600">se Demuestra</span>
                 </h2>
                 <div className={`h-1 bg-blue-600 mx-auto rounded-full transition-all duration-1000 delay-300 ease-out ${introHeader.isVisible ? 'w-20' : 'w-0'
@@ -175,7 +175,7 @@ const ExperienciaYRespaldo = () => {
                     }`}
                 >
                   <p className="text-slate-600 text-lg leading-relaxed">
-                    En la industria en general, la capacitación no es un requisito: es un <strong className="text-slate-900">factor crítico
+                    En la industria en general, la capacitación no es un requisito: es un <strong className="text-blue-950">factor crítico
                       para la seguridad, la continuidad operacional y la productividad</strong>. En INSECAP
                     Capacitación entendemos esa realidad y trabajamos con un enfoque técnico,
                     riguroso y alineado a los estándares que exige el mundo laboral.
@@ -183,14 +183,14 @@ const ExperienciaYRespaldo = () => {
                   <p className="text-slate-600 text-lg leading-relaxed">
                     Nuestra trayectoria se ha construido en terreno, formando competencias clave
                     para operaciones seguras y eficientes. Hemos acompañado a empresas de
-                    distintos sectores, con mayor predominancia en la <strong className="text-slate-900">Gran Minería</strong>, en el
+                    distintos sectores, con mayor predominancia en la <strong className="text-blue-950">Gran Minería</strong>, en el
                     desarrollo de habilidades técnicas, cumplimiento normativo y fortalecimiento de
                     equipos de trabajo.
                   </p>
                   <p className="text-slate-600 text-lg leading-relaxed">
                     Cada programa formativo que implementamos responde a necesidades reales de
                     la industria, con relatores especializados, metodologías prácticas y una ejecución
-                    orientada a <strong className="text-slate-900">resultados medibles</strong>.
+                    orientada a <strong className="text-blue-950">resultados medibles</strong>.
                   </p>
                 </div>
 
@@ -251,7 +251,7 @@ const ExperienciaYRespaldo = () => {
                 <span className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4 block">
                   Respaldo Institucional
                 </span>
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+                <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-6">
                   Certificaciones y Membresías
                 </h2>
                 <p className="text-slate-600 text-lg max-w-3xl mx-auto">
@@ -286,7 +286,7 @@ const ExperienciaYRespaldo = () => {
                         />
                       </div>
                     )}
-                    <h3 className="text-xl font-bold text-slate-900 mb-3">{cert.title}</h3>
+                    <h3 className="text-xl font-bold text-blue-950 mb-3">{cert.title}</h3>
                     <p className="text-slate-600 text-sm leading-relaxed mb-4">{cert.description}</p>
                     <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${cert.badge.color === 'green'
                       ? 'bg-green-50 text-green-700'
@@ -323,7 +323,7 @@ const ExperienciaYRespaldo = () => {
                 <span className="text-secondary font-semibold uppercase tracking-wider text-sm mb-4 block">
                   Nuestras Fortalezas
                 </span>
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+                <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-6">
                   Valores Técnicos Agregados
                 </h2>
                 <p className="text-gray-600 text-lg max-w-3xl mx-auto">
@@ -353,7 +353,7 @@ const ExperienciaYRespaldo = () => {
                     <div className="bg-secondary/10 p-3 rounded-xl w-fit mb-6 group-hover:bg-secondary/20 transition-colors">
                       {valor.icon}
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-3">{valor.title}</h3>
+                    <h3 className="text-xl font-bold text-blue-950 mb-3">{valor.title}</h3>
                     <p className="text-gray-500 text-sm leading-relaxed">{valor.description}</p>
                   </div>
                 ))}
@@ -377,7 +377,7 @@ const ExperienciaYRespaldo = () => {
                   }`}
               >
                 <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-slate-900 mb-4">Respaldados por los Mejores Estándares</h2>
+                  <h2 className="text-3xl font-bold text-blue-950 mb-4">Respaldados por los Mejores Estándares</h2>
                   <p className="text-slate-600 text-lg">
                     Cada certificación y membresía refuerza nuestro compromiso con la calidad y excelencia.
                   </p>
@@ -424,7 +424,7 @@ const ExperienciaYRespaldo = () => {
                   : 'opacity-0 translate-y-8'
                   }`}
               >
-                <h2 className="text-3xl font-bold text-slate-900 mb-6">¿Necesitas un Socio Estratégico en Capacitación?</h2>
+                <h2 className="text-3xl font-bold text-blue-950 mb-6">¿Necesitas un Socio Estratégico en Capacitación?</h2>
                 <p className="text-slate-600 mb-8 text-lg max-w-2xl mx-auto">
                   En INSECAP, la experiencia no se improvisa: se demuestra. Contáctanos y conoce cómo
                   podemos apoyar el desarrollo de tu equipo de trabajo.
