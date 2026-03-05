@@ -45,8 +45,41 @@ async function tmsGet<T>(path: string, fallback: T): Promise<T> {
   }
 }
 
-export const getLiderComercial = () =>
-  tmsGet<LiderComercial | null>('/api/LiderComercial/actual', null);
+// ── Caché en memoria + sessionStorage (TTL 5 minutos) ──────────────────────
+const LIDER_CACHE_KEY = 'insecap_lider_comercial';
+const LIDER_CACHE_TTL = 5 * 60 * 1000; // 5 min en ms
+
+interface LiderCache { data: LiderComercial | null; ts: number; }
+
+let _liderMemory: LiderCache | null = null;
+
+export const getLiderComercial = async (): Promise<LiderComercial | null> => {
+  const now = Date.now();
+
+  // 1. Memoria (más rápido)
+  if (_liderMemory && now - _liderMemory.ts < LIDER_CACHE_TTL) {
+    return _liderMemory.data;
+  }
+
+  // 2. sessionStorage (persiste entre montajes de componentes)
+  try {
+    const raw = sessionStorage.getItem(LIDER_CACHE_KEY);
+    if (raw) {
+      const cached: LiderCache = JSON.parse(raw);
+      if (now - cached.ts < LIDER_CACHE_TTL) {
+        _liderMemory = cached;
+        return cached.data;
+      }
+    }
+  } catch { /* sessionStorage puede fallar en SSR o modo privado */ }
+
+  // 3. Fetch real
+  const data = await tmsGet<LiderComercial | null>('/api/LiderComercial/actual', null);
+  const entry: LiderCache = { data, ts: now };
+  _liderMemory = entry;
+  try { sessionStorage.setItem(LIDER_CACHE_KEY, JSON.stringify(entry)); } catch { }
+  return data;
+};
 
 export const getMuroFamaPodio = () =>
   tmsGet<PodioItem[]>('/api/MuroFama/podio', []);
