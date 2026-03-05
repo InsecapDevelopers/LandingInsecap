@@ -64,9 +64,9 @@ const AboutUs = () => {
 
   // Datos de modalidades
   const modalidades = [
-    { icon: <Users className="w-8 h-8 text-white" />, title: 'Presencial', desc: 'En nuestras instalaciones o donde el cliente disponga.' },
-    { icon: <Video className="w-8 h-8 text-white" />, title: 'Sincrónico', desc: 'Plataformas electrónicas con clases en vivo vía streaming.' },
-    { icon: <Monitor className="w-8 h-8 text-white" />, title: 'Asincrónico', desc: 'Entrenamiento de autoinstrucción en plataforma Moodle.' },
+    { icon: <Users className="w-8 h-8 text-white" />, title: 'Presencial', desc: 'En nuestras instalaciones o donde el cliente disponga.', iconBg: 'bg-blue-600', border: 'border-blue-400', badge: 'bg-blue-100 text-blue-700' },
+    { icon: <Video className="w-8 h-8 text-white" />, title: 'Sincrónico', desc: 'Plataformas electrónicas con clases en vivo vía streaming.', iconBg: 'bg-violet-600', border: 'border-violet-400', badge: 'bg-violet-100 text-violet-700' },
+    { icon: <Monitor className="w-8 h-8 text-white" />, title: 'Asincrónico', desc: 'Entrenamiento de autoinstrucción en plataforma Moodle.', iconBg: 'bg-cyan-600', border: 'border-cyan-400', badge: 'bg-cyan-100 text-cyan-700' },
   ];
 
   return (
@@ -83,29 +83,35 @@ const AboutUs = () => {
         <MeetUs />
 
         {/* ¿Qué hacemos? Section */}
-        <section className="py-20 bg-slate-50">
-          <div className="container mx-auto px-8 md:px-14 lg:px-16">
-            <div className="max-w-4xl mx-auto mb-20 text-center">
+        <section className="relative py-20 overflow-hidden" style={{ background: 'linear-gradient(135deg, #eff6ff 0%, #f5f3ff 40%, #ecfeff 80%, #f0fdf4 100%)' }}>
+          {/* Decorative blobs */}
+          <div className="pointer-events-none absolute -top-24 -left-24 w-96 h-96 rounded-full opacity-30" style={{ background: 'radial-gradient(circle, #a5b4fc, transparent 70%)' }} />
+          <div className="pointer-events-none absolute -bottom-20 -right-20 w-80 h-80 rounded-full opacity-25" style={{ background: 'radial-gradient(circle, #67e8f9, transparent 70%)' }} />
+          <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] rounded-full opacity-10" style={{ background: 'radial-gradient(ellipse, #818cf8, transparent 70%)' }} />
+
+          <div className="relative container mx-auto px-8 md:px-14 lg:px-16">
+            <div className="max-w-4xl mx-auto text-center">
               <div
                 ref={queHacemosHeader.ref}
-                className={`transition-all duration-700 ease-out ${queHacemosHeader.isVisible
+                className={`transition-all duration-700 ease-out mb-12 ${queHacemosHeader.isVisible
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-8'
                   }`}
               >
-                <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-6">¿Qué hacemos?</h2>
-                <p className="text-gray-600 text-lg leading-relaxed mb-8">
+                <span className="inline-block bg-blue-100 text-blue-700 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">Nuestro enfoque</span>
+                <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-5">¿Qué hacemos?</h2>
+                <p className="text-gray-600 text-lg leading-relaxed max-w-2xl mx-auto">
                   Entregamos soluciones de capacitación y entrenamientos a la medida.
                   Interactuamos con partes interesadas y usuarios finales para que la
                   solución sea la que requiere cada cliente.
                 </p>
               </div>
 
-              <div ref={queHacemosCards.ref} className="grid md:grid-cols-3 gap-8 text-left">
+              <div ref={queHacemosCards.ref} className="grid md:grid-cols-3 gap-6">
                 {modalidades.map((mod, index) => (
                   <div
                     key={index}
-                    className={`flex flex-col items-center text-center transition-all duration-500 ${queHacemosCards.isVisible
+                    className={`relative bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-500 p-8 flex flex-col items-center text-center border-t-4 ${mod.border} ${queHacemosCards.isVisible
                       ? 'opacity-100 translate-y-0 scale-100'
                       : 'opacity-0 translate-y-8 scale-95'
                       }`}
@@ -113,11 +119,14 @@ const AboutUs = () => {
                       transitionDelay: queHacemosCards.isVisible ? queHacemosCards.getDelay(index, 150) : '0ms'
                     }}
                   >
-                    <div className="bg-blue-600 p-4 rounded-full mb-4">
+                    <div className={`${mod.iconBg} p-4 rounded-2xl mb-5 shadow-lg`}>
                       {mod.icon}
                     </div>
-                    <h4 className="font-bold text-blue-950 text-xl mb-2">{mod.title}</h4>
-                    <p className="text-gray-600 text-sm">{mod.desc}</p>
+                    <h4 className="font-bold text-blue-950 text-xl mb-3">{mod.title}</h4>
+                    <p className="text-gray-500 text-sm leading-relaxed">{mod.desc}</p>
+                    <span className={`mt-5 inline-block text-xs font-medium px-3 py-1 rounded-full ${mod.badge}`}>
+                      Modalidad disponible
+                    </span>
                   </div>
                 ))}
               </div>
