@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -6,9 +6,11 @@ import SEO from '@/components/SEO';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Calendar, ArrowRight, Newspaper, Loader2 } from 'lucide-react';
+import { Calendar, ArrowRight, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react';
 import { fetchBlogArticlesGraphQL, formatArticleDate, ShopifyArticle } from '@/lib/shopify';
 import PageHero from '@/components/PageHero';
+
+const ARTICLES_PER_PAGE = 9;
 
 const ArticleCard = ({ article }: { article: ShopifyArticle }) => {
   return (
@@ -78,81 +80,66 @@ const ArticleCardSkeleton = () => (
 );
 
 const Blog = () => {
-  const [articles, setArticles] = useState<ShopifyArticle[]>([]);
+  const [allArticles, setAllArticles] = useState<ShopifyArticle[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [hasNextPage, setHasNextPage] = useState(false);
-  const [endCursor, setEndCursor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const gridRef = useRef<HTMLElement>(null);
 
-  // Ref for the sentinel element (infinite scroll trigger)
-  const sentinelRef = useRef<HTMLDivElement>(null);
+  // Paginación client-side (exacta porque tenemos todos los artículos)
+  const start = (currentPage - 1) * ARTICLES_PER_PAGE;
+  const pageArticles = allArticles.slice(start, start + ARTICLES_PER_PAGE);
+  const totalPages = Math.ceil(allArticles.length / ARTICLES_PER_PAGE);
 
-  // Load initial articles
+  // Cargar TODOS los artículos en lotes al montar el componente
   useEffect(() => {
-    const loadInitialArticles = async () => {
+    const loadAll = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await fetchBlogArticlesGraphQL('noticias', 6);
-        setArticles(data.articles);
-        setHasNextPage(data.pageInfo.hasNextPage);
-        setEndCursor(data.pageInfo.endCursor);
-      } catch (err) {
-        console.error('Error loading articles:', err);
+        const collected: ShopifyArticle[] = [];
+        let cursor: string | null = null;
+
+        // Shopify permite hasta 250 por request; iteramos hasta agotar las páginas
+        do {
+          const data = await fetchBlogArticlesGraphQL('noticias', 250, cursor);
+          collected.push(...data.articles);
+          cursor = data.pageInfo.hasNextPage ? data.pageInfo.endCursor : null;
+        } while (cursor);
+
+        setAllArticles(collected);
+      } catch {
         setError('No se pudieron cargar las noticias. Por favor, intenta de nuevo más tarde.');
       } finally {
         setIsLoading(false);
       }
     };
-
-    loadInitialArticles();
+    loadAll();
   }, []);
 
-  // Load more articles
-  const loadMoreArticles = useCallback(async () => {
-    if (isLoadingMore || !hasNextPage || !endCursor) return;
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+    setTimeout(() => {
+      gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  };
 
-    try {
-      setIsLoadingMore(true);
-      const data = await fetchBlogArticlesGraphQL('noticias', 6, endCursor);
-      setArticles(prev => [...prev, ...data.articles]);
-      setHasNextPage(data.pageInfo.hasNextPage);
-      setEndCursor(data.pageInfo.endCursor);
-    } catch (err) {
-      console.error('Error loading more articles:', err);
-    } finally {
-      setIsLoadingMore(false);
+  // Rango de páginas visibles en la barra de paginación
+  const getPageRange = () => {
+    const pages: (number | '...')[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (currentPage > 3) pages.push('...');
+      const lo = Math.max(2, currentPage - 1);
+      const hi = Math.min(totalPages - 1, currentPage + 1);
+      for (let i = lo; i <= hi; i++) pages.push(i);
+      if (currentPage < totalPages - 2) pages.push('...');
+      pages.push(totalPages);
     }
-  }, [isLoadingMore, hasNextPage, endCursor]);
-
-  // Infinite scroll using IntersectionObserver
-  useEffect(() => {
-    const sentinel = sentinelRef.current;
-    if (!sentinel) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // When sentinel is visible, load more articles
-        if (entries[0].isIntersecting && hasNextPage && !isLoadingMore) {
-          loadMoreArticles();
-        }
-      },
-      {
-        root: null,
-        rootMargin: '200px', // Trigger 200px before reaching the sentinel
-        threshold: 0.1,
-      }
-    );
-
-    observer.observe(sentinel);
-
-    return () => {
-      if (sentinel) {
-        observer.unobserve(sentinel);
-      }
-    };
-  }, [hasNextPage, isLoadingMore, loadMoreArticles]);
+    return pages;
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -184,7 +171,7 @@ const Blog = () => {
               'url': 'https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png'
             }
           },
-          'blogPost': articles.slice(0, 10).map((article) => ({
+          'blogPost': allArticles.slice(0, 10).map((article) => ({
             '@type': 'BlogPosting',
             'headline': article.title,
             'description': article.excerpt || article.title,
@@ -215,11 +202,11 @@ const Blog = () => {
         />
 
         {/* Articles Grid */}
-        <section className="py-16">
+        <section className="py-16" ref={gridRef}>
           <div className="container mx-auto px-8 md:px-14 lg:px-16">
             {isLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Array.from({ length: 6 }).map((_, i) => (
+                {Array.from({ length: ARTICLES_PER_PAGE }).map((_, i) => (
                   <ArticleCardSkeleton key={i} />
                 ))}
               </div>
@@ -229,11 +216,9 @@ const Blog = () => {
                 <h2 className="text-2xl font-bold text-foreground mb-2">
                   Error al cargar noticias
                 </h2>
-                <p className="text-muted-foreground mb-4">
-                  {error}
-                </p>
+                <p className="text-muted-foreground mb-4">{error}</p>
               </div>
-            ) : articles.length === 0 ? (
+            ) : allArticles.length === 0 ? (
               <div className="text-center py-16">
                 <Newspaper className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                 <h2 className="text-2xl font-bold text-foreground mb-2">
@@ -246,27 +231,66 @@ const Blog = () => {
             ) : (
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {articles.map((article) => (
+                  {pageArticles.map((article) => (
                     <ArticleCard key={article.id} article={article} />
                   ))}
                 </div>
 
-                {/* Infinite Scroll Sentinel */}
-                <div ref={sentinelRef} className="w-full py-8">
-                  {isLoadingMore && (
-                    <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      <span>Cargando más artículos...</span>
-                    </div>
-                  )}
+                {/* Paginación */}
+                {totalPages > 1 && (
+                  <div className="mt-12 flex flex-col items-center gap-4">
+                    {/* Contador */}
+                    <p className="text-sm text-muted-foreground">
+                      Página <span className="font-semibold text-foreground">{currentPage}</span> de{' '}
+                      <span className="font-semibold text-foreground">{totalPages}</span>
+                    </p>
 
-                  {!hasNextPage && articles.length > 0 && (
-                    <div className="text-center text-muted-foreground">
-                      <Newspaper className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                      <p>No hay más noticias por ahora</p>
-                    </div>
-                  )}
-                </div>
+                    {/* Controles */}
+                    <nav className="flex items-center gap-1" aria-label="Paginación">
+                      {/* Anterior */}
+                      <button
+                        onClick={() => goToPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                        Anterior
+                      </button>
+
+                      {/* Números */}
+                      <div className="flex items-center gap-1 mx-1">
+                        {getPageRange().map((page, idx) =>
+                          page === '...' ? (
+                            <span key={`dots-${idx}`} className="px-2 text-muted-foreground select-none">…</span>
+                          ) : (
+                            <button
+                              key={page}
+                              onClick={() => goToPage(page as number)}
+                              aria-current={currentPage === page ? 'page' : undefined}
+                              className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors ${
+                                currentPage === page
+                                  ? 'bg-insecap-blue text-white shadow-md shadow-insecap-blue/30'
+                                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                              }`}
+                            >
+                              {page}
+                            </button>
+                          )
+                        )}
+                      </div>
+
+                      {/* Siguiente */}
+                      <button
+                        onClick={() => goToPage(currentPage + 1)}
+                        disabled={currentPage >= totalPages}
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                      >
+                        Siguiente
+                        <ChevronRight className="h-4 w-4" />
+                      </button>
+                    </nav>
+                  </div>
+                )}
               </>
             )}
           </div>

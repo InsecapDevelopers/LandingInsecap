@@ -2,8 +2,13 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 const BeRelator = () => {
+  const heading = useScrollAnimation({ triggerOnce: true });
+  const p1 = useScrollAnimation({ triggerOnce: true });
+  const p2 = useScrollAnimation({ triggerOnce: true });
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -16,7 +21,7 @@ const BeRelator = () => {
         />
 
         <section className="py-20 bg-slate-50 relative overflow-hidden">
-          {/* Fondo decorativo similar al de referencia */}
+          {/* Fondo decorativo */}
           <div className="absolute inset-0 opacity-5 pointer-events-none">
              <img 
                src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508" 
@@ -24,21 +29,56 @@ const BeRelator = () => {
                alt=""
              />
           </div>
+          {/* Orbe decorativo superior izquierdo */}
+          <div className="absolute -top-24 -left-24 w-72 h-72 bg-blue-100/60 rounded-full blur-3xl pointer-events-none" />
+          {/* Orbe decorativo inferior derecho */}
+          <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-indigo-100/50 rounded-full blur-3xl pointer-events-none" />
 
           <div className="container mx-auto px-8 md:px-14 lg:px-16 relative z-10">
             <div className="max-w-4xl mx-auto text-center mb-16">
-              <h3 className="text-2xl font-bold text-blue-600 mb-4 uppercase tracking-tight">Insecap Capacitación</h3>
-              <div className="space-y-6 text-gray-700 text-lg leading-relaxed max-w-3xl mx-auto">
-                <p>
-                  Estamos en constante búsqueda de talento apasionado por la enseñanza y la capacitación. 
-                  Si eres un relator de capacitación con experiencia y compromiso por compartir tu conocimiento, 
-                  te invitamos a formar parte de nuestro dinámico equipo de facilitadores.
-                </p>
-                <p>
-                  Para iniciar el proceso, te pedimos que completes nuestro formulario de contacto. 
-                  En él, podrás proporcionarnos información sobre tu experiencia, áreas de especialización 
-                  y cómo crees que puedes contribuir a nuestro equipo.
-                </p>
+
+              {/* Heading con gradiente + línea decorativa animada */}
+              <div
+                ref={heading.ref}
+                className={`mb-6 transition-all duration-700 ease-out ${heading.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-6'}`}
+              >
+                <h3 className="text-3xl font-extrabold uppercase tracking-tight bg-gradient-to-r from-blue-700 via-blue-500 to-indigo-500 bg-clip-text text-transparent drop-shadow-sm">
+                  Insecap Capacitación
+                </h3>
+                {/* Línea decorativa central */}
+                <div className="flex items-center justify-center gap-3 mt-3">
+                  <div className={`h-px bg-gradient-to-r from-transparent to-blue-400 transition-all duration-700 delay-200 ${heading.isVisible ? 'w-16 opacity-100' : 'w-0 opacity-0'}`} />
+                  <div className={`w-2.5 h-2.5 rounded-full bg-blue-500 transition-all duration-500 delay-300 ${heading.isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
+                  <div className={`w-1.5 h-1.5 rounded-full bg-indigo-400 transition-all duration-500 delay-400 ${heading.isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
+                  <div className={`w-1 h-1 rounded-full bg-blue-300 transition-all duration-500 delay-500 ${heading.isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
+                  <div className={`h-px bg-gradient-to-l from-transparent to-indigo-400 transition-all duration-700 delay-200 ${heading.isVisible ? 'w-16 opacity-100' : 'w-0 opacity-0'}`} />
+                </div>
+              </div>
+
+              <div className="space-y-5 max-w-3xl mx-auto">
+                {/* Párrafo 1 — con borde izquierdo y fondo suave */}
+                <div
+                  ref={p1.ref}
+                  className={`relative text-left bg-white/70 backdrop-blur-sm border-l-4 border-blue-500 pl-5 pr-6 py-4 rounded-r-2xl shadow-sm transition-all duration-700 ease-out delay-100 ${p1.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
+                >
+                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                    Estamos en constante búsqueda de talento apasionado por la enseñanza y la capacitación. 
+                    Si eres un relator de capacitación con experiencia y compromiso por compartir tu conocimiento, 
+                    te invitamos a formar parte de nuestro <span className="font-semibold text-blue-600">dinámico equipo de facilitadores</span>.
+                  </p>
+                </div>
+
+                {/* Párrafo 2 — igual pero espejo desde la derecha */}
+                <div
+                  ref={p2.ref}
+                  className={`relative text-left bg-white/70 backdrop-blur-sm border-r-4 border-indigo-400 pr-5 pl-6 py-4 rounded-l-2xl shadow-sm transition-all duration-700 ease-out delay-200 ${p2.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}
+                >
+                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                    Para iniciar el proceso, te pedimos que completes nuestro formulario de contacto. 
+                    En él, podrás proporcionarnos información sobre tu experiencia, <span className="font-semibold text-indigo-600">áreas de especialización</span> 
+                    {' '}y cómo crees que puedes contribuir a nuestro equipo.
+                  </p>
+                </div>
               </div>
             </div>
 

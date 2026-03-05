@@ -56,10 +56,18 @@ const ArticleDetail = () => {
     };
   }, [selectedImage]);
 
-  // Add click handlers to all images in the article content
+  // Add click handlers to all images in the article content + apply paragraph styles
   useEffect(() => {
     if (!articleContentRef.current) return;
 
+    // ── Párrafos: justificado + margen ──────────────────────────────────────
+    const paragraphs = articleContentRef.current.querySelectorAll('p');
+    paragraphs.forEach((p) => {
+      (p as HTMLElement).style.textAlign = 'justify';
+      (p as HTMLElement).style.marginBottom = '1.25rem';
+    });
+
+    // ── Imágenes: margen + click handler ────────────────────────────────────
     const images = articleContentRef.current.querySelectorAll('img');
     
     const handleImageClick = (e: Event) => {
@@ -72,6 +80,9 @@ const ArticleDetail = () => {
 
     images.forEach((img) => {
       img.style.cursor = 'pointer';
+      img.style.marginTop = '1.5rem';
+      img.style.marginBottom = '1.5rem';
+      img.style.borderRadius = '0.75rem';
       img.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
       img.addEventListener('click', handleImageClick);
       
@@ -299,7 +310,7 @@ const ArticleDetail = () => {
             
             <article 
               ref={articleContentRef}
-              className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-insecap-cyan prose-strong:text-foreground"
+              className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-insecap-cyan prose-strong:text-foreground article-body"
               dangerouslySetInnerHTML={{ __html: article.contentHtml }}
             />
           </div>
