@@ -3,6 +3,6 @@ import Clarity from "@microsoft/clarity";
 import App from "./App.tsx";
 import "./index.css";
 
-Clarity.init("vr6vp2at33");
+Clarity.init("vqiykaqr50");
 
 createRoot(document.getElementById("root")!).render(<App />);
