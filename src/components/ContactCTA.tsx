@@ -13,6 +13,18 @@ const ContactCTA = () => {
     getLiderComercial().then(setLider);
   }, []);
 
+  useEffect(() => {
+    const handler = (e: MessageEvent) => {
+      if (e.origin !== 'https://tms.insecap.cl') return;
+      if (e.data?.event === 'contacto_enviado') {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'contacto_enviado' });
+      }
+    };
+    window.addEventListener('message', handler);
+    return () => window.removeEventListener('message', handler);
+  }, []);
+
   return (
     <section id="contacto" className="py-16 lg:py-24 relative overflow-hidden">
       {/* Background Pattern */}
