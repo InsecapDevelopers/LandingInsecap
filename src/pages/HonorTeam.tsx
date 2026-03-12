@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Star, Award, Trophy, Coins, Gift } from 'lucide-react';
+import confetti from 'canvas-confetti';
+import { Trophy } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
@@ -56,6 +57,84 @@ const PodioSkeleton = () => (
   </div>
 );
 
+const platformConfig = [
+  { height: 'h-36', topColor: 'bg-yellow-400', bodyColor: 'bg-yellow-50 dark:bg-yellow-950/40', textColor: 'text-yellow-600 dark:text-yellow-400', ringColor: 'ring-2 ring-yellow-400', label: '1.er Lugar' },
+  { height: 'h-24', topColor: 'bg-slate-400', bodyColor: 'bg-slate-100 dark:bg-slate-800/40', textColor: 'text-slate-500 dark:text-slate-400', ringColor: 'ring-2 ring-slate-400', label: '2.do Lugar' },
+  { height: 'h-20', topColor: 'bg-amber-600', bodyColor: 'bg-amber-50 dark:bg-amber-950/40', textColor: 'text-amber-700 dark:text-amber-500', ringColor: 'ring-2 ring-amber-600', label: '3.er Lugar' },
+];
+
+const PodioMensual = ({ items }: { items: PodioInsecoinsItem[] }) => {
+  // Orden visual: 2do | 1ro | 3ro
+  const ordered = [items[1], items[0], items[2]].filter(Boolean);
+  const configIndex = (puesto: number) => puesto - 1;
+
+  return (
+    <div className="flex items-end justify-center gap-2 md:gap-4 px-4 pt-10 pb-0">
+      {ordered.map((item) => {
+        const cfg = platformConfig[configIndex(item.puesto)];
+        return (
+          <div key={item.puesto} className="flex flex-col items-center w-28 md:w-36">
+            {/* Avatar + Nombre */}
+            <div className="flex flex-col items-center mb-3">
+              <span className="text-2xl mb-1">{medalEmoji[item.puesto - 1]}</span>
+              {item.foto ? (
+                <img
+                  src={item.foto}
+                  alt={item.nombre}
+                  className={`w-16 h-16 md:w-20 md:h-20 rounded-full object-cover ${cfg.ringColor} shadow-md`}
+                />
+              ) : (
+                <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full bg-muted flex items-center justify-center text-xl font-bold ${cfg.ringColor} shadow-md`}>
+                  {item.nombre.charAt(0)}
+                </div>
+              )}
+              <p className="font-semibold text-foreground text-sm md:text-base leading-tight text-center mt-2 px-1 line-clamp-2">
+                {item.nombre}
+              </p>
+            </div>
+
+            {/* Plataforma */}
+            <div className={`w-full rounded-t-xl overflow-hidden shadow-lg ${cfg.height}`}>
+              {/* Franja superior de color */}
+              <div className={`${cfg.topColor} h-4`} />
+              {/* Cuerpo */}
+              <div className={`${cfg.bodyColor} flex-1 h-full flex items-center justify-center`}>
+                <span className={`text-3xl md:text-4xl font-black ${cfg.textColor} opacity-30 select-none`}>
+                  {item.puesto}
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+const shootStars = () => {
+  const defaults = {
+    spread: 360,
+    ticks: 60,
+    gravity: 0,
+    decay: 0.94,
+    startVelocity: 30,
+    colors: ['#FFE400', '#FFBD00', '#E89400', '#FFCA6C', '#FDFFB8'],
+  };
+  const shoot = () => {
+    confetti({ ...defaults, particleCount: 40, scalar: 1.2, shapes: ['star'] });
+    confetti({ ...defaults, particleCount: 10, scalar: 0.75, shapes: ['circle'] });
+  };
+  setTimeout(shoot, 0);
+  setTimeout(shoot, 120);
+  setTimeout(shoot, 250);
+};
+
+const shootCelebration = () => {
+  confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 }, colors: ['#3b82f6', '#06b6d4', '#8b5cf6', '#f59e0b', '#10b981'] });
+  setTimeout(() => confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#f59e0b', '#fbbf24', '#fde68a'] }), 200);
+  setTimeout(() => confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#3b82f6', '#06b6d4', '#8b5cf6'] }), 200);
+};
+
 const HonorTeam = () => {
   const [podio, setPodio] = useState<PodioItem[]>([]);
   const [loadingPodio, setLoadingPodio] = useState(true);
@@ -67,6 +146,14 @@ const HonorTeam = () => {
     getMuroFamaPodio().then((data) => { setPodio(data); setLoadingPodio(false); });
     getPodioInsecoins().then((data) => { setPodioInsecoins(data); setLoadingInsecoins(false); });
   }, []);
+
+  useEffect(() => {
+    if (!loadingPodio && podio.length > 0) shootStars();
+  }, [loadingPodio, podio.length]);
+
+  useEffect(() => {
+    if (!loadingInsecoins && podioInsecoins.length > 0) shootCelebration();
+  }, [loadingInsecoins, podioInsecoins.length]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -98,13 +185,42 @@ const HonorTeam = () => {
             </div>
 
             {/* Podio Muro de la Fama */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-lg p-6 bg-gradient-to-br from-secondary/5 to-primary/5">
+            <div className="relative rounded-2xl border border-border overflow-hidden shadow-xl bg-gradient-to-br from-primary/10 via-card to-secondary/10">
+              {/* Orbes decorativos de fondo */}
+              <div className="pointer-events-none absolute -top-16 -left-16 w-64 h-64 rounded-full bg-primary/10 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-16 -right-16 w-64 h-64 rounded-full bg-secondary/10 blur-3xl" />
+              <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 rounded-full bg-yellow-400/5 blur-2xl" />
               {loadingPodio && <PodioSkeleton />}
 
               {!loadingPodio && podio.length === 0 && (
-                <p className="text-center text-muted-foreground py-12">
-                  El podio se actualizará próximamente.
-                </p>
+                <div className="relative flex flex-col md:flex-row items-center justify-center gap-8 py-12 px-8">
+                  {/* Imagen mascota con halo animado */}
+                  <div className="relative flex-shrink-0">
+                    <div className="absolute inset-0 rounded-full bg-primary/20 blur-2xl scale-110 animate-pulse" />
+                    <img
+                      src="/Capin-14.png"
+                      alt="Capin pensando"
+                      className="relative w-52 md:w-64 object-contain drop-shadow-xl select-none"
+                    />
+                  </div>
+
+                  {/* Texto */}
+                  <div className="text-center md:text-left">
+                    {/* Badge animado */}
+                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-semibold uppercase tracking-widest mb-4 animate-pulse">
+                      <span className="w-2 h-2 rounded-full bg-primary inline-block" />
+                      En curso
+                    </span>
+                    <h3 className="text-2xl md:text-3xl font-black text-foreground mb-3 leading-tight">
+                      ¡Estamos en<br />
+                      <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">votaciones!</span> 🗳️
+                    </h3>
+                    <p className="text-muted-foreground text-base max-w-sm leading-relaxed">
+                      Próximamente conoceremos a los ganadores del mes.<br />
+                      <span className="font-medium text-foreground">¡Mantente atento a los resultados!</span>
+                    </p>
+                  </div>
+                </div>
               )}
 
               {!loadingPodio && podio.length > 0 && (
@@ -117,108 +233,30 @@ const HonorTeam = () => {
             </div>
           </section>
 
-          {/* Muro de la Felicidad Section */}
+          {/* Podio Mensual de Insecoins */}
           <section className="mb-20">
-            <div className="bg-gradient-to-r from-primary/10 via-background to-secondary/10 p-1 rounded-3xl mb-12">
-              <div className="bg-card rounded-[calc(1.5rem-1px)] p-8 md:p-12">
-                <div className="flex flex-col md:flex-row gap-10 items-center">
-                  <div className="flex-1">
-                    <h2 className="text-3xl font-bold text-foreground mb-6 flex items-center gap-3">
-                      <Star className="w-8 h-8 text-primary" />
-                      Muro de la Felicidad
-                    </h2>
-                    <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                      En Insecap estrenamos un espacio interno para reconocer el talento y la colaboración de relatores, coordinadores y colaboradores: el <strong>Muro de la Felicidad</strong>.
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div className="flex items-start gap-4">
-                        <div className="p-3 bg-primary/10 rounded-xl">
-                          <Star className="w-6 h-6 text-primary" />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-foreground">5 Estrellas</h4>
-                          <p className="text-sm text-muted-foreground">Cada trabajador recibe 5 estrellas al mes para donar.</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-4">
-                        <div className="p-3 bg-secondary/10 rounded-xl">
-                          <Coins className="w-6 h-6 text-secondary" />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-foreground">Insecoins</h4>
-                          <p className="text-sm text-muted-foreground">Cada estrella son 10 Insecoins canjeables por premios.</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-4">
-                        <div className="p-3 bg-accent/10 rounded-xl">
-                          <Gift className="w-6 h-6 text-accent" />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-foreground">Premios</h4>
-                          <p className="text-sm text-muted-foreground">Pizza, donas, cine, días libres y más beneficios.</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-4">
-                        <div className="p-3 bg-primary/10 rounded-xl">
-                          <Award className="w-6 h-6 text-primary" />
-                        </div>
-                        <div>
-                          <h4 className="font-bold text-foreground">Reconocimiento</h4>
-                          <p className="text-sm text-muted-foreground">Potenciamos la cultura de gratitud y apoyo mutuo.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full md:w-80">
-                    <div className="bg-background rounded-2xl p-6 border border-border shadow-inner">
-                      <h4 className="font-bold text-foreground mb-1 text-center">Podio Mensual</h4>
-                      <p className="text-xs text-muted-foreground text-center mb-4">Top 3 · más Insecoins del mes</p>
+            <h2 className="text-3xl font-bold text-foreground mb-4 flex items-center gap-3">
+              <Trophy className="w-8 h-8 text-primary" />
+              Muro de la Felicidad
+            </h2>
+            <div className="relative rounded-2xl border border-border overflow-hidden shadow-xl bg-gradient-to-br from-primary/10 via-card to-secondary/10">
+              {/* Orbes decorativos de fondo */}
+              <div className="pointer-events-none absolute -top-16 -left-16 w-64 h-64 rounded-full bg-yellow-400/10 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-16 -right-16 w-64 h-64 rounded-full bg-secondary/10 blur-3xl" />
+              <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 rounded-full bg-primary/5 blur-2xl" />
 
-                      {loadingInsecoins && (
-                        <div className="space-y-3">
-                          {[0,1,2].map(i => (
-                            <div key={i} className="flex items-center gap-3 animate-pulse">
-                              <div className="w-8 h-8 rounded-full bg-muted flex-shrink-0" />
-                              <div className="h-3 w-28 rounded bg-muted" />
-                              <div className="ml-auto h-3 w-10 rounded bg-muted" />
-                            </div>
-                          ))}
-                        </div>
-                      )}
+              {loadingInsecoins && <PodioSkeleton />}
 
-                      {!loadingInsecoins && podioInsecoins.length === 0 && (
-                        <div className="text-center py-4">
-                          <Trophy className="w-10 h-10 text-muted-foreground/30 mx-auto mb-2" />
-                          <p className="text-xs text-muted-foreground">Sin datos aún</p>
-                        </div>
-                      )}
+              {!loadingInsecoins && podioInsecoins.length === 0 && (
+                <p className="text-center text-muted-foreground py-12">
+                  El podio mensual se actualizará próximamente.
+                </p>
+              )}
 
-                      {!loadingInsecoins && podioInsecoins.length > 0 && (
-                        <ol className="space-y-3">
-                          {podioInsecoins.map((item) => (
-                            <li key={item.puesto} className="flex items-center gap-3">
-                              <span className="text-lg w-6 text-center flex-shrink-0">
-                                {['🥇','🥈','🥉'][item.puesto - 1] ?? item.puesto}
-                              </span>
-                              {item.foto ? (
-                                <img src={item.foto} alt={item.nombre} className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                              ) : (
-                                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-bold flex-shrink-0">
-                                  {item.nombre.charAt(0)}
-                                </div>
-                              )}
-                              <span className="text-sm text-foreground truncate flex-1">{item.nombre}</span>
-                              <span className="text-xs font-semibold text-primary flex-shrink-0">{item.totalInsecoins} 🪙</span>
-                            </li>
-                          ))}
-                        </ol>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {!loadingInsecoins && podioInsecoins.length > 0 && (
+                <PodioMensual items={podioInsecoins} />
+              )}
             </div>
-
           </section>
         </div>
       </main>
