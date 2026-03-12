@@ -119,6 +119,7 @@ const Header = () => {
                 {item.isLink ? (
                   <Link
                     to={item.href}
+                    onClick={() => { if (item.href === '/') window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                     className={`text-primary-foreground/90 hover:text-primary-foreground flex items-center gap-1 py-2 font-medium transition-all duration-300 ${isAtTop ? 'text-sm' : 'text-xs'
                       }`}
                   >
@@ -248,7 +249,10 @@ const Header = () => {
                     <Link
                       to={item.href}
                       className="block py-3 text-primary-foreground/90 hover:text-primary-foreground flex-grow"
-                      onClick={() => !item.dropdown && setIsMenuOpen(false)}
+                      onClick={() => {
+                        if (item.href === '/') window.scrollTo({ top: 0, behavior: 'smooth' });
+                        if (!item.dropdown) setIsMenuOpen(false);
+                      }}
                     >
                       {item.label}
                     </Link>

@@ -20,7 +20,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import SEO from '@/components/SEO';
-import ContactCTA from '@/components/ContactCTA';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
 import { getYearsOfExperience } from '@/lib/insecapUtils';
 import {
@@ -525,7 +524,6 @@ const ExperienciaYRespaldo = () => {
           </div>
         </section>
 
-        <ContactCTA />
       </main>
 
       <Footer />
