@@ -107,9 +107,15 @@ const teamByArea: TeamArea[] = [
     members: [
       {
         name: 'Liliana Herrera Altamirano',
-        role: 'LIDER DE DISEÑO DE CURSOS',
+        role: 'LIDER DE DESARRLLO DE CURSOS',
         email: 'lherrera@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lili.webp?v=1769089386'
+      },
+      {
+        name: 'Viviana Zepeda Santibañez',
+        role: 'LIDER DE DISEÑO DE CURSOS',
+        email: 'vzepeda@insecap.cl',
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Viviana_b5905a1a-d870-49a9-a502-f747011f3395.webp?v=1773348370',
       },
       {
         name: 'César Velásquez Mata',
@@ -180,7 +186,7 @@ const teamByArea: TeamArea[] = [
         name: 'Nicolás Aguilar Monardes',
         role: 'COORDINACIÓN LOGÍSTICA',
         email: 'naguilar@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NicoA_543c82f6-186b-4bbb-90bf-acc011a13e5b.webp?v=1769089936'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NicoA_543c82f6-186b-4bbb-90bf-acc011a13e5b.webp?v=1773348098'
       },
     ]
   },
@@ -209,7 +215,7 @@ const teamByArea: TeamArea[] = [
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ana_Avalos_v2_ultraliviano.webp?v=1770235241'
       },
       {
-        name: 'Karen Viatela',
+        name: 'Karen Viatela Montoya',
         role: 'MANTENCIÓN',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karen_Viatela_4c04986b-8cdf-4129-8c28-d9eb07f437aa.webp?v=1773343569'
       },
