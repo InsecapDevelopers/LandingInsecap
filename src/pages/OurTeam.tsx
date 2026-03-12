@@ -75,7 +75,7 @@ const teamByArea: TeamArea[] = [
         name: 'Natalie Galván Sierra',
         role: 'ASESOR COMERCIAL',
         email: 'ngalvan@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NatalieG-1-600x657.jpg?v=1768566222'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NatalieGalvanv2-ezgif.com-video-to-webp-converter.webp?v=1773344345'
       },
     ]
   },
@@ -207,6 +207,11 @@ const teamByArea: TeamArea[] = [
         name: 'Ana Avalos Paz',
         role: 'MANTENCIÓN',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ana_Avalos_v2_ultraliviano.webp?v=1770235241'
+      },
+      {
+        name: 'Karen Viatela',
+        role: 'MANTENCIÓN',
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karen_Viatela_4c04986b-8cdf-4129-8c28-d9eb07f437aa.webp?v=1773343569'
       },
     ]
   },

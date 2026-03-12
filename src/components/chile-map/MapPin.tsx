@@ -6,6 +6,7 @@ interface MapPinProps {
   y: number;
   label: string;
   isActive: boolean;
+  labelAbove?: boolean;
   onClick: () => void;
   onMouseEnter: (e: React.MouseEvent<SVGGElement>) => void;
   onMouseLeave: () => void;
@@ -16,10 +17,21 @@ const MapPin: React.FC<MapPinProps> = ({
   y,
   label,
   isActive,
+  labelAbove = false,
   onClick,
   onMouseEnter,
   onMouseLeave,
 }) => {
+  const fontSize = isActive ? 18 : 16;
+  // Estimate text width (chars * ~9px per char at fontSize 16)
+  const textWidth = label.length * fontSize * 0.58 + 16;
+  const textHeight = fontSize + 8;
+  const lineLen = 22;
+  const labelY = labelAbove
+    ? y - lineLen - textHeight / 2
+    : y + lineLen + textHeight / 2;
+  const lineY2 = labelAbove ? y - lineLen : y + lineLen;
+
   return (
     <g
       className="cursor-pointer"
@@ -60,17 +72,36 @@ const MapPin: React.FC<MapPinProps> = ({
           filter: isActive ? 'drop-shadow(0 0 8px rgba(35,183,199,0.6))' : 'drop-shadow(0 0 4px rgba(35,183,199,0.3))',
         }}
       />
-      {/* Label */}
+      {/* Connector line */}
+      <line
+        x1={x}
+        y1={y}
+        x2={x}
+        y2={lineY2}
+        stroke="rgba(255,255,255,0.6)"
+        strokeWidth={1.5}
+        className="pointer-events-none"
+      />
+      {/* Label background */}
+      <rect
+        x={x - textWidth / 2}
+        y={labelY - textHeight / 2}
+        width={textWidth}
+        height={textHeight}
+        rx={5}
+        ry={5}
+        fill="rgba(36,55,120,0.82)"
+        className="pointer-events-none"
+      />
+      {/* Label text */}
       <text
-        x={x + 24}
-        y={y + 8}
+        x={x}
+        y={labelY + fontSize * 0.35}
         fill="#ffffff"
-        fontSize={isActive ? 22 : 20}
-        fontWeight={isActive ? 700 : 500}
+        fontSize={fontSize}
+        fontWeight={isActive ? 700 : 600}
+        textAnchor="middle"
         className="pointer-events-none select-none"
-        style={{
-          textShadow: '0 1px 4px rgba(0,0,0,0.7)',
-        }}
       >
         {label}
       </text>

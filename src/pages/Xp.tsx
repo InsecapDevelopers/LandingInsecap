@@ -32,6 +32,7 @@ import {
 } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { ShineBorder } from '@/components/ui/shine-border';
+import { WarpBackground } from '@/components/ui/warp-background';
 
 const ExperienciaYRespaldo = () => {
   // Contadores animados para la card de estadísticas
@@ -432,27 +433,46 @@ const ExperienciaYRespaldo = () => {
                   className="w-full"
                 >
                   <CarouselContent className="-ml-4">
-                    {valoresTecnicos.map((valor, index) => (
-                      <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                        <div className="h-full bg-white p-8 rounded-3xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden flex flex-col">
-                          <ShineBorder
-                            shineColor={['#2563eb', '#60a5fa', '#1d4ed8']}
-                            borderWidth={2}
-                            duration={10}
-                          />
-                          {valor.highlight && (
-                            <div className="absolute top-4 right-4">
-                              <Sparkles className="w-5 h-5 text-yellow-500" />
-                            </div>
-                          )}
-                          <div className="bg-secondary/10 p-3 rounded-xl w-fit mb-6 group-hover:bg-secondary/20 transition-colors">
-                            {valor.icon}
-                          </div>
-                          <h3 className="text-xl font-bold text-blue-950 mb-3">{valor.title}</h3>
-                          <p className="text-gray-500 text-sm leading-relaxed flex-1">{valor.description}</p>
-                        </div>
-                      </CarouselItem>
-                    ))}
+                    {valoresTecnicos.map((valor, index) => {
+                        const palettes = [
+                          { from: 'from-white', to: 'to-blue-50/60', accent: 'bg-blue-600', ring: 'ring-blue-100', shine: ['#2563eb', '#93c5fd', '#bfdbfe'] as [string, string, string], iconBg: 'bg-blue-600/8', iconHover: 'group-hover:bg-blue-600/15', top: 'from-blue-600 to-blue-400', shadow: 'hover:shadow-blue-100/60' },
+                          { from: 'from-white', to: 'to-sky-50/60', accent: 'bg-sky-500', ring: 'ring-sky-100', shine: ['#0284c7', '#7dd3fc', '#bae6fd'] as [string, string, string], iconBg: 'bg-sky-500/8', iconHover: 'group-hover:bg-sky-500/15', top: 'from-sky-500 to-cyan-400', shadow: 'hover:shadow-sky-100/60' },
+                          { from: 'from-white', to: 'to-indigo-50/60', accent: 'bg-indigo-600', ring: 'ring-indigo-100', shine: ['#4338ca', '#a5b4fc', '#c7d2fe'] as [string, string, string], iconBg: 'bg-indigo-600/8', iconHover: 'group-hover:bg-indigo-600/15', top: 'from-indigo-600 to-blue-400', shadow: 'hover:shadow-indigo-100/60' },
+                          { from: 'from-white', to: 'to-cyan-50/60', accent: 'bg-cyan-600', ring: 'ring-cyan-100', shine: ['#0891b2', '#67e8f9', '#a5f3fc'] as [string, string, string], iconBg: 'bg-cyan-600/8', iconHover: 'group-hover:bg-cyan-600/15', top: 'from-cyan-600 to-sky-400', shadow: 'hover:shadow-cyan-100/60' },
+                          { from: 'from-white', to: 'to-blue-50/60', accent: 'bg-blue-500', ring: 'ring-blue-100', shine: ['#3b82f6', '#93c5fd', '#dbeafe'] as [string, string, string], iconBg: 'bg-blue-500/8', iconHover: 'group-hover:bg-blue-500/15', top: 'from-blue-500 to-cyan-400', shadow: 'hover:shadow-blue-100/60' },
+                          { from: 'from-white', to: 'to-sky-50/60', accent: 'bg-sky-600', ring: 'ring-sky-100', shine: ['#0369a1', '#38bdf8', '#bae6fd'] as [string, string, string], iconBg: 'bg-sky-600/8', iconHover: 'group-hover:bg-sky-600/15', top: 'from-sky-600 to-blue-400', shadow: 'hover:shadow-sky-100/60' },
+                        ];
+                        const p = palettes[index % palettes.length];
+                        return (
+                          <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                            <WarpBackground
+                              className={`h-full rounded-3xl border-0 p-0 bg-gradient-to-br ${p.from} ${p.to} shadow-md ${p.shadow} hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group overflow-hidden`}
+                              beamsPerSide={2}
+                              beamSize={8}
+                              beamDuration={4}
+                              beamDelayMax={2}
+                              gridColor="rgba(0,0,0,0.06)"
+                            >
+                              <div className="relative flex flex-col h-full p-8">
+                              {/* Franja superior de color */}
+                              <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${p.top} rounded-t-3xl`} />
+                              {/* Orbe decorativo de fondo */}
+                              <div className={`pointer-events-none absolute -bottom-8 -right-8 w-32 h-32 rounded-full ${p.accent} opacity-10 blur-2xl`} />
+                              {valor.highlight && (
+                                <div className="absolute top-4 right-4">
+                                  <Sparkles className="w-5 h-5 text-yellow-500 drop-shadow" />
+                                </div>
+                              )}
+                              <div className={`${p.iconBg} ${p.iconHover} p-3 rounded-xl w-fit mb-6 transition-colors ring-1 ${p.ring}`}>
+                                {valor.icon}
+                              </div>
+                              <h3 className="text-xl font-bold text-blue-950 mb-3">{valor.title}</h3>
+                              <p className="text-gray-600 text-sm leading-relaxed flex-1 text-justify">{valor.description}</p>
+                              </div>
+                            </WarpBackground>
+                          </CarouselItem>
+                        );
+                      })}
                   </CarouselContent>
                   <div className="flex justify-center gap-3 mt-8">
                     <CarouselPrevious className="static translate-y-0 bg-white border-slate-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors" />

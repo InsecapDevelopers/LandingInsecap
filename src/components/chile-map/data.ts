@@ -83,12 +83,13 @@ export const regiones: Region[] = [
     color: '#3C4F97',
     colorHover: '#4D63B8',
     colorActive: '#5A73D1',
-    tipo: 'virtual',
+    tipo: 'ambas',
     sedes: [
       { nombre: 'Sede Virtual Atacama', direccion: 'Capacitacion online', ciudad: 'Copiapó', tipo: 'virtual' },
+      { nombre: 'Sucursal Vallenar', direccion: 'Río del Tránsito 1546, Villa Vista Hermosa', ciudad: 'Vallenar', tipo: 'fisica' },
     ],
-    pinX: 520.6,
-    pinY: 238.8,
+    pinX: 516,
+    pinY: 262,
   },
   {
     id: 'coquimbo',
@@ -207,6 +208,17 @@ export const sedeLocations: SedeLocation[] = [
     pinX: 506,
     pinY: 368.5,
   },
+  {
+    id: 'vallenar',
+    nombre: 'Sucursal Vallenar',
+    ciudad: 'Vallenar',
+    direccion: 'Río del Tránsito 1546, Villa Vista Hermosa',
+    telefono: '+56 9 3596 8585',
+    tipo: 'fisica',
+    regionId: 'atacama',
+    pinX: 516,
+    pinY: 262,
+  },
   // ── Sedes Virtuales ──
   {
     id: 'virtual-arica',
@@ -252,17 +264,7 @@ export const sedeLocations: SedeLocation[] = [
     pinX: 520.6,
     pinY: 238.8,
   },
-  {
-    id: 'virtual-vallenar',
-    nombre: 'Sucursal Vallenar',
-    ciudad: 'Vallenar',
-    direccion: 'Río del Tránsito 1546, Villa Vista Hermosa',
-    telefono: '+56 9 3596 8585',
-    tipo: 'virtual',
-    regionId: 'atacama',
-    pinX: 516,
-    pinY: 262,
-  },
+
   {
     id: 'virtual-salamanca',
     nombre: 'Sede Virtual Salamanca',

@@ -96,7 +96,7 @@ const ChileMap: React.FC<ChileMapProps> = ({
         {/* Sede pins based on mode */}
         {mode === 'fisicas'
           ? /* Physical: MapPin with pulsing animation */
-            filteredSedes.map((sede) => {
+            filteredSedes.map((sede, index) => {
               const pos = transformCoord(sede.pinX, sede.pinY);
               return (
                 <MapPin
@@ -105,6 +105,7 @@ const ChileMap: React.FC<ChileMapProps> = ({
                   y={pos.y}
                   label={sede.ciudad}
                   isActive={hoveredSede === sede.id}
+                  labelAbove={index % 2 === 0}
                   onClick={() => {}}
                   onMouseEnter={(e) => onSedeHover(sede.id, e.clientX, e.clientY)}
                   onMouseLeave={() => onSedeHover(null)}
