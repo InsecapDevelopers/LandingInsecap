@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Users, Monitor, Video, MapPin, CheckCircle2 } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -18,17 +18,18 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-
 const antofagastaImages = [
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede-Antofagasta-web.jpg?v=1768245326",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_4089-scaled-ppg1t52i12b8u8cridhak6cq62cdjqkpr69u9a0oqo.jpg?v=1769177894",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_4072-scaled-ppg1t52i12b8u8cridhak6cq62cdjqkpr69u9a0oqo.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_3690-scaled-ppg1t52i12b8u8cridhak6cq62cdjqkpr69u9a0oqo.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_3949-scaled-ppg1t52i12b8u8cridhak6cq62cdjqkpr69u9a0oqo.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_3841-scaled-ppg1t52i12b8u8cridhak6cq62cdjqkpr69u9a0oqo.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_4042-scaled-ppg1t52i12b8u8cridhak6cq62cdjqkpr69u9a0oqo.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_3775-scaled-ppg1t52i12b8u8cridhak6cq62cdjqkpr69u9a0oqo.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_3738-scaled-ppg1t52i12b8u8cridhak6cq62cdjqkpr69u9a0oqo.jpg?v=1769177894"
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede-Antofagasta_2025.jpg?v=1773425188",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2026-01-19-at-09.32.40.jpg?v=1773425188",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sala-2-Antofa_1675-scaled.jpg?v=1773425188",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2026-01-21-at-09.11.04.jpg?v=1773425188",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2026-01-16-at-16.11.18.jpg?v=1773425188",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sala-1-Antofa_1638-scaled.jpg?v=1773425188",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2025-11-10-at-17.23.41-1.jpg?v=1773425189",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Presencialt-092031.jpg?v=1773425188",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_1593-scaled.jpg?v=1773425189",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Gemini_Generated_Image_2s9gzo2s9gzo2s9g_18cf6377-0427-4e98-9eda-c5a212cb6e03.png?v=1773425190",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Gemini_Generated_Image_fhyf58fhyf58fhyf_348fb4bf-e08f-4152-8505-b6643fa9ac81.png?v=1773425190",
 ];
 
 const santiagoImages = [
@@ -38,16 +39,124 @@ const santiagoImages = [
 ];
 
 const calamaImages = [
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/sede-calama.jpg?v=1768245410",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_5579-scaled-ppg1uafedrvv12oosvcvlvx0b0oiyf4wkuz7dgbd4w.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_5628-scaled-ppg1uafedrvv12oosvcvlvx0b0oiyf4wkuz7dgbd4w.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_5647-scaled-ppg1ubd8klx5conbndri6dogwejw648mwzmouq9yyo.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_5664-scaled-ppg1ubd8klx5conbndri6dogwejw648mwzmouq9yyo.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_5672-scaled-ppg1ubd8klx5conbndri6dogwejw648mwzmouq9yyo.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_5700-scaled-ppg1ubd8klx5conbndri6dogwejw648mwzmouq9yyo.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_5720-scaled-ppg1ucb2rfyfoalyhw64qvfxhsf9dtcd94a6c08ksg.jpg?v=1769177893",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DSC_5728-scaled-ppg1ucb2rfyfoalyhw64qvfxhsf9dtcd94a6c08ksg.jpg?v=1769177893"
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede-Cascada-M-scaled.jpg?v=1773424088",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GHorquilla3675_web.jpg?v=1773345899",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Toconao-13.59.37.jpg?v=1773424087",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2025-11-08-at-09.58.59.jpg?v=1773424087",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Presencial-095357.jpg?v=1773424087",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Salon-Break-104615.jpg?v=1773424087",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sala-Zen135934-1.jpg?v=1773424087",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/San-Pedro-124306-6.jpg?v=1773424088",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lasana-IMG_3964-scaled.jpg?v=1773424088",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Caspana-IMG_3949-scaled.jpg?v=1773424088",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Presencial-094101.jpg?v=1773424088",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Toconce-IMG_3603-scaled.jpg?v=1773424088",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GHorquilla3675_web_6f410fbf-8a24-4820-bfc2-acf479adc4ca.jpg?v=1773424088",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Computacion-IMG_3527-scaled.jpg?v=1773424088",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Simulador-Cabina-173107-7.jpg?v=1773424088",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Soldadura-1009177.jpg?v=1773424089",
 ];
+
+// ─── Lightbox compartido para todas las sedes ────────────────────────────────
+const ExpandIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4 8V6a2 2 0 012-2h2M4 16v2a2 2 0 002 2h2m8-16h2a2 2 0 012 2v2m0 8v2a2 2 0 01-2 2h-2" />
+  </svg>
+);
+
+interface SedeGalleryProps {
+  images: string[];
+  label: string;
+  index: number;
+  setIndex: (i: number) => void;
+  onClose: () => void;
+}
+
+const SedeGallery = ({ images, label, index, setIndex, onClose }: SedeGalleryProps) => {
+  const prev = () => setIndex((index - 1 + images.length) % images.length);
+  const next = () => setIndex((index + 1) % images.length);
+
+  return (
+    <div
+      className="fixed inset-0 z-[60] flex flex-col bg-black/90"
+      onClick={onClose}
+    >
+      {/* Barra superior: fija */}
+      <div
+        className="shrink-0 flex items-center justify-between px-6 py-3"
+        onClick={e => e.stopPropagation()}
+      >
+        <span className="text-white/60 text-sm font-medium tracking-wide">Sede {label}</span>
+        <span className="text-white/50 text-sm tabular-nums">{index + 1} / {images.length}</span>
+        <button
+          onClick={onClose}
+          aria-label="Cerrar"
+          className="text-white/70 hover:text-white transition-colors ml-4"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Área de imagen: ocupa todo el espacio disponible */}
+      <div
+        className="flex-1 flex items-center justify-center px-12 overflow-hidden min-h-0"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="relative w-full max-w-5xl h-full flex items-center justify-center">
+          {/* Botón anterior */}
+          <button
+            onClick={prev}
+            aria-label="Anterior"
+            className="absolute left-0 z-10 p-2 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors -translate-x-10"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          <img
+            key={index}
+            src={images[index]}
+            alt={`${label} ${index + 1}`}
+            className="max-h-full max-w-full object-contain rounded-2xl shadow-2xl"
+            style={{ maxHeight: '100%', maxWidth: '100%' }}
+          />
+
+          {/* Botón siguiente */}
+          <button
+            onClick={next}
+            aria-label="Siguiente"
+            className="absolute right-0 z-10 p-2 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors translate-x-10"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Tira de miniaturas: fija al fondo */}
+      <div
+        className="shrink-0 flex gap-2 justify-center overflow-x-auto py-3 px-4"
+        style={{ height: '72px' }}
+        onClick={e => e.stopPropagation()}
+      >
+        {images.map((src, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            className={`shrink-0 w-14 h-full rounded-lg overflow-hidden border-2 transition-all ${i === index ? 'border-white opacity-100' : 'border-transparent opacity-40 hover:opacity-75'}`}
+          >
+            <img src={src} alt={`Miniatura ${i + 1}`} className="w-full h-full object-cover" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+// ─────────────────────────────────────────────────────────────────────────────
 
 const AboutUs = () => {
   // Animaciones de scroll
@@ -58,6 +167,10 @@ const AboutUs = () => {
   const sedeAntofCarousel = useScrollAnimation({ threshold: 0.15 });
   const sedeCalamaText = useScrollAnimation({ threshold: 0.15 });
   const sedeCalamaCarousel = useScrollAnimation({ threshold: 0.15 });
+  const [antofLightbox, setAntofLightbox] = useState<{ open: boolean; index: number }>({ open: false, index: 0 });
+  const [calamaLightbox, setCalamaLightbox] = useState<{ open: boolean; index: number }>({ open: false, index: 0 });
+  const [santiagoLightbox, setSantiagoLightbox] = useState<{ open: boolean; index: number }>({ open: false, index: 0 });
+
   const sedeSantiagoText = useScrollAnimation({ threshold: 0.15 });
   const sedeSantiagoCarousel = useScrollAnimation({ threshold: 0.15 });
   const sedeVirtualSection = useScrollAnimation({ threshold: 0.1 });
@@ -217,6 +330,15 @@ const AboutUs = () => {
                   <CarouselPrevious />
                   <CarouselNext />
                 </Carousel>
+                <div className="flex justify-center mt-4">
+                  <button
+                    onClick={() => setAntofLightbox({ open: true, index: 0 })}
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 8V6a2 2 0 012-2h2M4 16v2a2 2 0 002 2h2m8-16h2a2 2 0 012 2v2m0 8v2a2 2 0 01-2 2h-2" /></svg>
+                    Expandir
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -246,6 +368,15 @@ const AboutUs = () => {
                   <CarouselPrevious />
                   <CarouselNext />
                 </Carousel>
+                <div className="flex justify-center mt-4">
+                  <button
+                    onClick={() => setCalamaLightbox({ open: true, index: 0 })}
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 8V6a2 2 0 012-2h2M4 16v2a2 2 0 002 2h2m8-16h2a2 2 0 012 2v2m0 8v2a2 2 0 01-2 2h-2" /></svg>
+                    Expandir
+                  </button>
+                </div>
               </div>
               <div
                 ref={sedeCalamaText.ref}
@@ -353,6 +484,15 @@ const AboutUs = () => {
                   <CarouselPrevious />
                   <CarouselNext />
                 </Carousel>
+                <div className="flex justify-center mt-4">
+                  <button
+                    onClick={() => setSantiagoLightbox({ open: true, index: 0 })}
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 8V6a2 2 0 012-2h2M4 16v2a2 2 0 002 2h2m8-16h2a2 2 0 012 2v2m0 8v2a2 2 0 01-2 2h-2" /></svg>
+                    Expandir
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -415,6 +555,39 @@ const AboutUs = () => {
           </div>
         </section>
       </main>
+
+      {/* Lightbox Antofagasta */}
+      {antofLightbox.open && (
+        <SedeGallery
+          images={antofagastaImages}
+          label="Antofagasta"
+          index={antofLightbox.index}
+          setIndex={i => setAntofLightbox(prev => ({ ...prev, index: i }))}
+          onClose={() => setAntofLightbox({ open: false, index: 0 })}
+        />
+      )}
+
+      {/* Lightbox Calama */}
+      {calamaLightbox.open && (
+        <SedeGallery
+          images={calamaImages}
+          label="Calama"
+          index={calamaLightbox.index}
+          setIndex={i => setCalamaLightbox(prev => ({ ...prev, index: i }))}
+          onClose={() => setCalamaLightbox({ open: false, index: 0 })}
+        />
+      )}
+
+      {/* Lightbox Santiago */}
+      {santiagoLightbox.open && (
+        <SedeGallery
+          images={santiagoImages}
+          label="Santiago"
+          index={santiagoLightbox.index}
+          setIndex={i => setSantiagoLightbox(prev => ({ ...prev, index: i }))}
+          onClose={() => setSantiagoLightbox({ open: false, index: 0 })}
+        />
+      )}
 
       <Footer />
     </div>
