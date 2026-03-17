@@ -176,7 +176,7 @@ const Hero = () => {
         suffix: '',
       },
       {
-        h1: 'Capacitación alineada a los desafíos de tu industria',
+        h1: 'Capacitación alineada a los desafíos de la industria',
         h2: 'Diseñamos programas para minería, energía, infraestructura, logística y sectores productivos que requieren desempeño y cumplimiento permanente.',
         prefix: 'Acompañando tu empresa a',
         words: ['crecer', 'optimizar', 'desarrollar talento', 'mejorar estándares'],

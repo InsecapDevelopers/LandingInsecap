@@ -239,6 +239,14 @@ const HonorTeam = () => {
               <Trophy className="w-8 h-8 text-primary" />
               Muro de la Felicidad
             </h2>
+            <div className="prose prose-blue max-w-none text-muted-foreground mb-8">
+              <p className="text-justify leading-relaxed">
+                El <strong>"Muro de la Felicidad"</strong> en INSECAP es un espacio destinado a fomentar el bienestar,
+                la actitud positiva y la cohesión entre personal interno y Facilitadores. Su objetivo es promover la
+                expresión de gratitud, logros, mensajes de apoyo y pequeñas celebraciones que contribuyan al clima
+                emocional positivo de la comunidad educativa de INSECAP.
+              </p>
+            </div>
             <div className="relative rounded-2xl border border-border overflow-hidden shadow-xl bg-gradient-to-br from-primary/10 via-card to-secondary/10">
               {/* Orbes decorativos de fondo */}
               <div className="pointer-events-none absolute -top-16 -left-16 w-64 h-64 rounded-full bg-yellow-400/10 blur-3xl" />
