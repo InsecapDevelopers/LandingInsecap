@@ -54,7 +54,9 @@ function PhoneMockup({ children }: { children: React.ReactNode }) {
 function AppStoreBadge() {
   return (
     <a
-      href="#"
+      href={import.meta.env.VITE_URL_APPSTORE || "#"}
+      target="_blank"
+      rel="noopener noreferrer"
       className="inline-flex items-center gap-2 bg-black text-white rounded-lg px-5 py-2.5 hover:bg-gray-800 transition-colors"
     >
       <Apple className="w-7 h-7" />
@@ -69,7 +71,7 @@ function AppStoreBadge() {
 function GooglePlayBadge() {
   return (
     <a
-      href="https://play.google.com/store/apps/details?id=com.insecap.relatoresya&pcampaignid=web_share"
+      href={import.meta.env.VITE_URL_PLAYSTORE || "https://play.google.com/store/apps/details?id=com.insecap.relatoresya&pcampaignid=web_share"}
       target="_blank"
       rel="noopener noreferrer"
       className="inline-flex items-center gap-2 bg-black text-white rounded-lg px-5 py-2.5 hover:bg-gray-800 transition-colors"
