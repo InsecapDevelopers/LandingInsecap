@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import PageHero from '@/components/PageHero';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
 import { Meteors } from '@/components/ui/meteors';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 // Tipos
 interface TeamMember {
@@ -278,7 +279,7 @@ const getInitials = (name: string): string => {
 };
 
 // Componente de tarjeta de miembro — glassmorphism + reveal overlay
-const MemberCard = ({ member, delay = 0 }: { member: TeamMember; delay?: number }) => {
+const MemberCard = ({ member, delay = 0, contactLabel }: { member: TeamMember; delay?: number; contactLabel: string }) => {
   return (
     <div
       className="group relative rounded-3xl overflow-hidden cursor-default"
@@ -321,7 +322,7 @@ const MemberCard = ({ member, delay = 0 }: { member: TeamMember; delay?: number 
               className="inline-flex items-center gap-2 bg-white/90 hover:bg-white text-[#485CC7] px-4 py-2 rounded-full font-semibold text-xs transition-all duration-200 hover:scale-105 shadow-lg"
             >
               <Mail className="w-3.5 h-3.5" />
-              Contactar
+              {contactLabel}
             </a>
           )}
         </div>
@@ -341,7 +342,7 @@ const MemberCard = ({ member, delay = 0 }: { member: TeamMember; delay?: number 
 };
 
 // Sub-componente por área con scroll animation propio
-const AreaSection = ({ area }: { area: TeamArea }) => {
+const AreaSection = ({ area, contactLabel }: { area: TeamArea; contactLabel: string }) => {
   const anim = useStaggerAnimation({ threshold: 0.12 });
   const headerAnim = useScrollAnimation({ threshold: 0.2 });
   return (
@@ -360,7 +361,7 @@ const AreaSection = ({ area }: { area: TeamArea }) => {
             className={`transition-all duration-500 ease-out ${anim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             style={{ transitionDelay: anim.isVisible ? `${i * 80}ms` : '0ms' }}
           >
-            <MemberCard member={member} />
+            <MemberCard member={member} contactLabel={contactLabel} />
           </div>
         ))}
       </div>
@@ -369,9 +370,39 @@ const AreaSection = ({ area }: { area: TeamArea }) => {
 };
 
 const OurTeam = () => {
+  const { locale } = useLocalizedPath();
   const introAnim    = useScrollAnimation({ threshold: 0.2 });
   const descAnim     = useScrollAnimation({ threshold: 0.15 });
   const gerenciaAnim = useStaggerAnimation({ threshold: 0.15 });
+
+  const content = {
+    es: {
+      title: 'Nuestro Equipo', subtitle: 'Nosotros', breadcrumb: 'Nuestro Equipo', label: 'Equipo Insecap', growing: 'Creciendo Juntos', intro: 'Equipo multidisciplinario encargado de dar soluciones de calidad', welcome: 'Bienvenidos a Insecap!', paragraph1: 'Somos una empresa de capacitacion especializada en brindar soluciones integrales a la industria minera, con un enfoque en el desarrollo del capital humano. Contamos con un equipo multidisciplinario de expertos altamente capacitados en diversas areas, lo que nos permite ofrecer programas personalizados y adaptados a las necesidades de cada cliente.', paragraph2: 'Nuestro equipo esta conformado por profesionales con amplia experiencia en ingenieria, seguridad y salud ocupacional, gestion de recursos humanos y mas. Esa diversidad nos permite abarcar desde formacion tecnica especializada hasta habilidades blandas y liderazgo.', team: 'Equipo Insecap', management: 'Gerencia', contact: 'Contactar'
+    },
+    en: {
+      title: 'Our Team', subtitle: 'About us', breadcrumb: 'Our Team', label: 'Insecap Team', growing: 'Growing Together', intro: 'A multidisciplinary team focused on delivering quality solutions', welcome: 'Welcome to Insecap!', paragraph1: 'We are a training company specialized in delivering comprehensive solutions to the mining industry, with a strong focus on human capital development. Our multidisciplinary team of experts allows us to offer tailored programs adapted to each client\'s needs.', paragraph2: 'Our team is made up of professionals with broad experience in engineering, occupational health and safety, human resources management and more. That diversity allows us to cover everything from specialized technical training to soft skills and leadership.', team: 'Insecap Team', management: 'Management', contact: 'Contact'
+    },
+    pt: {
+      title: 'Nossa Equipe', subtitle: 'Sobre nos', breadcrumb: 'Nossa Equipe', label: 'Equipe Insecap', growing: 'Crescendo Juntos', intro: 'Equipe multidisciplinar responsavel por entregar solucoes de qualidade', welcome: 'Bem-vindos a Insecap!', paragraph1: 'Somos uma empresa de capacitacao especializada em oferecer solucoes integrais para a industria mineradora, com foco no desenvolvimento do capital humano. Contamos com uma equipe multidisciplinar de especialistas altamente capacitados, o que nos permite oferecer programas personalizados e adaptados as necessidades de cada cliente.', paragraph2: 'Nossa equipe e formada por profissionais com ampla experiencia em engenharia, seguranca e saude ocupacional, gestao de recursos humanos e muito mais. Essa diversidade nos permite abranger desde formacao tecnica especializada ate habilidades interpessoais e lideranca.', team: 'Equipe Insecap', management: 'Gerencia', contact: 'Contato'
+    },
+  }[locale];
+
+  const localizedAreas: Record<string, string> = {
+    Gerencia: content.management,
+    'Área Comercial': locale === 'en' ? 'Commercial Area' : locale === 'pt' ? 'Area Comercial' : 'Area Comercial',
+    'RRHH & FINANZAS': locale === 'en' ? 'HR & Finance' : locale === 'pt' ? 'RH e Financas' : 'RRHH y Finanzas',
+    'Calidad y Servicio & Área Técnica': locale === 'en' ? 'Quality, Service & Technical Area' : locale === 'pt' ? 'Qualidade, Servico e Area Tecnica' : 'Calidad y Servicio y Area Tecnica',
+    'Servicio Presencial': locale === 'en' ? 'On-site Service' : locale === 'pt' ? 'Servico Presencial' : 'Servicio Presencial',
+    'Mantención': locale === 'en' ? 'Maintenance' : locale === 'pt' ? 'Manutencao' : 'Mantencion',
+    'Publicidad y Marketing': locale === 'en' ? 'Advertising and Marketing' : locale === 'pt' ? 'Publicidade e Marketing' : 'Publicidad y Marketing',
+    'Servicio E-learning': locale === 'en' ? 'E-learning Service' : locale === 'pt' ? 'Servico E-learning' : 'Servicio E-learning',
+    Informática: locale === 'en' ? 'IT' : locale === 'pt' ? 'Informatica' : 'Informatica',
+  };
+
+  const displayAreas = teamByArea.map((area) => ({
+    ...area,
+    area: localizedAreas[area.area] ?? area.area,
+  }));
 
   return (
     <div className="min-h-screen bg-[#f7f9ff]">
@@ -379,9 +410,9 @@ const OurTeam = () => {
 
       <main>
         <PageHero
-          title="Nuestro Equipo"
-          subtitle="Nosotros"
-          breadcrumbs={[{ label: "Nuestro Equipo" }]}
+          title={content.title}
+          subtitle={content.subtitle}
+          breadcrumbs={[{ label: content.breadcrumb }]}
         />
 
         <div className="container mx-auto px-8 md:px-14 lg:px-16">
@@ -391,11 +422,11 @@ const OurTeam = () => {
             ref={introAnim.ref}
             className={`py-20 text-center transition-all duration-700 ease-out ${introAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <span className="inline-block text-sm font-semibold text-[#485CC7] uppercase tracking-widest mb-3">Equipo Insecap</span>
-            <h2 className="text-5xl md:text-6xl font-bold text-[#0c1a6b] mb-4">Creciendo Juntos</h2>
+            <span className="inline-block text-sm font-semibold text-[#485CC7] uppercase tracking-widest mb-3">{content.label}</span>
+            <h2 className="text-5xl md:text-6xl font-bold text-[#0c1a6b] mb-4">{content.growing}</h2>
             <div className="w-24 h-1.5 mx-auto mb-6 rounded-full bg-gradient-to-r from-[#00B8DE] to-[#485CC7]" />
             <p className="text-lg text-slate-500 max-w-xl mx-auto">
-              Equipo multidisciplinario encargado de dar soluciones de calidad
+              {content.intro}
             </p>
           </div>
 
@@ -414,11 +445,11 @@ const OurTeam = () => {
             <Meteors number={12} />
             <div className="relative z-10 grid lg:grid-cols-[1fr_auto] gap-10 items-center">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-2">¡Bienvenidos a Insecap!</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-2">{content.welcome}</h2>
                 <div className="w-16 h-1 rounded-full bg-[#00B8DE] mb-6" />
                 <div className="space-y-4 text-white/80 leading-relaxed text-[0.97rem] text-justify">
-                  <p>Somos una empresa de capacitación especializada en brindar soluciones integrales a la industria minera, con un enfoque en el desarrollo del capital humano. Contamos con un equipo multidisciplinario de expertos altamente capacitados en diversas áreas, lo que nos permite ofrecer programas personalizados y adaptados a las necesidades de cada cliente.</p>
-                  <p>Nuestro equipo está conformado por profesionales con amplia experiencia en ingeniería, seguridad y salud ocupacional, gestión de recursos humanos y más. Esa diversidad nos permite abarcar desde formación técnica especializada hasta habilidades blandas y liderazgo.</p>
+                  <p>{content.paragraph1}</p>
+                  <p>{content.paragraph2}</p>
                 </div>
               </div>
               <div className="hidden lg:flex items-center justify-center shrink-0">
@@ -434,24 +465,24 @@ const OurTeam = () => {
 
           {/* Título sección equipo */}
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#0c1a6b] mb-3">Equipo Insecap</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0c1a6b] mb-3">{content.team}</h2>
             <div className="w-24 h-1.5 mx-auto rounded-full bg-gradient-to-r from-[#00B8DE] to-[#485CC7]" />
           </div>
 
           {/* Gerencia destacada */}
           <div ref={gerenciaAnim.ref} className="mb-16">
             <div className="flex items-center gap-4 mb-8">
-              <h3 className="text-2xl font-bold text-[#0c1a6b]">Gerencia</h3>
+              <h3 className="text-2xl font-bold text-[#0c1a6b]">{content.management}</h3>
               <div className="flex-1 h-px bg-gradient-to-r from-[#485CC7]/50 to-transparent" />
             </div>
             <div className="grid sm:grid-cols-2 max-w-2xl mx-auto gap-6">
-              {teamByArea[0].members.map((member, i) => (
+              {displayAreas[0].members.map((member, i) => (
                 <div
                   key={i}
                   className={`transition-all duration-500 ease-out ${gerenciaAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                   style={{ transitionDelay: gerenciaAnim.isVisible ? `${i * 120}ms` : '0ms' }}
                 >
-                  <MemberCard member={member} />
+                  <MemberCard member={member} contactLabel={content.contact} />
                 </div>
               ))}
             </div>
@@ -459,8 +490,8 @@ const OurTeam = () => {
 
           {/* Resto de áreas */}
           <div className="space-y-16 pb-24">
-            {teamByArea.slice(1).map((area) => (
-              <AreaSection key={area.area} area={area} />
+            {displayAreas.slice(1).map((area) => (
+              <AreaSection key={area.area} area={area} contactLabel={content.contact} />
             ))}
           </div>
 

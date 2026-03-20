@@ -15,11 +15,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { ShoppingCart, Clock, Monitor, Award, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 
 const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
   const addItem = useCartStore((state) => state.addItem);
+  const { localizedPath } = useLocalizedPath();
   const { node } = product;
 
   const firstVariant = node.variants.edges[0]?.node;
@@ -51,7 +53,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
   };
 
   return (
-    <Link to={`/curso/${node.handle}`}>
+    <Link to={localizedPath(`/curso/${node.handle}`)}>
       <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card h-full flex flex-col">
         <div className="relative h-48 bg-gradient-to-br from-insecap-blue to-insecap-cyan overflow-hidden">
           {firstImage ? (
@@ -150,6 +152,7 @@ export const ShopifyProducts = ({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const isMobile = useIsMobile();
+  const { localizedPath } = useLocalizedPath();
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -236,7 +239,7 @@ export const ShopifyProducts = ({
 
           {!isLoading && products.length > 0 && !hideHeader && (
             <div className="text-center mt-10">
-              <Link to="/cursos">
+              <Link to={localizedPath('/cursos')}>
                 <Button size="lg" variant="outline" className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
                   Ver todos los cursos
                   <ChevronRight className="ml-2 h-5 w-5" />
@@ -290,7 +293,7 @@ export const ShopifyProducts = ({
 
         {!isLoading && products.length > 0 && !hideHeader && (
           <div className="text-center mt-12">
-            <Link to="/cursos">
+            <Link to={localizedPath('/cursos')}>
               <Button size="lg" variant="outline" className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
                 Ver todos los cursos
                 <ChevronRight className="ml-2 h-5 w-5" />

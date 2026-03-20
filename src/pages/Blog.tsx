@@ -9,12 +9,15 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowRight, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react';
 import { fetchBlogArticlesGraphQL, formatArticleDate, ShopifyArticle } from '@/lib/shopify';
 import PageHero from '@/components/PageHero';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const ARTICLES_PER_PAGE = 9;
 
 const ArticleCard = ({ article }: { article: ShopifyArticle }) => {
+  const { localizedPath } = useLocalizedPath();
+
   return (
-    <Link to={`/noticias/${article.blog.handle}/${article.handle}`}>
+    <Link to={localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}>
       <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card h-full flex flex-col">
         <div className="relative h-48 bg-gradient-to-br from-insecap-blue to-insecap-cyan overflow-hidden">
           {article.image ? (
@@ -80,6 +83,7 @@ const ArticleCardSkeleton = () => (
 );
 
 const Blog = () => {
+  const { localizedPath, locale } = useLocalizedPath();
   const [allArticles, setAllArticles] = useState<ShopifyArticle[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -90,6 +94,18 @@ const Blog = () => {
   const start = (currentPage - 1) * ARTICLES_PER_PAGE;
   const pageArticles = allArticles.slice(start, start + ARTICLES_PER_PAGE);
   const totalPages = Math.ceil(allArticles.length / ARTICLES_PER_PAGE);
+
+  const content = {
+    es: {
+      title: 'Noticias y Articulos', subtitle: 'Blog y Noticias', breadcrumb: 'Noticias', intro: 'Mantenete al dia con las ultimas novedades de INSECAP en capacitacion, seguridad laboral y desarrollo profesional.', loadError: 'Error al cargar noticias',
+    },
+    en: {
+      title: 'News and Articles', subtitle: 'Blog and News', breadcrumb: 'News', intro: 'Stay up to date with the latest INSECAP news on training, workplace safety and professional development.', loadError: 'Error loading news',
+    },
+    pt: {
+      title: 'Noticias e Artigos', subtitle: 'Blog e Noticias', breadcrumb: 'Noticias', intro: 'Fique por dentro das ultimas novidades da INSECAP sobre capacitacao, seguranca no trabalho e desenvolvimento profissional.', loadError: 'Erro ao carregar noticias',
+    },
+  }[locale];
 
   // Cargar TODOS los artículos en lotes al montar el componente
   useEffect(() => {
@@ -144,8 +160,8 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Noticias y Artículos"
-        description="Mantente al día con las últimas novedades de INSECAP en capacitación, seguridad laboral y desarrollo profesional. Artículos, noticias y recursos para tu crecimiento profesional."
+        title={content.title}
+        description={content.intro}
         url="/noticias"
         type="website"
         keywords={[
@@ -162,7 +178,7 @@ const Blog = () => {
           '@type': 'Blog',
           'name': 'Blog INSECAP - Noticias y Artículos',
           'description': 'Blog oficial de INSECAP con noticias, artículos y recursos sobre capacitación y desarrollo profesional en Chile',
-          'url': 'https://insecap-capacitaciones.myshopify.com/noticias',
+          'url': `https://insecap-capacitaciones.myshopify.com${localizedPath('/noticias')}`,
           'publisher': {
             '@type': 'Organization',
             'name': 'INSECAP',
@@ -189,16 +205,16 @@ const Blog = () => {
                 'url': 'https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png'
               }
             },
-            'url': `https://insecap-capacitaciones.myshopify.com/noticias/${article.blog.handle}/${article.handle}`
+            'url': `https://insecap-capacitaciones.myshopify.com${localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}`
           }))
         }}
       />
       <Header />
       <main>
         <PageHero
-          title="Noticias y Artículos"
-          subtitle="Blog & Noticias"
-          breadcrumbs={[{ label: "Noticias" }]}
+          title={content.title}
+          subtitle={content.subtitle}
+          breadcrumbs={[{ label: content.breadcrumb }]}
         />
 
         {/* Articles Grid */}
@@ -214,7 +230,7 @@ const Blog = () => {
               <div className="text-center py-16">
                 <Newspaper className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                 <h2 className="text-2xl font-bold text-foreground mb-2">
-                  Error al cargar noticias
+                  {content.loadError}
                 </h2>
                 <p className="text-muted-foreground mb-4">{error}</p>
               </div>

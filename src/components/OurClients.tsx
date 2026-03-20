@@ -4,6 +4,7 @@ import { Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { clientLogos } from '@/data/clients';
 import { Marquee } from "@/components/ui/marquee";
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const bounceVariant = {
     hidden: { y: 0 },
@@ -19,6 +20,8 @@ const bounceVariant = {
 };
 
 const OurClients: React.FC = () => {
+    const { localizedPath } = useLocalizedPath();
+
     return (
         <section className="w-full bg-white py-12 flex flex-col items-center overflow-hidden">
             <div className="container mx-auto px-8 md:px-14 lg:px-16 mb-8 text-center">
@@ -52,7 +55,7 @@ const OurClients: React.FC = () => {
                 whileInView="visible"
                 viewport={{ once: false, amount: 0.5 }}
             >
-                <Link to="/nuestros-clientes" className="group/modal-btn inline-flex items-center justify-center relative overflow-hidden bg-blue-700 text-white py-3 px-8 rounded-full font-semibold hover:bg-blue-800 transition-colors duration-300 shadow-md">
+                <Link to={localizedPath('/nuestros-clientes')} className="group/modal-btn inline-flex items-center justify-center relative overflow-hidden bg-blue-700 text-white py-3 px-8 rounded-full font-semibold hover:bg-blue-800 transition-colors duration-300 shadow-md">
                     <span className="group-hover/modal-btn:translate-x-40 text-center transition duration-500">
                         Click aquí
                     </span>

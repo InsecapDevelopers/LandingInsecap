@@ -25,6 +25,7 @@ import {
   ShopifyCategory,
   ShopifyProduct,
 } from '@/lib/shopify';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { useCartStore } from '@/stores/cartStore';
 import { toast } from 'sonner';
 
@@ -33,6 +34,7 @@ const isEcommerceEnabled = import.meta.env.VITE_ECOMMERCE_ENABLED !== 'false';
 // ─── Product Card (same design as ShopifyProducts) ──────────────────────────
 const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
   const addItem = useCartStore((state) => state.addItem);
+  const { localizedPath } = useLocalizedPath();
   const { node } = product;
 
   const firstVariant = node.variants.edges[0]?.node;
@@ -64,7 +66,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
   };
 
   return (
-    <Link to={`/curso/${node.handle}`}>
+    <Link to={localizedPath(`/curso/${node.handle}`)}>
       <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card h-full flex flex-col">
         <div className="relative h-48 bg-gradient-to-br from-insecap-blue to-insecap-cyan overflow-hidden">
           {firstImage ? (
@@ -379,6 +381,7 @@ const CategoryFilterBar = ({
 const PRODUCTS_PER_PAGE = 16;
 
 const CourseCatalog = () => {
+  const { locale } = useLocalizedPath();
   const [categories, setCategories] = useState<ShopifyCategory[]>([]);
   const [allProducts, setAllProducts] = useState<ShopifyProduct[]>([]);
   const [isLoadingCats, setIsLoadingCats] = useState(true);
@@ -386,6 +389,12 @@ const CourseCatalog = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const content = {
+    es: { listing: 'Listado de Cursos', subtitle: 'Capacitacion Especializada', breadcrumb: 'Cursos', intro: 'Explora nuestras categorias de cursos y encuentra la capacitacion perfecta para tu desarrollo profesional', search: 'Buscar cursos por nombre...', all: 'Todos', results: 'resultados para', prev: 'Pagina anterior', next: 'Pagina siguiente' },
+    en: { listing: 'Course Catalog', subtitle: 'Specialized Training', breadcrumb: 'Courses', intro: 'Explore our course categories and find the perfect training program for your professional development', search: 'Search courses by name...', all: 'All', results: 'results for', prev: 'Previous page', next: 'Next page' },
+    pt: { listing: 'Catalogo de Cursos', subtitle: 'Capacitacao Especializada', breadcrumb: 'Cursos', intro: 'Explore nossas categorias de cursos e encontre a capacitacao ideal para o seu desenvolvimento profissional', search: 'Buscar cursos pelo nome...', all: 'Todos', results: 'resultados para', prev: 'Pagina anterior', next: 'Proxima pagina' },
+  }[locale];
 
   // Load categories
   useEffect(() => {
@@ -456,16 +465,16 @@ const CourseCatalog = () => {
 
       <main className="pb-16">
         <PageHero
-          title={selectedCategory ? `Cursos de ${selectedCategory}` : 'Listado de Cursos'}
-          subtitle="Capacitación Especializada"
-          breadcrumbs={[{ label: 'Cursos' }]}
+          title={selectedCategory ? `${content.breadcrumb}: ${selectedCategory}` : content.listing}
+          subtitle={content.subtitle}
+          breadcrumbs={[{ label: content.breadcrumb }]}
         />
 
         <div className="container mx-auto px-8 md:px-14 lg:px-16 mt-12">
           {/* Intro */}
           <div className="text-center mb-8">
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Explora nuestras categorías de cursos y encuentra la capacitación perfecta para tu desarrollo profesional
+              {content.intro}
             </p>
           </div>
 
@@ -491,7 +500,7 @@ const CourseCatalog = () => {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => handleSearchChange(e.target.value)}
-                    placeholder="Buscar cursos por nombre..."
+                    placeholder={content.search}
                     className="w-full h-10 pl-10 pr-10 rounded-full border border-border bg-card text-foreground text-sm
                       placeholder:text-muted-foreground
                       focus:outline-none focus:ring-2 focus:ring-insecap-blue/40 focus:border-insecap-blue
@@ -510,7 +519,7 @@ const CourseCatalog = () => {
                 </div>
                 {searchTerm.trim() && !isLoadingProducts && (
                   <p className="text-xs text-muted-foreground mt-1.5 pl-4">
-                    {filteredProducts.length} {filteredProducts.length === 1 ? 'resultado' : 'resultados'} para "{searchTerm.trim()}"
+                    {filteredProducts.length} {filteredProducts.length === 1 ? content.results.replace('resultados', 'resultado') : content.results} "{searchTerm.trim()}"
                   </p>
                 )}
               </div>

@@ -6,14 +6,19 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, User, ArrowRight, Newspaper } from 'lucide-react';
 import { fetchBlogArticles, formatArticleDate, ShopifyArticle } from '@/lib/shopify';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 interface ArticleCardProps {
   article: ShopifyArticle;
 }
 
 const ArticleCard = ({ article }: ArticleCardProps) => {
+  const { localizedPath } = useLocalizedPath();
+
   return (
-    <Link to={`/noticias/${article.blog.handle}/${article.handle}`}>
+    <Link to={localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}>
+        const { localizedPath } = useLocalizedPath();
+
       <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card h-full flex flex-col">
         <div className="relative h-48 bg-gradient-to-br from-insecap-blue to-insecap-cyan overflow-hidden">
           {article.image ? (
@@ -156,7 +161,7 @@ export const BlogArticles = ({ blogHandle = 'news', limit = 6, showTitle = true 
 
         {!isLoading && articles.length > 0 && (
           <div className="text-center mt-10">
-            <Link to="/noticias">
+            <Link to={localizedPath('/noticias')}>
               <Button
                 variant="outline"
                 size="lg"

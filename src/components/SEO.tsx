@@ -1,4 +1,8 @@
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
+
+import { buildLocalizedPath, getLocaleFromPath, getLocaleMeta, isAbsoluteUrl, stripLocaleFromPath } from '@/lib/locale-routing';
+import { fallbackLanguage, supportedLanguages } from '@/lib/translations';
 
 interface SEOProps {
   title?: string;
@@ -37,19 +41,35 @@ const SEO = ({
   article,
   jsonLd,
 }: SEOProps) => {
+  const location = useLocation();
+
   // Default values
   const siteName = 'INSECAP - Capacitaciones';
   const defaultTitle = 'INSECAP - Organismo Técnico de Capacitación';
   const defaultDescription = 'INSECAP es un Organismo Técnico de Capacitación (OTEC) certificado, especializado en formación profesional y desarrollo de competencias laborales en Chile.';
   const defaultImage = 'https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png';
   const baseUrl = 'https://insecap-capacitaciones.myshopify.com';
+  const currentLocale = getLocaleFromPath(location.pathname) ?? fallbackLanguage;
+  const localeMeta = getLocaleMeta(currentLocale);
+  const sourcePath = url && !isAbsoluteUrl(url) ? url : location.pathname;
+  const localizedPath = url
+    ? (isAbsoluteUrl(url) ? url : buildLocalizedPath(sourcePath, currentLocale))
+    : location.pathname;
+  const pathWithoutLocale = stripLocaleFromPath(sourcePath);
+  const alternateLinks = supportedLanguages.map((language) => {
+    const meta = getLocaleMeta(language);
+    return {
+      hrefLang: meta.hreflang,
+      href: `${baseUrl}${buildLocalizedPath(pathWithoutLocale, language)}`,
+    };
+  });
 
   // Computed values
   const finalTitle = title ? `${title} | ${siteName}` : defaultTitle;
   const finalDescription = description || defaultDescription;
   const finalImage = image || defaultImage;
   const finalImageAlt = imageAlt || title || 'INSECAP';
-  const finalUrl = url ? `${baseUrl}${url}` : baseUrl;
+  const finalUrl = isAbsoluteUrl(localizedPath) ? localizedPath : `${baseUrl}${localizedPath}`;
   const finalKeywords = keywords.length > 0 
     ? keywords.join(', ') 
     : 'capacitación, OTEC, formación profesional, desarrollo laboral, cursos, Chile, INSECAP';
@@ -65,6 +85,10 @@ const SEO = ({
       
       {/* Canonical URL */}
       <link rel="canonical" href={finalUrl} />
+      {alternateLinks.map((link) => (
+        <link key={link.hrefLang} rel="alternate" hrefLang={link.hrefLang} href={link.href} />
+      ))}
+      <link rel="alternate" hrefLang="x-default" href={`${baseUrl}${buildLocalizedPath(pathWithoutLocale, fallbackLanguage)}`} />
 
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
@@ -74,7 +98,7 @@ const SEO = ({
       <meta property="og:image" content={finalImage} />
       <meta property="og:image:alt" content={finalImageAlt} />
       <meta property="og:site_name" content={siteName} />
-      <meta property="og:locale" content="es_CL" />
+      <meta property="og:locale" content={localeMeta.ogLocale} />
 
       {/* Article specific tags */}
       {type === 'article' && article && (
@@ -102,6 +126,7 @@ const SEO = ({
       <meta name="twitter:description" content={finalDescription} />
       <meta name="twitter:image" content={finalImage} />
       <meta name="twitter:image:alt" content={finalImageAlt} />
+      <meta property="inLanguage" content={localeMeta.htmlLang} />
 
       {/* Additional Meta Tags */}
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />

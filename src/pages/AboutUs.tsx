@@ -8,6 +8,7 @@ import PageHero from '@/components/PageHero';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
 import { Meteors } from '@/components/ui/meteors';
 import { getYearsOfExperience } from '@/lib/insecapUtils';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 // 1. IMPORTANTE: Importar el plugin de Autoplay
 import Autoplay from "embla-carousel-autoplay";
 
@@ -159,6 +160,7 @@ const SedeGallery = ({ images, label, index, setIndex, onClose }: SedeGalleryPro
 // ─────────────────────────────────────────────────────────────────────────────
 
 const AboutUs = () => {
+  const { locale } = useLocalizedPath();
   // Animaciones de scroll
   const queHacemosHeader = useScrollAnimation({ threshold: 0.2 });
   const queHacemosCards = useStaggerAnimation({ threshold: 0.15 });
@@ -175,11 +177,95 @@ const AboutUs = () => {
   const sedeSantiagoCarousel = useScrollAnimation({ threshold: 0.15 });
   const sedeVirtualSection = useScrollAnimation({ threshold: 0.1 });
 
+  const content = {
+    es: {
+      pageTitle: `Mas de ${getYearsOfExperience()} anos de experiencia`,
+      pageSubtitle: 'Nosotros',
+      breadcrumb: 'Nosotros',
+      focus: 'Nuestro enfoque',
+      whatTitle: 'Que hacemos?',
+      whatText: 'Entregamos soluciones de capacitacion y entrenamientos a la medida. Interactuamos con partes interesadas y usuarios finales para que la solucion sea la que requiere cada cliente.',
+      availableMode: 'Modalidad disponible',
+      modalities: ['Presencial', 'Sincronico', 'Asincronico'],
+      modalitiesDesc: ['En nuestras instalaciones o donde el cliente disponga.', 'Plataformas electronicas con clases en vivo via streaming.', 'Entrenamiento de autoinstruccion en plataforma Moodle.'],
+      brand: 'Insecap Capacitacion',
+      antof: 'Sede Antofagasta',
+      calama: 'Sede Calama',
+      santiago: 'Sede Santiago',
+      expand: 'Expandir',
+      antofItems: [`${new Date().getFullYear() - 2010} anos realizando capacitacion en la region.`, 'Equipamiento para proceso practico: torre de entrenamiento, Layer, tripode de descenso.', 'Salon de coffee break.', 'Salas de capacitacion hasta 35 personas.'],
+      calamaItems: ['Salones adaptados hasta 60 personas.', 'Coffee break exclusivos.'],
+      santiagoItems: ['Sede ubicada en el corazon de la capital, accesible desde toda la Region Metropolitana.', 'Multiples salas de capacitacion equipadas con tecnologia audiovisual de ultima generacion.', 'Espacio para practicas en terreno y simulaciones controladas.', 'Cafe y area de descanso para participantes.'],
+      online: 'Insecap Online',
+      virtualTitle: 'Sedes Virtuales',
+      virtualText: 'Nuestra metodologia online permite llegar a todo Chile con la misma calidad que nuestras sedes fisicas, utilizando tecnologia de vanguardia para el aprendizaje.',
+      virtualItems: [`${new Date().getFullYear() - 2020} anos realizando capacitaciones online con exito.`, 'Plataforma LMS (Moodle) optimizada para el alumno.', 'Soporte tecnico y academico 24/7.'],
+      mapAntof: 'Mapa Sede Antofagasta',
+      mapCalama: 'Mapa Sede Calama',
+      mapSantiago: 'Mapa Sede Santiago',
+      virtualImage: 'Sede Virtual',
+    },
+    en: {
+      pageTitle: `More than ${getYearsOfExperience()} years of experience`,
+      pageSubtitle: 'About us',
+      breadcrumb: 'About us',
+      focus: 'Our approach',
+      whatTitle: 'What do we do?',
+      whatText: 'We deliver tailored training solutions and learning experiences. We interact with stakeholders and end users so the final solution matches what each client actually needs.',
+      availableMode: 'Available mode',
+      modalities: ['On-site', 'Synchronous', 'Asynchronous'],
+      modalitiesDesc: ['At our facilities or wherever the client requires.', 'Digital platforms with live classes via streaming.', 'Self-paced training through our Moodle platform.'],
+      brand: 'Insecap Training',
+      antof: 'Antofagasta Campus',
+      calama: 'Calama Campus',
+      santiago: 'Santiago Campus',
+      expand: 'Expand',
+      antofItems: [`${new Date().getFullYear() - 2010} years delivering training in the region.`, 'Equipment for hands-on practice: training tower, layer and descent tripod.', 'Coffee break lounge.', 'Training rooms for up to 35 people.'],
+      calamaItems: ['Classrooms adapted for up to 60 people.', 'Exclusive coffee break areas.'],
+      santiagoItems: ['Campus located in the heart of the capital, accessible from across the metropolitan region.', 'Multiple training rooms equipped with state-of-the-art audiovisual technology.', 'Space for field practice and controlled simulations.', 'Coffee and rest area for participants.'],
+      online: 'Insecap Online',
+      virtualTitle: 'Virtual Campuses',
+      virtualText: 'Our online methodology allows us to reach all of Chile with the same quality as our physical campuses, using advanced learning technology.',
+      virtualItems: [`${new Date().getFullYear() - 2020} years delivering successful online training.`, 'Student-optimized LMS (Moodle) platform.', '24/7 technical and academic support.'],
+      mapAntof: 'Antofagasta Campus Map',
+      mapCalama: 'Calama Campus Map',
+      mapSantiago: 'Santiago Campus Map',
+      virtualImage: 'Virtual campus',
+    },
+    pt: {
+      pageTitle: `Mais de ${getYearsOfExperience()} anos de experiencia`,
+      pageSubtitle: 'Sobre nos',
+      breadcrumb: 'Sobre nos',
+      focus: 'Nosso enfoque',
+      whatTitle: 'O que fazemos?',
+      whatText: 'Entregamos solucoes de capacitacao e treinamentos sob medida. Interagimos com as partes interessadas e usuarios finais para que a solucao atenda exatamente o que cada cliente precisa.',
+      availableMode: 'Modalidade disponivel',
+      modalities: ['Presencial', 'Sincrono', 'Assincrono'],
+      modalitiesDesc: ['Em nossas instalacoes ou onde o cliente indicar.', 'Plataformas digitais com aulas ao vivo via streaming.', 'Treinamento autodirigido na plataforma Moodle.'],
+      brand: 'Insecap Capacitacao',
+      antof: 'Unidade Antofagasta',
+      calama: 'Unidade Calama',
+      santiago: 'Unidade Santiago',
+      expand: 'Expandir',
+      antofItems: [`${new Date().getFullYear() - 2010} anos realizando capacitacao na regiao.`, 'Equipamentos para pratica: torre de treinamento, Layer e tripode de descida.', 'Sala de coffee break.', 'Salas de capacitacao para ate 35 pessoas.'],
+      calamaItems: ['Salas adaptadas para ate 60 pessoas.', 'Espacos exclusivos para coffee break.'],
+      santiagoItems: ['Unidade localizada no coracao da capital, acessivel de toda a Regiao Metropolitana.', 'Multiplas salas de capacitacao equipadas com tecnologia audiovisual de ultima geracao.', 'Espaco para praticas em campo e simulacoes controladas.', 'Cafe e area de descanso para participantes.'],
+      online: 'Insecap Online',
+      virtualTitle: 'Unidades Virtuais',
+      virtualText: 'Nossa metodologia online nos permite chegar a todo o Chile com a mesma qualidade das unidades fisicas, utilizando tecnologia de ponta para aprendizagem.',
+      virtualItems: [`${new Date().getFullYear() - 2020} anos realizando capacitacoes online com sucesso.`, 'Plataforma LMS (Moodle) otimizada para o aluno.', 'Suporte tecnico e academico 24/7.'],
+      mapAntof: 'Mapa Unidade Antofagasta',
+      mapCalama: 'Mapa Unidade Calama',
+      mapSantiago: 'Mapa Unidade Santiago',
+      virtualImage: 'Unidade virtual',
+    },
+  }[locale];
+
   // Datos de modalidades
   const modalidades = [
-    { icon: <Users className="w-8 h-8 text-white" />, title: 'Presencial', desc: 'En nuestras instalaciones o donde el cliente disponga.', iconBg: 'bg-blue-600', border: 'border-blue-400', badge: 'bg-blue-100 text-blue-700' },
-    { icon: <Video className="w-8 h-8 text-white" />, title: 'Sincrónico', desc: 'Plataformas electrónicas con clases en vivo vía streaming.', iconBg: 'bg-violet-600', border: 'border-violet-400', badge: 'bg-violet-100 text-violet-700' },
-    { icon: <Monitor className="w-8 h-8 text-white" />, title: 'Asincrónico', desc: 'Entrenamiento de autoinstrucción en plataforma Moodle.', iconBg: 'bg-cyan-600', border: 'border-cyan-400', badge: 'bg-cyan-100 text-cyan-700' },
+    { icon: <Users className="w-8 h-8 text-white" />, title: content.modalities[0], desc: content.modalitiesDesc[0], iconBg: 'bg-blue-600', border: 'border-blue-400', badge: 'bg-blue-100 text-blue-700' },
+    { icon: <Video className="w-8 h-8 text-white" />, title: content.modalities[1], desc: content.modalitiesDesc[1], iconBg: 'bg-violet-600', border: 'border-violet-400', badge: 'bg-violet-100 text-violet-700' },
+    { icon: <Monitor className="w-8 h-8 text-white" />, title: content.modalities[2], desc: content.modalitiesDesc[2], iconBg: 'bg-cyan-600', border: 'border-cyan-400', badge: 'bg-cyan-100 text-cyan-700' },
   ];
 
   return (
@@ -188,9 +274,9 @@ const AboutUs = () => {
 
       <main>
         <PageHero
-          title={`Más de ${getYearsOfExperience()} años de experiencia`}
-          subtitle="Nosotros"
-          breadcrumbs={[{ label: "Nosotros" }]}
+          title={content.pageTitle}
+          subtitle={content.pageSubtitle}
+          breadcrumbs={[{ label: content.breadcrumb }]}
         />
 
         <MeetUs />
@@ -211,12 +297,10 @@ const AboutUs = () => {
                   : 'opacity-0 translate-y-8'
                   }`}
               >
-                <span className="inline-block bg-blue-100 text-blue-700 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">Nuestro enfoque</span>
-                <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-5">¿Qué hacemos?</h2>
+                <span className="inline-block bg-blue-100 text-blue-700 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">{content.focus}</span>
+                <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-5">{content.whatTitle}</h2>
                 <p className="text-gray-600 text-lg leading-relaxed max-w-2xl mx-auto">
-                  Entregamos soluciones de capacitación y entrenamientos a la medida.
-                  Interactuamos con partes interesadas y usuarios finales para que la
-                  solución sea la que requiere cada cliente.
+                  {content.whatText}
                 </p>
               </div>
 
@@ -238,7 +322,7 @@ const AboutUs = () => {
                     <h4 className="font-bold text-blue-950 text-xl mb-3">{mod.title}</h4>
                     <p className="text-gray-500 text-sm leading-relaxed">{mod.desc}</p>
                     <span className={`mt-5 inline-block text-xs font-medium px-3 py-1 rounded-full ${mod.badge}`}>
-                      Modalidad disponible
+                      {content.availableMode}
                     </span>
                   </div>
                 ))}
@@ -272,30 +356,30 @@ const AboutUs = () => {
               >
                 <div className="flex items-center gap-2 text-blue-600 mb-4">
                   <MapPin className="w-6 h-6" />
-                  <span className="font-bold uppercase tracking-wider">Insecap Capacitación</span>
+                  <span className="font-bold uppercase tracking-wider">{content.brand}</span>
                 </div>
-                <h3 className="text-4xl font-bold text-blue-950 mb-6">Sede Antofagasta</h3>
+                <h3 className="text-4xl font-bold text-blue-950 mb-6">{content.antof}</h3>
                 <ul className="space-y-4 mb-8">
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
-                    <span>{new Date().getFullYear() - 2010} años realizando capacitación en la región.</span>
+                    <span>{content.antofItems[0]}</span>
                   </li>
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
-                    <span>Equipamiento para proceso práctico: torre de entrenamiento, Layer, trípode de descenso.</span>
+                    <span>{content.antofItems[1]}</span>
                   </li>
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
-                    <span>Salón de coffee break.</span>
+                    <span>{content.antofItems[2]}</span>
                   </li>
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
-                    <span>Salas de capacitación hasta 35 personas.</span>
+                    <span>{content.antofItems[3]}</span>
                   </li>
                 </ul>
                 <div className="mt-6 rounded-2xl overflow-hidden shadow-md border border-gray-100 flex-1 min-h-[200px]">
                   <iframe
-                    title="Mapa Sede Antofagasta"
+                    title={content.mapAntof}
                     src="https://maps.google.com/maps?q=Copiapo+956+Antofagasta+Chile&output=embed&z=15"
                     width="100%"
                     height="100%"
@@ -336,7 +420,7 @@ const AboutUs = () => {
                     className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow transition-colors"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 8V6a2 2 0 012-2h2M4 16v2a2 2 0 002 2h2m8-16h2a2 2 0 012 2v2m0 8v2a2 2 0 01-2 2h-2" /></svg>
-                    Expandir
+                    {content.expand}
                   </button>
                 </div>
               </div>
@@ -374,7 +458,7 @@ const AboutUs = () => {
                     className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow transition-colors"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 8V6a2 2 0 012-2h2M4 16v2a2 2 0 002 2h2m8-16h2a2 2 0 012 2v2m0 8v2a2 2 0 01-2 2h-2" /></svg>
-                    Expandir
+                    {content.expand}
                   </button>
                 </div>
               </div>
@@ -387,22 +471,22 @@ const AboutUs = () => {
               >
                 <div className="flex items-center gap-2 text-blue-600 mb-4">
                   <MapPin className="w-6 h-6" />
-                  <span className="font-bold uppercase tracking-wider">Insecap Capacitación</span>
+                  <span className="font-bold uppercase tracking-wider">{content.brand}</span>
                 </div>
-                <h3 className="text-4xl font-bold text-blue-950 mb-6">Sede Calama</h3>
+                <h3 className="text-4xl font-bold text-blue-950 mb-6">{content.calama}</h3>
                 <ul className="space-y-4">
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
-                    <span>Salones adaptados hasta 60 personas.</span>
+                    <span>{content.calamaItems[0]}</span>
                   </li>
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
-                    <span>Coffee break exclusivos.</span>
+                    <span>{content.calamaItems[1]}</span>
                   </li>
                 </ul>
                 <div className="mt-6 rounded-2xl overflow-hidden shadow-md border border-gray-100 flex-1 min-h-[200px]">
                   <iframe
-                    title="Mapa Sede Calama"
+                    title={content.mapCalama}
                     src="https://maps.google.com/maps?q=La+Cascada+1513+Calama+Chile&output=embed&z=15"
                     width="100%"
                     height="100%"
@@ -426,30 +510,30 @@ const AboutUs = () => {
               >
                 <div className="flex items-center gap-2 text-blue-600 mb-4">
                   <MapPin className="w-6 h-6" />
-                  <span className="font-bold uppercase tracking-wider">Insecap Capacitación</span>
+                  <span className="font-bold uppercase tracking-wider">{content.brand}</span>
                 </div>
-                <h3 className="text-4xl font-bold text-blue-950 mb-6">Sede Santiago</h3>
+                <h3 className="text-4xl font-bold text-blue-950 mb-6">{content.santiago}</h3>
                 <ul className="space-y-4 mb-8">
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
-                    <span>Sede ubicada en el corazón de la capital, accesible desde toda la Región Metropolitana.</span>
+                    <span>{content.santiagoItems[0]}</span>
                   </li>
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
-                    <span>Múltiples salas de capacitación equipadas con tecnología audiovisual de última generación.</span>
+                    <span>{content.santiagoItems[1]}</span>
                   </li>
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
-                    <span>Espacio para prácticas en terreno y simulaciones controladas.</span>
+                    <span>{content.santiagoItems[2]}</span>
                   </li>
                   <li className="flex gap-4 text-gray-600 text-lg">
                     <CheckCircle2 className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
-                    <span>Café y área de descanso para participantes.</span>
+                    <span>{content.santiagoItems[3]}</span>
                   </li>
                 </ul>
                 <div className="mt-6 rounded-2xl overflow-hidden shadow-md border border-gray-100 flex-1 min-h-[200px]">
                   <iframe
-                    title="Mapa Sede Santiago"
+                    title={content.mapSantiago}
                     src="https://maps.google.com/maps?q=Valenzuela+Castillos+1063+Santiago+Chile&output=embed&z=15"
                     width="100%"
                     height="100%"
@@ -490,7 +574,7 @@ const AboutUs = () => {
                     className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow transition-colors"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 8V6a2 2 0 012-2h2M4 16v2a2 2 0 002 2h2m8-16h2a2 2 0 012 2v2m0 8v2a2 2 0 01-2 2h-2" /></svg>
-                    Expandir
+                    {content.expand}
                   </button>
                 </div>
               </div>
@@ -520,32 +604,31 @@ const AboutUs = () => {
                 <div>
                   <div className="flex items-center gap-2 text-blue-400 mb-4">
                     <Monitor className="w-6 h-6" />
-                    <span className="font-bold uppercase tracking-wider">Insecap Online</span>
+                    <span className="font-bold uppercase tracking-wider">{content.online}</span>
                   </div>
-                  <h3 className="text-4xl font-bold mb-6">Sedes Virtuales</h3>
+                  <h3 className="text-4xl font-bold mb-6">{content.virtualTitle}</h3>
                   <p className="text-slate-300 text-lg mb-8 leading-relaxed">
-                    Nuestra metodología online permite llegar a todo Chile con la misma calidad
-                    que nuestras sedes físicas, utilizando tecnología de vanguardia para el aprendizaje.
+                    {content.virtualText}
                   </p>
                   <ul className="space-y-4">
                     <li className="flex gap-4 items-center">
                       <CheckCircle2 className="w-6 h-6 text-blue-400 shrink-0" />
-                      <span className="text-lg">{new Date().getFullYear() - 2020} años realizando capacitaciones online con éxito.</span>
+                      <span className="text-lg">{content.virtualItems[0]}</span>
                     </li>
                     <li className="flex gap-4 items-center">
                       <CheckCircle2 className="w-6 h-6 text-blue-400 shrink-0" />
-                      <span className="text-lg">Plataforma LMS (Moodle) optimizada para el alumno.</span>
+                      <span className="text-lg">{content.virtualItems[1]}</span>
                     </li>
                     <li className="flex gap-4 items-center">
                       <CheckCircle2 className="w-6 h-6 text-blue-400 shrink-0" />
-                      <span className="text-lg">Soporte técnico y académico 24/7.</span>
+                      <span className="text-lg">{content.virtualItems[2]}</span>
                     </li>
                   </ul>
                 </div>
                 <div className="flex justify-center">
                   <img
                     src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_20190903_133957-scaled-ppg1u2wov3lkg6zm0s3v1xtbjxpl8ub1vtrbj8miio.jpg?v=1769177894"
-                    alt="Sede Virtual"
+                    alt={content.virtualImage}
                     className="rounded-2xl shadow-2xl max-w-md w-full"
                   />
                 </div>

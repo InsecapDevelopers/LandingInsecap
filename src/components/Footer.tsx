@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Linkedin, Phone, Mail, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { getLiderComercial, LiderComercial } from '@/lib/tmsApi';
 import ContactCTA from './ContactCTA';
 
@@ -31,6 +33,8 @@ const Footer = () => {
   const [loadingLider, setLoadingLider] = useState(true);
   const [bgIndex, setBgIndex] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { t } = useTranslation();
+  const { localizedPath } = useLocalizedPath();
 
   useEffect(() => {
     getLiderComercial().then((data) => {
@@ -131,16 +135,16 @@ const Footer = () => {
   };
 
   const locations = [
-    { name: "Sucursal Antofagasta", address: "Copiapó 956, Antofagasta", phone: "55 294 8575" },
-    { name: "Casa Matríz", address: "La Cascada 1513, Calama", phone: "55 292 6431" },
-    { name: "Sucursal Santiago", address: "Valenzuela Castillo 1063, Santiago", phone: "+56 9 8819 8254" },
+    { name: t('footer.phones.antofagasta'), address: "Copiapó 956, Antofagasta", phone: "55 294 8575" },
+    { name: t('footer.phones.calama'), address: "La Cascada 1513, Calama", phone: "55 292 6431" },
+    { name: t('footer.phones.santiago'), address: "Valenzuela Castillo 1063, Santiago", phone: "+56 9 8819 8254" },
   ];
 
   const siteMap = [
-    { label: "Inicio", href: "/" },
-    { label: "Cursos", href: "/cursos" },
-    { label: "Nosotros", href: "/nosotros" },
-    { label: "Contacto", href: "/#contacto" },
+    { label: t('footer.siteMap.home'), href: "/" },
+    { label: t('footer.siteMap.courses'), href: "/cursos" },
+    { label: t('footer.siteMap.about'), href: "/nosotros" },
+    { label: t('footer.siteMap.contact'), href: "/#contacto" },
   ];
 
   const handleLogoClick = () => {
@@ -178,19 +182,21 @@ const Footer = () => {
             {/* Headline */}
             <div className="lg:max-w-lg">
               <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold italic text-white leading-tight tracking-tight">
-                " Creciendo<br />Juntos "
+                &quot; {t('footer.growthTitleLine1')}
+                <br />
+                {t('footer.growthTitleLine2')} &quot;
               </h2>
             </div>
             {/* Right side */}
             <div className="lg:max-w-md">
               <p className="text-white/80 text-base mb-7 leading-relaxed">
-                ¿Tu empresa necesita capacitación certificada? Somos el socio estratégico que impulsa el desarrollo profesional de tus equipos en todo Chile.
+                {t('footer.growthDescription')}
               </p>
               <button
                 onClick={scrollToContact}
                 className="inline-flex items-center gap-2 bg-insecap-cyan hover:bg-insecap-cyan/90 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-insecap-cyan/30 hover:-translate-y-0.5"
               >
-                Contáctanos
+                {t('footer.growthCta')}
               </button>
             </div>
           </div>
@@ -201,7 +207,7 @@ const Footer = () => {
 
           {/* Logo & Social */}
           <div className="col-span-2 lg:col-span-1">
-            <Link to="/" className="inline-flex mb-6" onClick={handleLogoClick}>
+            <Link to={localizedPath('/')} className="inline-flex mb-6" onClick={handleLogoClick}>
               <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508" alt="logo" className="w-48" />
             </Link>
             <div className="flex items-center gap-3 mt-4">
@@ -225,7 +231,7 @@ const Footer = () => {
 
           {/* Ubicaciones */}
           <div className="col-span-2 lg:col-span-1">
-            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">Ubicaciones</h4>
+            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">{t('footer.locations')}</h4>
             <div className="space-y-5">
               {locations.map((loc) => (
                 <div key={loc.name} className="flex items-start gap-2.5">
@@ -241,12 +247,12 @@ const Footer = () => {
 
           {/* Contáctanos */}
           <div>
-            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">Contáctanos</h4>
+            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">{t('footer.contact')}</h4>
             <div className="space-y-4">
               {[
-                { sucursal: 'Sucursal Antofagasta', phone: '55 294 8575', tel: '552948575' },
-                { sucursal: 'Casa Matríz (Calama)', phone: '55 292 6431', tel: '552926431' },
-                { sucursal: 'Sucursal Santiago', phone: '+56 9 8819 8254', tel: '+56988198254' },
+                { sucursal: t('footer.phones.antofagasta'), phone: '55 294 8575', tel: '552948575' },
+                { sucursal: t('footer.phones.calama'), phone: '55 292 6431', tel: '552926431' },
+                { sucursal: t('footer.phones.santiago'), phone: '+56 9 8819 8254', tel: '+56988198254' },
               ].map((c) => (
                 <div key={c.tel}>
                   <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">{c.sucursal}</p>
@@ -258,7 +264,7 @@ const Footer = () => {
               ))}
               {lider?.correo && (
                 <div>
-                  <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">Correo</p>
+                  <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">{t('footer.email')}</p>
                   <a href={`mailto:${lider.correo}`} className="flex items-center gap-2 text-white/80 text-sm hover:text-white transition-colors">
                     <Mail className="w-4 h-4 text-insecap-cyan flex-shrink-0" />
                     {lider.correo}
@@ -270,11 +276,14 @@ const Footer = () => {
 
           {/* Mapa Web */}
           <div>
-            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">Mapa Web</h4>
+            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">{t('footer.webMap')}</h4>
             <ul className="space-y-3">
               {siteMap.map((item) => {
                 const isAnchor = item.href.includes('#');
                 const anchorId = isAnchor ? item.href.split('#')[1] : null;
+                const targetHref = isAnchor
+                  ? `${localizedPath(item.href.split('#')[0] || '/')}#${anchorId}`
+                  : localizedPath(item.href);
                 const handleClick = (e: React.MouseEvent) => {
                   if (!anchorId) return;
                   const el = document.getElementById(anchorId);
@@ -282,7 +291,7 @@ const Footer = () => {
                 };
                 return (
                   <li key={item.label}>
-                    <Link to={item.href} onClick={handleClick} className="text-white/70 text-sm hover:text-white transition-colors">
+                    <Link to={targetHref} onClick={handleClick} className="text-white/70 text-sm hover:text-white transition-colors">
                       {item.label}
                     </Link>
                   </li>
@@ -295,13 +304,13 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-2 text-center md:text-left">
           <p className="text-sm text-white/60">
-            © {new Date().getFullYear()} Insecap Capacitación. Todos los derechos reservados.
+            © {new Date().getFullYear()} {t('footer.copyright')}
           </p>
           <a
-            href="/politica-de-privacidad"
+            href={localizedPath('/politica-de-privacidad')}
             className="text-sm text-white/60 hover:text-white transition-colors duration-200 underline underline-offset-4"
           >
-            Política de Privacidad
+            {t('footer.privacy')}
           </a>
         </div>
       </div>

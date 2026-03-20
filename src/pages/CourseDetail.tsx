@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import PageHero from "@/components/PageHero";
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 interface ProductNode {
   id: string;
@@ -68,11 +69,24 @@ interface ProductNode {
 }
 
 const CourseDetail = () => {
+  const { localizedPath, locale } = useLocalizedPath();
   const { handle } = useParams<{ handle: string }>();
   const [product, setProduct] = useState<ProductNode | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const addItem = useCartStore((state) => state.addItem);
+
+  const content = {
+    es: {
+      unavailable: 'Curso no disponible', added: 'Curso agregado al carrito', notFound: 'Curso no encontrado', backHome: 'Volver al inicio', course: 'Curso', courses: 'Cursos', hours: '24 horas', students: '+500 alumnos', start: 'Inicio inmediato', pricePerStudent: 'Precio por participante', addToCart: 'Agregar al Carrito', includes: 'Este curso incluye:', descriptionTab: 'Descripcion', objectivesTab: 'Objetivos', syllabusTab: 'Temario', certificationTab: 'Certificacion', objectivesTitle: 'Objetivos del curso:', syllabusTitle: 'Contenido del curso:',
+    },
+    en: {
+      unavailable: 'Course not available', added: 'Course added to cart', notFound: 'Course not found', backHome: 'Back to home', course: 'Course', courses: 'Courses', hours: '24 hours', students: '+500 students', start: 'Immediate start', pricePerStudent: 'Price per participant', addToCart: 'Add to Cart', includes: 'This course includes:', descriptionTab: 'Description', objectivesTab: 'Objectives', syllabusTab: 'Syllabus', certificationTab: 'Certification', objectivesTitle: 'Course objectives:', syllabusTitle: 'Course content:',
+    },
+    pt: {
+      unavailable: 'Curso indisponivel', added: 'Curso adicionado ao carrinho', notFound: 'Curso nao encontrado', backHome: 'Voltar ao inicio', course: 'Curso', courses: 'Cursos', hours: '24 horas', students: '+500 alunos', start: 'Inicio imediato', pricePerStudent: 'Preco por participante', addToCart: 'Adicionar ao Carrinho', includes: 'Este curso inclui:', descriptionTab: 'Descricao', objectivesTab: 'Objetivos', syllabusTab: 'Conteudo', certificationTab: 'Certificacao', objectivesTitle: 'Objetivos do curso:', syllabusTitle: 'Conteudo do curso:',
+    },
+  }[locale];
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -97,7 +111,7 @@ const CourseDetail = () => {
 
     const firstVariant = product.variants.edges[0]?.node;
     if (!firstVariant) {
-      toast.error("Curso no disponible");
+      toast.error(content.unavailable);
       return;
     }
 
@@ -114,7 +128,7 @@ const CourseDetail = () => {
       selectedOptions: firstVariant.selectedOptions || [],
     });
 
-    toast.success("Curso agregado al carrito", {
+    toast.success(content.added, {
       description: product.title,
       position: "top-center",
     });
@@ -145,11 +159,11 @@ const CourseDetail = () => {
       <div className="min-h-screen bg-background">
         <Header />
         <main className="container mx-auto px-8 md:px-14 lg:px-16 py-20 text-center">
-          <h1 className="text-2xl font-bold mb-4">Curso no encontrado</h1>
-          <Link to="/">
+          <h1 className="text-2xl font-bold mb-4">{content.notFound}</h1>
+          <Link to={localizedPath('/')}>
             <Button>
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Volver al inicio
+              {content.backHome}
             </Button>
           </Link>
         </main>
@@ -169,7 +183,7 @@ const CourseDetail = () => {
       <main className="pb-20">
         <PageHero
           title={product.title}
-          subtitle={product.productType || "Curso"}
+          subtitle={product.productType || content.course}
           backgroundImage={product.images.edges[0]?.node.url}
           breadcrumbs={[
             { label: "Cursos", href: "/cursos" },
@@ -222,7 +236,7 @@ const CourseDetail = () => {
               <div>
                 <div className="flex flex-wrap gap-2 mb-4">
                   <Badge className="bg-insecap-cyan text-white border-0">
-                    {product.productType || "Curso"}
+                    {product.productType || content.course}
                   </Badge>
                   <Badge className="bg-green-500 text-white border-0">
                     SENCE
@@ -244,7 +258,7 @@ const CourseDetail = () => {
               <div className="flex flex-wrap gap-6 py-4 border-y border-border">
                 <div className="flex items-center gap-2">
                   <Clock className="h-5 w-5 text-insecap-cyan" />
-                  <span className="text-sm">24 horas</span>
+                  <span className="text-sm">{content.hours}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Monitor className="h-5 w-5 text-insecap-cyan" />
@@ -252,11 +266,11 @@ const CourseDetail = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-insecap-cyan" />
-                  <span className="text-sm">+500 alumnos</span>
+                  <span className="text-sm">{content.students}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-5 w-5 text-insecap-cyan" />
-                  <span className="text-sm">Inicio inmediato</span>
+                  <span className="text-sm">{content.start}</span>
                 </div>
               </div>
 
@@ -268,7 +282,7 @@ const CourseDetail = () => {
                         {formatPrice(price.amount, price.currencyCode)}
                       </span>
                       <p className="text-sm text-muted-foreground mt-1">
-                        Precio por participante
+                        {content.pricePerStudent}
                       </p>
                     </div>
                   </div>
@@ -279,13 +293,13 @@ const CourseDetail = () => {
                     className="w-full bg-insecap-blue hover:bg-insecap-blue/90 text-white"
                   >
                     <ShoppingCart className="mr-2 h-5 w-5" />
-                    Agregar al Carrito
+                    {content.addToCart}
                   </Button>
                 </div>
               )}
 
               <div className="space-y-3">
-                <h3 className="font-semibold text-foreground">Este curso incluye:</h3>
+                <h3 className="font-semibold text-foreground">{content.includes}</h3>
                 <ul className="space-y-2">
                   {[
                     "Material didáctico digital",
@@ -310,16 +324,16 @@ const CourseDetail = () => {
               <TabsList className="w-full justify-start bg-muted/30 p-1 h-auto flex-wrap">
                 <TabsTrigger value="descripcion" className="data-[state=active]:bg-white">
                   <FileText className="h-4 w-4 mr-2" />
-                  Descripción
+                  {content.descriptionTab}
                 </TabsTrigger>
                 <TabsTrigger value="objetivos" className="data-[state=active]:bg-white">
-                  Objetivos
+                  {content.objectivesTab}
                 </TabsTrigger>
                 <TabsTrigger value="temario" className="data-[state=active]:bg-white">
-                  Temario
+                  {content.syllabusTab}
                 </TabsTrigger>
                 <TabsTrigger value="certificacion" className="data-[state=active]:bg-white">
-                  Certificación
+                  {content.certificationTab}
                 </TabsTrigger>
               </TabsList>
 
@@ -334,7 +348,7 @@ const CourseDetail = () => {
 
               <TabsContent value="objetivos" className="mt-6">
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-lg">Objetivos del curso:</h3>
+                  <h3 className="font-semibold text-lg">{content.objectivesTitle}</h3>
                   <ul className="space-y-3">
                     {[
                       "Comprender los fundamentos teóricos y prácticos del área",
@@ -354,7 +368,7 @@ const CourseDetail = () => {
 
               <TabsContent value="temario" className="mt-6">
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-lg">Contenido del curso:</h3>
+                  <h3 className="font-semibold text-lg">{content.syllabusTitle}</h3>
                   <div className="space-y-3">
                     {[
                       { module: "Módulo 1", title: "Introducción y fundamentos" },

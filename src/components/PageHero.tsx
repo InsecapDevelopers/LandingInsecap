@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const PAGE_HERO_IMAGES = [
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2026-03-05_at_10.58.32_2.jpg?v=1772742132',
@@ -33,6 +34,7 @@ const PageHero = ({
   className
 }: PageHeroProps) => {
   const location = useLocation();
+  const { localizedPath } = useLocalizedPath();
   const [activeBg, setActiveBg] = useState(backgroundImage ?? pickRandom());
   const [visible, setVisible] = useState(true);
   const isFirstRender = useRef(true);
@@ -75,12 +77,12 @@ const PageHero = ({
             {title}
           </h1>
           <nav className="flex text-sm text-slate-300 gap-2 items-center animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-            <Link to="/" className="hover:text-blue-400 transition-colors">Inicio</Link>
+            <Link to={localizedPath('/')} className="hover:text-blue-400 transition-colors">Inicio</Link>
             {breadcrumbs.map((item, index) => (
               <React.Fragment key={index}>
                 <span className="text-slate-500">/</span>
                 {item.href ? (
-                  <Link to={item.href} className="hover:text-blue-400 transition-colors">
+                  <Link to={localizedPath(item.href)} className="hover:text-blue-400 transition-colors">
                     {item.label}
                   </Link>
                 ) : (

@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Send, Phone, Mail, MapPin, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { getLiderComercial, LiderComercial } from '@/lib/tmsApi';
 
 const ContactCTA = () => {
   const [lider, setLider] = useState<LiderComercial | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     getLiderComercial().then(setLider);
@@ -38,15 +36,13 @@ const ContactCTA = () => {
           {/* Left Content */}
           <div>
             <span className="text-secondary font-medium text-sm uppercase tracking-wider">
-              Contacto
+              {t('contactCTA.badge')}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-6">
-              Solicite su capacitación
+              {t('contactCTA.title')}
             </h2>
             <p className="text-muted-foreground mb-8 max-w-md">
-              ¿Alguna duda o consulta? ¿Desea una cotización? Le invitamos a
-              llenar este formulario para que uno de nuestros líderes comerciales
-              se contacte con usted lo más pronto posible.
+              {t('contactCTA.description')}
             </p>
 
             {/* Contact Info */}
@@ -63,7 +59,7 @@ const ContactCTA = () => {
                     </div>
                   )}
                   <div>
-                    <p className="text-xs text-secondary font-medium uppercase tracking-wide">Tu Líder Comercial</p>
+                    <p className="text-xs text-secondary font-medium uppercase tracking-wide">{t('contactCTA.leader')}</p>
                     <p className="font-semibold text-foreground">{lider.nombre}</p>
                     <div className="flex flex-col gap-0.5 mt-1">
                       <a href={`mailto:${lider.correo}`} className="text-sm text-muted-foreground hover:text-secondary transition-colors flex items-center gap-1.5">
@@ -82,7 +78,7 @@ const ContactCTA = () => {
                   <Mail className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Email</p>
+                  <p className="text-sm text-muted-foreground">{t('contactCTA.email')}</p>
                   <a href="mailto:contacto@insecap.cl" className="font-semibold text-foreground hover:text-secondary transition-colors">contacto@insecap.cl</a>
                 </div>
               </div>
@@ -93,7 +89,7 @@ const ContactCTA = () => {
                   <MapPin className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">Sucursal Calama</p>
+                  <p className="font-semibold text-foreground">{t('contactCTA.branches.calama')}</p>
                   <p className="text-sm text-muted-foreground">La Cascada 1513</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Phone className="w-3.5 h-3.5 text-secondary" />
@@ -108,7 +104,7 @@ const ContactCTA = () => {
                   <MapPin className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">Sucursal Antofagasta</p>
+                  <p className="font-semibold text-foreground">{t('contactCTA.branches.antofagasta')}</p>
                   <p className="text-sm text-muted-foreground">Copiapó 956</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Phone className="w-3.5 h-3.5 text-secondary" />
@@ -123,7 +119,7 @@ const ContactCTA = () => {
                   <MapPin className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">Sucursal Santiago</p>
+                  <p className="font-semibold text-foreground">{t('contactCTA.branches.santiago')}</p>
                   <p className="text-sm text-muted-foreground">Valenzuela Castillo 1063, Santiago</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Phone className="w-3.5 h-3.5 text-secondary" />
@@ -138,7 +134,7 @@ const ContactCTA = () => {
                   <MapPin className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">Sucursal Vallenar</p>
+                  <p className="font-semibold text-foreground">{t('contactCTA.branches.vallenar')}</p>
                   <p className="text-sm text-muted-foreground">Río del Tránsito 1546</p>
                   <p className="text-sm text-muted-foreground">Villa Vista Hermosa</p>
                   <div className="flex items-center gap-2 mt-1">
@@ -153,12 +149,12 @@ const ContactCTA = () => {
           {/* Form */}
           <div className="w-full bg-white/5 py-12 border-b border-primary-foreground/10">
             <div className="container mx-auto px-8 md:px-14 lg:px-16 text-center">
-              <h4 className="font-bold text-2xl mb-8 text-secondary">Mantente en Contacto</h4>
+              <h4 className="font-bold text-2xl mb-8 text-secondary">{t('contactCTA.stayInTouch')}</h4>
               <div className="max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl bg-white">
                 <iframe
                   src="https://tms.insecap.cl/Contacto/Contactar"
                   className="w-full h-[600px] border-none"
-                  title="Contacto Insecap"
+                  title={t('contactCTA.iframeTitle')}
                   scrolling="auto"
                 />
               </div>

@@ -18,6 +18,7 @@ import {
 import { fetchCategories, ShopifyCategory } from '@/lib/shopify';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const iconMap: Record<string, LucideIcon> = {
   'Minería': HardHat,
@@ -48,6 +49,8 @@ const CategorySkeleton = () => (
 );
 
 const Categories = () => {
+    const { localizedPath } = useLocalizedPath();
+
   const [categories, setCategories] = useState<ShopifyCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -132,7 +135,7 @@ const Categories = () => {
         {/* "Ver más" button - shown only on mobile when there are more than 4 categories */}
         {!isLoading && isMobile && categories.length > 4 && (
           <div className="text-center mt-12">
-            <Link to="/cursos">
+            <Link to={localizedPath('/cursos')}>
               <Button size="lg" variant="outline" className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
                 Ver más categorías
                 <ChevronRight className="ml-2 h-5 w-5" />

@@ -8,6 +8,7 @@ import {
   getMuroFamaPodio, PodioItem,
   getPodioInsecoins, PodioInsecoinsItem,
 } from '@/lib/tmsApi';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const medalEmoji = ['🥇', '🥈', '🥉'];
 
@@ -136,6 +137,7 @@ const shootCelebration = () => {
 };
 
 const HonorTeam = () => {
+  const { locale } = useLocalizedPath();
   const [podio, setPodio] = useState<PodioItem[]>([]);
   const [loadingPodio, setLoadingPodio] = useState(true);
 
@@ -155,20 +157,71 @@ const HonorTeam = () => {
     if (!loadingInsecoins && podioInsecoins.length > 0) shootCelebration();
   }, [loadingInsecoins, podioInsecoins.length]);
 
+  const content = {
+    es: {
+      title: 'Equipo Honor y Felicidad',
+      subtitle: 'Reconocimiento',
+      breadcrumb: 'Honor y Felicidad',
+      intro: 'Reconocemos el talento, el compromiso y la excelencia de nuestro equipo humano.',
+      fameWall: 'Muro de la Fama',
+      fameText: 'Cada mes, una terna aleatoria de colaboradores nomina al "Colaborador del Mes" y las distintas areas al "Facilitador del Mes". Todo el equipo vota, y el Muro de la Fama se llena de historias de esfuerzo y celebracion colectiva.',
+      inProgress: 'En curso',
+      voting1: 'Estamos en',
+      voting2: 'votaciones!',
+      votingText: 'Proximamente conoceremos a los ganadores del mes.',
+      votingTextStrong: 'Mantente atento a los resultados!',
+      happinessWall: 'Muro de la Felicidad',
+      happinessText: 'El "Muro de la Felicidad" en INSECAP es un espacio destinado a fomentar el bienestar, la actitud positiva y la cohesion entre personal interno y Facilitadores. Su objetivo es promover la expresion de gratitud, logros, mensajes de apoyo y pequenas celebraciones que contribuyan al clima emocional positivo de la comunidad educativa de INSECAP.',
+      monthlyPodium: 'El podio mensual se actualizara proximamente.',
+    },
+    en: {
+      title: 'Honor and Happiness Team',
+      subtitle: 'Recognition',
+      breadcrumb: 'Honor and Happiness',
+      intro: 'We recognize the talent, commitment and excellence of our team.',
+      fameWall: 'Hall of Fame',
+      fameText: 'Every month, a random group of collaborators nominates the "Employee of the Month" and each area nominates the "Facilitator of the Month". The whole team votes, and the Hall of Fame fills up with stories of effort and collective celebration.',
+      inProgress: 'In progress',
+      voting1: 'We are in',
+      voting2: 'the voting stage!',
+      votingText: 'We will soon announce this month\'s winners.',
+      votingTextStrong: 'Stay tuned for the results!',
+      happinessWall: 'Happiness Wall',
+      happinessText: 'The "Happiness Wall" at INSECAP is a space created to promote wellbeing, positive attitude and cohesion among internal staff and facilitators. Its goal is to encourage gratitude, achievements, messages of support and small celebrations that strengthen the community\'s emotional climate.',
+      monthlyPodium: 'The monthly podium will be updated soon.',
+    },
+    pt: {
+      title: 'Equipe Honor e Felicidade',
+      subtitle: 'Reconhecimento',
+      breadcrumb: 'Honor e Felicidade',
+      intro: 'Reconhecemos o talento, o comprometimento e a excelencia da nossa equipe.',
+      fameWall: 'Muro da Fama',
+      fameText: 'Todo mes, um grupo aleatorio de colaboradores indica o "Colaborador do Mes" e as diferentes areas indicam o "Facilitador do Mes". Toda a equipe vota e o Muro da Fama se enche de historias de esforco e celebracao coletiva.',
+      inProgress: 'Em andamento',
+      voting1: 'Estamos em',
+      voting2: 'votacao!',
+      votingText: 'Em breve conheceremos os vencedores do mes.',
+      votingTextStrong: 'Fique atento aos resultados!',
+      happinessWall: 'Muro da Felicidade',
+      happinessText: 'O "Muro da Felicidade" da INSECAP e um espaco criado para promover bem-estar, atitude positiva e coesao entre equipe interna e facilitadores. Seu objetivo e estimular a expressao de gratidao, conquistas, mensagens de apoio e pequenas celebracoes que contribuam para um clima emocional positivo.',
+      monthlyPodium: 'O podio mensal sera atualizado em breve.',
+    },
+  }[locale];
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       <main className="pb-16">
         <PageHero
-          title="Equipo Honor y Felicidad"
-          subtitle="Reconocimiento"
-          breadcrumbs={[{ label: "Honor y Felicidad" }]}
+          title={content.title}
+          subtitle={content.subtitle}
+          breadcrumbs={[{ label: content.breadcrumb }]}
         />
         <div className="container mx-auto px-8 md:px-14 lg:px-16 mt-12">
           <div className="text-center mb-12">
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Reconocemos el talento, el compromiso y la excelencia de nuestro equipo humano.
+              {content.intro}
             </p>
           </div>
 
@@ -176,11 +229,11 @@ const HonorTeam = () => {
           <section className="mb-20">
             <h2 className="text-3xl font-bold text-foreground mb-4 flex items-center gap-3">
               <Trophy className="w-8 h-8 text-secondary" />
-              Muro de la Fama
+              {content.fameWall}
             </h2>
             <div className="prose prose-blue max-w-none text-muted-foreground mb-8">
               <p className="text-justify leading-relaxed">
-                Cada mes, una terna aleatoria de colaboradores nomina al <strong>"Colaborador del Mes"</strong> y las distintas áreas al <strong>"Facilitador del Mes"</strong>. Todo el equipo vota, y el Muro de la Fama se llena de historias de esfuerzo y celebración colectiva. 🌟
+                {content.fameText}
               </p>
             </div>
 
@@ -209,15 +262,15 @@ const HonorTeam = () => {
                     {/* Badge animado */}
                     <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-semibold uppercase tracking-widest mb-4 animate-pulse">
                       <span className="w-2 h-2 rounded-full bg-primary inline-block" />
-                      En curso
+                      {content.inProgress}
                     </span>
                     <h3 className="text-2xl md:text-3xl font-black text-foreground mb-3 leading-tight">
-                      ¡Estamos en<br />
-                      <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">votaciones!</span> 🗳️
+                      {content.voting1}<br />
+                      <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{content.voting2}</span>
                     </h3>
                     <p className="text-muted-foreground text-base max-w-sm leading-relaxed">
-                      Próximamente conoceremos a los ganadores del mes.<br />
-                      <span className="font-medium text-foreground">¡Mantente atento a los resultados!</span>
+                      {content.votingText}<br />
+                      <span className="font-medium text-foreground">{content.votingTextStrong}</span>
                     </p>
                   </div>
                 </div>
@@ -237,14 +290,11 @@ const HonorTeam = () => {
           <section className="mb-20">
             <h2 className="text-3xl font-bold text-foreground mb-4 flex items-center gap-3">
               <Trophy className="w-8 h-8 text-primary" />
-              Muro de la Felicidad
+              {content.happinessWall}
             </h2>
             <div className="prose prose-blue max-w-none text-muted-foreground mb-8">
               <p className="text-justify leading-relaxed">
-                El <strong>"Muro de la Felicidad"</strong> en INSECAP es un espacio destinado a fomentar el bienestar,
-                la actitud positiva y la cohesión entre personal interno y Facilitadores. Su objetivo es promover la
-                expresión de gratitud, logros, mensajes de apoyo y pequeñas celebraciones que contribuyan al clima
-                emocional positivo de la comunidad educativa de INSECAP.
+                {content.happinessText}
               </p>
             </div>
             <div className="relative rounded-2xl border border-border overflow-hidden shadow-xl bg-gradient-to-br from-primary/10 via-card to-secondary/10">
@@ -257,7 +307,7 @@ const HonorTeam = () => {
 
               {!loadingInsecoins && podioInsecoins.length === 0 && (
                 <p className="text-center text-muted-foreground py-12">
-                  El podio mensual se actualizará próximamente.
+                  {content.monthlyPodium}
                 </p>
               )}
 

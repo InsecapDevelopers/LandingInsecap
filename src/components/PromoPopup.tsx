@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { fetchPopupBanner, PopupBannerData } from '@/lib/shopify';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 /**
  * PromoPopup Component
@@ -20,6 +21,7 @@ import { fetchPopupBanner, PopupBannerData } from '@/lib/shopify';
  */
 const PromoPopup = () => {
   const navigate = useNavigate();
+  const { localizedPath } = useLocalizedPath();
   const [isOpen, setIsOpen] = useState(false);
   const [bannerData, setBannerData] = useState<PopupBannerData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +50,7 @@ const PromoPopup = () => {
 
   const handleImageClick = () => {
     setIsOpen(false);
-    navigate('/cursos');
+    navigate(localizedPath('/cursos'));
   };
 
   // Don't render anything while loading or if there's no banner

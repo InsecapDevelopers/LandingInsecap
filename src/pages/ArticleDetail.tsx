@@ -10,13 +10,60 @@ import { Calendar, ArrowLeft, Share2, Newspaper, X } from 'lucide-react';
 import { fetchArticleByHandleGraphQL, formatArticleDate, ShopifyArticle } from '@/lib/shopify';
 import { toast } from 'sonner';
 import PageHero from '@/components/PageHero';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const ArticleDetail = () => {
+  const { localizedPath, locale } = useLocalizedPath();
   const { blogHandle, articleHandle } = useParams<{ blogHandle: string; articleHandle: string }>();
   const [article, setArticle] = useState<ShopifyArticle | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<{ url: string; alt: string } | null>(null);
   const articleContentRef = useRef<HTMLDivElement>(null);
+
+  const content = {
+    es: {
+      copied: 'Enlace copiado al portapapeles',
+      notFound: 'Articulo no encontrado',
+      deleted: 'El articulo que buscas no existe o ha sido eliminado',
+      back: 'Volver a noticias',
+      subtitle: 'Noticia',
+      share: 'Compartir',
+      more: 'Ver mas noticias',
+      news: 'Noticias',
+      home: 'Inicio',
+      articleImage: 'Imagen de la noticia',
+      tags: ['capacitacion', 'INSECAP', 'formacion profesional'],
+      language: 'es-CL',
+    },
+    en: {
+      copied: 'Link copied to clipboard',
+      notFound: 'Article not found',
+      deleted: 'The article you are looking for does not exist or has been removed',
+      back: 'Back to news',
+      subtitle: 'Article',
+      share: 'Share',
+      more: 'See more news',
+      news: 'News',
+      home: 'Home',
+      articleImage: 'Article image',
+      tags: ['training', 'INSECAP', 'professional development'],
+      language: 'en-US',
+    },
+    pt: {
+      copied: 'Link copiado para a area de transferencia',
+      notFound: 'Artigo nao encontrado',
+      deleted: 'O artigo que voce procura nao existe ou foi removido',
+      back: 'Voltar para noticias',
+      subtitle: 'Noticia',
+      share: 'Compartilhar',
+      more: 'Ver mais noticias',
+      news: 'Noticias',
+      home: 'Inicio',
+      articleImage: 'Imagem da noticia',
+      tags: ['capacitacao', 'INSECAP', 'formacao profissional'],
+      language: 'pt-BR',
+    },
+  }[locale];
 
   useEffect(() => {
     const loadArticle = async () => {
@@ -74,7 +121,7 @@ const ArticleDetail = () => {
       const img = e.target as HTMLImageElement;
       setSelectedImage({
         url: img.src,
-        alt: img.alt || article?.title || 'Imagen de la noticia'
+          alt: img.alt || article?.title || content.articleImage
       });
     };
 
@@ -134,7 +181,7 @@ const ArticleDetail = () => {
       }
     } else {
       navigator.clipboard.writeText(window.location.href);
-      toast.success('Enlace copiado al portapapeles');
+      toast.success(content.copied);
     }
   };
 
@@ -168,15 +215,15 @@ const ArticleDetail = () => {
           <div className="container mx-auto px-8 md:px-14 lg:px-16 text-center">
             <Newspaper className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-foreground mb-2">
-              Artículo no encontrado
+              {content.notFound}
             </h1>
             <p className="text-muted-foreground mb-6">
-              El artículo que buscas no existe o ha sido eliminado
+              {content.deleted}
             </p>
-            <Link to="/noticias">
+            <Link to={localizedPath('/noticias')}>
               <Button className="bg-insecap-cyan hover:bg-insecap-cyan/90">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Volver a noticias
+                {content.back}
               </Button>
             </Link>
           </div>
@@ -200,16 +247,16 @@ const ArticleDetail = () => {
             publishedTime: article.publishedAt,
             modifiedTime: article.updatedAt,
             author: article.authorV2?.name,
-            section: 'Noticias',
-            tags: ['capacitación', 'INSECAP', 'formación profesional']
+            section: content.news,
+            tags: content.tags
           }}
           keywords={[
             article.title,
             'INSECAP',
-            'capacitación',
+            content.tags[0],
             'OTEC',
-            'formación profesional',
-            'noticias',
+            content.tags[2],
+            content.news,
             article.authorV2?.name || ''
           ].filter(Boolean)}
           jsonLd={[
@@ -235,10 +282,10 @@ const ArticleDetail = () => {
               },
               'mainEntityOfPage': {
                 '@type': 'WebPage',
-                '@id': `https://insecap-capacitaciones.myshopify.com/noticias/${blogHandle}/${articleHandle}`
+                '@id': `https://insecap-capacitaciones.myshopify.com${localizedPath(`/noticias/${blogHandle}/${articleHandle}`)}`
               },
-              'articleSection': 'Noticias',
-              'inLanguage': 'es-CL'
+              'articleSection': content.news,
+              'inLanguage': content.language
             },
             {
               '@context': 'https://schema.org',
@@ -247,20 +294,20 @@ const ArticleDetail = () => {
                 {
                   '@type': 'ListItem',
                   'position': 1,
-                  'name': 'Inicio',
-                  'item': 'https://insecap-capacitaciones.myshopify.com'
+                  'name': content.home,
+                  'item': `https://insecap-capacitaciones.myshopify.com${localizedPath('/')}`
                 },
                 {
                   '@type': 'ListItem',
                   'position': 2,
-                  'name': 'Noticias',
-                  'item': 'https://insecap-capacitaciones.myshopify.com/noticias'
+                  'name': content.news,
+                  'item': `https://insecap-capacitaciones.myshopify.com${localizedPath('/noticias')}`
                 },
                 {
                   '@type': 'ListItem',
                   'position': 3,
                   'name': article.title,
-                  'item': `https://insecap-capacitaciones.myshopify.com/noticias/${blogHandle}/${articleHandle}`
+                  'item': `https://insecap-capacitaciones.myshopify.com${localizedPath(`/noticias/${blogHandle}/${articleHandle}`)}`
                 }
               ]
             }
@@ -271,9 +318,9 @@ const ArticleDetail = () => {
       <main>
         <PageHero 
           title={article.title}
-          subtitle="Noticia"
+          subtitle={content.subtitle}
           breadcrumbs={[
-            { label: "Noticias", href: "/noticias" },
+            { label: content.news, href: "/noticias" },
             { label: article.title }
           ]}
         />
@@ -293,7 +340,7 @@ const ArticleDetail = () => {
                 className="hover:text-blue-600 hover:bg-blue-50"
               >
                 <Share2 className="h-4 w-4 mr-1" />
-                Compartir
+                {content.share}
               </Button>
             </div>
             {article.image && (
@@ -341,10 +388,10 @@ const ArticleDetail = () => {
         {/* Back to Blog */}
         <section className="py-8 border-t border-border">
           <div className="container mx-auto px-8 md:px-14 lg:px-16 max-w-4xl">
-            <Link to="/noticias">
+            <Link to={localizedPath('/noticias')}>
               <Button variant="outline" className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Ver más noticias
+                {content.more}
               </Button>
             </Link>
           </div>

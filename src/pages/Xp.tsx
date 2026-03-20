@@ -32,8 +32,10 @@ import {
 import Autoplay from 'embla-carousel-autoplay';
 import { ShineBorder } from '@/components/ui/shine-border';
 import { WarpBackground } from '@/components/ui/warp-background';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const ExperienciaYRespaldo = () => {
+  const { locale } = useLocalizedPath();
   // Contadores animados para la card de estadísticas
   const YEARS_TARGET = getYearsOfExperience();
   const CLIENTS_TARGET = 1900;
@@ -86,6 +88,18 @@ const ExperienciaYRespaldo = () => {
 
   const logosSection = useScrollAnimation({ threshold: 0.2 });
   const ctaSection = useScrollAnimation({ threshold: 0.2 });
+
+  const content = {
+    es: {
+      title: 'Experiencia y Respaldo', subtitle: 'Reconocimientos y Certificaciones', about: 'Nosotros', track: 'Nuestra Trayectoria', heading1: 'La Experiencia no se Improvisa:', heading2: 'se Demuestra', intro1: 'En la industria en general, la capacitacion no es un requisito: es un factor critico para la seguridad, la continuidad operacional y la productividad. En INSECAP Capacitacion entendemos esa realidad y trabajamos con un enfoque tecnico, riguroso y alineado a los estandares que exige el mundo laboral.', intro2: 'Nuestra trayectoria se ha construido en terreno, formando competencias clave para operaciones seguras y eficientes. Hemos acompanado a empresas de distintos sectores, con mayor predominancia en la Gran Mineria, en el desarrollo de habilidades tecnicas, cumplimiento normativo y fortalecimiento de equipos de trabajo.', intro3: 'Cada programa formativo que implementamos responde a necesidades reales de la industria, con relatores especializados, metodologias practicas y una ejecucion orientada a resultados medibles.', growth: 'Crecimiento Sostenido', growthSub: 'Nuestra trayectoria en cifras', years: 'Anos de Experiencia', clients: 'Clientes Atendidos', updated: `Datos actualizados al ${new Date().getFullYear()}`, certTag: 'Respaldo Institucional', certTitle: 'Certificaciones y Membresias', certText: 'Estas certificaciones y registros nos permiten crecer y posicionarnos en la industria con un excelente servicio, garantizando la calidad y cumplimiento normativo.', strengthsTag: 'Nuestras Fortalezas', strengthsTitle: 'Valores Tecnicos Agregados', strengthsText: 'Factores diferenciadores que nos permiten crecer y posicionarnos en la industria, ofreciendo un servicio de excelencia que va mas alla de la capacitacion tradicional.', ctaTitle: 'Necesitas un Socio Estrategico en Capacitacion?', ctaText: 'En INSECAP, la experiencia no se improvisa: se demuestra. Contactanos y conoce como podemos apoyar el desarrollo de tu equipo de trabajo.', ctaButton: 'Contactanos Hoy'
+    },
+    en: {
+      title: 'Experience and Trust', subtitle: 'Recognition and Certifications', about: 'About us', track: 'Our Track Record', heading1: 'Experience is not improvised:', heading2: 'it is demonstrated', intro1: 'Across industry, training is not merely a requirement: it is a critical factor for safety, operational continuity and productivity. At INSECAP Training we understand that reality and work with a technical, rigorous approach aligned with the standards required by the labor market.', intro2: 'Our track record has been built in the field, developing key competencies for safe and efficient operations. We have supported companies across sectors, especially in large-scale mining, with technical upskilling, regulatory compliance and team strengthening.', intro3: 'Every training program we implement responds to real industry needs, with specialized instructors, practical methodologies and execution focused on measurable results.', growth: 'Sustained Growth', growthSub: 'Our journey in figures', years: 'Years of Experience', clients: 'Clients Served', updated: `Data updated to ${new Date().getFullYear()}`, certTag: 'Institutional Support', certTitle: 'Certifications and Memberships', certText: 'These certifications and registrations allow us to grow and position ourselves in the industry with excellent service, ensuring quality and regulatory compliance.', strengthsTag: 'Our Strengths', strengthsTitle: 'Technical Added Value', strengthsText: 'Differentiating factors that allow us to grow and stand out in the industry, delivering excellence beyond traditional training.', ctaTitle: 'Need a Strategic Training Partner?', ctaText: 'At INSECAP, experience is not improvised: it is demonstrated. Contact us and find out how we can support your team development.', ctaButton: 'Contact Us Today'
+    },
+    pt: {
+      title: 'Experiencia e Respaldo', subtitle: 'Reconhecimentos e Certificacoes', about: 'Sobre nos', track: 'Nossa Trajetoria', heading1: 'A experiencia nao se improvisa:', heading2: 'ela se comprova', intro1: 'Na industria em geral, a capacitacao nao e apenas um requisito: e um fator critico para seguranca, continuidade operacional e produtividade. Na INSECAP Capacitacao entendemos essa realidade e trabalhamos com um enfoque tecnico, rigoroso e alinhado aos padroes exigidos pelo mercado.', intro2: 'Nossa trajetoria foi construida em campo, formando competencias chave para operacoes seguras e eficientes. Acompanhamos empresas de diferentes setores, com forte presenca na grande mineracao, no desenvolvimento de habilidades tecnicas, cumprimento normativo e fortalecimento de equipes.', intro3: 'Cada programa formativo que implementamos responde a necessidades reais da industria, com facilitadores especializados, metodologias praticas e execucao orientada a resultados mensuraveis.', growth: 'Crescimento Sustentado', growthSub: 'Nossa trajetoria em numeros', years: 'Anos de Experiencia', clients: 'Clientes Atendidos', updated: `Dados atualizados em ${new Date().getFullYear()}`, certTag: 'Respaldo Institucional', certTitle: 'Certificacoes e Associacoes', certText: 'Estas certificacoes e registros nos permitem crescer e nos posicionar na industria com excelente servico, garantindo qualidade e conformidade regulatoria.', strengthsTag: 'Nossos Diferenciais', strengthsTitle: 'Valores Tecnicos Agregados', strengthsText: 'Fatores diferenciadores que nos permitem crescer e nos posicionar na industria, oferecendo um servico de excelencia que vai alem da capacitacao tradicional.', ctaTitle: 'Precisa de um Parceiro Estrategico em Capacitacao?', ctaText: 'Na INSECAP, a experiencia nao se improvisa: se comprova. Fale conosco e saiba como podemos apoiar o desenvolvimento da sua equipe.', ctaButton: 'Fale Conosco Hoje'
+    },
+  }[locale];
 
   // Datos de certificaciones para el grid
   const certificaciones = [
@@ -167,8 +181,8 @@ const ExperienciaYRespaldo = () => {
   return (
     <div className="min-h-screen bg-white">
       <SEO
-        title="Experiencia y Respaldo"
-        description="Conoce la trayectoria, certificaciones y valores técnicos que respaldan a INSECAP Capacitación como socio estratégico en formación profesional."
+        title={content.title}
+        description={content.certText}
         url="/Experiencia-y-Respaldo"
         type="website"
         keywords={[
@@ -177,19 +191,19 @@ const ExperienciaYRespaldo = () => {
           'SENCE',
           'ISO 9001',
           'NCh 2728',
-          'capacitación minería',
-          'formación profesional Chile'
+          locale === 'en' ? 'mining training' : locale === 'pt' ? 'capacitacao mineracao' : 'capacitacion mineria',
+          locale === 'en' ? 'professional training Chile' : locale === 'pt' ? 'formacao profissional Chile' : 'formacion profesional Chile'
         ]}
       />
       <Header />
 
       <main>
         <PageHero
-          title="Experiencia y Respaldo"
-          subtitle="Reconocimientos y Certificaciones"
+          title={content.title}
+          subtitle={content.subtitle}
           breadcrumbs={[
-            { label: "Nosotros", href: "/nosotros" },
-            { label: "Experiencia y Respaldo" }
+            { label: content.about, href: "/nosotros" },
+            { label: content.title }
           ]}
         />
 
@@ -208,10 +222,10 @@ const ExperienciaYRespaldo = () => {
                   }`}
               >
                 <span className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4 block">
-                  Nuestra Trayectoria
+                  {content.track}
                 </span>
                 <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-6">
-                  La Experiencia no se Improvisa: <span className="text-blue-600">se Demuestra</span>
+                  {content.heading1} <span className="text-blue-600">{content.heading2}</span>
                 </h2>
                 <div className={`h-1 bg-blue-600 mx-auto rounded-full transition-all duration-1000 delay-300 ease-out ${introHeader.isVisible ? 'w-20' : 'w-0'
                   }`}></div>
@@ -226,24 +240,9 @@ const ExperienciaYRespaldo = () => {
                     : 'opacity-0 -translate-x-12'
                     }`}
                 >
-                  <p className="text-slate-600 text-lg leading-relaxed text-justify">
-                    En la industria en general, la capacitación no es un requisito: es un <strong className="text-blue-950">factor crítico
-                      para la seguridad, la continuidad operacional y la productividad</strong>. En INSECAP
-                    Capacitación entendemos esa realidad y trabajamos con un enfoque técnico,
-                    riguroso y alineado a los estándares que exige el mundo laboral.
-                  </p>
-                  <p className="text-slate-600 text-lg leading-relaxed text-justify">
-                    Nuestra trayectoria se ha construido en terreno, formando competencias clave
-                    para operaciones seguras y eficientes. Hemos acompañado a empresas de
-                    distintos sectores, con mayor predominancia en la <strong className="text-blue-950">Gran Minería</strong>, en el
-                    desarrollo de habilidades técnicas, cumplimiento normativo y fortalecimiento de
-                    equipos de trabajo.
-                  </p>
-                  <p className="text-slate-600 text-lg leading-relaxed text-justify">
-                    Cada programa formativo que implementamos responde a necesidades reales de
-                    la industria, con relatores especializados, metodologías prácticas y una ejecución
-                    orientada a <strong className="text-blue-950">resultados medibles</strong>.
-                  </p>
+                  <p className="text-slate-600 text-lg leading-relaxed text-justify">{content.intro1}</p>
+                  <p className="text-slate-600 text-lg leading-relaxed text-justify">{content.intro2}</p>
+                  <p className="text-slate-600 text-lg leading-relaxed text-justify">{content.intro3}</p>
                 </div>
 
                 {/* Card visual lateral animado */}
@@ -269,15 +268,19 @@ const ExperienciaYRespaldo = () => {
                           <TrendingUp className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                          <span className="text-blue-200 font-bold uppercase tracking-widest text-xs block">Crecimiento Sostenido</span>
-                          <span className="text-white/60 text-xs">Nuestra trayectoria en cifras</span>
+                          <span className="text-blue-200 font-bold uppercase tracking-widest text-xs block">{content.growth}</span>
+                          <span className="text-white/60 text-xs">{content.growthSub}</span>
                         </div>
                       </div>
 
                       {/* Descripción */}
                       <p className="text-blue-100/90 text-base leading-relaxed mb-7">
-                        Nuestro crecimiento sostenido refleja la confianza que la industria deposita en{' '}
-                        <strong className="text-white">INSECAP como socio estratégico</strong> en capacitación.
+                        {locale === 'en'
+                          ? 'Our sustained growth reflects the trust the industry places in '
+                          : locale === 'pt'
+                            ? 'Nosso crescimento sustentado reflete a confianca que a industria deposita na '
+                            : 'Nuestro crecimiento sostenido refleja la confianza que la industria deposita en '}
+                        <strong className="text-white">INSECAP {locale === 'en' ? 'as a strategic training partner' : locale === 'pt' ? 'como parceiro estrategico em capacitacao' : 'como socio estrategico en capacitacion'}</strong>.
                       </p>
 
                       {/* Stats */}
@@ -293,7 +296,7 @@ const ExperienciaYRespaldo = () => {
                             {yearsCount}
                             <span className="text-blue-300 text-2xl">+</span>
                           </div>
-                          <div className="text-blue-200 text-xs font-medium uppercase tracking-wider mt-2">Años de Experiencia</div>
+                          <div className="text-blue-200 text-xs font-medium uppercase tracking-wider mt-2">{content.years}</div>
                         </div>
 
                         {/* Clientes */}
@@ -306,14 +309,14 @@ const ExperienciaYRespaldo = () => {
                           <div className="text-4xl font-extrabold text-white tabular-nums leading-none mb-1">
                             +{clientsCount.toLocaleString('es-CL')}
                           </div>
-                          <div className="text-blue-200 text-xs font-medium uppercase tracking-wider mt-2">Clientes Atendidos</div>
+                          <div className="text-blue-200 text-xs font-medium uppercase tracking-wider mt-2">{content.clients}</div>
                         </div>
                       </div>
 
                       {/* Separador y nota al pie */}
                       <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-2">
                         <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
-                        <span className="text-white/50 text-xs">Datos actualizados al {new Date().getFullYear()}</span>
+                        <span className="text-white/50 text-xs">{content.updated}</span>
                       </div>
                     </div>
                   </div>
@@ -338,14 +341,13 @@ const ExperienciaYRespaldo = () => {
                   }`}
               >
                 <span className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4 block">
-                  Respaldo Institucional
+                  {content.certTag}
                 </span>
                 <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-6">
-                  Certificaciones y Membresías
+                  {content.certTitle}
                 </h2>
                 <p className="text-slate-600 text-lg max-w-3xl mx-auto">
-                  Estas certificaciones y registros nos permiten crecer y posicionarnos en la industria
-                  con un excelente servicio, garantizando la calidad y cumplimiento normativo.
+                  {content.certText}
                 </p>
               </div>
 
@@ -410,14 +412,13 @@ const ExperienciaYRespaldo = () => {
                   }`}
               >
                 <span className="text-secondary font-semibold uppercase tracking-wider text-sm mb-4 block">
-                  Nuestras Fortalezas
+                  {content.strengthsTag}
                 </span>
                 <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-6">
-                  Valores Técnicos Agregados
+                  {content.strengthsTitle}
                 </h2>
                 <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-                  Factores diferenciadores que nos permiten crecer y posicionarnos en la industria,
-                  ofreciendo un servicio de excelencia que va más allá de la capacitación tradicional.
+                  {content.strengthsText}
                 </p>
               </div>
 
@@ -497,10 +498,9 @@ const ExperienciaYRespaldo = () => {
                   : 'opacity-0 translate-y-8'
                   }`}
               >
-                <h2 className="text-3xl font-bold text-blue-950 mb-6">¿Necesitas un Socio Estratégico en Capacitación?</h2>
+                <h2 className="text-3xl font-bold text-blue-950 mb-6">{content.ctaTitle}</h2>
                 <p className="text-slate-600 mb-8 text-lg max-w-2xl mx-auto">
-                  En INSECAP, la experiencia no se improvisa: se demuestra. Contáctanos y conoce cómo
-                  podemos apoyar el desarrollo de tu equipo de trabajo.
+                  {content.ctaText}
                 </p>
                 <a
                   href="#contacto"
@@ -517,7 +517,7 @@ const ExperienciaYRespaldo = () => {
                     transitionDuration: '500ms',
                   }}
                 >
-                  Contáctanos Hoy
+                  {content.ctaButton}
                 </a>
               </div>
             </div>

@@ -8,15 +8,62 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 import { Link } from 'react-router-dom';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const Contact = () => {
+  const { locale } = useLocalizedPath();
   const { toast } = useToast();
+
+  const content = {
+    es: {
+      title: 'Contactanos',
+      subtitle: 'Estamos a tu servicio',
+      breadcrumb: 'Contacto',
+      toastTitle: 'Mensaje enviado',
+      toastDescription: 'Nos pondremos en contacto contigo a la brevedad.',
+      locationsTag: 'Nuestras Sedes',
+      locationsTitle: 'Nos encontramos en las siguientes regiones',
+      calama: 'Sucursal Calama',
+      antofagasta: 'Sucursal Antofagasta',
+      writeUs: 'Escribenos',
+      writeUsText: 'Si tienes alguna consulta no dudes en escribirnos:',
+      mapAlt: 'Mapa de sedes Insecap',
+    },
+    en: {
+      title: 'Contact Us',
+      subtitle: 'We are here to help',
+      breadcrumb: 'Contact',
+      toastTitle: 'Message sent',
+      toastDescription: 'We will contact you shortly.',
+      locationsTag: 'Our Locations',
+      locationsTitle: 'We are present in the following regions',
+      calama: 'Calama Branch',
+      antofagasta: 'Antofagasta Branch',
+      writeUs: 'Write to us',
+      writeUsText: 'If you have any questions, feel free to contact us:',
+      mapAlt: 'Insecap locations map',
+    },
+    pt: {
+      title: 'Fale Conosco',
+      subtitle: 'Estamos ao seu dispor',
+      breadcrumb: 'Contato',
+      toastTitle: 'Mensagem enviada',
+      toastDescription: 'Entraremos em contato com voce em breve.',
+      locationsTag: 'Nossas Filiais',
+      locationsTitle: 'Estamos presentes nas seguintes regioes',
+      calama: 'Filial Calama',
+      antofagasta: 'Filial Antofagasta',
+      writeUs: 'Escreva para nos',
+      writeUsText: 'Se tiver alguma duvida, nao hesite em nos escrever:',
+      mapAlt: 'Mapa das unidades Insecap',
+    },
+  }[locale];
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     toast({
-      title: "Mensaje enviado",
-      description: "Nos pondremos en contacto contigo a la brevedad.",
+      title: content.toastTitle,
+      description: content.toastDescription,
     });
   };
 
@@ -26,23 +73,23 @@ const Contact = () => {
       
       <main>
         <PageHero 
-          title="Contáctanos"
-          subtitle="Estamos a tu servicio"
-          breadcrumbs={[{ label: "Contacto" }]}
+          title={content.title}
+          subtitle={content.subtitle}
+          breadcrumbs={[{ label: content.breadcrumb }]}
         />
 
         {/* Sedes Section */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div className="text-center mb-16">
-              <span className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-2 block">Nuestras Sedes</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-blue-950">Nos encontramos en las siguientes regiones</h2>
+              <span className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-2 block">{content.locationsTag}</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-blue-950">{content.locationsTitle}</h2>
             </div>
 
             <div className="max-w-6xl mx-auto mb-20">
               <img 
                 src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/nosotros_cedes.svg?v=1769433643" 
-                alt="Mapa de sedes Insecap" 
+                alt={content.mapAlt} 
                 className="w-full h-auto"
               />
             </div>
@@ -53,7 +100,7 @@ const Contact = () => {
                 <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
                   <MapPin className="w-8 h-8 text-white -rotate-3" />
                 </div>
-                <h3 className="text-xl font-bold text-blue-950 mb-4">Sucursal Calama</h3>
+                <h3 className="text-xl font-bold text-blue-950 mb-4">{content.calama}</h3>
                 <div className="space-y-2 text-gray-600">
                   <p>La cascada 1513</p>
                   <p className="flex items-center justify-center gap-2">
@@ -72,7 +119,7 @@ const Contact = () => {
                 <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
                   <MapPin className="w-8 h-8 text-white -rotate-3" />
                 </div>
-                <h3 className="text-xl font-bold text-blue-950 mb-4">Sucursal Antofagasta</h3>
+                <h3 className="text-xl font-bold text-blue-950 mb-4">{content.antofagasta}</h3>
                 <div className="space-y-2 text-gray-600">
                   <p>Copiapó 956</p>
                   <p className="flex items-center justify-center gap-2">
@@ -91,8 +138,8 @@ const Contact = () => {
                 <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
                   <Mail className="w-8 h-8 text-white -rotate-3" />
                 </div>
-                <h3 className="text-xl font-bold text-blue-950 mb-4">Escríbenos</h3>
-                <p className="text-gray-600 mb-2">Si tienes alguna consulta no dudes en escribirnos:</p>
+                <h3 className="text-xl font-bold text-blue-950 mb-4">{content.writeUs}</h3>
+                <p className="text-gray-600 mb-2">{content.writeUsText}</p>
                 <a href="mailto:contacto@insecap.cl" className="text-blue-600 font-semibold hover:underline">
                   contacto@insecap.cl
                 </a>

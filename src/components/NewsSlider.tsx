@@ -17,11 +17,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const NewsSlider: React.FC = () => {
   const [articles, setArticles] = useState<ShopifyArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { localizedPath } = useLocalizedPath();
 
   useEffect(() => {
     const loadArticles = async () => {
@@ -208,7 +210,7 @@ const NewsSlider: React.FC = () => {
                             asChild
                             className="bg-insecap-cyan hover:bg-insecap-cyan/90 text-white font-semibold group"
                           >
-                            <Link to={`/noticias/${article.blog.handle}/${article.handle}`}>
+                            <Link to={localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}>
                               Leer más
                               <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
                             </Link>
@@ -226,7 +228,7 @@ const NewsSlider: React.FC = () => {
         {/* Link para ver todas las noticias */}
         <div className="text-center mt-8">
           <Button variant="outline" asChild className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
-            <Link to="/noticias">
+            <Link to={localizedPath('/noticias')}>
               Ver todas las noticias
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>

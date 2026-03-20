@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookOpen, Users, GraduationCap, Clock, Instagram, Facebook, Linkedin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { WordRotate } from '@/components/ui/word-rotate';
 
 const CAPIN_IMG =
@@ -116,75 +117,20 @@ const CircuitPattern = () => (
 );
 
 const Hero = () => {
-  // Randomly select a phrase on each page load
+  const { t, i18n } = useTranslation();
+
+  type HeroPhrase = {
+    h1: string;
+    h2: string;
+    prefix: string;
+    words: string[];
+    suffix: string;
+  };
+
   const heroPhrase = useMemo(() => {
-    const phrases = [
-      {
-        h1: 'Soluciones de Capacitación Corporativa en Todo Chile',
-        h2: 'Programas diseñados para la minería, energía e industrias estratégicas que exigen seguridad, cumplimiento y alto desempeño operacional.',
-        prefix: 'Impulsando tu operación a',
-        words: ['crecer', 'optimizar', 'fortalecer equipos', 'trabajar seguro', 'avanzar'],
-        suffix: '',
-      },
-      {
-        h1: 'Capacitación que fortalece tu operación',
-        h2: 'Formación especializada para empresas de minería, construcción, transporte, manufactura y sector industrial en todo Chile.',
-        prefix: 'Preparando tu equipo para',
-        words: ['operar mejor', 'reducir riesgos', 'mejorar productividad', 'cumplir estándares'],
-        suffix: '',
-      },
-      {
-        h1: 'Desarrollo de competencias para industrias exigentes',
-        h2: 'Capacitamos equipo humano en minería, logística, energía y servicios industriales donde la seguridad y el cumplimiento normativo son críticos.',
-        prefix: 'Fortaleciendo tu organización para',
-        words: ['proteger', 'optimizar', 'profesionalizar', 'avanzar con confianza'],
-        suffix: '',
-      },
-      {
-        h1: 'Transformamos capacitación en resultados medibles',
-        h2: 'Soluciones formativas para empresas de minería, construcción, sector portuario, retail y servicios que buscan productividad y excelencia operacional.',
-        prefix: 'Impulsando tu empresa a',
-        words: ['crecer', 'especializar equipos', 'mejorar indicadores', 'evolucionar'],
-        suffix: '',
-      },
-      {
-        h1: 'Capacitación Corporativa en Todo Chile',
-        h2: 'Presencia nacional capacitando equipos en minería, agroindustria, transporte, energía, manufactura y sector servicios.',
-        prefix: 'Desde Arica a Punta Arenas, apoyando tu empresa a',
-        words: ['desarrollarse', 'optimizar procesos', 'fortalecer competencias', 'innovar'],
-        suffix: '',
-      },
-      {
-        h1: 'Formación que impulsa industrias estratégicas',
-        h2: 'Programas técnicos y profesionales para minería, construcción, industria metalúrgica, logística y grandes operaciones productivas.',
-        prefix: 'Elevando tu operación para',
-        words: ['rendir más', 'trabajar seguro', 'especializar equipos', 'cumplir estándares'],
-        suffix: '',
-      },
-      {
-        h1: 'No solo capacitamos. Fortalecemos industrias.',
-        h2: 'Desarrollamos competencias para minería, energía, transporte, construcción y empresas que no pueden detener su operación.',
-        prefix: 'Preparando tu organización para',
-        words: ['producir mejor', 'reducir brechas', 'optimizar procesos', 'fortalecer competencias', 'innovar'],
-        suffix: '',
-      },
-      {
-        h1: 'Soluciones de Capacitación para Empresas que Exigen Excelencia',
-        h2: 'Formación especializada para minería, industria pesada, sector portuario, manufactura y servicios corporativos en todo Chile.',
-        prefix: 'Impulsando a tus equipos a',
-        words: ['profesionalizarse', 'perfeccionarse', 'fortalecer habilidades', 'competir'],
-        suffix: '',
-      },
-      {
-        h1: 'Capacitación alineada a los desafíos de la industria',
-        h2: 'Diseñamos programas para minería, energía, infraestructura, logística y sectores productivos que requieren desempeño y cumplimiento permanente.',
-        prefix: 'Acompañando tu empresa a',
-        words: ['crecer', 'optimizar', 'desarrollar talento', 'mejorar estándares'],
-        suffix: '',
-      },
-    ];
-    return phrases[Math.floor(Math.random() * phrases.length)];
-  }, []);
+    const phrases = t('hero.phrases', { returnObjects: true }) as HeroPhrase[];
+    return phrases[Math.floor(Math.random() * phrases.length)] ?? phrases[0];
+  }, [i18n.resolvedLanguage, t]);
 
   const [currentBg, setCurrentBg] = useState(0);
 
@@ -305,7 +251,7 @@ const Hero = () => {
                 }}
               >
                 <BookOpen className="w-4 h-4" />
-                Ver listado de cursos
+                {t('hero.ctaCourses')}
               </motion.a>
               <motion.a
                 href="#contacto"
@@ -323,7 +269,7 @@ const Hero = () => {
                 }}
                 className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm text-white border-2 border-white/30 hover:border-sky-400 hover:text-sky-300 transition-all duration-300 backdrop-blur-sm"
               >
-                Contáctanos
+                {t('hero.ctaContact')}
               </motion.a>
             </motion.div>
 
@@ -335,9 +281,9 @@ const Hero = () => {
               className="flex gap-8 sm:gap-10 justify-center lg:justify-start"
             >
               {[
-                { icon: <Users className="w-5 h-5 text-sky-400" />, value: '47k+', label: 'Usuarios Capacitados en 2025' },
-                { icon: <GraduationCap className="w-5 h-5 text-sky-400" />, value: '1,5K+', label: 'Cursos Realizados' },
-                { icon: <Clock className="w-5 h-5 text-sky-400" />, value: '16 años', label: 'Experiencia' },
+                { icon: <Users className="w-5 h-5 text-sky-400" />, value: '47k+', label: t('hero.stats.trainedUsers') },
+                { icon: <GraduationCap className="w-5 h-5 text-sky-400" />, value: '1,5K+', label: t('hero.stats.coursesDelivered') },
+                { icon: <Clock className="w-5 h-5 text-sky-400" />, value: '16 años', label: t('hero.stats.experience') },
               ].map((stat, i) => (
                 <motion.div key={stat.label} custom={i} variants={fadeInUp} className="flex flex-col items-center lg:items-start gap-1">
                   <div className="flex items-center gap-2">
@@ -359,7 +305,7 @@ const Hero = () => {
               className="mt-8 pt-6 border-t border-white/15"
             >
               <p className="text-white/40 text-[10px] uppercase tracking-widest font-semibold mb-3 text-center lg:text-left">
-                Certificaciones &amp; Membresías
+                {t('hero.certifications')}
               </p>
               <div className="flex flex-wrap items-center gap-3 justify-center lg:justify-start">
                 {/* SENCE */}

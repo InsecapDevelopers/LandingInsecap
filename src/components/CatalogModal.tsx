@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/animated-modal';
 import { Link } from 'react-router-dom';
 import { BookPlusIcon } from 'lucide-react';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 interface AnimatedCatalogModalProps {
   onClose?: () => void;
@@ -42,9 +43,11 @@ export function CatalogModalContent() {
 }
 
 export function AnimatedCatalogModal() {
+  const { localizedPath } = useLocalizedPath();
+
   return (
     <Modal>
-      <Link to="/cursos">
+      <Link to={localizedPath('/cursos')}>
         <ModalTrigger 
           onClick={() => {}} 
           className="group/modal-btn inline-flex items-center justify-center relative overflow-hidden bg-white text-blue-700 py-3 px-6 rounded-full font-semibold hover:bg-gray-100 transition-colors duration-300"

@@ -12,6 +12,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const sections = [
   {
@@ -97,9 +98,43 @@ const sections = [
 ];
 
 const PrivacyPolicy = () => {
+  const { locale } = useLocalizedPath();
   const introSection = useScrollAnimation({ threshold: 0.2 });
   const cardsSection = useStaggerAnimation({ threshold: 0.1 });
   const acceptanceSection = useScrollAnimation({ threshold: 0.2 });
+
+  const content = {
+    es: {
+      title: 'Condiciones del Servicio',
+      subtitle: 'TMS.INSECAP.CL',
+      breadcrumb: 'Politica de Privacidad',
+      app: 'Aplicacion TMS.INSECAP.CL',
+      introTitle: 'Terminos y Condiciones de Uso',
+      introText: 'La presente declaracion establece los terminos y condiciones de uso del sistema TMS.INSECAP.CL, propiedad de INSECAP Capacitacion, respecto al tratamiento de datos de trabajadores de empresas externas y la programacion de reuniones informativas con fines de coordinacion y seguimiento de capacitaciones.',
+      acceptance: '7. Aceptacion',
+      acceptanceText: 'El uso del sistema implica la aceptacion plena de estas condiciones. Cualquier modificacion sera informada por los canales oficiales de INSECAP Capacitacion.',
+    },
+    en: {
+      title: 'Service Terms',
+      subtitle: 'TMS.INSECAP.CL',
+      breadcrumb: 'Privacy Policy',
+      app: 'TMS.INSECAP.CL Application',
+      introTitle: 'Terms and Conditions of Use',
+      introText: 'This statement establishes the terms and conditions for using the TMS.INSECAP.CL system, owned by INSECAP Training, regarding the processing of external company employee data and the scheduling of informational meetings for training coordination and follow-up.',
+      acceptance: '7. Acceptance',
+      acceptanceText: 'Using the system implies full acceptance of these conditions. Any modification will be communicated through INSECAP Training official channels.',
+    },
+    pt: {
+      title: 'Condicoes do Servico',
+      subtitle: 'TMS.INSECAP.CL',
+      breadcrumb: 'Politica de Privacidade',
+      app: 'Aplicacao TMS.INSECAP.CL',
+      introTitle: 'Termos e Condicoes de Uso',
+      introText: 'Esta declaracao estabelece os termos e condicoes de uso do sistema TMS.INSECAP.CL, propriedade da INSECAP Capacitacao, em relacao ao tratamento de dados de trabalhadores de empresas externas e ao agendamento de reunioes informativas para coordenacao e acompanhamento de capacitacoes.',
+      acceptance: '7. Aceitacao',
+      acceptanceText: 'O uso do sistema implica a aceitacao plena destas condicoes. Qualquer modificacao sera comunicada pelos canais oficiais da INSECAP Capacitacao.',
+    },
+  }[locale];
 
   return (
     <div className="min-h-screen bg-white">
@@ -107,9 +142,9 @@ const PrivacyPolicy = () => {
 
       <main>
         <PageHero
-          title="Condiciones del Servicio"
-          subtitle="TMS.INSECAP.CL"
-          breadcrumbs={[{ label: "Política de Privacidad" }]}
+          title={content.title}
+          subtitle={content.subtitle}
+          breadcrumbs={[{ label: content.breadcrumb }]}
         />
 
         {/* Intro Banner */}
@@ -122,17 +157,12 @@ const PrivacyPolicy = () => {
                 introSection.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
             >
-              <p className="text-blue-300 text-sm font-semibold uppercase tracking-widest mb-4">
-                Aplicación TMS.INSECAP.CL
-              </p>
+              <p className="text-blue-300 text-sm font-semibold uppercase tracking-widest mb-4">{content.app}</p>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
-                Términos y Condiciones de Uso
+                {content.introTitle}
               </h2>
               <p className="text-blue-100 text-lg leading-relaxed">
-                La presente declaración establece los términos y condiciones de uso del sistema{' '}
-                <strong className="text-white">TMS.INSECAP.CL</strong>, propiedad de INSECAP Capacitación,
-                respecto al tratamiento de datos de trabajadores de empresas externas y la programación
-                de reuniones informativas con fines de coordinación y seguimiento de capacitaciones.
+                {content.introText}
               </p>
             </div>
           </div>
@@ -198,11 +228,9 @@ const PrivacyPolicy = () => {
                 <div className="bg-white/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <FileText className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-3xl font-bold mb-4">7. Aceptación</h2>
+                <h2 className="text-3xl font-bold mb-4">{content.acceptance}</h2>
                 <p className="text-blue-100 text-lg leading-relaxed">
-                  El uso del sistema implica la <strong className="text-white">aceptación plena</strong> de
-                  estas condiciones. Cualquier modificación será informada por los canales oficiales de{' '}
-                  <strong className="text-white">INSECAP Capacitación</strong>.
+                  {content.acceptanceText}
                 </p>
               </div>
             </div>
