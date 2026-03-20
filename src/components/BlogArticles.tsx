@@ -48,7 +48,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
           <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
             <div className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
-              <span>{formatArticleDate(article.publishedAt)}</span>
+              <span>{formatArticleDate(article.updatedAt ?? article.publishedAt)}</span>
             </div>
             {article.authorV2 && (
               <div className="flex items-center gap-1">

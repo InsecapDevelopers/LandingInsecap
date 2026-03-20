@@ -313,6 +313,8 @@ export interface ShopifyArticle {
   title: string;
   handle: string;
   publishedAt: string;
+  /** Date the article was last edited in Shopify (from Atom <updated>). Undefined when only GraphQL is used. */
+  updatedAt?: string;
   excerpt: string | null;
   contentHtml: string;
   image: {
@@ -646,6 +648,22 @@ export async function fetchBlogArticlesGraphQL(
   first: number = 6,
   after?: string | null
 ): Promise<BlogArticlesResponse> {
+  // For the noticias blog, use the Atom feed as the primary source so articles are ordered
+  // by their last-edit date (updatedAt). Shopify Storefront GraphQL does not expose
+  // updatedAt for blog articles, making Atom the only reliable source for this ordering.
+  if (blogHandle === 'noticias' && !after) {
+    // fetchBlogArticles fetches all feed entries, orders by updatedAt ?? publishedAt
+    // descending, and returns the top `first`. Callers that want ALL articles (e.g.
+    // Blog.tsx batching with first=250) will receive everything the feed has.
+    const articles = await fetchBlogArticles(blogHandle, first);
+    return { articles, pageInfo: { hasNextPage: false, endCursor: null } };
+  }
+
+  // Subsequent cursor-based pages for noticias: we already returned everything above.
+  if (blogHandle === 'noticias' && after) {
+    return { articles: [], pageInfo: { hasNextPage: false, endCursor: null } };
+  }
+
   try {
     const variables: Record<string, unknown> = {
       handle: blogHandle,
@@ -692,6 +710,12 @@ export async function fetchArticleByHandleGraphQL(
   blogHandle: string,
   articleHandle: string
 ): Promise<ShopifyArticle | null> {
+  // For the noticias blog, use the Atom feed so the returned article includes
+  // updatedAt, which is required for accurate SEO dateModified metadata.
+  if (blogHandle === 'noticias') {
+    return await fetchArticleByHandle(blogHandle, articleHandle);
+  }
+
   try {
     const data = await insecapStorefrontRequest(BLOG_ARTICLE_BY_HANDLE_QUERY, {
       blogHandle,
@@ -731,6 +755,7 @@ async function parseAtomFeed(xml: string, blogHandle: string): Promise<ShopifyAr
     const title = entry.querySelector('title')?.textContent || '';
     const id = entry.querySelector('id')?.textContent || `article-${index}`;
     const published = entry.querySelector('published')?.textContent || new Date().toISOString();
+    const updated = entry.querySelector('updated')?.textContent || undefined;
     const content = entry.querySelector('content')?.textContent || '';
     const summary = entry.querySelector('summary')?.textContent || '';
     const authorName = entry.querySelector('author > name')?.textContent || 'INSECAP';
@@ -765,6 +790,7 @@ async function parseAtomFeed(xml: string, blogHandle: string): Promise<ShopifyAr
       title,
       handle,
       publishedAt: published,
+      updatedAt: updated,
       excerpt,
       contentHtml: content,
       image: imageUrl ? { url: imageUrl, altText: title } : null,
@@ -777,26 +803,69 @@ async function parseAtomFeed(xml: string, blogHandle: string): Promise<ShopifyAr
 }
 
 // Fetch blog articles via RSS feed (bypasses Storefront API token requirement)
+// Shopify Atom feeds are paginated: each page contains at most 20 articles ordered
+// by publishedAt DESC. To sort by edit date we need ALL articles, so we paginate
+// until we receive a page with fewer than 20 entries (last page).
+const ATOM_PAGE_SIZE = 20;
+
 export async function fetchBlogArticles(blogHandle: string = 'noticias', first: number = 10): Promise<ShopifyArticle[]> {
   try {
-    // Try the real Insecap store RSS feed
-    const rssUrl = `https://${INSECAP_STORE_DOMAIN}/blogs/${blogHandle}.atom`;
-    const proxyUrl = `${RSS_PROXY}${encodeURIComponent(rssUrl)}`;
-    
-    console.log('Fetching RSS from:', rssUrl);
-    
-    const response = await fetch(proxyUrl);
-    
-    if (!response.ok) {
-      console.warn(`RSS feed not found for blog "${blogHandle}"`);
-      return [];
+    const baseUrl = `https://${INSECAP_STORE_DOMAIN}/blogs/${blogHandle}.atom`;
+    // Cache-buster rotates every minute so the browser and corsproxy always fetch
+    // the latest feed instead of serving a stale cached version.
+    const cb = Math.floor(Date.now() / 60_000);
+    const allArticles: ShopifyArticle[] = [];
+    const seenIds = new Set<string>();
+    let page = 1;
+    // Safety cap: 50 pages × 20 = 1 000 articles, well above any realistic blog size.
+    const MAX_PAGES = 50;
+
+    while (page <= MAX_PAGES) {
+      const pageUrl = page === 1
+        ? `${baseUrl}?_cb=${cb}`
+        : `${baseUrl}?page=${page}&_cb=${cb}`;
+      const proxyUrl = `${RSS_PROXY}${encodeURIComponent(pageUrl)}`;
+
+      const response = await fetch(proxyUrl);
+
+      if (!response.ok) {
+        if (page === 1) {
+          console.warn(`RSS feed not found for blog "${blogHandle}"`);
+          return [];
+        }
+        break;
+      }
+
+      const xml = await response.text();
+      const pageArticles = await parseAtomFeed(xml, blogHandle);
+
+      // Shopify repeats the last real page when the requested page exceeds the total.
+      // Detect this by checking if any returned ID was already collected.
+      const isRepeat = pageArticles.length > 0 && pageArticles.every(a => seenIds.has(a.id));
+      if (isRepeat) break;
+
+      for (const a of pageArticles) {
+        if (!seenIds.has(a.id)) {
+          seenIds.add(a.id);
+          allArticles.push(a);
+        }
+      }
+
+      // Fewer than a full page means this was the last real page.
+      if (pageArticles.length < ATOM_PAGE_SIZE) break;
+
+      page++;
     }
-    
-    const xml = await response.text();
-    const articles = await parseAtomFeed(xml, blogHandle);
-    
+
+    // Sort by effective date (updatedAt when present, else publishedAt) descending
+    // so that articles edited recently surface before older unedited ones.
+    allArticles.sort((a, b) =>
+      new Date(b.updatedAt ?? b.publishedAt).getTime() -
+      new Date(a.updatedAt ?? a.publishedAt).getTime()
+    );
+
     // Return only the requested number
-    return articles.slice(0, first);
+    return allArticles.slice(0, first);
   } catch (error) {
     console.error('Error fetching blog articles via RSS:', error);
     return [];
@@ -806,8 +875,8 @@ export async function fetchBlogArticles(blogHandle: string = 'noticias', first: 
 // Fetch single article by handle (via RSS - finds in cached articles)
 export async function fetchArticleByHandle(blogHandle: string, articleHandle: string): Promise<ShopifyArticle | null> {
   try {
-    // Fetch all articles and find the one matching the handle
-    const articles = await fetchBlogArticles(blogHandle, 50);
+    // Use a high limit so the full feed is searched, not just the top-ranked articles.
+    const articles = await fetchBlogArticles(blogHandle, 9999);
     const article = articles.find(a => a.handle === articleHandle);
     return article || null;
   } catch (error) {
@@ -823,6 +892,12 @@ export function formatArticleDate(dateString: string): string {
     month: 'long',
     day: 'numeric',
   });
+}
+
+// Returns the most relevant date for an article:
+// edit date (updatedAt) when available, otherwise publish date.
+export function effectiveDate(article: ShopifyArticle): string {
+  return article.updatedAt ?? article.publishedAt;
 }
 
 // ========================================

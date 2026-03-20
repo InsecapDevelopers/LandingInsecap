@@ -186,7 +186,7 @@ const NewsSlider: React.FC = () => {
                         <div className="flex items-center gap-4 mb-4 flex-wrap">
                           <Badge variant="secondary" className="flex items-center gap-1.5 bg-insecap-cyan/10 text-insecap-cyan border-0">
                             <Calendar className="w-3.5 h-3.5" />
-                            {formatDate(article.publishedAt)}
+                            {formatDate(article.updatedAt ?? article.publishedAt)}
                           </Badge>
                         </div>
 

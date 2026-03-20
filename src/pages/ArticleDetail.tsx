@@ -198,6 +198,7 @@ const ArticleDetail = () => {
           type="article"
           article={{
             publishedTime: article.publishedAt,
+            modifiedTime: article.updatedAt,
             author: article.authorV2?.name,
             section: 'Noticias',
             tags: ['capacitación', 'INSECAP', 'formación profesional']
@@ -219,7 +220,7 @@ const ArticleDetail = () => {
               'description': getMetaDescription(article),
               'image': article.image?.url,
               'datePublished': article.publishedAt,
-              'dateModified': article.publishedAt,
+              'dateModified': article.updatedAt ?? article.publishedAt,
               'author': {
                 '@type': 'Person',
                 'name': article.authorV2?.name || 'INSECAP'
@@ -283,7 +284,7 @@ const ArticleDetail = () => {
             <div className="flex flex-wrap items-center gap-4 text-slate-500 mb-8 border-b pb-4">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{formatArticleDate(article.publishedAt)}</span>
+                <span>{formatArticleDate(article.updatedAt ?? article.publishedAt)}</span>
               </div>
               <Button
                 variant="ghost"
