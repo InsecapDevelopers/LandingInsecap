@@ -648,22 +648,6 @@ export async function fetchBlogArticlesGraphQL(
   first: number = 6,
   after?: string | null
 ): Promise<BlogArticlesResponse> {
-  // For the noticias blog, use the Atom feed as the primary source so articles are ordered
-  // by their last-edit date (updatedAt). Shopify Storefront GraphQL does not expose
-  // updatedAt for blog articles, making Atom the only reliable source for this ordering.
-  if (blogHandle === 'noticias' && !after) {
-    // fetchBlogArticles fetches all feed entries, orders by updatedAt ?? publishedAt
-    // descending, and returns the top `first`. Callers that want ALL articles (e.g.
-    // Blog.tsx batching with first=250) will receive everything the feed has.
-    const articles = await fetchBlogArticles(blogHandle, first);
-    return { articles, pageInfo: { hasNextPage: false, endCursor: null } };
-  }
-
-  // Subsequent cursor-based pages for noticias: we already returned everything above.
-  if (blogHandle === 'noticias' && after) {
-    return { articles: [], pageInfo: { hasNextPage: false, endCursor: null } };
-  }
-
   try {
     const variables: Record<string, unknown> = {
       handle: blogHandle,
@@ -710,12 +694,6 @@ export async function fetchArticleByHandleGraphQL(
   blogHandle: string,
   articleHandle: string
 ): Promise<ShopifyArticle | null> {
-  // For the noticias blog, use the Atom feed so the returned article includes
-  // updatedAt, which is required for accurate SEO dateModified metadata.
-  if (blogHandle === 'noticias') {
-    return await fetchArticleByHandle(blogHandle, articleHandle);
-  }
-
   try {
     const data = await insecapStorefrontRequest(BLOG_ARTICLE_BY_HANDLE_QUERY, {
       blogHandle,
@@ -829,10 +807,7 @@ export async function fetchBlogArticles(blogHandle: string = 'noticias', first: 
       const response = await fetch(proxyUrl);
 
       if (!response.ok) {
-        if (page === 1) {
-          console.warn(`RSS feed not found for blog "${blogHandle}"`);
-          return [];
-        }
+        if (page === 1) return [];
         break;
       }
 
