@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from 'react-i18next';
 import {
   Sheet,
   SheetContent,
@@ -23,6 +24,7 @@ import { formatPrice } from "@/lib/shopify";
 // ─── Componente CartDrawer ────────────────────────────────────────────────────
 
 export const CartDrawer = () => {
+  const { t } = useTranslation();
   const {
     items,
     isLoading,
@@ -71,11 +73,11 @@ export const CartDrawer = () => {
 
       <SheetContent className="w-full sm:max-w-lg flex flex-col h-full">
         <SheetHeader className="flex-shrink-0">
-          <SheetTitle className="text-insecap-blue">Carrito de Compras</SheetTitle>
+          <SheetTitle className="text-insecap-blue">{t('cart.title')}</SheetTitle>
           <SheetDescription>
             {totalItems === 0
-              ? "Tu carrito está vacío"
-              : `${totalItems} curso${totalItems !== 1 ? "s" : ""} en tu carrito`}
+              ? t('cart.empty')
+              : `${totalItems} ${totalItems !== 1 ? t('cart.coursesPlural') : t('cart.coursesSingular')} ${t('cart.courses')}`}
           </SheetDescription>
         </SheetHeader>
 
@@ -84,9 +86,9 @@ export const CartDrawer = () => {
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
                 <ShoppingCart className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground mb-2">Tu carrito está vacío</p>
+                <p className="text-muted-foreground mb-2">{t('cart.empty')}</p>
                 <p className="text-sm text-muted-foreground">
-                  Explora nuestros cursos y agrega los que te interesen
+                  {t('cart.emptyMessage')}
                 </p>
               </div>
             </div>
@@ -120,7 +122,7 @@ export const CartDrawer = () => {
                             {item.product.node.title}
                           </h4>
                           <p className="text-sm text-muted-foreground mt-1">
-                            {item.product.node.productType || "Curso Online"}
+                            {item.product.node.productType || t('cart.courseOnline')}
                           </p>
                           <p className="font-semibold text-insecap-cyan mt-1">
                             {formatPrice(item.price.amount, item.price.currencyCode)}
@@ -173,7 +175,7 @@ export const CartDrawer = () => {
               <div className="flex-shrink-0 space-y-4 pt-4 border-t bg-background mt-4">
                 {/* Total */}
                 <div className="flex justify-between items-center">
-                  <span className="text-lg font-semibold">Total</span>
+                  <span className="text-lg font-semibold">{t('cart.total')}</span>
                   <span className="text-2xl font-bold text-insecap-cyan">
                     {formatPrice(totalPrice.toString(), "CLP")}
                   </span>
@@ -189,18 +191,18 @@ export const CartDrawer = () => {
                   {isLoading ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Procesando...
+                      {t('cart.processing')}
                     </>
                   ) : (
                     <>
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      Proceder al Pago
+                      {t('cart.checkout')}
                     </>
                   )}
                 </Button>
 
                 <p className="text-xs text-center text-muted-foreground">
-                  Serás redirigido a Shopify para completar tu compra de forma segura
+                  {t('cart.secureCheckout')}
                 </p>
               </div>
             </>

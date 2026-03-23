@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
   ChevronLeft,
@@ -33,6 +34,7 @@ const isEcommerceEnabled = import.meta.env.VITE_ECOMMERCE_ENABLED !== 'false';
 
 // ─── Product Card (same design as ShopifyProducts) ──────────────────────────
 const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
+  const { t } = useTranslation();
   const addItem = useCartStore((state) => state.addItem);
   const { localizedPath } = useLocalizedPath();
   const { node } = product;
@@ -46,7 +48,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
     e.stopPropagation();
 
     if (!firstVariant) {
-      toast.error('Curso no disponible');
+      toast.error(t('shopify.unavailable'));
       return;
     }
 
@@ -59,7 +61,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
       selectedOptions: firstVariant.selectedOptions || [],
     });
 
-    toast.success('Curso agregado al carrito', {
+    toast.success(t('shopify.addedToCart'), {
       description: node.title,
       position: 'top-center',
     });
@@ -96,7 +98,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
           </h3>
 
           <p className="text-sm text-muted-foreground mb-3 line-clamp-2 flex-1">
-            {node.description || 'Capacitación profesional certificada'}
+            {node.description || t('shopify.certifiedTraining')}
           </p>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
@@ -124,7 +126,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
                   className="bg-insecap-blue hover:bg-insecap-blue/90 text-white"
                 >
                   <ShoppingCart className="h-4 w-4 mr-1" />
-                  Agregar
+                  {t('shopify.add')}
                 </Button>
               </>
             ) : (
@@ -132,7 +134,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
                 size="sm"
                 className="w-full bg-insecap-blue hover:bg-insecap-blue/90 text-white"
               >
-                Ver curso
+                {t('shopify.viewCourse')}
               </Button>
             )}
           </div>

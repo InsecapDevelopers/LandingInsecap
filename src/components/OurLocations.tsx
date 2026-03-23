@@ -1,7 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import ChileSedesMap from './chile-map/ChileSedesMap';
 
 const OurLocations: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <section className="py-4 bg-gradient-to-b from-gray-50/50 to-white relative overflow-hidden">
       {/* Decorative background elements */}
@@ -12,14 +14,14 @@ const OurLocations: React.FC = () => {
         {/* Cabecera de la sección */}
         <div className="text-center mb-3">
           <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-2 text-center">
-            Nuestras Sedes
+            {t('locations.badge')}
           </p>
           <h2 className="text-3xl md:text-5xl font-bold text-blue-950 mb-3">
-            Nos encontramos en las siguientes regiones
+            {t('locations.title')}
           </h2>
           <p className="hidden md:flex items-center justify-center gap-1.5 text-sm text-gray-400 mb-4">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            Mapa interactivo — pasa el cursor sobre una sede
+            {t('locations.mapHint')}
           </p>
 
           {/* Línea decorativa con gradiente */}

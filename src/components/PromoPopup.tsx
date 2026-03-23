@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +21,7 @@ import { useLocalizedPath } from '@/hooks/use-localized-path';
  * The popup will appear every time a user enters the site.
  */
 const PromoPopup = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { localizedPath } = useLocalizedPath();
   const [isOpen, setIsOpen] = useState(false);
@@ -81,7 +83,7 @@ const PromoPopup = () => {
             <button
               onClick={handleClose}
               className="absolute -top-4 -right-4 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
-              aria-label="Cerrar popup"
+              aria-label={t('aria.closePopup')}
             >
               <X className="w-6 h-6 text-gray-800" />
             </button>

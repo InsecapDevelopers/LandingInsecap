@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -13,12 +14,11 @@ interface ArticleCardProps {
 }
 
 const ArticleCard = ({ article }: ArticleCardProps) => {
+  const { t } = useTranslation();
   const { localizedPath } = useLocalizedPath();
 
   return (
     <Link to={localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}>
-        const { localizedPath } = useLocalizedPath();
-
       <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card h-full flex flex-col">
         <div className="relative h-48 bg-gradient-to-br from-insecap-blue to-insecap-cyan overflow-hidden">
           {article.image ? (
@@ -34,7 +34,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
           )}
           <div className="absolute top-3 left-3">
             <Badge className="bg-insecap-cyan text-white border-0">
-              Noticia
+              {t('blog.newsBadge')}
             </Badge>
           </div>
         </div>
@@ -65,7 +65,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
 
           <div className="flex items-center justify-end pt-4 border-t border-border">
             <span className="text-insecap-cyan font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-              Leer más <ArrowRight className="h-4 w-4" />
+              {t('blog.readMore')} <ArrowRight className="h-4 w-4" />
             </span>
           </div>
         </CardContent>
@@ -96,8 +96,8 @@ interface BlogArticlesProps {
   showTitle?: boolean;
 }
 
-export const BlogArticles = ({ blogHandle = 'news', limit = 6, showTitle = true }: BlogArticlesProps) => {
-  const [articles, setArticles] = useState<ShopifyArticle[]>([]);
+export const BlogArticles = ({ blogHandle = 'news', limit = 6, showTitle = true }: BlogArticlesProps) => {  const { t } = useTranslation();
+  const { localizedPath } = useLocalizedPath();  const [articles, setArticles] = useState<ShopifyArticle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -108,7 +108,7 @@ export const BlogArticles = ({ blogHandle = 'news', limit = 6, showTitle = true 
         const data = await fetchBlogArticles(blogHandle, limit);
         setArticles(data);
       } catch (err) {
-        setError("Error al cargar las noticias");
+        setError(t('blog.loadError'));
         console.error(err);
       } finally {
         setIsLoading(false);
@@ -138,13 +138,13 @@ export const BlogArticles = ({ blogHandle = 'news', limit = 6, showTitle = true 
         {showTitle && (
           <div className="text-center mb-12">
             <Badge className="mb-4 bg-insecap-cyan/10 text-insecap-cyan border-insecap-cyan/20">
-              Blog & Noticias
+              {t('blog.sectionBadge')}
             </Badge>
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-              Últimas Noticias
+              {t('blog.latestNews')}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Mantente informado sobre las novedades en capacitación y seguridad laboral
+              {t('blog.latestNewsDesc')}
             </p>
           </div>
         )}
@@ -167,7 +167,7 @@ export const BlogArticles = ({ blogHandle = 'news', limit = 6, showTitle = true 
                 size="lg"
                 className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white"
               >
-                Ver todas las noticias
+                {t('blog.seeAll')}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
   HardHat,
@@ -49,6 +50,7 @@ const CategorySkeleton = () => (
 );
 
 const Categories = () => {
+    const { t } = useTranslation();
     const { localizedPath } = useLocalizedPath();
 
   const [categories, setCategories] = useState<ShopifyCategory[]>([]);
@@ -90,14 +92,13 @@ const Categories = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <span className="text-secondary font-medium text-sm uppercase tracking-wider">
-            Áreas de Capacitación
+            {t('categories.badge')}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-4">
-            Explora nuestras categorías
+            {t('categories.title')}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Ofrecemos una amplia gama de cursos diseñados para potenciar
-            las competencias laborales en diversos sectores de la industria.
+            {t('categories.description')}
           </p>
         </div>
 
@@ -124,7 +125,7 @@ const Categories = () => {
                     {category.label}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    {category.count} {category.count === 1 ? 'curso' : 'cursos'}
+                    {category.count} {category.count === 1 ? t('categories.course') : t('categories.courses')}
                   </p>
                 </a>
               );
@@ -137,7 +138,7 @@ const Categories = () => {
           <div className="text-center mt-12">
             <Link to={localizedPath('/cursos')}>
               <Button size="lg" variant="outline" className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
-                Ver más categorías
+                {t('categories.showMore')}
                 <ChevronRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>

@@ -1,39 +1,41 @@
 import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useInView } from 'motion/react';
 import { NumberTicker } from "./ui/number-ticker";
 import { Particles } from "./ui/particles";
 import { Users, GraduationCap, Clock3, List } from "lucide-react";
 
-const stats = [
-  {
-    label: "Usuarios Capacitados en 2025",
-    value: 47700,
-    icon: <Users className="w-8 h-8 text-white/90" />,
-    suffix: "+"
-  },
-  {
-    label: "Facilitadores Expertos",
-    value: 341,
-    icon: <GraduationCap className="w-8 h-8 text-white/90" />,
-    suffix: "+"
-  },
-  {
-    label: "Horas de Capacitación",
-    value: 895863,
-    icon: <Clock3 className="w-8 h-8 text-white/90" />,
-    suffix: "+"
-  },
-  {
-    label: "Cantidad de Cursos Diseñados",
-    value: 1582,
-    icon: <List className="w-8 h-8 text-white/90" />,
-    suffix: "+"
-  }
-];
-
 export function StatsSection() {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: false, margin: "-80px" });
+
+  const stats = [
+    {
+      label: t('statistics.trainedUsers'),
+      value: 47700,
+      icon: <Users className="w-8 h-8 text-white/90" />,
+      suffix: "+"
+    },
+    {
+      label: t('statistics.expertFacilitators'),
+      value: 341,
+      icon: <GraduationCap className="w-8 h-8 text-white/90" />,
+      suffix: "+"
+    },
+    {
+      label: t('statistics.trainingHours'),
+      value: 895863,
+      icon: <Clock3 className="w-8 h-8 text-white/90" />,
+      suffix: "+"
+    },
+    {
+      label: t('statistics.designedCourses'),
+      value: 1582,
+      icon: <List className="w-8 h-8 text-white/90" />,
+      suffix: "+"
+    }
+  ];
 
   return (
     <section ref={sectionRef} className="relative py-16 overflow-hidden bg-gradient-to-r from-[#2952cc] via-insecap-blue to-sky-400">

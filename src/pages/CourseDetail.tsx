@@ -78,13 +78,40 @@ const CourseDetail = () => {
 
   const content = {
     es: {
-      unavailable: 'Curso no disponible', added: 'Curso agregado al carrito', notFound: 'Curso no encontrado', backHome: 'Volver al inicio', course: 'Curso', courses: 'Cursos', hours: '24 horas', students: '+500 alumnos', start: 'Inicio inmediato', pricePerStudent: 'Precio por participante', addToCart: 'Agregar al Carrito', includes: 'Este curso incluye:', descriptionTab: 'Descripcion', objectivesTab: 'Objetivos', syllabusTab: 'Temario', certificationTab: 'Certificacion', objectivesTitle: 'Objetivos del curso:', syllabusTitle: 'Contenido del curso:',
+      unavailable: 'Curso no disponible', added: 'Curso agregado al carrito', notFound: 'Curso no encontrado', backHome: 'Volver al inicio', course: 'Curso', hours: '24 horas', students: '+500 alumnos', start: 'Inicio inmediato', pricePerStudent: 'Precio por participante', addToCart: 'Agregar al Carrito', includes: 'Este curso incluye:', descriptionTab: 'Descripción', objectivesTab: 'Objetivos', syllabusTab: 'Temario', certificationTab: 'Certificación', objectivesTitle: 'Objetivos del curso:', syllabusTitle: 'Contenido del curso:',
+      by: 'Por', coursesLabel: 'Cursos', imageLabel: 'Imagen',
+      defaultDescription: 'Este curso está diseñado para entregar conocimientos y habilidades específicas en el área de capacitación profesional. Los participantes aprenderán metodologías actualizadas y técnicas prácticas aplicables en su entorno laboral. Nuestro programa cumple con los más altos estándares de calidad y está certificado bajo la normativa vigente.',
+      includesList: ['Material didáctico digital', 'Certificado de aprobación', 'Acceso ilimitado al contenido', 'Soporte técnico dedicado', 'Evaluación final certificada'],
+      objectivesList: ['Comprender los fundamentos teóricos y prácticos del área', 'Aplicar técnicas y metodologías actualizadas', 'Desarrollar habilidades específicas para el desempeño laboral', 'Cumplir con los requisitos normativos y de seguridad', 'Obtener certificación reconocida en el mercado'],
+      syllabusModules: [{ module: 'Módulo 1', title: 'Introducción y fundamentos' }, { module: 'Módulo 2', title: 'Marco normativo y legal' }, { module: 'Módulo 3', title: 'Técnicas y metodologías' }, { module: 'Módulo 4', title: 'Aplicación práctica' }, { module: 'Módulo 5', title: 'Evaluación y certificación' }],
+      certSENCETitle: 'Certificación SENCE',
+      certSENCEDesc: 'Este curso cuenta con código SENCE, lo que permite utilizar la franquicia tributaria para capacitación. Al aprobar, recibirás un certificado oficial válido ante SENCE.',
+      certNChTitle: 'Norma Chilena NCh 2728',
+      certNChDesc: 'Insecap Capacitaciones está certificado bajo la Norma Chilena NCh 2728 que garantiza la calidad de nuestros organismos técnicos de capacitación (OTEC).',
     },
     en: {
-      unavailable: 'Course not available', added: 'Course added to cart', notFound: 'Course not found', backHome: 'Back to home', course: 'Course', courses: 'Courses', hours: '24 hours', students: '+500 students', start: 'Immediate start', pricePerStudent: 'Price per participant', addToCart: 'Add to Cart', includes: 'This course includes:', descriptionTab: 'Description', objectivesTab: 'Objectives', syllabusTab: 'Syllabus', certificationTab: 'Certification', objectivesTitle: 'Course objectives:', syllabusTitle: 'Course content:',
+      unavailable: 'Course not available', added: 'Course added to cart', notFound: 'Course not found', backHome: 'Back to home', course: 'Course', hours: '24 hours', students: '+500 students', start: 'Immediate start', pricePerStudent: 'Price per participant', addToCart: 'Add to Cart', includes: 'This course includes:', descriptionTab: 'Description', objectivesTab: 'Objectives', syllabusTab: 'Syllabus', certificationTab: 'Certification', objectivesTitle: 'Course objectives:', syllabusTitle: 'Course content:',
+      by: 'By', coursesLabel: 'Courses', imageLabel: 'Image',
+      defaultDescription: 'This course is designed to deliver specific knowledge and skills in the area of professional training. Participants will learn updated methodologies and practical techniques applicable in their work environment. Our program meets the highest quality standards and is certified under current regulations.',
+      includesList: ['Digital learning materials', 'Certificate of completion', 'Unlimited content access', 'Dedicated technical support', 'Certified final assessment'],
+      objectivesList: ['Understand the theoretical and practical foundations of the area', 'Apply updated techniques and methodologies', 'Develop specific skills for job performance', 'Meet regulatory and safety requirements', 'Obtain a market-recognized certification'],
+      syllabusModules: [{ module: 'Module 1', title: 'Introduction and fundamentals' }, { module: 'Module 2', title: 'Regulatory and legal framework' }, { module: 'Module 3', title: 'Techniques and methodologies' }, { module: 'Module 4', title: 'Practical application' }, { module: 'Module 5', title: 'Assessment and certification' }],
+      certSENCETitle: 'SENCE Certification',
+      certSENCEDesc: 'This course has a SENCE code, which allows using the tax incentive for training. Upon passing, you will receive an official certificate valid with SENCE.',
+      certNChTitle: 'Chilean Standard NCh 2728',
+      certNChDesc: 'Insecap Capacitaciones is certified under Chilean Standard NCh 2728, which guarantees the quality of our technical training organizations (OTEC).',
     },
     pt: {
-      unavailable: 'Curso indisponivel', added: 'Curso adicionado ao carrinho', notFound: 'Curso nao encontrado', backHome: 'Voltar ao inicio', course: 'Curso', courses: 'Cursos', hours: '24 horas', students: '+500 alunos', start: 'Inicio imediato', pricePerStudent: 'Preco por participante', addToCart: 'Adicionar ao Carrinho', includes: 'Este curso inclui:', descriptionTab: 'Descricao', objectivesTab: 'Objetivos', syllabusTab: 'Conteudo', certificationTab: 'Certificacao', objectivesTitle: 'Objetivos do curso:', syllabusTitle: 'Conteudo do curso:',
+      unavailable: 'Curso indisponível', added: 'Curso adicionado ao carrinho', notFound: 'Curso não encontrado', backHome: 'Voltar ao início', course: 'Curso', hours: '24 horas', students: '+500 alunos', start: 'Início imediato', pricePerStudent: 'Preço por participante', addToCart: 'Adicionar ao Carrinho', includes: 'Este curso inclui:', descriptionTab: 'Descrição', objectivesTab: 'Objetivos', syllabusTab: 'Conteúdo', certificationTab: 'Certificação', objectivesTitle: 'Objetivos do curso:', syllabusTitle: 'Conteúdo do curso:',
+      by: 'Por', coursesLabel: 'Cursos', imageLabel: 'Imagem',
+      defaultDescription: 'Este curso foi projetado para transmitir conhecimentos e habilidades específicas na área de capacitação profissional. Os participantes aprenderão metodologias atualizadas e técnicas práticas aplicáveis ao seu ambiente de trabalho. Nosso programa atende aos mais altos padrões de qualidade e está certificado conforme a regulamentação vigente.',
+      includesList: ['Material didático digital', 'Certificado de conclusão', 'Acesso ilimitado ao conteúdo', 'Suporte técnico dedicado', 'Avaliação final certificada'],
+      objectivesList: ['Compreender os fundamentos teóricos e práticos da área', 'Aplicar técnicas e metodologias atualizadas', 'Desenvolver habilidades específicas para o desempenho profissional', 'Cumprir com os requisitos normativos e de segurança', 'Obter certificação reconhecida no mercado'],
+      syllabusModules: [{ module: 'Módulo 1', title: 'Introdução e fundamentos' }, { module: 'Módulo 2', title: 'Marco normativo e legal' }, { module: 'Módulo 3', title: 'Técnicas e metodologias' }, { module: 'Módulo 4', title: 'Aplicação prática' }, { module: 'Módulo 5', title: 'Avaliação e certificação' }],
+      certSENCETitle: 'Certificação SENCE',
+      certSENCEDesc: 'Este curso possui código SENCE, o que permite utilizar o incentivo fiscal para capacitação. Ao ser aprovado, você receberá um certificado oficial válido perante o SENCE.',
+      certNChTitle: 'Norma Chilena NCh 2728',
+      certNChDesc: 'A Insecap Capacitações está certificada conforme a Norma Chilena NCh 2728, que garante a qualidade dos nossos organismos técnicos de capacitação (OTEC).',
     },
   }[locale];
 
@@ -186,7 +213,7 @@ const CourseDetail = () => {
           subtitle={product.productType || content.course}
           backgroundImage={product.images.edges[0]?.node.url}
           breadcrumbs={[
-            { label: "Cursos", href: "/cursos" },
+            { label: content.coursesLabel, href: "/cursos" },
             { label: product.title }
           ]}
         />
@@ -222,7 +249,7 @@ const CourseDetail = () => {
                     >
                       <img
                         src={img.node.url}
-                        alt={img.node.altText || `Imagen ${idx + 1}`}
+                        alt={img.node.altText || `${content.imageLabel} ${idx + 1}`}
                         className="w-full h-full object-cover"
                       />
                     </button>
@@ -251,7 +278,7 @@ const CourseDetail = () => {
                 </h1>
 
                 <p className="text-muted-foreground">
-                  Por <span className="text-insecap-cyan font-medium">{product.vendor}</span>
+                  {content.by} <span className="text-insecap-cyan font-medium">{product.vendor}</span>
                 </p>
               </div>
 
@@ -301,13 +328,7 @@ const CourseDetail = () => {
               <div className="space-y-3">
                 <h3 className="font-semibold text-foreground">{content.includes}</h3>
                 <ul className="space-y-2">
-                  {[
-                    "Material didáctico digital",
-                    "Certificado de aprobación",
-                    "Acceso ilimitado al contenido",
-                    "Soporte técnico dedicado",
-                    "Evaluación final certificada"
-                  ].map((item, idx) => (
+                  {content.includesList.map((item, idx) => (
                     <li key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
                       <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
                       {item}
@@ -340,8 +361,7 @@ const CourseDetail = () => {
               <TabsContent value="descripcion" className="mt-6">
                 <div className="prose max-w-none">
                   <p className="text-muted-foreground leading-relaxed">
-                    {product.description ||
-                      "Este curso está diseñado para entregar conocimientos y habilidades específicas en el área de capacitación profesional. Los participantes aprenderán metodologías actualizadas y técnicas prácticas aplicables en su entorno laboral. Nuestro programa cumple con los más altos estándares de calidad y está certificado bajo la normativa vigente."}
+                    {product.description || content.defaultDescription}
                   </p>
                 </div>
               </TabsContent>
@@ -350,13 +370,7 @@ const CourseDetail = () => {
                 <div className="space-y-4">
                   <h3 className="font-semibold text-lg">{content.objectivesTitle}</h3>
                   <ul className="space-y-3">
-                    {[
-                      "Comprender los fundamentos teóricos y prácticos del área",
-                      "Aplicar técnicas y metodologías actualizadas",
-                      "Desarrollar habilidades específicas para el desempeño laboral",
-                      "Cumplir con los requisitos normativos y de seguridad",
-                      "Obtener certificación reconocida en el mercado"
-                    ].map((obj, idx) => (
+                    {content.objectivesList.map((obj, idx) => (
                       <li key={idx} className="flex items-start gap-3">
                         <CheckCircle className="h-5 w-5 text-insecap-cyan flex-shrink-0 mt-0.5" />
                         <span className="text-muted-foreground">{obj}</span>
@@ -370,13 +384,7 @@ const CourseDetail = () => {
                 <div className="space-y-4">
                   <h3 className="font-semibold text-lg">{content.syllabusTitle}</h3>
                   <div className="space-y-3">
-                    {[
-                      { module: "Módulo 1", title: "Introducción y fundamentos" },
-                      { module: "Módulo 2", title: "Marco normativo y legal" },
-                      { module: "Módulo 3", title: "Técnicas y metodologías" },
-                      { module: "Módulo 4", title: "Aplicación práctica" },
-                      { module: "Módulo 5", title: "Evaluación y certificación" }
-                    ].map((item, idx) => (
+                    {content.syllabusModules.map((item, idx) => (
                       <div key={idx} className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg">
                         <span className="text-sm font-medium text-insecap-cyan">{item.module}</span>
                         <span className="text-muted-foreground">{item.title}</span>
@@ -392,11 +400,10 @@ const CourseDetail = () => {
                     <Award className="h-12 w-12 text-green-600 flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-lg text-green-800 dark:text-green-400 mb-2">
-                        Certificación SENCE
+                        {content.certSENCETitle}
                       </h3>
                       <p className="text-green-700 dark:text-green-300">
-                        Este curso cuenta con código SENCE, lo que permite utilizar la franquicia tributaria
-                        para capacitación. Al aprobar, recibirás un certificado oficial válido ante SENCE.
+                        {content.certSENCEDesc}
                       </p>
                     </div>
                   </div>
@@ -405,11 +412,10 @@ const CourseDetail = () => {
                     <Award className="h-12 w-12 text-insecap-blue flex-shrink-0" />
                     <div>
                       <h3 className="font-semibold text-lg text-insecap-blue mb-2">
-                        Norma Chilena NCh 2728
+                        {content.certNChTitle}
                       </h3>
                       <p className="text-muted-foreground">
-                        Insecap Capacitaciones está certificado bajo la Norma Chilena NCh 2728 que
-                        garantiza la calidad de nuestros organismos técnicos de capacitación (OTEC).
+                        {content.certNChDesc}
                       </p>
                     </div>
                   </div>

@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Building2, Globe } from 'lucide-react';
 import ChileMap from './ChileMap';
 import Tooltip from './Tooltip';
@@ -7,6 +8,7 @@ import { sedeLocations } from './data';
 type Mode = 'fisicas' | 'virtuales';
 
 const ChileSedesMap: React.FC = () => {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<Mode>('fisicas');
   const [hoveredSede, setHoveredSede] = useState<string | null>(null);
   const [pinPos, setPinPos] = useState<{ x: number; y: number } | null>(null);
@@ -45,7 +47,7 @@ const ChileSedesMap: React.FC = () => {
           }`}
         >
           <Building2 className="w-4 h-4" />
-          Sedes Físicas
+          {t('sedesMap.physicalBranches')}
         </button>
         <button
           onClick={() => setMode('virtuales')}
@@ -56,7 +58,7 @@ const ChileSedesMap: React.FC = () => {
           }`}
         >
           <Globe className="w-4 h-4" />
-          Sedes Virtuales
+          {t('sedesMap.virtualBranches')}
           </button>
         </div>
       </div>
@@ -65,7 +67,7 @@ const ChileSedesMap: React.FC = () => {
       <div className="block md:hidden">
         <img
           src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Mapa-Pagina-Web-2048x1119_5e4175db-ab32-4b50-be4c-c3f009f396d9.png?v=1772739032"
-          alt="Mapa de sedes Insecap en Chile"
+          alt={t('sedesMap.mapAlt')}
           className="w-full h-auto rounded-2xl"
           loading="lazy"
         />

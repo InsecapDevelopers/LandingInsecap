@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { ChevronUp, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "motion/react";
 import { useCartStore } from "@/stores/cartStore";
 
 export default function BackToTop() {
+  const { t } = useTranslation();
   const [showBackToTop, setShowBackToTop] = useState(false);
   const totalItems = useCartStore((state) => state.getTotalItems());
   const setDrawerOpen = useCartStore((state) => state.setDrawerOpen);
@@ -45,7 +47,7 @@ export default function BackToTop() {
                 onClick={() => setDrawerOpen(true)}
                 size="icon"
                 className="rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-insecap-cyan hover:bg-insecap-cyan/90 text-white w-12 h-12 relative"
-                aria-label="Ver carrito"
+                aria-label={t('aria.viewCart')}
               >
                 <ShoppingCart className="h-5 w-5" />
                 <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-insecap-blue text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
@@ -71,7 +73,7 @@ export default function BackToTop() {
               onClick={scrollToTop}
               size="icon"
               className="rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-primary hover:bg-primary/90"
-              aria-label="Volver al tope"
+              aria-label={t('aria.backToTop')}
             >
               <ChevronUp className="h-6 w-6" />
             </Button>

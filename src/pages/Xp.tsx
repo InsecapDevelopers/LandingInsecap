@@ -91,92 +91,97 @@ const ExperienciaYRespaldo = () => {
 
   const content = {
     es: {
-      title: 'Experiencia y Respaldo', subtitle: 'Reconocimientos y Certificaciones', about: 'Nosotros', track: 'Nuestra Trayectoria', heading1: 'La Experiencia no se Improvisa:', heading2: 'se Demuestra', intro1: 'En la industria en general, la capacitacion no es un requisito: es un factor critico para la seguridad, la continuidad operacional y la productividad. En INSECAP Capacitacion entendemos esa realidad y trabajamos con un enfoque tecnico, riguroso y alineado a los estandares que exige el mundo laboral.', intro2: 'Nuestra trayectoria se ha construido en terreno, formando competencias clave para operaciones seguras y eficientes. Hemos acompanado a empresas de distintos sectores, con mayor predominancia en la Gran Mineria, en el desarrollo de habilidades tecnicas, cumplimiento normativo y fortalecimiento de equipos de trabajo.', intro3: 'Cada programa formativo que implementamos responde a necesidades reales de la industria, con relatores especializados, metodologias practicas y una ejecucion orientada a resultados medibles.', growth: 'Crecimiento Sostenido', growthSub: 'Nuestra trayectoria en cifras', years: 'Anos de Experiencia', clients: 'Clientes Atendidos', updated: `Datos actualizados al ${new Date().getFullYear()}`, certTag: 'Respaldo Institucional', certTitle: 'Certificaciones y Membresias', certText: 'Estas certificaciones y registros nos permiten crecer y posicionarnos en la industria con un excelente servicio, garantizando la calidad y cumplimiento normativo.', strengthsTag: 'Nuestras Fortalezas', strengthsTitle: 'Valores Tecnicos Agregados', strengthsText: 'Factores diferenciadores que nos permiten crecer y posicionarnos en la industria, ofreciendo un servicio de excelencia que va mas alla de la capacitacion tradicional.', ctaTitle: 'Necesitas un Socio Estrategico en Capacitacion?', ctaText: 'En INSECAP, la experiencia no se improvisa: se demuestra. Contactanos y conoce como podemos apoyar el desarrollo de tu equipo de trabajo.', ctaButton: 'Contactanos Hoy'
+      title: 'Experiencia y Respaldo', subtitle: 'Reconocimientos y Certificaciones', about: 'Nosotros', track: 'Nuestra Trayectoria', heading1: 'La Experiencia no se Improvisa:', heading2: 'se Demuestra', intro1: 'En la industria en general, la capacitacion no es un requisito: es un factor critico para la seguridad, la continuidad operacional y la productividad. En INSECAP Capacitacion entendemos esa realidad y trabajamos con un enfoque tecnico, riguroso y alineado a los estandares que exige el mundo laboral.', intro2: 'Nuestra trayectoria se ha construido en terreno, formando competencias clave para operaciones seguras y eficientes. Hemos acompanado a empresas de distintos sectores, con mayor predominancia en la Gran Mineria, en el desarrollo de habilidades tecnicas, cumplimiento normativo y fortalecimiento de equipos de trabajo.', intro3: 'Cada programa formativo que implementamos responde a necesidades reales de la industria, con relatores especializados, metodologias practicas y una ejecucion orientada a resultados medibles.', growth: 'Crecimiento Sostenido', growthSub: 'Nuestra trayectoria en cifras', years: 'Anos de Experiencia', clients: 'Clientes Atendidos', updated: `Datos actualizados al ${new Date().getFullYear()}`, certTag: 'Respaldo Institucional', certTitle: 'Certificaciones y Membresias', certText: 'Estas certificaciones y registros nos permiten crecer y posicionarnos en la industria con un excelente servicio, garantizando la calidad y cumplimiento normativo.', strengthsTag: 'Nuestras Fortalezas', strengthsTitle: 'Valores Tecnicos Agregados', strengthsText: 'Factores diferenciadores que nos permiten crecer y posicionarnos en la industria, ofreciendo un servicio de excelencia que va mas alla de la capacitacion tradicional.', ctaTitle: 'Necesitas un Socio Estrategico en Capacitacion?', ctaText: 'En INSECAP, la experiencia no se improvisa: se demuestra. Contactanos y conoce como podemos apoyar el desarrollo de tu equipo de trabajo.', ctaButton: 'Contactanos Hoy',
+      growthDescPre: 'Nuestro crecimiento sostenido refleja la confianza que la industria deposita en ',
+      growthDescStrong: 'INSECAP como socio estratégico en capacitación',
+      certs: [
+        { title: 'Registro SENCE', description: 'Contamos con registro vigente ante el Servicio Nacional de Capacitación y Empleo (SENCE), habilitándonos para impartir capacitación con franquicia tributaria a lo largo del país.', badge: 'N° Resolución: 12208' },
+        { title: 'Norma NCh2728:2015', description: 'Certificación anual que acredita el cumplimiento de los requisitos para operar como Organismo Técnico de Capacitación (OTEC), garantizando calidad en nuestros servicios formativos.', badge: 'Certificación Vigente' },
+        { title: 'ISO 9001:2015', description: 'Certificación anual de la Norma Internacional que rige nuestros procesos en cuanto a servicios de calidad y mejora continua, asegurando estándares de clase mundial.', badge: 'Certificación Vigente' },
+        { title: 'Cámara de Comercio de Santiago (CCS)', description: 'Como miembros de la CCS, estamos habilitados para postular a requerimientos y necesidades de capacitación de un gran sector de empresas de la industria en general.', badge: 'Miembro Activo' },
+        { title: 'SICEP', description: 'Somos miembros de SICEP, lo cual nos habilita para postular a requerimientos y necesidades de capacitación de un gran sector de empresas de la industria en general.', badge: 'Miembro Activo' },
+      ],
+      strengths: [
+        { title: 'Metodología de Enseñanza', description: 'Metodologías de enseñanza innovadoras y efectivas, diseñadas para maximizar el aprendizaje en entornos industriales y operacionales, con enfoque práctico y orientadas a la transferencia de competencias al puesto de trabajo.' },
+        { title: 'Software de Administración y Control', description: 'Potente software de administración y control que permite gestionar eficientemente todos los procesos de capacitación, desde la planificación hasta el seguimiento de resultados, garantizando trazabilidad y transparencia.' },
+        { title: 'Autoservicio para Clientes', description: 'Plataforma de autoservicio que permite a nuestros clientes acceder a información, gestionar inscripciones y realizar seguimiento de sus programas de capacitación de forma autónoma y en tiempo real.' },
+        { title: 'Equipamiento de Última Tecnología', description: 'Equipamiento práctico de última tecnología, construido bajo los estándares solicitados por los mandantes, permitiendo entrenamientos realistas y alineados a las condiciones operacionales reales de la industria.' },
+        { title: 'Diseñadores Curriculares e Instruccionales', description: 'Contamos con diseñadores curriculares y diseñadores instruccionales con experiencia en Andragogía, garantizando que cada programa formativo esté diseñado para el aprendizaje efectivo del adulto profesional.' },
+        { title: 'Sello CCM', description: 'Obtención del sello CCM, un reconocimiento que valida nuestro compromiso con la excelencia en capacitación y nos distingue como un referente confiable en la formación de capital humano para la industria.' },
+      ],
     },
     en: {
-      title: 'Experience and Trust', subtitle: 'Recognition and Certifications', about: 'About us', track: 'Our Track Record', heading1: 'Experience is not improvised:', heading2: 'it is demonstrated', intro1: 'Across industry, training is not merely a requirement: it is a critical factor for safety, operational continuity and productivity. At INSECAP Training we understand that reality and work with a technical, rigorous approach aligned with the standards required by the labor market.', intro2: 'Our track record has been built in the field, developing key competencies for safe and efficient operations. We have supported companies across sectors, especially in large-scale mining, with technical upskilling, regulatory compliance and team strengthening.', intro3: 'Every training program we implement responds to real industry needs, with specialized instructors, practical methodologies and execution focused on measurable results.', growth: 'Sustained Growth', growthSub: 'Our journey in figures', years: 'Years of Experience', clients: 'Clients Served', updated: `Data updated to ${new Date().getFullYear()}`, certTag: 'Institutional Support', certTitle: 'Certifications and Memberships', certText: 'These certifications and registrations allow us to grow and position ourselves in the industry with excellent service, ensuring quality and regulatory compliance.', strengthsTag: 'Our Strengths', strengthsTitle: 'Technical Added Value', strengthsText: 'Differentiating factors that allow us to grow and stand out in the industry, delivering excellence beyond traditional training.', ctaTitle: 'Need a Strategic Training Partner?', ctaText: 'At INSECAP, experience is not improvised: it is demonstrated. Contact us and find out how we can support your team development.', ctaButton: 'Contact Us Today'
+      title: 'Experience and Trust', subtitle: 'Recognition and Certifications', about: 'About us', track: 'Our Track Record', heading1: 'Experience is not improvised:', heading2: 'it is demonstrated', intro1: 'Across industry, training is not merely a requirement: it is a critical factor for safety, operational continuity and productivity. At INSECAP Training we understand that reality and work with a technical, rigorous approach aligned with the standards required by the labor market.', intro2: 'Our track record has been built in the field, developing key competencies for safe and efficient operations. We have supported companies across sectors, especially in large-scale mining, with technical upskilling, regulatory compliance and team strengthening.', intro3: 'Every training program we implement responds to real industry needs, with specialized instructors, practical methodologies and execution focused on measurable results.', growth: 'Sustained Growth', growthSub: 'Our journey in figures', years: 'Years of Experience', clients: 'Clients Served', updated: `Data updated to ${new Date().getFullYear()}`, certTag: 'Institutional Support', certTitle: 'Certifications and Memberships', certText: 'These certifications and registrations allow us to grow and position ourselves in the industry with excellent service, ensuring quality and regulatory compliance.', strengthsTag: 'Our Strengths', strengthsTitle: 'Technical Added Value', strengthsText: 'Differentiating factors that allow us to grow and stand out in the industry, delivering excellence beyond traditional training.', ctaTitle: 'Need a Strategic Training Partner?', ctaText: 'At INSECAP, experience is not improvised: it is demonstrated. Contact us and find out how we can support your team development.', ctaButton: 'Contact Us Today',
+      growthDescPre: 'Our sustained growth reflects the trust the industry places in ',
+      growthDescStrong: 'INSECAP as a strategic training partner',
+      certs: [
+        { title: 'SENCE Registration', description: 'We hold a valid registration with the National Training and Employment Service (SENCE), enabling us to deliver training with tax incentives throughout the country.', badge: 'N° Resolución: 12208' },
+        { title: 'NCh2728:2015 Standard', description: 'Annual certification that accredits compliance with the requirements to operate as a Technical Training Organization (OTEC), ensuring quality in our training services.', badge: 'Valid Certification' },
+        { title: 'ISO 9001:2015', description: 'Annual certification of the International Standard governing our processes in terms of quality services and continuous improvement, ensuring world-class standards.', badge: 'Valid Certification' },
+        { title: 'Santiago Chamber of Commerce (CCS)', description: 'As members of the CCS, we are enabled to apply for training requirements and needs of a large segment of companies across industry.', badge: 'Active Member' },
+        { title: 'SICEP', description: 'We are members of SICEP, which enables us to apply for training requirements and needs of a large segment of companies across industry.', badge: 'Active Member' },
+      ],
+      strengths: [
+        { title: 'Teaching Methodology', description: 'Innovative and effective teaching methodologies, designed to maximize learning in industrial and operational environments, with a practical focus and oriented toward competency transfer in the workplace.' },
+        { title: 'Administration and Control Software', description: 'Powerful administration and control software that efficiently manages all training processes, from planning to results tracking, ensuring traceability and transparency.' },
+        { title: 'Client Self-Service', description: 'Self-service platform that allows our clients to access information, manage enrollments and track their training programs independently and in real time.' },
+        { title: 'State-of-the-Art Equipment', description: 'State-of-the-art practical equipment built to the standards required by clients, enabling realistic training aligned with real operational conditions in the industry.' },
+        { title: 'Curricular and Instructional Designers', description: 'We have curricular designers and instructional designers with expertise in Andragogy, ensuring that each training program is designed for effective adult professional learning.' },
+        { title: 'CCM Seal', description: 'Achievement of the CCM seal, a recognition that validates our commitment to excellence in training and distinguishes us as a reliable reference in human capital development for industry.' },
+      ],
     },
     pt: {
-      title: 'Experiencia e Respaldo', subtitle: 'Reconhecimentos e Certificacoes', about: 'Sobre nos', track: 'Nossa Trajetoria', heading1: 'A experiencia nao se improvisa:', heading2: 'ela se comprova', intro1: 'Na industria em geral, a capacitacao nao e apenas um requisito: e um fator critico para seguranca, continuidade operacional e produtividade. Na INSECAP Capacitacao entendemos essa realidade e trabalhamos com um enfoque tecnico, rigoroso e alinhado aos padroes exigidos pelo mercado.', intro2: 'Nossa trajetoria foi construida em campo, formando competencias chave para operacoes seguras e eficientes. Acompanhamos empresas de diferentes setores, com forte presenca na grande mineracao, no desenvolvimento de habilidades tecnicas, cumprimento normativo e fortalecimento de equipes.', intro3: 'Cada programa formativo que implementamos responde a necessidades reais da industria, com facilitadores especializados, metodologias praticas e execucao orientada a resultados mensuraveis.', growth: 'Crescimento Sustentado', growthSub: 'Nossa trajetoria em numeros', years: 'Anos de Experiencia', clients: 'Clientes Atendidos', updated: `Dados atualizados em ${new Date().getFullYear()}`, certTag: 'Respaldo Institucional', certTitle: 'Certificacoes e Associacoes', certText: 'Estas certificacoes e registros nos permitem crescer e nos posicionar na industria com excelente servico, garantindo qualidade e conformidade regulatoria.', strengthsTag: 'Nossos Diferenciais', strengthsTitle: 'Valores Tecnicos Agregados', strengthsText: 'Fatores diferenciadores que nos permitem crescer e nos posicionar na industria, oferecendo um servico de excelencia que vai alem da capacitacao tradicional.', ctaTitle: 'Precisa de um Parceiro Estrategico em Capacitacao?', ctaText: 'Na INSECAP, a experiencia nao se improvisa: se comprova. Fale conosco e saiba como podemos apoiar o desenvolvimento da sua equipe.', ctaButton: 'Fale Conosco Hoje'
+      title: 'Experiencia e Respaldo', subtitle: 'Reconhecimentos e Certificacoes', about: 'Sobre nos', track: 'Nossa Trajetoria', heading1: 'A experiencia nao se improvisa:', heading2: 'ela se comprova', intro1: 'Na industria em geral, a capacitacao nao e apenas um requisito: e um fator critico para seguranca, continuidade operacional e produtividade. Na INSECAP Capacitacao entendemos essa realidade e trabalhamos com um enfoque tecnico, rigoroso e alinhado aos padroes exigidos pelo mercado.', intro2: 'Nossa trajetoria foi construida em campo, formando competencias chave para operacoes seguras e eficientes. Acompanhamos empresas de diferentes setores, com forte presenca na grande mineracao, no desenvolvimento de habilidades tecnicas, cumprimento normativo e fortalecimento de equipes.', intro3: 'Cada programa formativo que implementamos responde a necessidades reais da industria, com facilitadores especializados, metodologias praticas e execucao orientada a resultados mensuraveis.', growth: 'Crescimento Sustentado', growthSub: 'Nossa trajetoria em numeros', years: 'Anos de Experiencia', clients: 'Clientes Atendidos', updated: `Dados atualizados em ${new Date().getFullYear()}`, certTag: 'Respaldo Institucional', certTitle: 'Certificacoes e Associacoes', certText: 'Estas certificacoes e registros nos permitem crescer e nos posicionar na industria com excelente servico, garantindo qualidade e conformidade regulatoria.', strengthsTag: 'Nossos Diferenciais', strengthsTitle: 'Valores Tecnicos Agregados', strengthsText: 'Fatores diferenciadores que nos permitem crescer e nos posicionar na industria, oferecendo um servico de excelencia que vai alem da capacitacao tradicional.', ctaTitle: 'Precisa de um Parceiro Estrategico em Capacitacao?', ctaText: 'Na INSECAP, a experiencia nao se improvisa: se comprova. Fale conosco e saiba como podemos apoiar o desenvolvimento da sua equipe.', ctaButton: 'Fale Conosco Hoje',
+      growthDescPre: 'Nosso crescimento sustentado reflete a confiança que a indústria deposita na ',
+      growthDescStrong: 'INSECAP como parceiro estratégico em capacitação',
+      certs: [
+        { title: 'Registro SENCE', description: 'Possuímos registro vigente junto ao Serviço Nacional de Capacitação e Emprego (SENCE), habilitando-nos a oferecer capacitação com incentivo fiscal em todo o país.', badge: 'N° Resolução: 12208' },
+        { title: 'Norma NCh2728:2015', description: 'Certificação anual que acredita o cumprimento dos requisitos para operar como Organismo Técnico de Capacitação (OTEC), garantindo qualidade em nossos serviços formativos.', badge: 'Certificação Vigente' },
+        { title: 'ISO 9001:2015', description: 'Certificação anual da Norma Internacional que rege nossos processos em termos de serviços de qualidade e melhoria contínua, assegurando padrões de classe mundial.', badge: 'Certificação Vigente' },
+        { title: 'Câmara de Comércio de Santiago (CCS)', description: 'Como membros da CCS, estamos habilitados a candidatar-nos a requisitos e necessidades de capacitação de um grande setor de empresas da indústria em geral.', badge: 'Membro Ativo' },
+        { title: 'SICEP', description: 'Somos membros do SICEP, o que nos habilita a candidatar-nos a requisitos e necessidades de capacitação de um grande setor de empresas da indústria em geral.', badge: 'Membro Ativo' },
+      ],
+      strengths: [
+        { title: 'Metodologia de Ensino', description: 'Metodologias de ensino inovadoras e eficazes, projetadas para maximizar o aprendizado em ambientes industriais e operacionais, com foco prático e orientadas à transferência de competências ao posto de trabalho.' },
+        { title: 'Software de Administração e Controle', description: 'Poderoso software de administração e controle que gerencia com eficiência todos os processos de capacitação, desde o planejamento até o acompanhamento de resultados, garantindo rastreabilidade e transparência.' },
+        { title: 'Autoatendimento para Clientes', description: 'Plataforma de autoatendimento que permite aos nossos clientes acessar informações, gerenciar inscrições e acompanhar seus programas de capacitação de forma autônoma e em tempo real.' },
+        { title: 'Equipamentos de Última Tecnologia', description: 'Equipamentos práticos de última tecnologia, construídos sob os padrões exigidos pelos clientes, permitindo treinamentos realistas e alinhados às condições operacionais reais da indústria.' },
+        { title: 'Designers Curriculares e Instrucionais', description: 'Contamos com designers curriculares e instrucionais com experiência em Andragogia, garantindo que cada programa formativo seja projetado para o aprendizado efetivo do adulto profissional.' },
+        { title: 'Selo CCM', description: 'Obtenção do Selo CCM, um reconhecimento que valida nosso compromisso com a excelência em capacitação e nos distingue como referência confiável no desenvolvimento de capital humano para a indústria.' },
+      ],
     },
   }[locale];
 
-  // Datos de certificaciones para el grid
-  const certificaciones = [
-    {
-      logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498',
-      logoAlt: 'Logo SENCE',
-      iconType: 'logo' as const,
-      title: 'Registro SENCE',
-      description: 'Contamos con registro vigente ante el Servicio Nacional de Capacitación y Empleo (SENCE), habilitándonos para impartir capacitación con franquicia tributaria a lo largo del país.',
-      badge: { text: 'N° Resolución: 12208', color: 'blue' as const },
-    },
-    {
-      logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo_slogan.svg?v=1772193702',
-      logoAlt: 'Certificadora NCh2728',
-      iconType: 'logo' as const,
-      title: 'Norma NCh2728:2015',
-      description: 'Certificación anual que acredita el cumplimiento de los requisitos para operar como Organismo Técnico de Capacitación (OTEC), garantizando calidad en nuestros servicios formativos.',
-      badge: { text: 'Certificación Vigente', color: 'green' as const },
-    },
-    {
-      logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585',
-      logoAlt: 'Certificadora ISO 9001',
-      iconType: 'logo' as const,
-      title: 'ISO 9001:2015',
-      description: 'Certificación anual de la Norma Internacional que rige nuestros procesos en cuanto a servicios de calidad y mejora continua, asegurando estándares de clase mundial.',
-      badge: { text: 'Certificación Vigente', color: 'green' as const },
-    },
-    {
-      icon: <Handshake className="w-7 h-7 text-white" />,
-      iconType: 'icon' as const,
-      title: 'Cámara de Comercio de Santiago (CCS)',
-      description: 'Como miembros de la CCS, estamos habilitados para postular a requerimientos y necesidades de capacitación de un gran sector de empresas de la industria en general.',
-      badge: { text: 'Miembro Activo', color: 'blue' as const },
-    },
-    {
-      icon: <Award className="w-7 h-7 text-white" />,
-      iconType: 'icon' as const,
-      title: 'SICEP',
-      description: 'Somos miembros de SICEP, lo cual nos habilita para postular a requerimientos y necesidades de capacitación de un gran sector de empresas de la industria en general.',
-      badge: { text: 'Miembro Activo', color: 'blue' as const },
-    },
+  // Datos visuales fijos de certificaciones (logos/iconos)
+  const certVisuals = [
+    { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498', logoAlt: 'Logo SENCE', iconType: 'logo' as const, badgeColor: 'blue' as const },
+    { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo_slogan.svg?v=1772193702', logoAlt: 'Certificadora NCh2728', iconType: 'logo' as const, badgeColor: 'green' as const },
+    { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', logoAlt: 'Certificadora ISO 9001', iconType: 'logo' as const, badgeColor: 'green' as const },
+    { icon: <Handshake className="w-7 h-7 text-white" />, iconType: 'icon' as const, badgeColor: 'blue' as const },
+    { icon: <Award className="w-7 h-7 text-white" />, iconType: 'icon' as const, badgeColor: 'blue' as const },
   ];
+  const certificaciones = certVisuals.map((visual, i) => ({
+    ...visual,
+    title: content.certs[i].title,
+    description: content.certs[i].description,
+    badge: { text: content.certs[i].badge, color: visual.badgeColor },
+  }));
 
   // Datos de valores técnicos
-  const valoresTecnicos = [
-    {
-      icon: <BookOpen className="w-7 h-7 text-secondary" />,
-      title: 'Metodología de Enseñanza',
-      description: 'Metodologías de enseñanza innovadoras y efectivas, diseñadas para maximizar el aprendizaje en entornos industriales y operacionales, con enfoque práctico y orientadas a la transferencia de competencias al puesto de trabajo.',
-    },
-    {
-      icon: <Monitor className="w-7 h-7 text-secondary" />,
-      title: 'Software de Administración y Control',
-      description: 'Potente software de administración y control que permite gestionar eficientemente todos los procesos de capacitación, desde la planificación hasta el seguimiento de resultados, garantizando trazabilidad y transparencia.',
-    },
-    {
-      icon: <Cpu className="w-7 h-7 text-secondary" />,
-      title: 'Autoservicio para Clientes',
-      description: 'Plataforma de autoservicio que permite a nuestros clientes acceder a información, gestionar inscripciones y realizar seguimiento de sus programas de capacitación de forma autónoma y en tiempo real.',
-    },
-    {
-      icon: <Wrench className="w-7 h-7 text-secondary" />,
-      title: 'Equipamiento de Última Tecnología',
-      description: 'Equipamiento práctico de última tecnología, construido bajo los estándares solicitados por los mandantes, permitiendo entrenamientos realistas y alineados a las condiciones operacionales reales de la industria.',
-    },
-    {
-      icon: <GraduationCap className="w-7 h-7 text-secondary" />,
-      title: 'Diseñadores Curriculares e Instruccionales',
-      description: 'Contamos con diseñadores curriculares y diseñadores instruccionales con experiencia en Andragogía, garantizando que cada programa formativo esté diseñado para el aprendizaje efectivo del adulto profesional.',
-    },
-    {
-      icon: <Award className="w-7 h-7 text-secondary" />,
-      title: 'Sello CCM',
-      description: 'Obtención del sello CCM, un reconocimiento que valida nuestro compromiso con la excelencia en capacitación y nos distingue como un referente confiable en la formación de capital humano para la industria.',
-      highlight: true,
-    },
+  const strengthIcons = [
+    <BookOpen className="w-7 h-7 text-secondary" />,
+    <Monitor className="w-7 h-7 text-secondary" />,
+    <Cpu className="w-7 h-7 text-secondary" />,
+    <Wrench className="w-7 h-7 text-secondary" />,
+    <GraduationCap className="w-7 h-7 text-secondary" />,
+    <Award className="w-7 h-7 text-secondary" />,
   ];
+  const valoresTecnicos = strengthIcons.map((icon, i) => ({
+    icon,
+    title: content.strengths[i].title,
+    description: content.strengths[i].description,
+    highlight: i === 5,
+  }));
 
   return (
     <div className="min-h-screen bg-white">
@@ -275,12 +280,7 @@ const ExperienciaYRespaldo = () => {
 
                       {/* Descripción */}
                       <p className="text-blue-100/90 text-base leading-relaxed mb-7">
-                        {locale === 'en'
-                          ? 'Our sustained growth reflects the trust the industry places in '
-                          : locale === 'pt'
-                            ? 'Nosso crescimento sustentado reflete a confianca que a industria deposita na '
-                            : 'Nuestro crecimiento sostenido refleja la confianza que la industria deposita en '}
-                        <strong className="text-white">INSECAP {locale === 'en' ? 'as a strategic training partner' : locale === 'pt' ? 'como parceiro estrategico em capacitacao' : 'como socio estrategico en capacitacion'}</strong>.
+                        {content.growthDescPre}<strong className="text-white">{content.growthDescStrong}</strong>.
                       </p>
 
                       {/* Stats */}

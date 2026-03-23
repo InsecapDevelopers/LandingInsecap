@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { Calendar, User, ArrowRight } from 'lucide-react';
@@ -20,6 +21,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const NewsSlider: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const [articles, setArticles] = useState<ShopifyArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +36,7 @@ const NewsSlider: React.FC = () => {
         setError(null);
       } catch (err) {
         console.error('Error loading articles:', err);
-        setError('No se pudieron cargar las noticias en este momento.');
+        setError(t('news.loadError'));
       } finally {
         setLoading(false);
       }
@@ -43,14 +45,10 @@ const NewsSlider: React.FC = () => {
     loadArticles();
   }, []);
 
-  // Función para formatear la fecha en español
+  // Función para formatear la fecha usando el idioma activo
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
-    const months = [
-      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-    ];
-    return `${date.getDate()} de ${months[date.getMonth()]}, ${date.getFullYear()}`;
+    return date.toLocaleDateString(i18n.language, { day: 'numeric', month: 'long', year: 'numeric' });
   };
 
   // Función para truncar texto
@@ -128,13 +126,13 @@ const NewsSlider: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <Badge variant="outline" className="mb-4 text-insecap-cyan border-insecap-cyan">
-            Noticias
+            {t('blog.sectionBadge')}
           </Badge>
           <h2 className="text-4xl md:text-5xl font-extrabold text-blue-950 mb-4">
-            Últimas <span className="text-insecap-cyan">Noticias</span>
+            {t('blog.latestNews').split(' ')[0]} <span className="text-insecap-cyan">{t('blog.latestNews').split(' ').slice(1).join(' ')}</span>
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Mantente informado sobre las últimas novedades, cursos y eventos de INSECAP
+            {t('blog.latestNewsDesc')}
           </p>
         </div>
 
@@ -211,7 +209,7 @@ const NewsSlider: React.FC = () => {
                             className="bg-insecap-cyan hover:bg-insecap-cyan/90 text-white font-semibold group"
                           >
                             <Link to={localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}>
-                              Leer más
+                              {t('news.readMore')}
                               <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
                             </Link>
                           </Button>
@@ -229,7 +227,7 @@ const NewsSlider: React.FC = () => {
         <div className="text-center mt-8">
           <Button variant="outline" asChild className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
             <Link to={localizedPath('/noticias')}>
-              Ver todas las noticias
+              {t('news.seeMore')}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </Button>

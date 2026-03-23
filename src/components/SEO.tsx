@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { buildLocalizedPath, getLocaleFromPath, getLocaleMeta, isAbsoluteUrl, stripLocaleFromPath } from '@/lib/locale-routing';
 import { fallbackLanguage, supportedLanguages } from '@/lib/translations';
@@ -42,11 +43,12 @@ const SEO = ({
   jsonLd,
 }: SEOProps) => {
   const location = useLocation();
+  const { t } = useTranslation();
 
   // Default values
-  const siteName = 'INSECAP - Capacitaciones';
-  const defaultTitle = 'INSECAP - Organismo Técnico de Capacitación';
-  const defaultDescription = 'INSECAP es un Organismo Técnico de Capacitación (OTEC) certificado, especializado en formación profesional y desarrollo de competencias laborales en Chile.';
+  const siteName = t('seo.siteName');
+  const defaultTitle = t('seo.defaultTitle');
+  const defaultDescription = t('seo.defaultDescription');
   const defaultImage = 'https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png';
   const baseUrl = 'https://insecap-capacitaciones.myshopify.com';
   const currentLocale = getLocaleFromPath(location.pathname) ?? fallbackLanguage;
@@ -68,11 +70,11 @@ const SEO = ({
   const finalTitle = title ? `${title} | ${siteName}` : defaultTitle;
   const finalDescription = description || defaultDescription;
   const finalImage = image || defaultImage;
-  const finalImageAlt = imageAlt || title || 'INSECAP';
+  const finalImageAlt = imageAlt || title || t('seo.imageAlt');
   const finalUrl = isAbsoluteUrl(localizedPath) ? localizedPath : `${baseUrl}${localizedPath}`;
   const finalKeywords = keywords.length > 0 
     ? keywords.join(', ') 
-    : 'capacitación, OTEC, formación profesional, desarrollo laboral, cursos, Chile, INSECAP';
+    : t('seo.defaultKeywords');
 
   return (
     <Helmet>

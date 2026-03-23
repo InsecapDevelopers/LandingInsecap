@@ -1,40 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
-  Users, Mic, ArrowRight, Download,
+  Users, Mic, ArrowRight,
   CalendarCheck, ClipboardList, MessageCircle, Apple, ChevronLeft, ChevronRight,
   BookOpen, Award, Clock, Bell, BarChart2
 } from 'lucide-react';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
-
-/* ── Autoservicio data ───────────────────────────────── */
-const autoservicio = {
-  title: 'Autoservicio del Cliente',
-  subtitle: 'Tu capacitación al alcance de tu mano',
-  description:
-    'Consulta tus cursos, descarga certificados, revisa horarios y gestiona tus inscripciones desde cualquier lugar. Todo lo que necesitas, en una sola app.',
-  features: ['Consulta de cursos inscritos', 'Descarga de certificados', 'Historial de capacitaciones', 'Notificaciones en tiempo real'],
-};
-
-/* ── RelatoresYA "How it works" steps ────────────────── */
-const relatoresData = {
-  description:
-    'Plataforma de uso interno diseñada para nuestros relatores. Permite aceptar ofertas de cursos, gestionar tu disponibilidad, revisar asignaciones y mantenerte conectado con el equipo de coordinación de forma ágil y centralizada.',
-};
-
-const relatoresSteps = [
-  {
-    icon: <CalendarCheck className="w-5 h-5 text-insecap-blue" />,
-    title: 'Acepta Ofertas',
-  },
-  {
-    icon: <ClipboardList className="w-5 h-5 text-insecap-blue" />,
-    title: 'Gestiona Clases',
-  },
-  {
-    icon: <MessageCircle className="w-5 h-5 text-insecap-blue" />,
-    title: 'Coordina',
-  },
-];
 
 /* ── Phone mockup ────────────────────────────────────── */
 function PhoneMockup({ children }: { children: React.ReactNode }) {
@@ -52,6 +23,7 @@ function PhoneMockup({ children }: { children: React.ReactNode }) {
 
 /* ── Store badges (SVG-based) ────────────────────────── */
 function AppStoreBadge() {
+  const { t } = useTranslation();
   return (
     <a
       href={import.meta.env.VITE_URL_APPSTORE || "#"}
@@ -61,7 +33,7 @@ function AppStoreBadge() {
     >
       <Apple className="w-7 h-7" />
       <div className="text-left leading-tight">
-        <span className="text-[10px] block opacity-80">Descárgalo en</span>
+        <span className="text-[10px] block opacity-80">{t('innovation.downloadAppStore')}</span>
         <span className="text-sm font-semibold">App Store</span>
       </div>
     </a>
@@ -69,6 +41,7 @@ function AppStoreBadge() {
 }
 
 function GooglePlayBadge() {
+  const { t } = useTranslation();
   return (
     <a
       href={import.meta.env.VITE_URL_PLAYSTORE || "https://play.google.com/store/apps/details?id=com.insecap.relatoresya&pcampaignid=web_share"}
@@ -81,26 +54,26 @@ function GooglePlayBadge() {
         <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zM5.864 2.658L16.8 9.99l-2.302 2.302L5.864 2.658zm12.8 7.494l2.607 1.51a1 1 0 0 1 0 1.735l-2.607 1.51-2.585-2.585 2.585-2.585v.415z"/>
       </svg>
       <div className="text-left leading-tight">
-        <span className="text-[10px] block opacity-80">Disponible en</span>
+        <span className="text-[10px] block opacity-80">{t('innovation.downloadGooglePlay')}</span>
         <span className="text-sm font-semibold">Google Play</span>
       </div>
     </a>
   );
 }
 
-/* ── Autoservicio feature cards data ─────────────────── */
-const autoFeatureCards = [
-  { icon: BookOpen,  color: 'bg-indigo-100 text-indigo-600',  label: 'Mis Cursos',         desc: 'Consulta tus cursos inscritos y próximos en tiempo real.' },
-  { icon: Award,     color: 'bg-purple-100 text-purple-600',  label: 'Certificados',        desc: 'Descarga tus certificados cuando los necesites.' },
-  { icon: Clock,     color: 'bg-sky-100 text-sky-600',        label: 'Historial',           desc: 'Revisa el historial completo de tus capacitaciones.' },
-  { icon: Bell,      color: 'bg-amber-100 text-amber-600',    label: 'Notificaciones',      desc: 'Recibe alertas de horarios, cambios e inscripciones.' },
-  { icon: BarChart2, color: 'bg-emerald-100 text-emerald-600',label: 'Reporte de Brechas',  desc: 'Identifica brechas de competencia y necesidades formativas.' },
-];
-
 /* ── SLIDE: Autoservicio del Cliente ────────────────── */
 function SlideAutoservicio() {
+  const { t } = useTranslation();
   const textAnim  = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const cardsAnim = useScrollAnimation({ threshold: 0.08, triggerOnce: true });
+
+  const featureCards = [
+    { icon: BookOpen,  color: 'bg-indigo-100 text-indigo-600',   label: t('innovation.autoservicio.cardMyCourses'),    desc: t('innovation.autoservicio.cardMyCoursesDesc')    },
+    { icon: Award,     color: 'bg-purple-100 text-purple-600',   label: t('innovation.autoservicio.cardCertificates'), desc: t('innovation.autoservicio.cardCertificatesDesc') },
+    { icon: Clock,     color: 'bg-sky-100 text-sky-600',         label: t('innovation.autoservicio.cardHistory'),      desc: t('innovation.autoservicio.cardHistoryDesc')      },
+    { icon: Bell,      color: 'bg-amber-100 text-amber-600',     label: t('innovation.autoservicio.cardNotifications'),desc: t('innovation.autoservicio.cardNotificationsDesc')},
+    { icon: BarChart2, color: 'bg-emerald-100 text-emerald-600', label: t('innovation.autoservicio.cardGapReport'),    desc: t('innovation.autoservicio.cardGapReportDesc')    },
+  ];
 
   return (
     <div className="grid md:grid-cols-2 items-center gap-10 lg:gap-16">
@@ -111,20 +84,20 @@ function SlideAutoservicio() {
       >
         <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-600 text-xs font-semibold tracking-wide uppercase mb-6">
           <Users className="w-3.5 h-3.5" />
-          Para Clientes
+          {t('innovation.autoservicio.badge')}
         </span>
         <h3 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-[1.1] mb-3">
-          {autoservicio.title}
+          {t('innovation.autoservicio.title')}
         </h3>
-        <p className="text-insecap-blue font-semibold text-sm mb-4">{autoservicio.subtitle}</p>
-        <p className="text-slate-500 text-base leading-relaxed mb-8">{autoservicio.description}</p>
+        <p className="text-insecap-blue font-semibold text-sm mb-4">{t('innovation.autoservicio.subtitle')}</p>
+        <p className="text-slate-500 text-base leading-relaxed mb-8">{t('innovation.autoservicio.description')}</p>
         <a
           href="https://tms.insecap.cl"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-insecap-blue via-indigo-600 to-purple-700 text-white font-semibold text-sm shadow-md hover:shadow-lg hover:scale-[1.03] transition-all duration-300"
         >
-          Iniciar sesión
+          {t('innovation.autoservicio.loginButton')}
           <ArrowRight className="w-4 h-4" />
         </a>
       </div>
@@ -134,7 +107,7 @@ function SlideAutoservicio() {
         ref={cardsAnim.ref}
         className={`grid grid-cols-2 gap-4 transition-all duration-[1000ms] ease-out delay-200 ${cardsAnim.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}
       >
-        {autoFeatureCards.map((card, i) => {
+        {featureCards.map((card, i) => {
           const Icon = card.icon;
           return (
             <div
@@ -157,10 +130,17 @@ function SlideAutoservicio() {
 
 /* ── SLIDE: RelatoresYA ──────────────────────────────── */
 function SlideRelatores() {
+  const { t } = useTranslation();
   const textAnim  = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const phoneAnim = useScrollAnimation({ threshold: 0.08, triggerOnce: true });
   const badgeAnim = useScrollAnimation({ threshold: 0.15, triggerOnce: true });
   const stepsAnim = useStaggerAnimation({ threshold: 0.1 });
+
+  const steps = [
+    { icon: <CalendarCheck className="w-5 h-5 text-insecap-blue" />, title: t('innovation.relatores.step1') },
+    { icon: <ClipboardList className="w-5 h-5 text-insecap-blue" />,  title: t('innovation.relatores.step2') },
+    { icon: <MessageCircle className="w-5 h-5 text-insecap-blue" />, title: t('innovation.relatores.step3') },
+  ];
 
   return (
     <div className="grid md:grid-cols-2 items-center gap-8 lg:gap-12">
@@ -171,17 +151,17 @@ function SlideRelatores() {
         <div ref={badgeAnim.ref} className={`transition-all duration-700 ${badgeAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-insecap-blue/10 border border-insecap-blue/20 text-insecap-blue text-xs font-semibold tracking-wide uppercase mb-6">
             <Mic className="w-3.5 h-3.5" />
-            Plataforma para Relatores
+            {t('innovation.relatores.badge')}
           </span>
         </div>
         <h3 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-[1.1] mb-6">
-          Gestiona tu labor<br />
-          <span className="text-insecap-blue">docente</span><br />
-          desde tu celular
+          {t('innovation.relatores.title')}<br />
+          <span className="text-insecap-blue">{t('innovation.relatores.titleHighlight')}</span><br />
+          {t('innovation.relatores.titleSuffix')}
         </h3>
-        <p className="text-slate-500 text-base md:text-lg leading-relaxed mb-8 max-w-xl">{relatoresData.description}</p>
+        <p className="text-slate-500 text-base md:text-lg leading-relaxed mb-8 max-w-xl">{t('innovation.relatores.description')}</p>
         <div ref={stepsAnim.ref} className="flex flex-wrap items-center gap-3 mb-8">
-          {relatoresSteps.map((step, i) => (
+          {steps.map((step, i) => (
             <React.Fragment key={i}>
               <span
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 shadow-sm text-sm font-medium text-gray-700 transition-all duration-500 ${stepsAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
@@ -189,7 +169,7 @@ function SlideRelatores() {
               >
                 {step.icon}{step.title}
               </span>
-              {i < relatoresSteps.length - 1 && <ArrowRight className="w-4 h-4 text-gray-300 hidden sm:block" />}
+              {i < steps.length - 1 && <ArrowRight className="w-4 h-4 text-gray-300 hidden sm:block" />}
             </React.Fragment>
           ))}
         </div>
@@ -223,14 +203,17 @@ function SlideRelatores() {
 }
 
 const slidesConfig = [
-  { id: 'autoservicio', label: 'Autoservicio del Cliente', accent: 'from-indigo-500 to-purple-600', orb1Color: 'bg-purple-200/50', orb2Color: 'bg-indigo-200/40', orb3Color: 'bg-violet-100/60', dotColor: '#818cf8' },
-  { id: 'relatores',    label: 'RelatoresYA',              accent: 'from-insecap-blue to-cyan-500', orb1Color: 'bg-blue-200/50',   orb2Color: 'bg-indigo-200/40', orb3Color: 'bg-cyan-100/60',   dotColor: '#60a5fa' },
+  { id: 'autoservicio', accent: 'from-indigo-500 to-purple-600', orb1Color: 'bg-purple-200/50', orb2Color: 'bg-indigo-200/40', orb3Color: 'bg-violet-100/60', dotColor: '#818cf8' },
+  { id: 'relatores',    accent: 'from-insecap-blue to-cyan-500', orb1Color: 'bg-blue-200/50',   orb2Color: 'bg-indigo-200/40', orb3Color: 'bg-cyan-100/60',   dotColor: '#60a5fa' },
 ];
 
-/* ── Main Section ────────────────────────────────────── */
+/* ── Main Section ──────────────────────────────── */
 export default function InnovationSection() {
+  const { t } = useTranslation();
   const [active, setActive] = useState(0);
   const headerAnim = useScrollAnimation({ threshold: 0.2 });
+
+  const slideLabels = [t('innovation.tabAutoservicio'), t('innovation.tabRelatores')];
 
   const prev = () => setActive(i => (i - 1 + slidesConfig.length) % slidesConfig.length);
   const next = () => setActive(i => (i + 1) % slidesConfig.length);
@@ -262,11 +245,11 @@ export default function InnovationSection() {
           className={`text-center mb-12 transition-all duration-700 ease-out ${headerAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-insecap-blue/10 text-insecap-blue text-sm font-semibold tracking-wide uppercase mb-4">
-            Tecnología & Educación
+            {t('innovation.sectionBadge')}
           </span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-blue-950 mb-4">Innovación</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-blue-950 mb-4">{t('innovation.sectionTitle')}</h2>
           <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-            Llevamos la capacitación al siguiente nivel con herramientas digitales diseñadas para ti.
+            {t('innovation.sectionDescription')}
           </p>
         </div>
 
@@ -279,7 +262,7 @@ export default function InnovationSection() {
                 className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold border transition-all duration-300 ${i === active ? 'bg-insecap-blue text-white border-insecap-blue shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:border-insecap-blue/40 hover:text-insecap-blue'}`}
               >
                 <span className={`w-2 h-2 rounded-full ${i === active ? 'bg-white' : 'bg-slate-300'}`} />
-                {s.label}
+                {slideLabels[i]}
               </button>
             ))}
           </div>
@@ -305,7 +288,7 @@ export default function InnovationSection() {
             <button onClick={prev}
               className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-slate-200 text-slate-600 text-sm font-medium hover:border-insecap-blue/50 hover:text-insecap-blue hover:shadow-sm transition-all duration-200 group">
               <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-              Anterior
+              {t('innovation.navPrev')}
             </button>
             <div className="flex gap-2">
               {slidesConfig.map((_, i) => (
@@ -315,7 +298,7 @@ export default function InnovationSection() {
             </div>
             <button onClick={next}
               className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-insecap-blue text-white text-sm font-medium hover:bg-insecap-blue/90 hover:shadow-md transition-all duration-200 group">
-              Siguiente
+              {t('innovation.navNext')}
               <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { AnimatedCatalogModal } from './CatalogModal';
 
@@ -12,6 +13,7 @@ const slideInLeft = {
 };
 
 const Catalog: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <section
       className="w-full h-[400px] md:h-[500px] bg-cover bg-center relative flex items-center backdrop-blur-sm"
@@ -41,7 +43,7 @@ const Catalog: React.FC = () => {
               viewport={{ once: false, amount: 0.3 }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4"
             >
-              Explora nuestros cursos
+              {t('catalog.title')}
             </motion.h1>
 
             {/* Descripción */}
@@ -53,7 +55,7 @@ const Catalog: React.FC = () => {
               viewport={{ once: false, amount: 0.3 }}
               className="text-lg text-white leading-relaxed mb-8"
             >
-              Experiencias educativas que inspiran y motivan, diseñadas para adaptarse a tus necesidades.
+              {t('catalog.description')}
             </motion.p>
 
             {/* Botón CTA */}

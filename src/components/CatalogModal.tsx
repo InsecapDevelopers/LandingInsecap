@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Modal,
   ModalBody,
@@ -43,6 +44,7 @@ export function CatalogModalContent() {
 }
 
 export function AnimatedCatalogModal() {
+  const { t } = useTranslation();
   const { localizedPath } = useLocalizedPath();
 
   return (
@@ -53,7 +55,7 @@ export function AnimatedCatalogModal() {
           className="group/modal-btn inline-flex items-center justify-center relative overflow-hidden bg-white text-blue-700 py-3 px-6 rounded-full font-semibold hover:bg-gray-100 transition-colors duration-300"
         >
           <span className="group-hover/modal-btn:translate-x-40 text-center transition duration-500">
-            Ver Catálogo
+            {t('catalogModal.viewCatalog')}
           </span>
           <div className="-translate-x-40 group-hover/modal-btn:translate-x-0 flex items-center justify-center absolute inset-0 transition duration-500 text-2xl z-20">
             <BookPlusIcon className="w-6 h-6" />

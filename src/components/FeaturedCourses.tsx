@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Clock, Users, Monitor, MapPin, ShoppingCart, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -95,6 +96,12 @@ const formatPrice = (price: number) => {
 };
 
 const CourseCard = ({ course }: { course: Course }) => {
+  const { t } = useTranslation();
+  const modalityLabels: Record<string, string> = {
+    Online: t('featuredCourses.modalityOnline'),
+    Presencial: t('featuredCourses.modalityPresencial'),
+    Híbrido: t('featuredCourses.modalityHybrid'),
+  };
   const modalityColors = {
     Online: 'bg-insecap-cyan text-secondary-foreground',
     Presencial: 'bg-insecap-blue text-primary-foreground',
@@ -114,7 +121,7 @@ const CourseCard = ({ course }: { course: Course }) => {
           <Badge className={modalityColors[course.modality]}>
             {course.modality === 'Online' && <Monitor className="w-3 h-3 mr-1" />}
             {course.modality === 'Presencial' && <MapPin className="w-3 h-3 mr-1" />}
-            {course.modality}
+            {modalityLabels[course.modality] || course.modality}
           </Badge>
           {course.sence && (
             <Badge className="bg-green-500 text-white">SENCE</Badge>
@@ -165,7 +172,7 @@ const CourseCard = ({ course }: { course: Course }) => {
             </Button>
             <Button size="sm" className="bg-insecap-blue hover:bg-insecap-blue/90 text-white shadow-cta">
               <ShoppingCart className="w-4 h-4 mr-1" />
-              Añadir
+              {t('featuredCourses.addToCart')}
             </Button>
           </div>
         </div>
@@ -175,6 +182,7 @@ const CourseCard = ({ course }: { course: Course }) => {
 };
 
 const FeaturedCourses = () => {
+  const { t } = useTranslation();
   return (
     <section id="cursos" className="py-16 lg:py-24 bg-muted">
       <div className="container mx-auto px-8 md:px-14 lg:px-16">
@@ -182,17 +190,17 @@ const FeaturedCourses = () => {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
           <div>
             <span className="text-secondary font-medium text-sm uppercase tracking-wider">
-              Catálogo de Cursos
+              {t('featuredCourses.badge')}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-4">
-              Cursos Destacados
+              {t('featuredCourses.title')}
             </h2>
             <p className="text-muted-foreground max-w-xl">
-              Los cursos más solicitados por nuestros alumnos, todos certificados SENCE.
+              {t('featuredCourses.description')}
             </p>
           </div>
           <Button variant="outline" className="mt-4 md:mt-0 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-            Ver todos los cursos
+            {t('featuredCourses.viewAll')}
           </Button>
         </div>
 

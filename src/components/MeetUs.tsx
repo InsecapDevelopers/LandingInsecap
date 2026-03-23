@@ -1,6 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const MeetUs: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <section className="py-16 lg:py-24">
       <div className="container mx-auto px-8 md:px-14 lg:px-16">
@@ -11,7 +13,7 @@ const MeetUs: React.FC = () => {
             <div className="relative w-full aspect-square md:aspect-auto md:h-[400px]">
               <img
                 src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Quienes-Somos-Collage-01-2400x1356.jpg?v=1767876559"
-                alt="Quiénes Somos Collage"
+                alt={t('meetUs.imageAlt')}
                 className="w-full h-full object-cover rounded-lg shadow-lg"
               />
             </div>
@@ -21,19 +23,17 @@ const MeetUs: React.FC = () => {
           <div className="flex flex-col gap-6 order-1 lg:order-2">
             {/* Subtítulo */}
             <p className="text-blue-500 text-sm font-semibold uppercase tracking-wide">
-              Conócenos
+              {t('meetUs.badge')}
             </p>
 
             {/* Título Principal */}
             <h2 className="text-4xl md:text-5xl font-bold text-primary leading-tight">
-              Quienes somos
+              {t('meetUs.title')}
             </h2>
 
             {/* Párrafo Descriptivo */}
             <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">
-              Somos un Organismo Técnico de Capacitación, líder, entregando soluciones
-              a lo largo del país, aplicando metodologías de vanguardia, con el fin de asegurar
-              el aprendizaje efectivo en diversas disciplinas.
+              {t('meetUs.description')}
             </p>
           </div>
 

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Meteors } from '@/components/ui/meteors';
 
 export default function SplashScreen({ onDone }: { onDone: () => void }) {
+  const { t } = useTranslation();
   const [phase, setPhase] = useState<'in' | 'out'>('in');
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
       <div className="relative z-10 flex flex-col items-center gap-9">
         <img
           src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508"
-          alt="Insecap"
+          alt={t('splash.alt')}
           className="splash-logo w-72 sm:w-96 md:w-[30rem] select-none"
           draggable={false}
         />
@@ -72,7 +74,7 @@ export default function SplashScreen({ onDone }: { onDone: () => void }) {
           className="splash-sub text-white/80 font-light uppercase text-sm md:text-base select-none"
           style={{ letterSpacing: '0.42em' }}
         >
-          Creciendo Juntos
+          {t('splash.tagline')}
         </p>
       </div>
     </div>

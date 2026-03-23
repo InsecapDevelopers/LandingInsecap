@@ -1,36 +1,23 @@
+import { useTranslation } from 'react-i18next';
 import { Award, CheckCircle, Shield, FileCheck } from 'lucide-react';
 
-const accreditations = [
-  {
-    icon: Award,
-    title: 'SENCE',
-    description: 'Organismo Técnico de Capacitación acreditado ante SENCE',
-  },
-  {
-    icon: Shield,
-    title: 'NCh 2728',
-    description: 'Certificados bajo Norma Chilena 2728 de calidad',
-  },
-  {
-    icon: FileCheck,
-    title: 'ISO 9001',
-    description: 'Sistema de gestión de calidad certificado',
-  },
-  {
-    icon: CheckCircle,
-    title: '+15 Años',
-    description: 'De experiencia formando profesionales en Chile',
-  },
-];
-
-const stats = [
-  { value: '50.000+', label: 'Alumnos capacitados' },
-  { value: '500+', label: 'Cursos disponibles' },
-  { value: '150+', label: 'Empresas confían en nosotros' },
-  { value: '98%', label: 'Satisfacción de alumnos' },
-];
-
 const Accreditations = () => {
+  const { t } = useTranslation();
+
+  const accreditations = [
+    { icon: Award,       title: 'SENCE',    description: t('accreditations.items.sence') },
+    { icon: Shield,      title: 'NCh 2728', description: t('accreditations.items.nch2728') },
+    { icon: FileCheck,   title: 'ISO 9001', description: t('accreditations.items.iso9001') },
+    { icon: CheckCircle, title: '+15 Años', description: t('accreditations.items.plus15years') },
+  ];
+
+  const stats = [
+    { value: '50.000+', label: t('accreditations.stats.trainedStudents') },
+    { value: '500+',    label: t('accreditations.stats.availableCourses') },
+    { value: '150+',    label: t('accreditations.stats.trustedCompanies') },
+    { value: '98%',     label: t('accreditations.stats.studentSatisfaction') },
+  ];
+
   return (
     <section className="py-16 lg:py-24 bg-background">
       <div className="container mx-auto px-8 md:px-14 lg:px-16">
@@ -56,10 +43,10 @@ const Accreditations = () => {
         <div className="bg-primary rounded-2xl p-8 md:p-12">
           <div className="text-center mb-10">
             <span className="text-secondary font-medium text-sm uppercase tracking-wider">
-              Respaldo y Calidad
+              {t('accreditations.badge')}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mt-2">
-              Nuestras Acreditaciones
+              {t('accreditations.title')}
             </h2>
           </div>
 

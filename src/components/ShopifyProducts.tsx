@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { ShopifyProduct, fetchProducts, fetchProductsByCollection, formatPrice } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
@@ -20,6 +21,7 @@ import { ShoppingCart, Clock, Monitor, Award, ChevronRight } from "lucide-react"
 import { toast } from "sonner";
 
 const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
+  const { t } = useTranslation();
   const addItem = useCartStore((state) => state.addItem);
   const { localizedPath } = useLocalizedPath();
   const { node } = product;
@@ -33,7 +35,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
     e.stopPropagation();
 
     if (!firstVariant) {
-      toast.error("Curso no disponible");
+      toast.error(t('shopify.unavailable'));
       return;
     }
 
@@ -46,7 +48,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
       selectedOptions: firstVariant.selectedOptions || [],
     });
 
-    toast.success("Curso agregado al carrito", {
+    toast.success(t('shopify.addedToCart'), {
       description: node.title,
       position: "top-center",
     });
@@ -69,7 +71,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
           )}
           <div className="absolute top-3 left-3">
             <Badge className="bg-insecap-cyan text-white border-0">
-              {node.productType || "Curso"}
+              {node.productType || t('shopify.course')}
             </Badge>
           </div>
           <Badge className="absolute top-3 right-3 bg-green-500 text-white border-0">
@@ -83,7 +85,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
           </h3>
 
           <p className="text-sm text-muted-foreground mb-3 line-clamp-2 flex-1">
-            {node.description || "Capacitación profesional certificada"}
+            {node.description || t('shopify.certifiedTraining')}
           </p>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
@@ -110,7 +112,7 @@ const ShopifyProductCard = ({ product }: { product: ShopifyProduct }) => {
                 className="bg-insecap-blue hover:bg-insecap-blue/90 text-white"
               >
                 <ShoppingCart className="h-4 w-4 mr-1" />
-                Agregar
+                {t('shopify.add')}
               </Button>
             </div>
           )}
@@ -148,6 +150,7 @@ export const ShopifyProducts = ({
   limit?: number;
   hideHeader?: boolean;
 }) => {
+  const { t } = useTranslation();
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -174,7 +177,7 @@ export const ShopifyProducts = ({
 
         setProducts(data);
       } catch (err) {
-        setError("Error al cargar los cursos");
+        setError(t('shopify.loadError'));
         console.error(err);
       } finally {
         setIsLoading(false);
@@ -202,13 +205,13 @@ export const ShopifyProducts = ({
           {!hideHeader && (
             <div className="text-center mb-10">
               <Badge className="mb-4 bg-insecap-blue/10 text-insecap-blue hover:bg-insecap-blue/20">
-                Catálogo de Cursos
+                {t('featuredCourses.badge')}
               </Badge>
               <h2 className="text-3xl font-bold text-foreground mb-4">
-                Cursos <span className="text-insecap-cyan">Destacados</span>
+                {t('featuredCourses.title').split(' ')[0]} <span className="text-insecap-cyan">{t('featuredCourses.title').split(' ').slice(1).join(' ')}</span>
               </h2>
               <p className="text-base text-muted-foreground max-w-2xl mx-auto">
-                Explora nuestra oferta de cursos con certificación SENCE y NCh 2728
+                {t('shopify.sectionDesc')}
               </p>
             </div>
           )}
@@ -241,7 +244,7 @@ export const ShopifyProducts = ({
             <div className="text-center mt-10">
               <Link to={localizedPath('/cursos')}>
                 <Button size="lg" variant="outline" className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
-                  Ver todos los cursos
+                  {t('shopify.viewAll')}
                   <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
@@ -259,13 +262,13 @@ export const ShopifyProducts = ({
         {!hideHeader && (
           <div className="text-center mb-12">
             <Badge className="mb-4 bg-insecap-blue/10 text-insecap-blue hover:bg-insecap-blue/20">
-              Catálogo de Cursos
+              {t('featuredCourses.badge')}
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Cursos <span className="text-insecap-cyan">Destacados</span>
+              {t('featuredCourses.title')}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Explora nuestra oferta de cursos con certificación SENCE y NCh 2728
+              {t('shopify.sectionDesc')}
             </p>
           </div>
         )}
@@ -295,7 +298,7 @@ export const ShopifyProducts = ({
           <div className="text-center mt-12">
             <Link to={localizedPath('/cursos')}>
               <Button size="lg" variant="outline" className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
-                Ver todos los cursos
+                {t('shopify.viewAll')}
                 <ChevronRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>

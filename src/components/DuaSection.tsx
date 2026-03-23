@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
@@ -8,6 +9,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 const DuaSection: React.FC = () => {
+  const { t } = useTranslation();
   const images = [
     "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DUA-Web_Mesa-de-trabajo-1-scaled.jpg?v=1768504112",
     "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DUA-Web-02-scaled.jpg?v=1768504131",
@@ -44,7 +46,7 @@ const DuaSection: React.FC = () => {
                 <SwiperSlide key={index}>
                   <img 
                     src={url} 
-                    alt={`Metodología DUA - Diapositiva ${index + 1}`} 
+                  alt={`${t('dua.imageAlt')} ${index + 1}`} 
                     /* Usamos w-full y h-auto para que la imagen mantenga su proporción original */
                     className="w-full h-auto block select-none"
                     loading="lazy"
@@ -58,25 +60,19 @@ const DuaSection: React.FC = () => {
           <div className="w-full lg:w-2/5">
             <div className="flex flex-col gap-6">
               <span className="text-blue-600 font-bold tracking-wider uppercase text-sm">
-                Metodología Innovadora
+                {t('dua.badge')}
               </span>
               <h2 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-tight">
-                Metodología <span className="text-blue-600">DUA</span> en nuestros cursos.
+                {t('dua.title')} <span className="text-blue-600">{t('dua.titleHighlight')}</span> {t('dua.titleSuffix')}
               </h2>
               <div className="w-24 h-2 bg-gradient-to-r from-blue-600 to-indigo-400 rounded-full"></div>
               
               <p className="text-gray-600 text-lg leading-relaxed">
-                El Diseño Universal para el Aprendizaje (DUA) es una metodología que nos permite planificar y 
-                ejecutar capacitaciones efectivas y accesibles para todo tipo de personas, con distintas características, 
-                habilidades y necesidades.
+                {t('dua.description')}
               </p>
 
               <div className="grid gap-4 mt-4">
-                {[
-                  'Flexibilidad en la enseñanza',
-                  'Eliminación de barreras cognitivas',
-                  'Potenciación del compromiso'
-                ].map((feature, i) => (
+                {(t('dua.benefits', { returnObjects: true }) as string[]).map((feature, i) => (
                   <div key={i} className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100 transition-all hover:bg-slate-100">
                     <div className="bg-blue-600 w-2 h-2 rounded-full"></div>
                     <span className="text-slate-800 font-semibold">{feature}</span>
