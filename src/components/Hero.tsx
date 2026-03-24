@@ -4,8 +4,7 @@ import { BookOpen, Users, GraduationCap, Clock, Instagram, Facebook, Linkedin } 
 import { useTranslation } from 'react-i18next';
 import { WordRotate } from '@/components/ui/word-rotate';
 
-const CAPIN_IMG =
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Capin_Mesa-de-trabajo-1-copia-3-1583x2048.png?v=1772023079';
+const CAPIN_IMG = '/CapinMov.webp';
 
 const HERO_BACKGROUNDS = [
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_111938161.png?v=1772461187',
