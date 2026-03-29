@@ -23,6 +23,8 @@ import {
 import { toast } from "sonner";
 import PageHero from "@/components/PageHero";
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import JsonCourseDetail from '@/components/JsonCourseDetail';
+import { isLecturaJSONEnabled } from '@/lib/featureFlags';
 
 interface ProductNode {
   id: string;
@@ -68,7 +70,7 @@ interface ProductNode {
   }>;
 }
 
-const CourseDetail = () => {
+const LegacyCourseDetail = () => {
   const { localizedPath, locale } = useLocalizedPath();
   const { handle } = useParams<{ handle: string }>();
   const [product, setProduct] = useState<ProductNode | null>(null);
@@ -429,6 +431,14 @@ const CourseDetail = () => {
       <Footer />
     </div>
   );
+};
+
+const CourseDetail = () => {
+  if (isLecturaJSONEnabled) {
+    return <JsonCourseDetail />;
+  }
+
+  return <LegacyCourseDetail />;
 };
 
 export default CourseDetail;

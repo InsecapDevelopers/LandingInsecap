@@ -17,3 +17,11 @@
  */
 export const isEcommerceEnabled: boolean =
   import.meta.env.VITE_ECOMMERCE_ENABLED === 'true';
+
+/**
+ * Alterna la fuente de cursos entre JSON estatico y Shopify.
+ * true: usar JSON local.
+ * false: usar flujo actual Shopify.
+ */
+export const isLecturaJSONEnabled: boolean =
+  import.meta.env.VITE_LECTURA_JSON === 'true';

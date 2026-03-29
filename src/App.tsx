@@ -33,6 +33,7 @@ const queryClient = new QueryClient();
 const routeDefinitions = [
   { path: '', element: <Index /> },
   { path: 'curso/:handle', element: <CourseDetail /> },
+  { path: 'cursos/:handle', element: <CourseDetail /> },
   { path: 'cursos', element: <CourseCatalog /> },
   { path: 'nuestros-clientes', element: <Clients /> },
   { path: 'nosotros', element: <AboutUs /> },

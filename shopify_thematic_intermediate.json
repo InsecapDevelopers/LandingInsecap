@@ -1,0 +1,4108 @@
+[
+  {
+    "tema": "Instalaciones Sanitarias y Agua",
+    "handle": "agua-sanitaria",
+    "categoria": "Técnicas Aplicadas",
+    "cursos_fuente": 2,
+    "modalidades": [
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 20,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Aislación y Bloqueo (LOTO)",
+    "handle": "aislacion-bloqueo",
+    "categoria": "Electricidad y Electrónica",
+    "cursos_fuente": 9,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 5,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 5,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 5,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 5,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Alta Tensión",
+    "handle": "alta-tension",
+    "categoria": "Electricidad y Electrónica",
+    "cursos_fuente": 17,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico",
+      "Minera Escondida (MEL)"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 18,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      }
+    ]
+  },
+  {
+    "tema": "Montaje y Uso de Andamios",
+    "handle": "andamios",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 11,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Collahuasi",
+      "Genérico",
+      "Minera Escondida (MEL)"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Collahuasi"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Collahuasi"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Atención al Cliente y Ventas",
+    "handle": "atencion-cliente-ventas",
+    "categoria": "Técnicas de Habilidades Blandas",
+    "cursos_fuente": 10,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "AutoCAD",
+    "handle": "autocad",
+    "categoria": "Computación e Informática",
+    "cursos_fuente": 5,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 20,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Baja Tensión",
+    "handle": "baja-tension",
+    "categoria": "Electricidad y Electrónica",
+    "cursos_fuente": 5,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico",
+      "Minera Escondida (MEL)"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      }
+    ]
+  },
+  {
+    "tema": "Bienestar y Salud Mental",
+    "handle": "bienestar-salud-mental",
+    "categoria": "Técnicas de Habilidades Blandas",
+    "cursos_fuente": 5,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Bombas y Compresores",
+    "handle": "bombas-compresores",
+    "categoria": "Técnicas Aplicadas",
+    "cursos_fuente": 7,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Bulldozer y Tractores",
+    "handle": "bulldozer",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 5,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 32,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Gestión de Calidad e ISO",
+    "handle": "calidad-iso",
+    "categoria": "Procesos Industriales",
+    "cursos_fuente": 14,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 14,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Camión de Extracción y Especial",
+    "handle": "camion-especial",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 19,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": null,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 25,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 25,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Camión",
+    "handle": "camion-general",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 44,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Genérico",
+      "Minera Escondida (MEL)"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 140,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 32,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 32,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 32,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Cargador Frontal",
+    "handle": "cargador-frontal",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 6,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Computación e Informática General",
+    "handle": "computacion-general",
+    "categoria": "Computación e Informática",
+    "cursos_fuente": 2,
+    "modalidades": [
+      "E-learning Sincrónico"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Comunicación y Trabajo en Equipo",
+    "handle": "comunicacion-trabajo-equipo",
+    "categoria": "Técnicas de Habilidades Blandas",
+    "cursos_fuente": 12,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 0,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 21,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 30,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 10,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Electricidad Industrial",
+    "handle": "electricidad-general",
+    "categoria": "Electricidad y Electrónica",
+    "cursos_fuente": 99,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "BHP Spence",
+      "Codelco",
+      "Estándar (sin especificar)",
+      "Genérico",
+      "Minera Escondida (MEL)"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 48,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 48,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 40,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "BHP Spence"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 26,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "BHP Spence"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 6,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 3,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 3,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 2,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Estándar (sin especificar)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 60,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": null,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Electrónica e Instrumentación",
+    "handle": "electronica-instrumentacion",
+    "categoria": "Electricidad y Electrónica",
+    "cursos_fuente": 10,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Equipos de Protección Personal (EPP)",
+    "handle": "epp-proteccion-personal",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 8,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 2,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 2,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 2,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 3,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 3,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Equipos Menores y Herramientas",
+    "handle": "equipos-menores",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 4,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Ergonomía y Trastornos Musculoesqueléticos",
+    "handle": "ergonomia-trastornos",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 2,
+    "modalidades": [
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Espacios Confinados",
+    "handle": "espacios-confinados",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 14,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "BHP Spence",
+      "Codelco",
+      "Genérico",
+      "Minera Escondida (MEL)"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 5,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 5,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "BHP Spence"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "BHP Spence"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "BHP Spence"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Microsoft Excel",
+    "handle": "excel",
+    "categoria": "Computación e Informática",
+    "cursos_fuente": 21,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 46,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Explosivos y Tronadura",
+    "handle": "explosivos-tronadura",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 1,
+    "modalidades": [
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 32,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Formación de Instructores y Relatores",
+    "handle": "formacion-instructores",
+    "categoria": "Técnicas de Habilidades Blandas",
+    "cursos_fuente": 2,
+    "modalidades": [
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 42,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Gases y Atmósferas Peligrosas",
+    "handle": "gases-atmosferas-peligrosas",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 1,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Bodega, Logística y Abastecimiento",
+    "handle": "gestion-bodega-logistica",
+    "categoria": "Procesos Industriales",
+    "cursos_fuente": 16,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 2,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 2,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 2,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 15,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 112,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 1,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Gestión de Proyectos",
+    "handle": "gestion-proyectos",
+    "categoria": "Procesos Industriales",
+    "cursos_fuente": 3,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 214,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Grúa Horquilla y Apilador",
+    "handle": "grua-horquilla",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 18,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 120,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 2,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Codelco"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Grúa Pluma",
+    "handle": "grua-pluma",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 4,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Grúa Puente",
+    "handle": "grua-puente",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 20,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Genérico",
+      "Minera Escondida (MEL)"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 10,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 32,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 32,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 32,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 24,
+        "estandar": "Minera Escondida (MEL)"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Grúa Torre",
+    "handle": "grua-torre",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 8,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Estándar (sin especificar)",
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Estándar (sin especificar)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Estándar (sin especificar)"
+      }
+    ]
+  },
+  {
+    "tema": "Hidráulica y Neumática",
+    "handle": "hidraulica-neumatica",
+    "categoria": "Mecánica Industrial",
+    "cursos_fuente": 42,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico",
+      "Lomas Bayas"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Lomas Bayas"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 20,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Incendio y Emergencias",
+    "handle": "incendio-emergencias",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 19,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 7,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 2,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 2,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 7,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 2,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 7,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 20,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Instrumentos de Medición y Metrología",
+    "handle": "instrumentos-medicion",
+    "categoria": "Técnicas Aplicadas",
+    "cursos_fuente": 4,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Izaje y Cargas Suspendidas",
+    "handle": "izaje-cargas-suspendidas",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 48,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "BHP Spence",
+      "Codelco",
+      "Estándar (sin especificar)",
+      "Genérico",
+      "Minera Centinela",
+      "Minera Escondida (MEL)"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Minera Centinela"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 64,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 32,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Estándar (sin especificar)"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 44,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 40,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Estándar (sin especificar)"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 32,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Estándar (sin especificar)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 120,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "BHP Spence"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Codelco"
+      }
+    ]
+  },
+  {
+    "tema": "Lean Manufacturing, 5S y Mejora Continua",
+    "handle": "lean-5s-mejora-continua",
+    "categoria": "Procesos Industriales",
+    "cursos_fuente": 3,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 20,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Liderazgo y Supervisión",
+    "handle": "liderazgo",
+    "categoria": "Técnicas de Habilidades Blandas",
+    "cursos_fuente": 13,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 1,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 9,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Lubricación Industrial",
+    "handle": "lubricacion",
+    "categoria": "Mecánica Industrial",
+    "cursos_fuente": 6,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 12,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Manejo Defensivo y Conducción Segura",
+    "handle": "manejo-defensivo",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 18,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 2,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 2,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Mantenimiento Mecánico",
+    "handle": "mantenimiento-mecanico",
+    "categoria": "Mecánica Industrial",
+    "cursos_fuente": 8,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico",
+      "Minera Centinela"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": null,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": null,
+        "estandar": "Minera Centinela"
+      }
+    ]
+  },
+  {
+    "tema": "Mecánica General e Industrial",
+    "handle": "mecanica-general",
+    "categoria": "Mecánica Industrial",
+    "cursos_fuente": 7,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 56,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 140,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Medioambiente y Sustentabilidad",
+    "handle": "medioambiente",
+    "categoria": "Procesos Industriales",
+    "cursos_fuente": 4,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Procesos Mineros",
+    "handle": "mineria-procesos",
+    "categoria": "Procesos Industriales",
+    "cursos_fuente": 8,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Motoniveladora",
+    "handle": "motoniveladora",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 4,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 32,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Motosierra y Silvicultura",
+    "handle": "motosierra",
+    "categoria": "Técnicas Aplicadas",
+    "cursos_fuente": 2,
+    "modalidades": [
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Microsoft Office (Word / PowerPoint)",
+    "handle": "office-word-powerpoint",
+    "categoria": "Computación e Informática",
+    "cursos_fuente": 8,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 32,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 200,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 32,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Plataforma Elevadora (Tijera / Boom)",
+    "handle": "plataforma-elevadora",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 2,
+    "modalidades": [
+      "E-learning Asincrónico"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Prevención de Riesgos Generales",
+    "handle": "prevencion-riesgos-generales",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 35,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico",
+      "Minera Centinela"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Minera Centinela"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 1,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 200,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Primeros Auxilios",
+    "handle": "primeros-auxilios",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 12,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Técnicas de Rescate",
+    "handle": "rescate",
+    "categoria": "Técnicas Aplicadas",
+    "cursos_fuente": 8,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico",
+      "Minera Escondida (MEL)"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Operación de Retroexcavadora",
+    "handle": "retroexcavadora",
+    "categoria": "Operación de Equipos",
+    "cursos_fuente": 5,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 32,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "SAP",
+    "handle": "sap",
+    "categoria": "Computación e Informática",
+    "cursos_fuente": 26,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 20,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 20,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 48,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 60,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 120,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 36,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Seguridad y Prevención (Otros)",
+    "handle": "seguridad-prevencion-otros",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 693,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Antofagasta Minerals",
+      "BHP Spence",
+      "Codelco",
+      "El Abra",
+      "Estándar (sin especificar)",
+      "Genérico",
+      "Minera Escondida (MEL)"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 18,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 3,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 3,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 32,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 48,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 2,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 20,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": null,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 24,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 27,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 32,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 32,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 2,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 2,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 7,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 2,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 3,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 2,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 7,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 7,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 3,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 12,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 12,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 32,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 1,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 24,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "El Abra"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 5,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 68,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 60,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 120,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 22,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 10,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 20,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 30,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 32,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 30,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 30,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 20,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 0,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 90,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 100,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Estándar (sin especificar)"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 90,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 36,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 36,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 65,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 1,
+        "estandar": "BHP Spence"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 150,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 60,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 1,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Estándar (sin especificar)"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 6,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 1,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 10,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 5,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 80,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 6,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 9,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 18,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 98,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 240,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 88,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 60,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 35,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 200,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 200,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 3,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 15,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 6,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 10,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 56,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 50,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 100,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 18,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Antofagasta Minerals"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 9,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 160,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 37,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Soldadura Industrial",
+    "handle": "soldadura",
+    "categoria": "Mecánica Industrial",
+    "cursos_fuente": 58,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 140,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 25,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 28,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 50,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 48,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 68,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 90,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 40,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 32,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 15,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Tableros y Distribución Eléctrica",
+    "handle": "tableros-electricos",
+    "categoria": "Electricidad y Electrónica",
+    "cursos_fuente": 2,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Termografía Industrial",
+    "handle": "termografia",
+    "categoria": "Mecánica Industrial",
+    "cursos_fuente": 3,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Topografía",
+    "handle": "topografia",
+    "categoria": "Técnicas Aplicadas",
+    "cursos_fuente": 4,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "Presencial",
+        "horas": 12,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 24,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 20,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Trabajo en Altura",
+    "handle": "trabajo-en-altura",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 60,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Antofagasta Minerals",
+      "BHP Spence",
+      "CMQB",
+      "Codelco",
+      "Collahuasi",
+      "Confipetrol",
+      "El Abra",
+      "Genérico",
+      "ICV",
+      "Lomas Bayas",
+      "Minera Candelaria",
+      "Minera Centinela",
+      "Minera Escondida (MEL)",
+      "Parque Solar Coya",
+      "Piloto DUA"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 2,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 2,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 2,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Piloto DUA"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Piloto DUA"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 24,
+        "estandar": "Collahuasi"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 32,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Lomas Bayas"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Minera Centinela"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 16,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Antofagasta Minerals"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Confipetrol"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "BHP Spence"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "CMQB"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Collahuasi"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "El Abra"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "ICV"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Collahuasi"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Minera Candelaria"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 10,
+        "estandar": "Minera Centinela"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Minera Candelaria"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Minera Centinela"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Minera Centinela"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 150,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Parque Solar Coya"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "BHP Spence"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Minera Escondida (MEL)"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Minera Escondida (MEL)"
+      }
+    ]
+  },
+  {
+    "tema": "Trabajos en Caliente",
+    "handle": "trabajos-en-caliente",
+    "categoria": "Seguridad y Prevención de Riesgos",
+    "cursos_fuente": 4,
+    "modalidades": [
+      "E-learning Asincrónico",
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Codelco",
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Codelco"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 4,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Asincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  },
+  {
+    "tema": "Ventilación en Minería Subterránea",
+    "handle": "ventilacion-minera",
+    "categoria": "Técnicas Aplicadas",
+    "cursos_fuente": 3,
+    "modalidades": [
+      "E-learning Sincrónico",
+      "Presencial"
+    ],
+    "estandares": [
+      "Genérico"
+    ],
+    "combinaciones": [
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 124,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "E-learning Sincrónico",
+        "horas": 8,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 16,
+        "estandar": "Genérico"
+      },
+      {
+        "modalidad": "Presencial",
+        "horas": 8,
+        "estandar": "Genérico"
+      }
+    ]
+  }
+]

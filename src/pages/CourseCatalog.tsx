@@ -29,6 +29,8 @@ import {
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { useCartStore } from '@/stores/cartStore';
 import { toast } from 'sonner';
+import JsonCourseCatalog from '@/components/JsonCourseCatalog';
+import { isLecturaJSONEnabled } from '@/lib/featureFlags';
 
 const isEcommerceEnabled = import.meta.env.VITE_ECOMMERCE_ENABLED !== 'false';
 
@@ -382,7 +384,7 @@ const CategoryFilterBar = ({
 // ─── Main Page ──────────────────────────────────────────────────────────────
 const PRODUCTS_PER_PAGE = 16;
 
-const CourseCatalog = () => {
+const LegacyCourseCatalog = () => {
   const { locale } = useLocalizedPath();
   const [categories, setCategories] = useState<ShopifyCategory[]>([]);
   const [allProducts, setAllProducts] = useState<ShopifyProduct[]>([]);
@@ -576,6 +578,14 @@ const CourseCatalog = () => {
       <Footer />
     </div>
   );
+};
+
+const CourseCatalog = () => {
+  if (isLecturaJSONEnabled) {
+    return <JsonCourseCatalog />;
+  }
+
+  return <LegacyCourseCatalog />;
 };
 
 export default CourseCatalog;
