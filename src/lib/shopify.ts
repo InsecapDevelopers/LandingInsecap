@@ -68,6 +68,17 @@ export interface ShopifyCategory {
   count: number;
 }
 
+export interface ShopifyCatalogProductSummary {
+  handle: string;
+  title: string;
+  productType: string;
+  vendor: string;
+  image: {
+    url: string;
+    altText: string | null;
+  } | null;
+}
+
 // GraphQL Queries
 const STOREFRONT_COLLECTIONS_QUERY = `
   query GetCollections {
@@ -258,6 +269,29 @@ const STOREFRONT_PRODUCT_BY_HANDLE_QUERY = `
       options {
         name
         values
+      }
+    }
+  }
+`;
+
+const STOREFRONT_CATALOG_PRODUCTS_QUERY = `
+  query GetCatalogProducts($first: Int!, $query: String) {
+    products(first: $first, query: $query) {
+      edges {
+        node {
+          handle
+          title
+          productType
+          vendor
+          images(first: 1) {
+            edges {
+              node {
+                url
+                altText
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -464,6 +498,84 @@ export async function fetchCategories(): Promise<ShopifyCategory[]> {
 export async function fetchProductByHandle(handle: string) {
   const data = await storefrontApiRequest(STOREFRONT_PRODUCT_BY_HANDLE_QUERY, { handle });
   return data.data.productByHandle;
+}
+
+const chunkItems = <T,>(items: T[], chunkSize: number): T[][] => {
+  const chunks: T[][] = [];
+
+  for (let index = 0; index < items.length; index += chunkSize) {
+    chunks.push(items.slice(index, index + chunkSize));
+  }
+
+  return chunks;
+};
+
+const buildHandleSearchQuery = (handles: string[]): string =>
+  handles.map((handle) => `handle:${handle}`).join(' OR ');
+
+const toCatalogProductSummary = (node: {
+  handle: string;
+  title: string;
+  productType: string;
+  vendor: string;
+  images: {
+    edges: Array<{
+      node: {
+        url: string;
+        altText: string | null;
+      };
+    }>;
+  };
+}): ShopifyCatalogProductSummary => ({
+  handle: node.handle,
+  title: node.title,
+  productType: node.productType,
+  vendor: node.vendor,
+  image: node.images.edges[0]?.node ?? null,
+});
+
+export async function fetchCatalogProductSummaries(
+  handles: string[]
+): Promise<Record<string, ShopifyCatalogProductSummary>> {
+  const uniqueHandles = Array.from(
+    new Set(handles.map((handle) => handle.trim()).filter(Boolean))
+  );
+
+  if (uniqueHandles.length === 0) {
+    return {};
+  }
+
+  const chunks = chunkItems(uniqueHandles, 20);
+  const responses = await Promise.all(
+    chunks.map(async (chunk) => {
+      const data = await storefrontApiRequest(STOREFRONT_CATALOG_PRODUCTS_QUERY, {
+        first: chunk.length,
+        query: buildHandleSearchQuery(chunk),
+      });
+
+      return data.data.products.edges as Array<{
+        node: {
+          handle: string;
+          title: string;
+          productType: string;
+          vendor: string;
+          images: {
+            edges: Array<{
+              node: {
+                url: string;
+                altText: string | null;
+              };
+            }>;
+          };
+        };
+      }>;
+    })
+  );
+
+  return responses.flat().reduce<Record<string, ShopifyCatalogProductSummary>>((accumulator, edge) => {
+    accumulator[edge.node.handle] = toCatalogProductSummary(edge.node);
+    return accumulator;
+  }, {});
 }
 
 // Cart item type for checkout

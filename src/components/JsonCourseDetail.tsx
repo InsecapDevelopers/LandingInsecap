@@ -1,26 +1,58 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ImageIcon } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  CatalogSelections,
   formatHoursLabel,
-  getInitialSelections,
   getJsonCatalogByHandle,
-  getSelectorOptions,
-  hasValidCombination,
+  getRelatedJsonTopics,
+  getTopicAvailabilitySummary,
 } from '@/lib/catalogData';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import {
+  fetchCatalogProductSummaries,
+  ShopifyCatalogProductSummary,
+} from '@/lib/shopify';
 
 const JsonCourseDetail = () => {
   const { handle } = useParams<{ handle: string }>();
   const { localizedPath } = useLocalizedPath();
   const topic = useMemo(() => (handle ? getJsonCatalogByHandle(handle) : null), [handle]);
-  const [selections, setSelections] = useState<CatalogSelections>(getInitialSelections());
+  const [productSummary, setProductSummary] = useState<ShopifyCatalogProductSummary | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadProductSummary = async () => {
+      if (!topic) {
+        return;
+      }
+
+      try {
+        const summaries = await fetchCatalogProductSummaries([topic.handle]);
+        if (!cancelled) {
+          setProductSummary(summaries[topic.handle] ?? null);
+        }
+      } catch (error) {
+        console.error('Error fetching topic product summary:', error);
+        if (!cancelled) {
+          setProductSummary(null);
+        }
+      }
+    };
+
+    setProductSummary(null);
+    loadProductSummary();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [topic]);
 
   if (!topic) {
     return (
@@ -43,8 +75,8 @@ const JsonCourseDetail = () => {
     );
   }
 
-  const options = getSelectorOptions(topic, selections);
-  const isValid = hasValidCombination(topic, selections);
+  const availability = getTopicAvailabilitySummary(topic);
+  const relatedTopics = getRelatedJsonTopics(topic, 6);
 
   return (
     <div className="min-h-screen bg-background">
@@ -54,6 +86,7 @@ const JsonCourseDetail = () => {
         <PageHero
           title={topic.tema}
           subtitle={topic.categoria}
+          backgroundImage={productSummary?.image?.url}
           breadcrumbs={[
             { label: 'Cursos', href: '/cursos' },
             { label: topic.tema },
@@ -64,99 +97,52 @@ const JsonCourseDetail = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <Card className="lg:col-span-2">
               <CardHeader>
-                <CardTitle>Configuración técnica</CardTitle>
+                <CardTitle>Disponibilidad general</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <label className="flex flex-col gap-1.5 text-xs text-muted-foreground">
-                    Modalidad
-                    <select
-                      value={selections.modalidad}
-                      onChange={(event) =>
-                        setSelections((current) => ({
-                          ...current,
-                          modalidad: event.target.value,
-                        }))
-                      }
-                      className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"
-                    >
-                      <option value="">Todos</option>
-                      {options.modalidades.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
+              <CardContent className="space-y-6">
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Revisa la disponibilidad general de este tema y solicita una cotización según
+                  la combinación que necesites.
+                </p>
 
-                  <label className="flex flex-col gap-1.5 text-xs text-muted-foreground">
-                    Horas
-                    <select
-                      value={selections.horas}
-                      onChange={(event) =>
-                        setSelections((current) => ({
-                          ...current,
-                          horas: event.target.value,
-                        }))
-                      }
-                      className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"
-                    >
-                      <option value="">Todos</option>
-                      {options.horas.map((option) => (
-                        <option key={option} value={option}>
-                          {formatHoursLabel(option)}
-                        </option>
+                <div className="grid gap-4 md:grid-cols-3">
+                  <div className="rounded-xl border border-border bg-muted/20 p-4">
+                    <p className="mb-3 text-sm font-semibold text-foreground">Modalidades</p>
+                    <div className="flex flex-wrap gap-2">
+                      {availability.modalidades.map((modalidad) => (
+                        <Badge key={modalidad} variant="secondary" className="bg-insecap-blue/10 text-insecap-blue">
+                          {modalidad}
+                        </Badge>
                       ))}
-                    </select>
-                  </label>
+                    </div>
+                  </div>
 
-                  <label className="flex flex-col gap-1.5 text-xs text-muted-foreground">
-                    Estándar
-                    <select
-                      value={selections.estandar}
-                      onChange={(event) =>
-                        setSelections((current) => ({
-                          ...current,
-                          estandar: event.target.value,
-                        }))
-                      }
-                      className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"
-                    >
-                      <option value="">Todos</option>
-                      {options.estandares.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
+                  <div className="rounded-xl border border-border bg-muted/20 p-4">
+                    <p className="mb-3 text-sm font-semibold text-foreground">Horas</p>
+                    <div className="flex flex-wrap gap-2">
+                      {availability.horas.map((hours) => (
+                        <Badge key={hours} variant="secondary" className="bg-insecap-cyan/10 text-insecap-cyan">
+                          {formatHoursLabel(hours)}
+                        </Badge>
                       ))}
-                    </select>
-                  </label>
+                    </div>
+                  </div>
+
+                  <div className="rounded-xl border border-border bg-muted/20 p-4">
+                    <p className="mb-3 text-sm font-semibold text-foreground">Estándares</p>
+                    <div className="flex flex-wrap gap-2">
+                      {availability.estandares.map((standard) => (
+                        <Badge key={standard} variant="secondary" className="bg-emerald-500/10 text-emerald-700">
+                          {standard}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
-                <div className={`text-sm ${isValid ? 'text-green-600' : 'text-amber-600'}`}>
-                  {isValid
-                    ? 'Configuración disponible para cotización.'
-                    : 'No hay una combinación exacta con esos filtros.'}
-                </div>
-
-                <div className="rounded-md border border-border overflow-hidden">
-                  <table className="w-full text-sm">
-                    <thead className="bg-muted/50">
-                      <tr>
-                        <th className="text-left p-3 font-medium">Modalidad</th>
-                        <th className="text-left p-3 font-medium">Horas</th>
-                        <th className="text-left p-3 font-medium">Estándar</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {topic.combinaciones.map((combination, index) => (
-                        <tr key={`${combination.modalidad}-${combination.estandar}-${index}`} className="border-t border-border">
-                          <td className="p-3">{combination.modalidad}</td>
-                          <td className="p-3">{formatHoursLabel(String(combination.horas ?? 'cotizar'))}</td>
-                          <td className="p-3">{combination.estandar}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className="rounded-xl border border-border bg-white p-4 text-sm text-muted-foreground">
+                  Este tema agrupa {topic.cursos_fuente} cursos base y se adapta según modalidad,
+                  carga horaria y estándar requerido.
                 </div>
               </CardContent>
             </Card>
@@ -166,6 +152,23 @@ const JsonCourseDetail = () => {
                 <CardTitle>Resumen comercial</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                <div className="overflow-hidden rounded-xl border border-border bg-muted/20">
+                  {productSummary?.image ? (
+                    <img
+                      src={productSummary.image.url}
+                      alt={productSummary.image.altText || topic.tema}
+                      className="aspect-video w-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex aspect-video w-full items-center justify-center bg-gradient-to-br from-insecap-blue to-insecap-cyan text-white/80">
+                      <ImageIcon className="h-10 w-10" />
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Categoría</p>
+                  <p className="font-semibold text-foreground">{topic.categoria}</p>
+                </div>
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">Precio</span>
                   <span className="text-2xl font-bold text-insecap-cyan">Cotizar</span>
@@ -184,6 +187,28 @@ const JsonCourseDetail = () => {
                 </Link>
               </CardContent>
             </Card>
+
+            {relatedTopics.length > 0 ? (
+              <Card className="lg:col-span-3">
+                <CardHeader>
+                  <CardTitle>Otros temas en {topic.categoria}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                    {relatedTopics.map((relatedTopic) => (
+                      <Link key={relatedTopic.handle} to={localizedPath(`/curso/${relatedTopic.handle}`)}>
+                        <div className="h-full rounded-xl border border-border p-4 transition-colors hover:border-insecap-cyan hover:bg-insecap-cyan/5">
+                          <p className="font-semibold text-foreground">{relatedTopic.tema}</p>
+                          <p className="mt-2 text-sm text-muted-foreground">
+                            {relatedTopic.cursos_fuente} cursos base agrupados
+                          </p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ) : null}
           </div>
         </div>
       </main>

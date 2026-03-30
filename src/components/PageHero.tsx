@@ -40,6 +40,13 @@ const PageHero = ({
   const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (backgroundImage) {
+      setActiveBg(backgroundImage);
+      setVisible(true);
+    }
+  }, [backgroundImage]);
+
+  useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;

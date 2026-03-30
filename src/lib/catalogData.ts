@@ -30,6 +30,12 @@ export interface SelectorOptions {
   estandares: string[];
 }
 
+export interface JsonCatalogAvailabilitySummary {
+  modalidades: string[];
+  horas: string[];
+  estandares: string[];
+}
+
 const EMPTY_SELECTIONS: CatalogSelections = {
   modalidad: '',
   horas: '',
@@ -226,6 +232,26 @@ export const hasValidCombination = (
 ): boolean => topic.combinaciones.some((combination) => matchesSelections(combination, selections));
 
 export const getInitialSelections = (): CatalogSelections => ({ ...EMPTY_SELECTIONS });
+
+export const getTopicAvailabilitySummary = (
+  topic: JsonCatalogTopic
+): JsonCatalogAvailabilitySummary => ({
+  modalidades: uniqueSorted(topic.combinaciones.map((combination) => combination.modalidad)),
+  horas: uniqueSorted(topic.combinaciones.map((combination) => String(combination.horas ?? 'cotizar'))),
+  estandares: uniqueSorted(topic.combinaciones.map((combination) => combination.estandar)),
+});
+
+export const getRelatedJsonTopics = (
+  topic: JsonCatalogTopic,
+  limit: number = 4
+): JsonCatalogTopic[] =>
+  parsedCatalog
+    .filter(
+      (candidate) =>
+        candidate.categoria === topic.categoria && candidate.handle !== topic.handle
+    )
+    .sort((a, b) => a.tema.localeCompare(b.tema, 'es', { sensitivity: 'base' }))
+    .slice(0, limit);
 
 export const formatHoursLabel = (value: string): string =>
   value === 'cotizar' ? 'Cotizar' : `${value} horas`;

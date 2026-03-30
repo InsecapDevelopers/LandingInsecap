@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { ImageIcon, Search, SlidersHorizontal } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
@@ -8,114 +8,60 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
-  CatalogSelections,
   JsonCatalogTopic,
-  formatHoursLabel,
-  getInitialSelections,
   getJsonCatalogCategories,
   getJsonCatalogTopics,
-  getSelectorOptions,
-  hasValidCombination,
   semanticSearchJsonTopics,
 } from '@/lib/catalogData';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import {
+  fetchCatalogProductSummaries,
+  ShopifyCatalogProductSummary,
+} from '@/lib/shopify';
 
 const TOPICS_PER_PAGE = 12;
 
-const SelectField = ({
-  label,
-  value,
-  options,
-  onChange,
+const JsonCourseCard = ({
+  topic,
+  productSummary,
 }: {
-  label: string;
-  value: string;
-  options: string[];
-  onChange: (value: string) => void;
+  topic: JsonCatalogTopic;
+  productSummary?: ShopifyCatalogProductSummary;
 }) => {
-  return (
-    <label className="flex flex-col gap-1.5 text-xs text-muted-foreground">
-      <span>{label}</span>
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="h-9 rounded-md border border-border bg-background px-2.5 text-sm text-foreground"
-      >
-        <option value="">Todos</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {label === 'Horas' ? formatHoursLabel(option) : option}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-};
-
-const JsonCourseCard = ({ topic }: { topic: JsonCatalogTopic }) => {
   const { localizedPath } = useLocalizedPath();
-  const [selections, setSelections] = useState<CatalogSelections>(getInitialSelections());
-  const selectorOptions = useMemo(() => getSelectorOptions(topic, selections), [topic, selections]);
-
-  const isConfigValid = useMemo(
-    () => hasValidCombination(topic, selections),
-    [topic, selections]
-  );
-
-  const updateSelection = (key: keyof CatalogSelections, value: string) => {
-    setSelections((current) => ({
-      ...current,
-      [key]: value,
-    }));
-  };
+  const heroImage = productSummary?.image;
 
   return (
-    <Card className="h-full border-0 shadow-md hover:shadow-lg transition-shadow">
-      <CardContent className="p-5 flex flex-col gap-4 h-full">
-        <div className="space-y-2">
-          <Badge className="bg-insecap-blue/10 text-insecap-blue">{topic.categoria}</Badge>
-          <h3 className="font-bold text-foreground leading-tight">{topic.tema}</h3>
-          <p className="text-xs text-muted-foreground">
-            Handle Shopify: /cursos/{topic.handle}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-2">
-          <SelectField
-            label="Modalidad"
-            value={selections.modalidad}
-            options={selectorOptions.modalidades}
-            onChange={(value) => updateSelection('modalidad', value)}
+    <Card className="flex h-full flex-col overflow-hidden border-0 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+      <div className="relative h-52 overflow-hidden bg-gradient-to-br from-insecap-blue to-insecap-cyan">
+        {heroImage ? (
+          <img
+            src={heroImage.url}
+            alt={heroImage.altText || topic.tema}
+            className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
           />
-          <SelectField
-            label="Horas"
-            value={selections.horas}
-            options={selectorOptions.horas}
-            onChange={(value) => updateSelection('horas', value)}
-          />
-          <SelectField
-            label="Estándar"
-            value={selections.estandar}
-            options={selectorOptions.estandares}
-            onChange={(value) => updateSelection('estandar', value)}
-          />
-        </div>
-
-        <div className="mt-auto space-y-3">
-          <div className="flex items-center justify-between border-t border-border pt-4">
-            <span className="text-sm text-muted-foreground">Precio</span>
-            <span className="text-lg font-bold text-insecap-cyan">Cotizar</span>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-slate-900/10 text-white/80">
+            <ImageIcon className="h-12 w-12" />
           </div>
+        )}
+      </div>
 
-          <p className={`text-xs ${isConfigValid ? 'text-green-600' : 'text-amber-600'}`}>
-            {isConfigValid
-              ? 'Combinación disponible para cotización.'
-              : 'No existe una combinación exacta con esos filtros.'}
-          </p>
+      <CardContent className="flex flex-1 flex-col gap-4 p-5">
+        <div className="space-y-3">
+          <Badge className="w-fit border-0 bg-insecap-blue/10 text-insecap-blue">
+            {topic.categoria}
+          </Badge>
 
+          <h3 className="min-h-[3.5rem] text-xl font-bold leading-tight text-foreground">
+            {topic.tema}
+          </h3>
+        </div>
+
+        <div className="mt-auto">
           <Link to={localizedPath(`/curso/${topic.handle}`)}>
             <Button className="w-full bg-insecap-blue hover:bg-insecap-blue/90 text-white">
-              Ver y cotizar
+              Ver detalle
             </Button>
           </Link>
         </div>
@@ -129,31 +75,34 @@ const JsonCourseCatalog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [productSummaries, setProductSummaries] = useState<
+    Record<string, ShopifyCatalogProductSummary>
+  >({});
 
   const content = {
     es: {
       title: 'Catálogo de Cursos Técnicos',
-      subtitle: '61 temas maestros con configuración dinámica',
+      subtitle: 'Temas agrupados para cotización rápida',
       intro:
-        'Filtra por categoría, busca de forma semántica y configura modalidad, horas y estándar sin duplicar cursos.',
+        'Explora por categoría y entra al detalle para revisar modalidades, horas y estándares disponibles.',
       search: 'Buscar por tema (ej: grua, altura, electricidad...)',
       allCategories: 'Todas las categorías',
       noResults: 'No hay temas que coincidan con tus filtros.',
     },
     en: {
       title: 'Technical Course Catalog',
-      subtitle: '61 master topics with dynamic configuration',
+      subtitle: 'Grouped topics for faster quoting',
       intro:
-        'Filter by category, search semantically, and configure modality, hours, and standard without duplicated courses.',
+        'Browse by category and open each detail page to review available modalities, hours, and standards.',
       search: 'Search by topic (e.g. crane, heights, electricity...)',
       allCategories: 'All categories',
       noResults: 'No topics match your filters.',
     },
     pt: {
       title: 'Catálogo de Cursos Técnicos',
-      subtitle: '61 temas principais com configuração dinâmica',
+      subtitle: 'Temas agrupados para cotação rápida',
       intro:
-        'Filtre por categoria, busque semanticamente e configure modalidade, horas e padrão sem duplicar cursos.',
+        'Explore por categoria e entre no detalhe para revisar modalidades, horas e padrões disponíveis.',
       search: 'Buscar por tema (ex: guindaste, altura, eletricidade...)',
       allCategories: 'Todas as categorias',
       noResults: 'Nenhum tema corresponde aos filtros.',
@@ -182,6 +131,33 @@ const JsonCourseCatalog = () => {
     const start = (safePage - 1) * TOPICS_PER_PAGE;
     return semanticResults.slice(start, start + TOPICS_PER_PAGE);
   }, [semanticResults, currentPage, totalPages]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadProductSummaries = async () => {
+      const handles = paginatedTopics.map((topic) => topic.handle);
+
+      if (handles.length === 0) {
+        return;
+      }
+
+      try {
+        const summaries = await fetchCatalogProductSummaries(handles);
+        if (!cancelled) {
+          setProductSummaries((current) => ({ ...current, ...summaries }));
+        }
+      } catch (error) {
+        console.error('Error fetching catalog product summaries:', error);
+      }
+    };
+
+    loadProductSummaries();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [paginatedTopics]);
 
   const resetPagination = () => setCurrentPage(1);
 
@@ -245,7 +221,11 @@ const JsonCourseCatalog = () => {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {paginatedTopics.map((topic) => (
-                  <JsonCourseCard key={topic.handle} topic={topic} />
+                  <JsonCourseCard
+                    key={topic.handle}
+                    topic={topic}
+                    productSummary={productSummaries[topic.handle]}
+                  />
                 ))}
               </div>
 

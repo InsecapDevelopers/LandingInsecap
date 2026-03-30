@@ -138,6 +138,7 @@ const Footer = () => {
     { name: t('footer.phones.antofagasta'), address: "Copiapó 956, Antofagasta", phone: "55 294 8575" },
     { name: t('footer.phones.calama'), address: "La Cascada 1513, Calama", phone: "55 292 6431" },
     { name: t('footer.phones.santiago'), address: "Valenzuela Castillo 1063, Santiago", phone: "+56 9 8819 8254" },
+    { name: t('footer.phones.vallenar'), address: "Río del Tránsito 1546, Villa Vista Hermosa, Vallenar", phone: "+56 9 3596 8585" },
   ];
 
   const siteMap = [
@@ -253,6 +254,7 @@ const Footer = () => {
                 { sucursal: t('footer.phones.antofagasta'), phone: '55 294 8575', tel: '552948575' },
                 { sucursal: t('footer.phones.calama'), phone: '55 292 6431', tel: '552926431' },
                 { sucursal: t('footer.phones.santiago'), phone: '+56 9 8819 8254', tel: '+56988198254' },
+                { sucursal: t('footer.phones.vallenar'), phone: '+56 9 3596 8585', tel: '+56935968585' },
               ].map((c) => (
                 <div key={c.tel}>
                   <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">{c.sucursal}</p>
