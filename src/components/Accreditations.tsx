@@ -12,8 +12,8 @@ const Accreditations = () => {
   ];
 
   const stats = [
-    { value: '50.000+', label: t('accreditations.stats.trainedStudents') },
-    { value: '500+',    label: t('accreditations.stats.availableCourses') },
+    { value: '53.432+', label: t('accreditations.stats.trainedStudents') },
+    { value: '2.315+',  label: t('accreditations.stats.availableCourses') },
     { value: '150+',    label: t('accreditations.stats.trustedCompanies') },
     { value: '98%',     label: t('accreditations.stats.studentSatisfaction') },
   ];

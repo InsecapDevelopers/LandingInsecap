@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Linkedin, Phone, Mail, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { getLiderComercial, LiderComercial } from '@/lib/tmsApi';
 import ContactCTA from './ContactCTA';
 
 const HERO_BACKGROUNDS = [
@@ -29,19 +28,10 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 );
 
 const Footer = () => {
-  const [lider, setLider] = useState<LiderComercial | null>(null);
-  const [loadingLider, setLoadingLider] = useState(true);
   const [bgIndex, setBgIndex] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { t } = useTranslation();
   const { localizedPath } = useLocalizedPath();
-
-  useEffect(() => {
-    getLiderComercial().then((data) => {
-      setLider(data);
-      setLoadingLider(false);
-    });
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -264,15 +254,13 @@ const Footer = () => {
                   </a>
                 </div>
               ))}
-              {lider?.correo && (
-                <div>
-                  <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">{t('footer.email')}</p>
-                  <a href={`mailto:${lider.correo}`} className="flex items-center gap-2 text-white/80 text-sm hover:text-white transition-colors">
-                    <Mail className="w-4 h-4 text-insecap-cyan flex-shrink-0" />
-                    {lider.correo}
-                  </a>
-                </div>
-              )}
+              <div>
+                <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">¿Tienes dudas?</p>
+                <a href="mailto:contacto@insecap.cl" className="flex items-center gap-2 text-white/80 text-sm hover:text-white transition-colors">
+                  <Mail className="w-4 h-4 text-insecap-cyan flex-shrink-0" />
+                  Contáctanos
+                </a>
+              </div>
             </div>
           </div>
 

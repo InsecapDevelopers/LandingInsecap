@@ -280,8 +280,8 @@ const Hero = () => {
               className="flex gap-8 sm:gap-10 justify-center lg:justify-start"
             >
               {[
-                { icon: <Users className="w-5 h-5 text-sky-400" />, value: '47k+', label: t('hero.stats.trainedUsers') },
-                { icon: <GraduationCap className="w-5 h-5 text-sky-400" />, value: '1,5K+', label: t('hero.stats.coursesDelivered') },
+                { icon: <Users className="w-5 h-5 text-sky-400" />, value: '53k+', label: t('hero.stats.trainedUsers') },
+                { icon: <GraduationCap className="w-5 h-5 text-sky-400" />, value: '2,3K+', label: t('hero.stats.coursesDelivered') },
                 { icon: <Clock className="w-5 h-5 text-sky-400" />, value: '16 años', label: t('hero.stats.experience') },
               ].map((stat, i) => (
                 <motion.div key={stat.label} custom={i} variants={fadeInUp} className="flex flex-col items-center lg:items-start gap-1">

@@ -1,15 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Send, Phone, Mail, MapPin, User } from 'lucide-react';
+import { useEffect } from 'react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { getLiderComercial, LiderComercial } from '@/lib/tmsApi';
 
 const ContactCTA = () => {
-  const [lider, setLider] = useState<LiderComercial | null>(null);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    getLiderComercial().then(setLider);
-  }, []);
 
   useEffect(() => {
     const handler = (e: MessageEvent) => {
@@ -48,38 +42,13 @@ const ContactCTA = () => {
             {/* Contact Info */}
             <div className="space-y-4">
 
-              {/* Líder Comercial */}
-              {lider && (
-                <div className="flex items-center gap-4 p-4 rounded-xl bg-secondary/5 border border-secondary/20">
-                  {lider.foto ? (
-                    <img src={lider.foto} alt={lider.nombre} className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
-                  ) : (
-                    <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
-                      <User className="w-5 h-5 text-secondary" />
-                    </div>
-                  )}
-                  <div>
-                    <p className="text-xs text-secondary font-medium uppercase tracking-wide">{t('contactCTA.leader')}</p>
-                    <p className="font-semibold text-foreground">{lider.nombre}</p>
-                    <div className="flex flex-col gap-0.5 mt-1">
-                      <a href={`mailto:${lider.correo}`} className="text-sm text-muted-foreground hover:text-secondary transition-colors flex items-center gap-1.5">
-                        <Mail className="w-3 h-3" />{lider.correo}
-                      </a>
-                      <a href={`tel:${lider.telefono}`} className="text-sm text-muted-foreground hover:text-secondary transition-colors flex items-center gap-1.5">
-                        <Phone className="w-3 h-3" />{lider.telefono}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              )}
-
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center">
                   <Mail className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t('contactCTA.email')}</p>
-                  <a href="mailto:contacto@insecap.cl" className="font-semibold text-foreground hover:text-secondary transition-colors">contacto@insecap.cl</a>
+                  <p className="text-sm text-muted-foreground leading-none mb-1">{t('contactCTA.email')}</p>
+                  <a href="mailto:contacto@insecap.cl" className="font-semibold text-foreground hover:text-secondary transition-colors leading-none">contacto@insecap.cl</a>
                 </div>
               </div>
 

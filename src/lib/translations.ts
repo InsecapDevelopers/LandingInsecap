@@ -70,7 +70,7 @@ export const resources = {
         ctaCourses: 'Ver listado de cursos',
         ctaContact: 'Contáctanos',
         stats: {
-          trainedUsers: 'Usuarios Capacitados en 2025',
+          trainedUsers: 'Usuarios Capacitados',
           coursesDelivered: 'Cursos Realizados',
           experience: 'Experiencia',
         },
@@ -162,7 +162,7 @@ export const resources = {
         },
       },
       statistics: {
-        trainedUsers: 'Usuarios Capacitados en 2025',
+        trainedUsers: 'Usuarios Capacitados',
         expertFacilitators: 'Facilitadores Expertos',
         trainingHours: 'Horas de Capacitación',
         designedCourses: 'Cantidad de Cursos Diseñados',
@@ -353,7 +353,7 @@ export const resources = {
         ctaCourses: 'See course catalog',
         ctaContact: 'Contact us',
         stats: {
-          trainedUsers: 'Users trained in 2025',
+          trainedUsers: 'Users trained',
           coursesDelivered: 'Courses delivered',
           experience: 'Experience',
         },
@@ -445,7 +445,7 @@ export const resources = {
         },
       },
       statistics: {
-        trainedUsers: 'Users Trained in 2025',
+        trainedUsers: 'Users Trained',
         expertFacilitators: 'Expert Facilitators',
         trainingHours: 'Training Hours',
         designedCourses: 'Designed Courses',
@@ -642,7 +642,7 @@ export const resources = {
         ctaCourses: 'Ver catálogo de cursos',
         ctaContact: 'Fale conosco',
         stats: {
-          trainedUsers: 'Usuários capacitados em 2025',
+          trainedUsers: 'Usuários capacitados',
           coursesDelivered: 'Cursos realizados',
           experience: 'Experiência',
         },
@@ -734,7 +734,7 @@ export const resources = {
         },
       },
       statistics: {
-        trainedUsers: 'Usuários Capacitados em 2025',
+        trainedUsers: 'Usuários Capacitados',
         expertFacilitators: 'Facilitadores Especialistas',
         trainingHours: 'Horas de Capacitação',
         designedCourses: 'Cursos Desenvolvidos',
