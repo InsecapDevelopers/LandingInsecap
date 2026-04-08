@@ -67,12 +67,6 @@ const teamByArea: TeamArea[] = [
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Paola_Rojas_COMP.webp?v=1769089936'
       },
       {
-        name: 'Suilly Lisboa Miranda',
-        role: 'ASESOR COMERCIAL',
-        email: 'slisboa@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Suilly.webp?v=1769089386'
-      },
-      {
         name: 'Natalie Galván Sierra',
         role: 'ASESOR COMERCIAL',
         email: 'ngalvan@insecap.cl',
@@ -83,12 +77,6 @@ const teamByArea: TeamArea[] = [
   {
     area: 'RRHH & FINANZAS',
     members: [
-      {
-        name: 'Rodrigo Delgado Cepeda',
-        role: 'GESTOR DE PERSONAS',
-        email: 'rdelgado@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Rodrigo_Delgado.webp?v=1769089386'
-      },
       {
         name: 'Javiera Montiel Riquelme',
         role: 'CONTROL DE CALIDAD Y FINANZAS',
