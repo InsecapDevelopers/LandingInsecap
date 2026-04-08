@@ -157,8 +157,8 @@ const ExperienciaYRespaldo = () => {
     { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498', logoAlt: 'Logo SENCE', iconType: 'logo' as const, badgeColor: 'blue' as const },
     { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo_slogan.svg?v=1772193702', logoAlt: 'Certificadora NCh2728', iconType: 'logo' as const, badgeColor: 'green' as const },
     { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', logoAlt: 'Certificadora ISO 9001', iconType: 'logo' as const, badgeColor: 'green' as const },
-    { icon: <Handshake className="w-7 h-7 text-white" />, iconType: 'icon' as const, badgeColor: 'blue' as const },
-    { icon: <Award className="w-7 h-7 text-white" />, iconType: 'icon' as const, badgeColor: 'blue' as const },
+    { logo: '/logos/CCS.jpeg', logoAlt: 'Logo CCS', iconType: 'logo' as const, badgeColor: 'blue' as const },
+    { logo: '/logos/SICEP.jpeg', logoAlt: 'Logo SICEP', iconType: 'logo' as const, badgeColor: 'blue' as const },
   ];
   const certificaciones = certVisuals.map((visual, i) => ({
     ...visual,
@@ -322,6 +322,23 @@ const ExperienciaYRespaldo = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Strip de logos de membresías */}
+              <div
+                ref={logosSection.ref}
+                className={`mt-16 pt-10 border-t border-slate-100 transition-all duration-700 ease-out ${
+                  logosSection.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                }`}
+              >
+                <p className="text-center text-slate-400 text-xs font-semibold uppercase tracking-widest mb-8">Respaldados por</p>
+                <div className="flex flex-wrap items-center justify-center gap-10">
+                  <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498" alt="Logo SENCE" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo_slogan.svg?v=1772193702" alt="Certificadora NCh2728" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585" alt="ISO 9001" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  <img src="/logos/CCS.jpeg" alt="Logo CCS" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  <img src="/logos/SICEP.jpeg" alt="Logo SICEP" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -373,7 +390,7 @@ const ExperienciaYRespaldo = () => {
                         <img
                           src={cert.logo}
                           alt={cert.logoAlt}
-                          className="h-14 w-auto object-contain"
+                          className="h-20 w-auto object-contain"
                         />
                       </div>
                     )}

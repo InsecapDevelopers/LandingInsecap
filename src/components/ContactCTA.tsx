@@ -139,7 +139,7 @@ const ContactCTA = () => {
                   <p className="text-sm text-muted-foreground">Villa Vista Hermosa</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Phone className="w-3.5 h-3.5 text-secondary" />
-                    <a href="tel:+56935968585" className="text-sm text-muted-foreground hover:text-secondary transition-colors">+56 9 3596 8585</a>
+                    <a href="tel:+56997157034" className="text-sm text-muted-foreground hover:text-secondary transition-colors">+56 9 9715 7034</a>
                   </div>
                 </div>
               </div>

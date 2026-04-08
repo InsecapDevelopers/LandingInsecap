@@ -213,7 +213,7 @@ export const sedeLocations: SedeLocation[] = [
     nombre: 'Sucursal Vallenar',
     ciudad: 'Vallenar',
     direccion: 'Río del Tránsito 1546, Villa Vista Hermosa',
-    telefono: '+56 9 3596 8585',
+    telefono: '+56 9 9715 7034',
     tipo: 'fisica',
     regionId: 'atacama',
     pinX: 516,
