@@ -100,6 +100,8 @@ const ExperienciaYRespaldo = () => {
         { title: 'ISO 9001:2015', description: 'Certificación anual de la Norma Internacional que rige nuestros procesos en cuanto a servicios de calidad y mejora continua, asegurando estándares de clase mundial.', badge: 'Certificación Vigente' },
         { title: 'Cámara de Comercio de Santiago (CCS)', description: 'Como miembros de la CCS, estamos habilitados para postular a requerimientos y necesidades de capacitación de un gran sector de empresas de la industria en general.', badge: 'Miembro Activo' },
         { title: 'SICEP', description: 'Somos miembros de SICEP, lo cual nos habilita para postular a requerimientos y necesidades de capacitación de un gran sector de empresas de la industria en general.', badge: 'Miembro Activo' },
+        { title: 'OTEC Acreditada por Codelco', description: 'Contamos con la acreditación de Codelco como OTEC calificada, lo que nos permite entregar servicios de capacitación alineados a los estándares de la principal empresa minera del país.', badge: 'Acreditación Vigente' },
+        { title: 'Consejo de Competencias Mineras (CCM)', description: 'Cumplimos con los estándares del Consejo de Competencias Mineras, validando que nuestros programas formativos están alineados con las competencias requeridas por la industria minera.', badge: 'Sello Vigente' },
       ],
       strengths: [
         { title: 'Metodología de Enseñanza', description: 'Metodologías de enseñanza innovadoras y efectivas, diseñadas para maximizar el aprendizaje en entornos industriales y operacionales, con enfoque práctico y orientadas a la transferencia de competencias al puesto de trabajo.' },
@@ -120,6 +122,8 @@ const ExperienciaYRespaldo = () => {
         { title: 'ISO 9001:2015', description: 'Annual certification of the International Standard governing our processes in terms of quality services and continuous improvement, ensuring world-class standards.', badge: 'Valid Certification' },
         { title: 'Santiago Chamber of Commerce (CCS)', description: 'As members of the CCS, we are enabled to apply for training requirements and needs of a large segment of companies across industry.', badge: 'Active Member' },
         { title: 'SICEP', description: 'We are members of SICEP, which enables us to apply for training requirements and needs of a large segment of companies across industry.', badge: 'Active Member' },
+        { title: 'Codelco Accredited OTEC', description: 'We hold Codelco accreditation as a qualified OTEC, enabling us to deliver training services aligned with the standards of the country\'s leading mining company.', badge: 'Valid Accreditation' },
+        { title: 'Mining Competencies Council (CCM)', description: 'We comply with the standards of the Mining Competencies Council, validating that our training programs are aligned with the competencies required by the mining industry.', badge: 'Valid Seal' },
       ],
       strengths: [
         { title: 'Teaching Methodology', description: 'Innovative and effective teaching methodologies, designed to maximize learning in industrial and operational environments, with a practical focus and oriented toward competency transfer in the workplace.' },
@@ -140,6 +144,8 @@ const ExperienciaYRespaldo = () => {
         { title: 'ISO 9001:2015', description: 'Certificação anual da Norma Internacional que rege nossos processos em termos de serviços de qualidade e melhoria contínua, assegurando padrões de classe mundial.', badge: 'Certificação Vigente' },
         { title: 'Câmara de Comércio de Santiago (CCS)', description: 'Como membros da CCS, estamos habilitados a candidatar-nos a requisitos e necessidades de capacitação de um grande setor de empresas da indústria em geral.', badge: 'Membro Ativo' },
         { title: 'SICEP', description: 'Somos membros do SICEP, o que nos habilita a candidatar-nos a requisitos e necessidades de capacitação de um grande setor de empresas da indústria em geral.', badge: 'Membro Ativo' },
+        { title: 'OTEC Acreditada pela Codelco', description: 'Contamos com a acreditação da Codelco como OTEC qualificada, permitindo entregar serviços de capacitação alinhados aos padrões da principal empresa de mineração do país.', badge: 'Acreditação Vigente' },
+        { title: 'Conselho de Competências Mineiras (CCM)', description: 'Cumprimos com os padrões do Conselho de Competências Mineiras, validando que nossos programas formativos estão alinhados com as competências exigidas pela indústria de mineração.', badge: 'Selo Vigente' },
       ],
       strengths: [
         { title: 'Metodologia de Ensino', description: 'Metodologias de ensino inovadoras e eficazes, projetadas para maximizar o aprendizado em ambientes industriais e operacionais, com foco prático e orientadas à transferência de competências ao posto de trabalho.' },
@@ -159,6 +165,8 @@ const ExperienciaYRespaldo = () => {
     { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', logoAlt: 'Certificadora ISO 9001', iconType: 'logo' as const, badgeColor: 'green' as const },
     { logo: '/logos/CCS.png', logoAlt: 'Logo CCS', iconType: 'logo' as const, badgeColor: 'blue' as const },
     { logo: '/logos/SICEP.png', logoAlt: 'Logo SICEP', iconType: 'logo' as const, badgeColor: 'blue' as const },
+    { logo: '/logos/Sello Acreditado Codelco Color.png', logoAlt: 'Sello Acreditado Codelco', iconType: 'logo' as const, badgeColor: 'green' as const },
+    { logo: '/logos/Sello CCM Color.png', logoAlt: 'Sello CCM', iconType: 'logo' as const, badgeColor: 'green' as const },
   ];
   const certificaciones = certVisuals.map((visual, i) => ({
     ...visual,
