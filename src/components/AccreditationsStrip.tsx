@@ -30,25 +30,31 @@ const AccreditationsStrip = () => {
             {t('hero.accreditationsSubtitle', 'Certificaciones y Membresías que avalan nuestra calidad')}
           </h3>
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 mb-6">
-            {topLogos.map((logo) => (
+            {topLogos.map((logo, i) => (
               <motion.img
                 key={logo.alt}
                 src={logo.src}
                 alt={logo.alt}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 + i * 0.15, ease: 'easeOut' }}
                 whileHover={{ scale: 1.1 }}
-                className="h-10 md:h-14 w-auto object-contain hover:scale-110 transition-transform duration-300 cursor-pointer"
+                className="h-10 md:h-14 w-auto object-contain transition-transform duration-300 cursor-pointer"
                 loading="lazy"
               />
             ))}
           </div>
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-14">
-            {bottomLogos.map((logo) => (
+            {bottomLogos.map((logo, i) => (
               <motion.img
                 key={logo.alt}
                 src={logo.src}
                 alt={logo.alt}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 + (topLogos.length + i) * 0.15, ease: 'easeOut' }}
                 whileHover={{ scale: 1.1 }}
-                className={`w-auto object-contain hover:scale-110 transition-transform duration-300 cursor-pointer ${
+                className={`w-auto object-contain transition-transform duration-300 cursor-pointer ${
                   logo.alt === 'OTEC Acreditada por Codelco' ? 'h-20 md:h-28' : 'h-14 md:h-20'
                 }`}
                 loading="lazy"
