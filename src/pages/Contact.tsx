@@ -16,7 +16,7 @@ const Contact = () => {
 
   const content = {
     es: {
-      title: 'Contactanos',
+      title: 'Contáctanos',
       subtitle: 'Estamos a tu servicio',
       breadcrumb: 'Contacto',
       toastTitle: 'Mensaje enviado',
@@ -25,7 +25,7 @@ const Contact = () => {
       locationsTitle: 'Nos encontramos en las siguientes regiones',
       calama: 'Sucursal Calama',
       antofagasta: 'Sucursal Antofagasta',
-      writeUs: 'Escribenos',
+      writeUs: 'Escríbenos',
       writeUsText: 'Si tienes alguna consulta no dudes en escribirnos:',
       mapAlt: 'Mapa de sedes Insecap',
     },

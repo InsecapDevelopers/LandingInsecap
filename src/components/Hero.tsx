@@ -277,21 +277,34 @@ const Hero = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: false, amount: 0.3 }}
-              className="flex gap-8 sm:gap-10 justify-center lg:justify-start"
+              className="flex items-center gap-6 sm:gap-8 justify-center lg:justify-start"
             >
-              {[
-                { icon: <Users className="w-5 h-5 text-sky-400" />, value: '53k+', label: t('hero.stats.trainedUsers') },
-                { icon: <GraduationCap className="w-5 h-5 text-sky-400" />, value: '2,3K+', label: t('hero.stats.coursesDelivered') },
-                { icon: <Clock className="w-5 h-5 text-sky-400" />, value: '16 años', label: t('hero.stats.experience') },
-              ].map((stat, i) => (
-                <motion.div key={stat.label} custom={i} variants={fadeInUp} className="flex flex-col items-center lg:items-start gap-1">
-                  <div className="flex items-center gap-2">
-                    {stat.icon}
-                    <span className="text-white font-bold text-lg sm:text-xl">{stat.value}</span>
-                  </div>
-                  <span className="text-white/50 text-xs font-medium">{stat.label}</span>
-                </motion.div>
-              ))}
+              {/* Logo Vinculación */}
+              <motion.img
+                custom={0}
+                variants={fadeInUp}
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                src="/logos/Vinculacion.png"
+                alt="Vinculación INSECAP"
+                className="h-28 sm:h-32 w-auto object-contain opacity-90 shrink-0 cursor-pointer"
+              />
+              <div className="w-px h-10 bg-white/20 shrink-0" aria-hidden="true" />
+              <div className="flex gap-8 sm:gap-10">
+                {[
+                  { icon: <Users className="w-5 h-5 text-sky-400" />, value: '53k+', label: t('hero.stats.trainedUsers') },
+                  { icon: <GraduationCap className="w-5 h-5 text-sky-400" />, value: '2,3K+', label: t('hero.stats.coursesDelivered') },
+                  { icon: <Clock className="w-5 h-5 text-sky-400" />, value: '16 años', label: t('hero.stats.experience') },
+                ].map((stat, i) => (
+                  <motion.div key={stat.label} custom={i + 1} variants={fadeInUp} className="flex flex-col items-center lg:items-start gap-1">
+                    <div className="flex items-center gap-2">
+                      {stat.icon}
+                      <span className="text-white font-bold text-lg sm:text-xl">{stat.value}</span>
+                    </div>
+                    <span className="text-white/50 text-xs font-medium">{stat.label}</span>
+                  </motion.div>
+                ))}
+              </div>
             </motion.div>
           </div>
 

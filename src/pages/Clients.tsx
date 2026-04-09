@@ -33,15 +33,15 @@ const Clients = () => {
   const content = {
     es: {
       title: 'Nuestros Clientes',
-      subtitle: 'Empresas que confian en nosotros',
+      subtitle: 'Empresas que confían en nosotros',
       breadcrumb: 'Clientes',
-      alliances: 'Alianzas Estrategicas',
-      alliancesText: 'Trabajamos de la mano con las empresas lideres del sector, brindando soluciones de capacitacion personalizadas que impulsan el desarrollo de su capital humano.',
-      ctaTitle: 'Quieres ser parte de nuestros clientes?',
-      ctaText: 'Unete a las empresas que ya estan potenciando sus habilidades con Insecap. Contactanos hoy mismo para disenar un plan a tu medida.',
-      loadingLeader: 'Obteniendo el lider comercial, espera un momento para contactar...',
-      contactLeader: 'Hablar con el lider comercial',
-      waMessage: 'Hola, me interesa ser parte de los clientes de Insecap. Podemos conversar?',
+      alliances: 'Alianzas Estratégicas',
+      alliancesText: 'Trabajamos de la mano con las empresas líderes del sector, brindando soluciones de capacitación personalizadas que impulsan el desarrollo de su capital humano.',
+      ctaTitle: '¿Quieres ser parte de nuestros clientes?',
+      ctaText: 'Únete a las empresas que ya están potenciando sus habilidades con Insecap. Contáctanos hoy mismo para diseñar un plan a tu medida.',
+      loadingLeader: 'Obteniendo el líder comercial, espera un momento para contactar...',
+      contactLeader: 'Hablar con el líder comercial',
+      waMessage: 'Hola, me interesa ser parte de los clientes de Insecap. ¿Podemos conversar?',
     },
     en: {
       title: 'Our Clients',
