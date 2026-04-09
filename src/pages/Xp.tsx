@@ -157,8 +157,8 @@ const ExperienciaYRespaldo = () => {
     { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498', logoAlt: 'Logo SENCE', iconType: 'logo' as const, badgeColor: 'blue' as const },
     { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo_slogan.svg?v=1772193702', logoAlt: 'Certificadora NCh2728', iconType: 'logo' as const, badgeColor: 'green' as const },
     { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', logoAlt: 'Certificadora ISO 9001', iconType: 'logo' as const, badgeColor: 'green' as const },
-    { logo: '/logos/CCS.jpeg', logoAlt: 'Logo CCS', iconType: 'logo' as const, badgeColor: 'blue' as const },
-    { logo: '/logos/SICEP.jpeg', logoAlt: 'Logo SICEP', iconType: 'logo' as const, badgeColor: 'blue' as const },
+    { logo: '/logos/CCS.png', logoAlt: 'Logo CCS', iconType: 'logo' as const, badgeColor: 'blue' as const },
+    { logo: '/logos/SICEP.png', logoAlt: 'Logo SICEP', iconType: 'logo' as const, badgeColor: 'blue' as const },
   ];
   const certificaciones = certVisuals.map((visual, i) => ({
     ...visual,
@@ -335,8 +335,8 @@ const ExperienciaYRespaldo = () => {
                   <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498" alt="Logo SENCE" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                   <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo_slogan.svg?v=1772193702" alt="Certificadora NCh2728" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                   <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585" alt="ISO 9001" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
-                  <img src="/logos/CCS.jpeg" alt="Logo CCS" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
-                  <img src="/logos/SICEP.jpeg" alt="Logo SICEP" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  <img src="/logos/CCS.png" alt="Logo CCS" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  <img src="/logos/SICEP.png" alt="Logo SICEP" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                 </div>
               </div>
             </div>

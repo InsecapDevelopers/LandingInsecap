@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
+import AccreditationsStrip from '@/components/AccreditationsStrip';
 import Categories from '@/components/Categories';
 import ShopifyProducts from '@/components/ShopifyProducts';
 import Accreditations from '@/components/Accreditations';
@@ -20,6 +21,7 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
+        <AccreditationsStrip />
         <NewsSlider />
         <Catalog />
         <OurClients />

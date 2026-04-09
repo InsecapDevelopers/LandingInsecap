@@ -1,6 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { Award, CheckCircle, Shield, FileCheck } from 'lucide-react';
 
+const backingLogos = [
+  { src: '/logos/CCS.png', alt: 'Cámara de Comercio de Santiago' },
+  { src: '/logos/SICEP.png', alt: 'SICEP' },
+  { src: '/logos/Sello Acreditado Codelco Color.png', alt: 'OTEC Acreditada por Codelco' },
+  { src: '/logos/Sello CCM Color.png', alt: 'Consejo de Competencias Mineras' },
+];
+
 const Accreditations = () => {
   const { t } = useTranslation();
 
@@ -71,6 +78,25 @@ const Accreditations = () => {
                 </div>
               );
             })}
+          </div>
+
+          {/* Logos de respaldo */}
+          <div className="mt-12 pt-10 border-t border-primary-foreground/15">
+            <p className="text-center text-sm text-primary-foreground/60 uppercase tracking-wider mb-8">
+              Experiencia y Respaldo
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+              {backingLogos.map((logo) => (
+                <div key={logo.alt} className="flex items-center justify-center">
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    className="h-16 md:h-20 w-auto object-contain brightness-0 invert opacity-80 hover:opacity-100 transition-opacity"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -293,57 +293,6 @@ const Hero = () => {
                 </motion.div>
               ))}
             </motion.div>
-
-            {/* ── Certificaciones & Membresías ── */}
-            <motion.div
-              custom={3}
-              variants={fadeInUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: false, amount: 0.3 }}
-              className="mt-8 pt-6 border-t border-white/15"
-            >
-              <p className="text-white/40 text-[10px] uppercase tracking-widest font-semibold mb-3 text-center lg:text-left">
-                {t('hero.certifications')}
-              </p>
-              <div className="flex flex-wrap items-center gap-3 justify-center lg:justify-start">
-                {/* SENCE */}
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className="flex items-center justify-center h-9 px-3 rounded-lg bg-white border border-white/30 hover:bg-white/90 transition-colors cursor-pointer">
-                  <img
-                    src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498"
-                    alt="SENCE"
-                    className="h-5 w-auto object-contain"
-                    loading="lazy"
-                  />
-                </motion.div>
-                {/* NCh2728 */}
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className="flex items-center justify-center h-9 px-3 rounded-lg bg-white border border-white/30 hover:bg-white/90 transition-colors cursor-pointer">
-                  <img
-                    src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo_slogan.svg?v=1772193702"
-                    alt="NCh2728"
-                    className="h-5 w-auto object-contain"
-                    loading="lazy"
-                  />
-                </motion.div>
-                {/* ISO 9001 */}
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className="flex items-center justify-center h-9 px-3 rounded-lg bg-white border border-white/30 hover:bg-white/90 transition-colors cursor-pointer">
-                  <img
-                    src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585"
-                    alt="ISO 9001"
-                    className="h-5 w-auto object-contain"
-                    loading="lazy"
-                  />
-                </motion.div>
-                {/* CCS
-                <div className="flex items-center justify-center h-9 px-3 rounded-lg bg-white border border-white/30 hover:bg-white/90 transition-colors">
-                  <span className="text-gray-700 text-xs font-bold tracking-wide">CCS</span>
-                </div> */}
-                {/* SICEP */}
-                {/* <div className="flex items-center justify-center h-9 px-3 rounded-lg bg-white border border-white/30 hover:bg-white/90 transition-colors">
-                  <span className="text-gray-700 text-xs font-bold tracking-wide">SICEP</span>
-                </div> */}
-              </div>
-            </motion.div>
           </div>
 
           {/* ─── RIGHT COLUMN — Mascot + floating cards ─── */}
