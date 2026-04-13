@@ -188,7 +188,7 @@ const QualityPolicy = () => {
           {/* Imagen de fondo con parallax */}
           <div ref={bannerParallax.wrapRef} className="absolute inset-0 pointer-events-none" style={{ top: '-15%', bottom: '-15%' }}>
             <img
-              src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Quienes-Somos-Collage-01-2400x1356.jpg?v=1767876559"
+              src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Quienes-Somos-Collage-01-2400x1356.jpg?v=1776094555"
               alt=""
               aria-hidden="true"
               style={{ transform: `translateY(${bannerParallax.offset}px)`, willChange: 'transform' }}

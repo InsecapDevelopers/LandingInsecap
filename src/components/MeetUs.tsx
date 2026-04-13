@@ -12,7 +12,7 @@ const MeetUs: React.FC = () => {
           <div className="flex items-center justify-center order-2 lg:order-1">
             <div className="relative w-full aspect-square md:aspect-auto md:h-[400px]">
               <img
-                src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Quienes-Somos-Collage-01-2400x1356.jpg?v=1767876559"
+                src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Quienes-Somos-Collage-01-2400x1356.jpg?v=1776094555"
                 alt={t('meetUs.imageAlt')}
                 className="w-full h-full object-cover rounded-lg shadow-lg"
               />

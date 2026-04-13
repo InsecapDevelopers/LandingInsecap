@@ -34,9 +34,16 @@ const antofagastaImages = [
 ];
 
 const santiagoImages = [
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cascada-fachada-y-letrero-scaled.jpg?v=1767971535",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Banner-Nosotros-Web-16-anos-scaled.jpg?v=1767878773",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_111938161.png?v=1772461187",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede_Santiago_web.jpg?v=1776094293",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2024-04-03_at_12.56.34_PM.jpg?v=1776094308",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2026-01-07_at_09.22.34.jpg?v=1776094309",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2025-11-20_at_09.13.03.jpg?v=1776094309",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2025-08-12_at_09.23.16.jpg?v=1776094310",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2025-10-10_at_16.02.21.jpg?v=1776094309",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/E-Sala_3_Image_2024-08-05_at_13.17.20.jpg?v=1776094309",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2025-10-14_at_15.54.11_1.jpg?v=1776094309",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sala_Stgo-Salon2_1714.jpg?v=1776094309",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sala_E-Stgo-Salon1_7390.jpg?v=1776094309",
 ];
 
 const calamaImages = [
@@ -627,7 +634,7 @@ const AboutUs = () => {
                 </div>
                 <div className="flex justify-center">
                   <img
-                    src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_20190903_133957-scaled-ppg1u2wov3lkg6zm0s3v1xtbjxpl8ub1vtrbj8miio.jpg?v=1769177894"
+                    src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_20190903_133957-scaled-ppg1u2wov3lkg6zm0s3v1xtbjxpl8ub1vtrbj8miio.jpg?v=1776094514"
                     alt={content.virtualImage}
                     className="rounded-2xl shadow-2xl max-w-md w-full"
                   />
