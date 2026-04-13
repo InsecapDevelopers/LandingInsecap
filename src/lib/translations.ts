@@ -124,7 +124,7 @@ export const resources = {
       },
       meetUs: {
         badge: 'Conócenos',
-        title: 'Quienes somos',
+        title: 'Quiénes somos',
         description: 'Somos un Organismo Técnico de Capacitación, líder, entregando soluciones a lo largo del país, aplicando metodologías de vanguardia, con el fin de asegurar el aprendizaje efectivo en diversas disciplinas.',
         imageAlt: 'Quiénes Somos Collage',
       },
