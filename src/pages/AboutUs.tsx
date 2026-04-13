@@ -29,7 +29,6 @@ const antofagastaImages = [
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2025-11-10-at-17.23.41-1.jpg?v=1773425189",
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Presencialt-092031.jpg?v=1773425188",
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_1593-scaled.jpg?v=1773425189",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Gemini_Generated_Image_2s9gzo2s9gzo2s9g_18cf6377-0427-4e98-9eda-c5a212cb6e03.png?v=1773425190",
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Gemini_Generated_Image_fhyf58fhyf58fhyf_348fb4bf-e08f-4152-8505-b6643fa9ac81.png?v=1773425190",
 ];
 
@@ -47,7 +46,7 @@ const santiagoImages = [
 ];
 
 const calamaImages = [
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede-Cascada-M-scaled.jpg?v=1773424088",
+  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cascada-fachada-y-letrero-scaled.jpg?v=1776094124",
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GHorquilla3675_web.jpg?v=1773345899",
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Toconao-13.59.37.jpg?v=1773424087",
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2025-11-08-at-09.58.59.jpg?v=1773424087",

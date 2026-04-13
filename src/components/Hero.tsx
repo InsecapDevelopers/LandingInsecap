@@ -299,7 +299,7 @@ const Hero = () => {
                   <motion.div key={stat.label} custom={i + 1} variants={fadeInUp} className="flex flex-col items-center lg:items-start gap-1">
                     <div className="flex items-center gap-2">
                       {stat.icon}
-                      <span className="text-white font-bold text-lg sm:text-xl">{stat.value}</span>
+                      <span className="text-white font-bold text-lg sm:text-xl whitespace-nowrap">{stat.value}</span>
                     </div>
                     <span className="text-white/50 text-xs font-medium">{stat.label}</span>
                   </motion.div>
