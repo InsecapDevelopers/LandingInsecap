@@ -204,8 +204,8 @@ const ExperienciaYRespaldo = () => {
           'SENCE',
           'ISO 9001',
           'NCh 2728',
-          locale === 'en' ? 'mining training' : locale === 'pt' ? 'capacitacao mineracao' : 'capacitacion mineria',
-          locale === 'en' ? 'professional training Chile' : locale === 'pt' ? 'formacao profissional Chile' : 'formacion profesional Chile'
+          locale === 'en' ? 'mining training' : locale === 'pt' ? 'capacitacao mineracao' : 'capacitación minería',
+          locale === 'en' ? 'professional training Chile' : locale === 'pt' ? 'formacao profissional Chile' : 'formación profesional Chile'
         ]}
       />
       <Header />

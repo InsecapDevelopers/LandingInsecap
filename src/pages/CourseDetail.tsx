@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ClientTypeSwitch } from "@/components/ClientTypeSwitch";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   ShoppingCart,
@@ -219,6 +220,8 @@ const LegacyCourseDetail = () => {
             { label: product.title }
           ]}
         />
+
+        <ClientTypeSwitch activeMode="particular" />
 
         <div className="container mx-auto px-8 md:px-14 lg:px-16 mt-12">
           <div className="grid lg:grid-cols-2 gap-12">

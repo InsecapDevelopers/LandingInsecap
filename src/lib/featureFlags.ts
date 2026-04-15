@@ -25,3 +25,17 @@ export const isEcommerceEnabled: boolean =
  */
 export const isLecturaJSONEnabled: boolean =
   import.meta.env.VITE_LECTURA_JSON === 'true';
+
+/**
+ * Habilita el catalogo B2B (empresas) en rutas dedicadas.
+ */
+export const isB2bCatalogEnabled: boolean =
+  import.meta.env.VITE_B2B_CATALOG_ENABLED === 'true';
+
+/**
+ * Habilita o deshabilita toda la experiencia de simuladores:
+ * - Seccion de simuladores en Home
+ * - Ruta /simuladores
+ */
+export const isSimulatorsEnabled: boolean =
+  import.meta.env.VITE_SIMULATORS_ENABLED === 'true';

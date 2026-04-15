@@ -33,12 +33,12 @@ const PrivacyPolicy = () => {
     es: {
       title: 'Condiciones del Servicio',
       subtitle: 'TMS.INSECAP.CL',
-      breadcrumb: 'Politica de Privacidad',
-      app: 'Aplicacion TMS.INSECAP.CL',
-      introTitle: 'Terminos y Condiciones de Uso',
-      introText: 'La presente declaracion establece los terminos y condiciones de uso del sistema TMS.INSECAP.CL, propiedad de INSECAP Capacitacion, respecto al tratamiento de datos de trabajadores de empresas externas y la programacion de reuniones informativas con fines de coordinacion y seguimiento de capacitaciones.',
-      acceptance: '7. Aceptacion',
-      acceptanceText: 'El uso del sistema implica la aceptacion plena de estas condiciones. Cualquier modificacion sera informada por los canales oficiales de INSECAP Capacitacion.',
+      breadcrumb: 'Política de Privacidad',
+      app: 'Aplicación TMS.INSECAP.CL',
+      introTitle: 'Términos y Condiciones de Uso',
+      introText: 'La presente declaración establece los términos y condiciones de uso del sistema TMS.INSECAP.CL, propiedad de INSECAP Capacitación, respecto al tratamiento de datos de trabajadores de empresas externas y la programación de reuniones informativas con fines de coordinación y seguimiento de capacitaciones.',
+      acceptance: '7. Aceptación',
+      acceptanceText: 'El uso del sistema implica la aceptación plena de estas condiciones. Cualquier modificación será informada por los canales oficiales de INSECAP Capacitación.',
       sectionData: {
         titles: ['1. Objeto del Servicio', '2. Ingreso de Datos de Participantes Externos', '3. Finalidad del Tratamiento de Datos', '4. Agenda de Reuniones', '5. Responsabilidad del Usuario', '6. Confidencialidad y Seguridad'],
         contentTexts: [

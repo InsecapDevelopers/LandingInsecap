@@ -96,13 +96,13 @@ const teamByArea: TeamArea[] = [
     members: [
       {
         name: 'Liliana Herrera Altamirano',
-        role: 'LIDER DE DESARRLLO DE CURSOS',
+        role: 'LÍDER DE DESARROLLO DE CURSOS',
         email: 'lherrera@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lili.webp?v=1769089386'
       },
       {
         name: 'Viviana Zepeda Santibañez',
-        role: 'LIDER DE DISEÑO DE CURSOS',
+        role: 'LÍDER DE DISEÑO DE CURSOS',
         email: 'vzepeda@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Viviana_b5905a1a-d870-49a9-a502-f747011f3395.webp?v=1773348370',
       },
@@ -235,24 +235,31 @@ const teamByArea: TeamArea[] = [
   {
     area: 'Informática',
     members: [
-      {
-        name: 'Luis Fernández Veroiza',
-        role: 'ESPECIALISTA PROGRAMADOR',
-        email: 'lfernandez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Luis.webp?v=1769089386'
-      },
-      {
+        {
         name: 'Wilson Carvajal Rozas',
-        role: 'ENCARGADO TICA',
+        role: 'JEFE TICA',
         email: 'wcarvajal@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Wilson_Carvajal_v2.webp?v=1769089386'
       },
       {
-        name: 'Ernes Fuenzalida',
-        role: 'DESARROLLADOR',
+        name: 'Ernes Fuenzalida Tello',
+        role: 'DESARROLLADOR DE SOFTWARE',
         email: 'efuenzalida@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ernes_Fuenzalida.webp?v=1769089386'
       },
+      {
+        name: 'Luis Fernández Veroiza',
+        role: 'ANALISTA PROGRAMADOR',
+        email: 'lfernandez@insecap.cl',
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Luis.webp?v=1769089386'
+      },
+
+      {
+        name: 'Renato Morales Constancio',
+        role: 'INFRAESTRUCTURA TI',
+        email: 'rmorales@insecap.cl',
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Renato_-_copia.webp?v=1776264169'
+      }
     ]
   },
 ];
@@ -371,20 +378,20 @@ const OurTeam = () => {
       title: 'Our Team', subtitle: 'About us', breadcrumb: 'Our Team', label: 'Insecap Team', growing: 'Growing Together', intro: 'A multidisciplinary team focused on delivering quality solutions', welcome: 'Welcome to Insecap!', paragraph1: 'We are a training company specialized in delivering comprehensive solutions to the mining industry, with a strong focus on human capital development. Our multidisciplinary team of experts allows us to offer tailored programs adapted to each client\'s needs.', paragraph2: 'Our team is made up of professionals with broad experience in engineering, occupational health and safety, human resources management and more. That diversity allows us to cover everything from specialized technical training to soft skills and leadership.', team: 'Insecap Team', management: 'Management', contact: 'Contact'
     },
     pt: {
-      title: 'Nossa Equipe', subtitle: 'Sobre nos', breadcrumb: 'Nossa Equipe', label: 'Equipe Insecap', growing: 'Crescendo Juntos', intro: 'Equipe multidisciplinar responsavel por entregar solucoes de qualidade', welcome: 'Bem-vindos a Insecap!', paragraph1: 'Somos uma empresa de capacitacao especializada em oferecer solucoes integrais para a industria mineradora, com foco no desenvolvimento do capital humano. Contamos com uma equipe multidisciplinar de especialistas altamente capacitados, o que nos permite oferecer programas personalizados e adaptados as necessidades de cada cliente.', paragraph2: 'Nossa equipe e formada por profissionais com ampla experiencia em engenharia, seguranca e saude ocupacional, gestao de recursos humanos e muito mais. Essa diversidade nos permite abranger desde formacao tecnica especializada ate habilidades interpessoais e lideranca.', team: 'Equipe Insecap', management: 'Gerencia', contact: 'Contato'
+      title: 'Nossa Equipe', subtitle: 'Sobre nós', breadcrumb: 'Nossa Equipe', label: 'Equipe Insecap', growing: 'Crescendo Juntos', intro: 'Equipe multidisciplinar responsável por entregar soluções de qualidade', welcome: 'Bem-vindos a Insecap!', paragraph1: 'Somos uma empresa de capacitação especializada em oferecer soluções integrais para a indústria mineradora, com foco no desenvolvimento do capital humano. Contamos com uma equipe multidisciplinar de especialistas altamente capacitados, o que nos permite oferecer programas personalizados e adaptados às necessidades de cada cliente.', paragraph2: 'Nossa equipe é formada por profissionais com ampla experiência em engenharia, segurança e saúde ocupacional, gestão de recursos humanos e muito mais. Essa diversidade nos permite abranger desde formação técnica especializada até habilidades interpessoais e liderança.', team: 'Equipe Insecap', management: 'Gerência', contact: 'Contato'
     },
   }[locale];
 
   const localizedAreas: Record<string, string> = {
     Gerencia: content.management,
-    'Área Comercial': locale === 'en' ? 'Commercial Area' : locale === 'pt' ? 'Area Comercial' : 'Area Comercial',
+    'Área Comercial': locale === 'en' ? 'Commercial Area' : locale === 'pt' ? 'Área Comercial' : 'Área Comercial',
     'RRHH & FINANZAS': locale === 'en' ? 'HR & Finance' : locale === 'pt' ? 'RH e Financas' : 'RRHH y Finanzas',
-    'Calidad y Servicio & Área Técnica': locale === 'en' ? 'Quality, Service & Technical Area' : locale === 'pt' ? 'Qualidade, Servico e Area Tecnica' : 'Calidad y Servicio y Area Tecnica',
-    'Servicio Presencial': locale === 'en' ? 'On-site Service' : locale === 'pt' ? 'Servico Presencial' : 'Servicio Presencial',
-    'Mantención': locale === 'en' ? 'Maintenance' : locale === 'pt' ? 'Manutencao' : 'Mantencion',
+    'Calidad y Servicio & Área Técnica': locale === 'en' ? 'Quality, Service & Technical Area' : locale === 'pt' ? 'Qualidade, Serviço e Área Técnica' : 'Calidad y Servicio y Área Técnica',
+    'Servicio Presencial': locale === 'en' ? 'On-site Service' : locale === 'pt' ? 'Serviço Presencial' : 'Servicio Presencial',
+    'Mantención': locale === 'en' ? 'Maintenance' : locale === 'pt' ? 'Manutenção' : 'Mantención',
     'Publicidad y Marketing': locale === 'en' ? 'Advertising and Marketing' : locale === 'pt' ? 'Publicidade e Marketing' : 'Publicidad y Marketing',
-    'Servicio E-learning': locale === 'en' ? 'E-learning Service' : locale === 'pt' ? 'Servico E-learning' : 'Servicio E-learning',
-    Informática: locale === 'en' ? 'IT' : locale === 'pt' ? 'Informatica' : 'Informatica',
+    'Servicio E-learning': locale === 'en' ? 'E-learning Service' : locale === 'pt' ? 'Serviço E-learning' : 'Servicio E-learning',
+    Informática: locale === 'en' ? 'IT' : locale === 'pt' ? 'Informática' : 'Informática',
   };
 
   const displayAreas = teamByArea.map((area) => ({

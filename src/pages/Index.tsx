@@ -14,6 +14,8 @@ import DuaSection from '@/components/DuaSection';
 import NumberTickerDemo from '@/components/Statistics';
 import NewsSlider from '@/components/NewsSlider';
 import InnovationSection from '@/components/InnovationSection';
+import SimulatorBanner from '@/components/SimulatorBanner';
+import { isSimulatorsEnabled } from '@/lib/featureFlags';
 
 const Index = () => {
   return (
@@ -24,6 +26,7 @@ const Index = () => {
         <AccreditationsStrip />
         <NewsSlider />
         <Catalog />
+        {isSimulatorsEnabled && <SimulatorBanner />}
         <OurClients />
         <InnovationSection />
         <NumberTickerDemo />

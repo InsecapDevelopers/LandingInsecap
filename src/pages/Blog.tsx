@@ -97,7 +97,7 @@ const Blog = () => {
 
   const content = {
     es: {
-      title: 'Noticias y Articulos', subtitle: 'Blog y Noticias', breadcrumb: 'Noticias', intro: 'Mantenete al dia con las ultimas novedades de INSECAP en capacitacion, seguridad laboral y desarrollo profesional.', loadError: 'Error al cargar noticias',
+      title: 'Noticias y Artículos', subtitle: 'Blog y Noticias', breadcrumb: 'Noticias', intro: 'Mantente al día con las últimas novedades de INSECAP en capacitación, seguridad laboral y desarrollo profesional.', loadError: 'Error al cargar noticias',
     },
     en: {
       title: 'News and Articles', subtitle: 'Blog and News', breadcrumb: 'News', intro: 'Stay up to date with the latest INSECAP news on training, workplace safety and professional development.', loadError: 'Error loading news',

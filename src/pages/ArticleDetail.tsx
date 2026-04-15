@@ -28,11 +28,11 @@ const ArticleDetail = () => {
       back: 'Volver a noticias',
       subtitle: 'Noticia',
       share: 'Compartir',
-      more: 'Ver mas noticias',
+      more: 'Ver más noticias',
       news: 'Noticias',
       home: 'Inicio',
       articleImage: 'Imagen de la noticia',
-      tags: ['capacitacion', 'INSECAP', 'formacion profesional'],
+      tags: ['capacitación', 'INSECAP', 'formación profesional'],
       language: 'es-CL',
     },
     en: {

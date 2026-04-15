@@ -21,12 +21,16 @@ import HonorTeam from "./pages/HonorTeam";
 import QualityPolicy from "./pages/QualityPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Contact from "./pages/Contact";
+import B2bCourseCatalogPage from "./pages/B2bCourseCatalogPage";
+import B2bCourseDetailPage from "./pages/B2bCourseDetailPage";
+import SimulatorCatalog from "./pages/SimulatorCatalog";
 import BeRelator from "./pages/BeRelator";
 import Clients from "./pages/Clients";
 import NotFound from "./pages/NotFound";
 import ExperienciaYRespaldo from "./pages/Xp";
 import { buildLocalizedPath, isAppLanguage } from "./lib/locale-routing";
 import { fallbackLanguage } from "./lib/translations";
+import { isSimulatorsEnabled } from "./lib/featureFlags";
 
 const queryClient = new QueryClient();
 
@@ -35,12 +39,16 @@ const routeDefinitions = [
   { path: 'curso/:handle', element: <CourseDetail /> },
   { path: 'cursos/:handle', element: <CourseDetail /> },
   { path: 'cursos', element: <CourseCatalog /> },
+  { path: 'cursos-empresas', element: <B2bCourseCatalogPage /> },
+  { path: 'curso-empresa/:handle', element: <B2bCourseDetailPage /> },
+  ...(isSimulatorsEnabled ? [{ path: 'simuladores', element: <SimulatorCatalog /> }] : []),
   { path: 'nuestros-clientes', element: <Clients /> },
   { path: 'nosotros', element: <AboutUs /> },
   { path: 'nuestro-equipo', element: <OurTeam /> },
   { path: 'equipo-honor', element: <HonorTeam /> },
   { path: 'politica-calidad', element: <QualityPolicy /> },
   { path: 'politica-de-privacidad', element: <PrivacyPolicy /> },
+  { path: 'contacto', element: <Contact /> },
   { path: 'Experiencia-y-Respaldo', element: <ExperienciaYRespaldo /> },
   { path: 'relator-trabaja-con-nosotros', element: <BeRelator /> },
   { path: 'noticias', element: <Blog /> },

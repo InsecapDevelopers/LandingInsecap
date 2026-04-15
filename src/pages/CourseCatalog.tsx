@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
@@ -19,8 +19,8 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import PageHero from '@/components/PageHero';
+import { ClientTypeSwitch } from '@/components/ClientTypeSwitch';
 import {
-  fetchCategories,
   fetchProducts,
   formatPrice,
   ShopifyCategory,
@@ -383,53 +383,80 @@ const CategoryFilterBar = ({
 
 // ─── Main Page ──────────────────────────────────────────────────────────────
 const PRODUCTS_PER_PAGE = 16;
+const PARTICULAR_VENDOR = 'Insecap Capacitaciones';
+const EXCLUDED_PARTICULAR_TAGS = [
+  'b2b',
+  'cotizacion',
+  'cotización',
+  'empresa',
+  'pre-contrato',
+  'pre contrato',
+  'recertificaciones de capacitación',
+  'recertificaciones de capacitación',
+];
+
+const normalizeTag = (value: string): string =>
+  value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+
+const EXCLUDED_PARTICULAR_TAGS_SET = new Set(EXCLUDED_PARTICULAR_TAGS.map(normalizeTag));
+
+const hasExcludedParticularTag = (tags: string[] = []): boolean =>
+  tags.some((tag) => EXCLUDED_PARTICULAR_TAGS_SET.has(normalizeTag(tag)));
 
 const LegacyCourseCatalog = () => {
   const { locale } = useLocalizedPath();
-  const [categories, setCategories] = useState<ShopifyCategory[]>([]);
   const [allProducts, setAllProducts] = useState<ShopifyProduct[]>([]);
-  const [isLoadingCats, setIsLoadingCats] = useState(true);
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
 
   const content = {
-    es: { listing: 'Listado de Cursos', subtitle: 'Capacitacion Especializada', breadcrumb: 'Cursos', intro: 'Explora nuestras categorias de cursos y encuentra la capacitacion perfecta para tu desarrollo profesional', search: 'Buscar cursos por nombre...', all: 'Todos', results: 'resultados para', prev: 'Pagina anterior', next: 'Pagina siguiente' },
+    es: { listing: 'Listado de Cursos', subtitle: 'Capacitación Especializada', breadcrumb: 'Cursos', intro: 'Explora nuestras categorías de cursos y encuentra la capacitación perfecta para tu desarrollo profesional', search: 'Buscar cursos por nombre...', all: 'Todos', results: 'resultados para', prev: 'Página anterior', next: 'Página siguiente' },
     en: { listing: 'Course Catalog', subtitle: 'Specialized Training', breadcrumb: 'Courses', intro: 'Explore our course categories and find the perfect training program for your professional development', search: 'Search courses by name...', all: 'All', results: 'results for', prev: 'Previous page', next: 'Next page' },
     pt: { listing: 'Catalogo de Cursos', subtitle: 'Capacitacao Especializada', breadcrumb: 'Cursos', intro: 'Explore nossas categorias de cursos e encontre a capacitacao ideal para o seu desenvolvimento profissional', search: 'Buscar cursos pelo nome...', all: 'Todos', results: 'resultados para', prev: 'Pagina anterior', next: 'Proxima pagina' },
   }[locale];
 
-  // Load categories
-  useEffect(() => {
-    (async () => {
-      try {
-        setIsLoadingCats(true);
-        const data = await fetchCategories();
-        setCategories(data);
-      } catch (err) {
-        console.error('Error loading categories:', err);
-      } finally {
-        setIsLoadingCats(false);
-      }
-    })();
-  }, []);
-
-  // Load products — re-fetch when category changes
+  // Load Shopify products for the particular catalog
   useEffect(() => {
     (async () => {
       try {
         setIsLoadingProducts(true);
-        const query = selectedCategory ? `tag:${selectedCategory}` : undefined;
-        const data = await fetchProducts(250, query);
-        setAllProducts(data);
+        const data = await fetchProducts(250, `vendor:"${PARTICULAR_VENDOR}"`);
+        setAllProducts(data.filter((product) => !hasExcludedParticularTag(product.node.tags || [])));
       } catch (err) {
         console.error('Error loading products:', err);
       } finally {
         setIsLoadingProducts(false);
       }
     })();
-  }, [selectedCategory]);
+  }, []);
+
+  const categories = useMemo<ShopifyCategory[]>(() => {
+    const counter = new Map<string, number>();
+
+    allProducts.forEach((product) => {
+      (product.node.tags || []).forEach((tag) => {
+        if (EXCLUDED_PARTICULAR_TAGS_SET.has(normalizeTag(tag))) {
+          return;
+        }
+        counter.set(tag, (counter.get(tag) ?? 0) + 1);
+      });
+    });
+
+    return Array.from(counter.entries())
+      .map(([label, count]) => ({
+        label,
+        handle: label.toLowerCase().replace(/\s+/g, '-'),
+        count,
+      }))
+      .sort((a, b) => b.count - a.count);
+  }, [allProducts]);
 
   // Reset page when category changes
   const handleCategorySelect = (cat: string | null) => {
@@ -443,12 +470,20 @@ const LegacyCourseCatalog = () => {
     setCurrentPage(1);
   };
 
-  // Filter products by search term
-  const filteredProducts = searchTerm.trim()
-    ? allProducts.filter((p) =>
-      p.node.title.toLowerCase().includes(searchTerm.trim().toLowerCase())
+  const productsByCategory = selectedCategory
+    ? allProducts.filter((product) =>
+      (product.node.tags || []).some(
+        (tag) => normalizeTag(tag) === normalizeTag(selectedCategory)
+      )
     )
     : allProducts;
+
+  // Filter products by search term
+  const filteredProducts = searchTerm.trim()
+    ? productsByCategory.filter((p) =>
+      p.node.title.toLowerCase().includes(searchTerm.trim().toLowerCase())
+    )
+    : productsByCategory;
 
   // Pagination math
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
@@ -474,6 +509,8 @@ const LegacyCourseCatalog = () => {
           breadcrumbs={[{ label: content.breadcrumb }]}
         />
 
+        <ClientTypeSwitch activeMode="particular" />
+
         <div className="container mx-auto px-8 md:px-14 lg:px-16 mt-12">
           {/* Intro */}
           <div className="text-center mb-8">
@@ -488,7 +525,7 @@ const LegacyCourseCatalog = () => {
               categories={categories}
               selected={selectedCategory}
               onSelect={handleCategorySelect}
-              isLoading={isLoadingCats}
+              isLoading={isLoadingProducts}
             />
           </div>
 

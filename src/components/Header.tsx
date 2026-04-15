@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import CartDrawer from './CartDrawer';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { isEcommerceEnabled } from '@/lib/featureFlags';
+import { isB2bCatalogEnabled, isEcommerceEnabled } from '@/lib/featureFlags';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -63,14 +63,16 @@ const Header = () => {
     return `${localizedPath('/')}#${href.replace('#', '')}`;
   };
 
+  const defaultCoursesHref = isB2bCatalogEnabled ? '/cursos-empresas' : '/cursos';
+
   const navItems: NavItem[] = [
     { id: 'home', labelKey: 'header.nav.home', href: '/', isLink: true },
     {
       id: 'courses',
       labelKey: 'header.nav.courses',
-      href: '/cursos',
+      href: defaultCoursesHref,
       dropdown: [
-        { id: 'course-list', labelKey: 'header.nav.courseList', href: '/cursos', isLink: true },
+        { id: 'course-list', labelKey: 'header.nav.courseList', href: defaultCoursesHref, isLink: true },
       ]
     },
     {

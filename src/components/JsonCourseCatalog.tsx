@@ -18,6 +18,7 @@ import {
   fetchCatalogProductSummaries,
   ShopifyCatalogProductSummary,
 } from '@/lib/shopify';
+import { isB2bCatalogEnabled } from '@/lib/featureFlags';
 
 const TOPICS_PER_PAGE = 12;
 
@@ -71,7 +72,7 @@ const JsonCourseCard = ({
 };
 
 const JsonCourseCatalog = () => {
-  const { locale } = useLocalizedPath();
+  const { locale, localizedPath } = useLocalizedPath();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -85,9 +86,13 @@ const JsonCourseCatalog = () => {
       subtitle: 'Temas agrupados para cotización rápida',
       intro:
         'Explora por categoría y entra al detalle para revisar modalidades, horas y estándares disponibles.',
-      search: 'Buscar por tema (ej: grua, altura, electricidad...)',
+      search: 'Buscar por tema (ej: grúa, altura, electricidad...)',
       allCategories: 'Todas las categorías',
       noResults: 'No hay temas que coincidan con tus filtros.',
+      clientTypeLabel: 'Tipo de cliente',
+      peopleClient: 'Particular',
+      businessClient: 'Empresa',
+      found: 'temas encontrados',
     },
     en: {
       title: 'Technical Course Catalog',
@@ -97,6 +102,10 @@ const JsonCourseCatalog = () => {
       search: 'Search by topic (e.g. crane, heights, electricity...)',
       allCategories: 'All categories',
       noResults: 'No topics match your filters.',
+      clientTypeLabel: 'Client type',
+      peopleClient: 'Individual',
+      businessClient: 'Company',
+      found: 'topics found',
     },
     pt: {
       title: 'Catálogo de Cursos Técnicos',
@@ -106,6 +115,10 @@ const JsonCourseCatalog = () => {
       search: 'Buscar por tema (ex: guindaste, altura, eletricidade...)',
       allCategories: 'Todas as categorias',
       noResults: 'Nenhum tema corresponde aos filtros.',
+      clientTypeLabel: 'Tipo de cliente',
+      peopleClient: 'Particular',
+      businessClient: 'Empresa',
+      found: 'temas encontrados',
     },
   }[locale];
 
@@ -172,7 +185,45 @@ const JsonCourseCatalog = () => {
           breadcrumbs={[{ label: 'Cursos' }]}
         />
 
-        <div className="container mx-auto px-8 md:px-14 lg:px-16 mt-12">
+        <div className="relative z-30 -mt-8 mb-8">
+          <div className="container mx-auto px-8 md:px-14 lg:px-16">
+            <div className="rounded-2xl bg-card shadow-xl px-6 py-5 md:px-8 md:py-6">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-center">
+                <span className="text-sm text-muted-foreground">{content.clientTypeLabel}:</span>
+                <div className="inline-flex w-full rounded-full border border-border bg-muted/70 p-1 md:w-auto">
+                  {isB2bCatalogEnabled ? (
+                    <Link to={localizedPath('/cursos-empresas')} className="flex-1 md:flex-none">
+                      <Button
+                        variant="ghost"
+                        className="w-full rounded-full px-6 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        {content.businessClient}
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button
+                      variant="ghost"
+                      disabled
+                      className="w-full rounded-full px-6 text-sm font-semibold text-muted-foreground"
+                    >
+                      {content.businessClient}
+                    </Button>
+                  )}
+                  <Button
+                    variant="default"
+                    disabled
+                    className="flex-1 rounded-full bg-insecap-blue px-6 text-sm font-semibold text-white shadow-sm md:flex-none"
+                  >
+                    {content.peopleClient}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-8 md:px-14 lg:px-16 mt-4">
+
           <div className="text-center mb-8">
             <p className="text-muted-foreground text-lg max-w-3xl mx-auto">{content.intro}</p>
           </div>
@@ -212,7 +263,7 @@ const JsonCourseCatalog = () => {
           </div>
 
           <div className="mb-6 text-sm text-muted-foreground">
-            {semanticResults.length} temas encontrados
+            {semanticResults.length} {content.found}
           </div>
 
           {semanticResults.length === 0 ? (
