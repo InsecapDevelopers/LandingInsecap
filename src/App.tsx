@@ -24,6 +24,8 @@ import Contact from "./pages/Contact";
 import B2bCourseCatalogPage from "./pages/B2bCourseCatalogPage";
 import B2bCourseDetailPage from "./pages/B2bCourseDetailPage";
 import SimulatorCatalog from "./pages/SimulatorCatalog";
+import SimulatorModels from "./pages/SimulatorModels";
+import SimulatorExtinguisherDetail from "./pages/SimulatorExtinguisherDetail";
 import BeRelator from "./pages/BeRelator";
 import Clients from "./pages/Clients";
 import NotFound from "./pages/NotFound";
@@ -41,7 +43,13 @@ const routeDefinitions = [
   { path: 'cursos', element: <CourseCatalog /> },
   { path: 'cursos-empresas', element: <B2bCourseCatalogPage /> },
   { path: 'curso-empresa/:handle', element: <B2bCourseDetailPage /> },
-  ...(isSimulatorsEnabled ? [{ path: 'simuladores', element: <SimulatorCatalog /> }] : []),
+  ...(isSimulatorsEnabled
+    ? [
+      { path: 'simuladores', element: <SimulatorCatalog /> },
+      { path: 'simuladores/modelos', element: <SimulatorModels /> },
+      { path: 'simuladores/extintores', element: <SimulatorExtinguisherDetail /> },
+    ]
+    : []),
   { path: 'nuestros-clientes', element: <Clients /> },
   { path: 'nosotros', element: <AboutUs /> },
   { path: 'nuestro-equipo', element: <OurTeam /> },

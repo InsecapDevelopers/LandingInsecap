@@ -19,6 +19,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'CAT 798AC',
     handle: 'cat-798ac',
     category: 'camiones-mineria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/cat_798ac.png?v=1776287746',
     specs: [
       { label: 'Potencia', value: '2610 KW' },
       { label: 'Peso Operativo', value: '623 T' },
@@ -30,6 +31,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'KOMATSU 980E',
     handle: 'komatsu-980e',
     category: 'camiones-mineria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/komatsu_980e.png?v=1776287764',
     specs: [
       { label: 'Potencia', value: '2610 KW' },
       { label: 'Peso Operativo', value: '626 T' },
@@ -41,6 +43,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'EH 3500',
     handle: 'eh-3500',
     category: 'camiones-mineria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/eh3500.jpg?v=1776287611',
     specs: [
       { label: 'Potencia', value: '1491 KW' },
       { label: 'Peso Operativo', value: '322 T' },
@@ -52,6 +55,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'EH 4000',
     handle: 'eh-4000',
     category: 'camiones-mineria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/eh4000.jpg?v=1776287611',
     specs: [
       { label: 'Potencia', value: '1354 KW' },
       { label: 'Peso Operativo', value: '384 T' },
@@ -63,6 +67,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'EH 5000',
     handle: 'eh-5000',
     category: 'camiones-mineria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/eh5000.jpg?v=1776287611',
     specs: [
       { label: 'Potencia', value: '2125 KW' },
       { label: 'Peso Operativo', value: '920 T' },
@@ -74,6 +79,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'EX 1200',
     handle: 'ex-1200',
     category: 'camiones-mineria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/ex1200.webp?v=1776287611',
     specs: [
       { label: 'Potencia', value: '567 KW' },
       { label: 'Peso Operativo', value: '11.7 T' },
@@ -85,6 +91,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'EX 1900',
     handle: 'ex-1900',
     category: 'camiones-mineria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/ex1900.jpg?v=1776287611',
     specs: [
       { label: 'Potencia', value: '910 KW' },
       { label: 'Peso Operativo', value: '192 T' },
@@ -96,6 +103,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'EH 2600',
     handle: 'eh-2600',
     category: 'camiones-mineria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/ex2600.jpg?v=1776287611',
     specs: [
       { label: 'Potencia', value: '1115 KW' },
       { label: 'Peso Operativo', value: '354 T' },
@@ -103,21 +111,11 @@ export const SIMULATORS: Simulator[] = [
     ],
   },
   {
-    id: 'cm-9',
-    name: 'EH 600',
-    handle: 'eh-600',
-    category: 'camiones-mineria',
-    specs: [
-      { label: 'Potencia', value: '1450 KW' },
-      { label: 'Peso Operativo', value: '369 T' },
-      { label: 'C. Útil Garzo', value: '22 M³' },
-    ],
-  },
-  {
     id: 'cm-10',
     name: 'EX 5500',
     handle: 'ex-5500',
     category: 'camiones-mineria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/ex5500.jpg?v=1776287611',
     specs: [
       { label: 'Potencia', value: '2088 KW' },
       { label: 'Peso Operativo', value: '622 T' },
@@ -130,6 +128,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'Cargador Frontal',
     handle: 'cargador-frontal-maq',
     category: 'maquinaria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/cargadorfrontal.jpg?v=1776288273',
     specs: [
       { label: 'Potencia', value: '672 KW / 901 HP' },
     ],
@@ -139,6 +138,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'Retrocargadora',
     handle: 'retrocargadora',
     category: 'maquinaria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/retrocargadora.jpg?v=1776288273',
     specs: [
       { label: 'Potencia', value: '55 KW' },
       { label: 'Norma', value: 'ISO 14396 (SAE J1)' },
@@ -149,6 +149,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'Excavadora Cadenas',
     handle: 'excavadora-cadenas',
     category: 'maquinaria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/excavadora-cadenas.jpg?v=1776288273',
     specs: [
       { label: 'Tipo', value: 'Cadenas' },
     ],
@@ -158,6 +159,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'Bulldozer',
     handle: 'bulldozer',
     category: 'maquinaria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Bulldozer.jpg?v=1776288272',
     specs: [
       { label: 'Potencia', value: '55.4 KW' },
     ],
@@ -167,6 +169,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'Motoniveladora',
     handle: 'motoniveladora',
     category: 'maquinaria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/motoniveladora.jpg?v=1776288272',
     specs: [
       { label: 'Potencia', value: '104 KW' },
     ],
@@ -176,6 +179,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'Minicargador',
     handle: 'minicargador',
     category: 'maquinaria',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/minicargador.jpg?v=1776288272',
     specs: [
       { label: 'Potencia', value: '55.4 KW' },
     ],
@@ -186,6 +190,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'Cargador Frontal',
     handle: 'montacarga-frontal',
     category: 'monta-carga',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/montacargas-frontal.jpg?v=1776288782',
     specs: [
       { label: 'Tipo', value: 'Frontal' },
     ],
@@ -195,6 +200,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'Cargador Frontal Doble',
     handle: 'montacarga-frontal-doble',
     category: 'monta-carga',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/cargador-frontaldoble.webp?v=1776288782',
     specs: [
       { label: 'Tipo', value: 'Frontal Doble' },
     ],
@@ -204,6 +210,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'Cargador Lateral',
     handle: 'montacarga-lateral',
     category: 'monta-carga',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/cargadorlateral.jpg?v=1776288782',
     specs: [
       { label: 'Tipo', value: 'Retráctil Lateral' },
     ],
@@ -214,6 +221,7 @@ export const SIMULATORS: Simulator[] = [
     name: 'PICKUP 4X4',
     handle: 'pickup-4x4',
     category: 'manejo-4x4',
+    image: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/hilux4x4.jpg?v=1776289024',
     specs: [
       { label: 'Cilindrada', value: '1968 CC' },
       { label: 'Modelos', value: 'Toyota Hilux / VW Amarok' },
