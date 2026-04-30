@@ -1,76 +1,123 @@
-# Welcome to your Lovable project
+# Insecap Landing
 
-## Project info
+Sitio web institucional y landing de Insecap. SPA construida con Vite + React + TypeScript, estilizada con Tailwind CSS y componentes shadcn/ui. Incluye catálogo B2B, integración con Shopify, mapas de sedes, blog, simulador y soporte multilenguaje (i18next).
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Stack
 
-## How can I edit this code?
+- **Vite** + **React 18** + **TypeScript**
+- **Tailwind CSS** + **shadcn/ui** (Radix UI)
+- **React Router**, **TanStack Query**, **Zustand**
+- **i18next** (es / en)
+- **Framer Motion** / **Swiper** / **Embla**
 
-There are several ways of editing your application.
+## Requisitos
 
-**Use Lovable**
+- Node.js 20+ y npm (o Bun, ver `bun.lockb`)
+- Docker (opcional, para despliegue)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Desarrollo local
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# 1. Clonar
+git clone <URL_DEL_REPO>
+cd LandingInsecap
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# 2. Instalar dependencias
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 3. Servidor de desarrollo (http://localhost:8080)
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Scripts disponibles
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+| Script                       | Descripción                                            |
+| ---------------------------- | ------------------------------------------------------ |
+| `npm run dev`                | Servidor de desarrollo con HMR en `:8080`              |
+| `npm run build`              | Build de producción a `dist/`                          |
+| `npm run build:dev`          | Build con `mode=development`                           |
+| `npm run preview`            | Sirve el build localmente                              |
+| `npm run lint`               | Linter (ESLint)                                        |
+| `npm run catalog:b2b:build`  | Regenera `src/data/b2bCatalog.json` desde el script    |
 
-**Use GitHub Codespaces**
+### Variables de entorno
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Crea un archivo `.env.local` en la raíz si necesitas sobreescribir valores. Las variables expuestas al cliente deben prefijarse con `VITE_`.
 
-## What technologies are used for this project?
+| Variable             | Uso                                                                         |
+| -------------------- | --------------------------------------------------------------------------- |
+| `TMS_PROXY_TARGET`   | Target del proxy `/api` en dev server (default `https://tms.insecap.cl`)    |
+| `VITE_*`             | Cualquier variable expuesta al cliente (se embebe en el bundle al build)    |
 
-This project is built with:
+> El proxy `/api` definido en [vite.config.ts](vite.config.ts) aplica **solo** al servidor de desarrollo. En producción configura el reverse proxy a nivel de infraestructura/CDN.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Estructura del proyecto
 
-## How can I deploy this project?
+```
+src/
+  components/     Componentes UI y secciones (Header, Hero, Catalog, ...)
+  pages/          Rutas (Index, AboutUs, CourseDetail, Blog, ...)
+  lib/            Utilidades, i18n, datos del catálogo, integraciones
+  hooks/          Custom hooks (useMobile, useScrollAnimation, ...)
+  stores/         Estado global con Zustand (cartStore)
+  data/           Datasets estáticos (b2bCatalog.json, clients)
+  assets/         Imágenes y logos
+public/           Activos servidos tal cual (robots.txt, isotipos, mockups)
+scripts/          Scripts de build (build-b2b-catalog.mjs)
+```
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## Docker
 
-## Can I connect a custom domain to my Lovable project?
+El proyecto incluye un [`Dockerfile`](Dockerfile) multi-stage (build con Node 20 + servido con Nginx), [`nginx.conf`](nginx.conf) con fallback SPA y un [`docker-compose.yml`](docker-compose.yml) listo para usar.
 
-Yes, you can!
+### Build de la imagen
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```sh
+docker build -t insecap-landing:latest .
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+### Ejecutar el contenedor
 
+```sh
+docker run --rm -p 8080:80 --name insecap-landing insecap-landing:latest
+```
 
+Luego abre http://localhost:8080.
+
+### Con docker compose
+
+```sh
+docker compose up -d --build
+docker compose logs -f
+docker compose down
+```
+
+### Variables de entorno en el build
+
+Las variables `VITE_*` se embeben durante el build. Para inyectarlas pásalas como build args:
+
+```sh
+docker build \
+  --build-arg VITE_API_URL=https://api.ejemplo.com \
+  -t insecap-landing:latest .
+```
+
+### Notas
+
+- Puerto interno del contenedor: `80`. Mapea al puerto que prefieras (`-p 8080:80`).
+- Configuración Nginx con fallback SPA, cache largo para `/assets/*` con hash, no-cache para `index.html` y headers de seguridad básicos.
+- `HEALTHCHECK` incluido en el `Dockerfile`.
+
+## Despliegue
+
+- **Vercel**: configuración en [vercel.json](vercel.json). Build: `npm run build`, output: `dist/`.
+- **Docker**: ver sección anterior.
+- **Estático genérico**: cualquier hosting que sirva `dist/` con fallback a `index.html` para rutas SPA.
+
+## Túnel local (opcional)
+
+Para exponer el dev server a internet (pruebas con dispositivos externos o webhooks):
+
+```sh
 ngrok http 8080 --log=stdout
+```
