@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: insecap-landing:latest
+    container_name: insecap-landing
+    ports:
+      - "8080:80"
+    restart: unless-stopped
