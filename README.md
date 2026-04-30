@@ -68,15 +68,15 @@ scripts/          Scripts de build (build-b2b-catalog.mjs)
 
 ## Docker
 
-El proyecto incluye un [`Dockerfile`](Dockerfile) multi-stage (build con Node 20 + servido con Nginx), [`nginx.conf`](nginx.conf) con fallback SPA y un [`docker-compose.yml`](docker-compose.yml) listo para usar.
+El proyecto incluye un [`Dockerfile`](Dockerfile) multi-stage (build con Node 20 + servido con Nginx), [`nginx.conf`](nginx.conf) con fallback SPA y un [`docker-compose.yml`](docker-compose.yml) pensado para el VPS (consume la imagen publicada en GHCR).
 
-### Build de la imagen
+### Build local de la imagen
 
 ```sh
 docker build -t insecap-landing:latest .
 ```
 
-### Ejecutar el contenedor
+### Ejecutar el contenedor en local
 
 ```sh
 docker run --rm -p 8080:80 --name insecap-landing insecap-landing:latest
@@ -84,29 +84,39 @@ docker run --rm -p 8080:80 --name insecap-landing insecap-landing:latest
 
 Luego abre http://localhost:8080.
 
-### Con docker compose
-
-```sh
-docker compose up -d --build
-docker compose logs -f
-docker compose down
-```
-
 ### Variables de entorno en el build
 
 Las variables `VITE_*` se embeben durante el build. Para inyectarlas pásalas como build args:
 
 ```sh
 docker build \
-  --build-arg VITE_API_URL=https://api.ejemplo.com \
+  --build-arg VITE_TMS_API_URL=https://tms.insecap.cl \
+  --build-arg VITE_B2B_CATALOG_ENABLED=true \
   -t insecap-landing:latest .
+```
+
+### Despliegue con `docker-compose.yml` (VPS)
+
+En el VPS, junto al compose, crea un `.env`:
+
+```env
+IMAGE=ghcr.io/insecapdevelopers/landinginsecap
+TAG=latest          # o sha-xxxxxxx para fijar version / rollback
+```
+
+Luego:
+
+```sh
+docker login ghcr.io -u <usuario> --password-stdin <<< "<PAT>"
+docker compose pull
+docker compose up -d
 ```
 
 ### Notas
 
-- Puerto interno del contenedor: `80`. Mapea al puerto que prefieras (`-p 8080:80`).
-- Configuración Nginx con fallback SPA, cache largo para `/assets/*` con hash, no-cache para `index.html` y headers de seguridad básicos.
-- `HEALTHCHECK` incluido en el `Dockerfile`.
+- Puerto interno del contenedor: `80`. En el VPS se expone solo en `127.0.0.1:8080` para que tu Nginx del host haga el TLS y el proxy.
+- Nginx interno con fallback SPA, cache largo para `/assets/*` con hash, no-cache para `index.html` y headers de seguridad básicos.
+- `HEALTHCHECK` incluido en el `Dockerfile`. Logs rotados a 10MB × 5 archivos. Filesystem read-only con `tmpfs` para `/var/cache/nginx`, `/var/run`, `/tmp`.
 
 ## Despliegue
 

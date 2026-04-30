@@ -1,10 +1,29 @@
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: insecap-landing:latest
+    # Imagen publicada en GHCR por el workflow .github/workflows/deploy.yml
+    image: ghcr.io/insecapdevelopers/landinginsecap:latest
     container_name: insecap-landing
-    ports:
-      - "8080:80"
     restart: unless-stopped
+    pull_policy: always
+    ports:
+      # Expone solo en localhost; tu reverse proxy (Nginx del VPS)
+      # hace TLS y routing del dominio insecap.cl.
+      - "127.0.0.1:8080:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
