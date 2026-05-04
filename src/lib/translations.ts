@@ -202,6 +202,12 @@ export const resources = {
         latestNewsDesc: 'Manténte informado sobre las novedades en capacitación y seguridad laboral',
         seeAll: 'Ver todas las noticias',
       },
+      news: {
+        months: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+        loadError: 'No se pudieron cargar las noticias en este momento.',
+        readMore: 'Leer más',
+        seeMore: 'Ver más noticias',
+      },
       locations: {
         badge: 'Nuestras Sedes',
         title: 'Nos encontramos en las siguientes regiones',
