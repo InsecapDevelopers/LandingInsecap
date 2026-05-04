@@ -16,7 +16,7 @@ const slideInLeft = {
 
 const SimulatorBanner = () => {
   const { localizedPath } = useLocalizedPath();
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
 
   const content = {
     es: {
@@ -36,7 +36,7 @@ const SimulatorBanner = () => {
     },
   };
 
-  const lang = (t('language') || 'es') as 'es' | 'en' | 'pt';
+  const lang = (i18n.language?.split('-')[0] || 'es') as 'es' | 'en' | 'pt';
   const messages = content[lang] || content['es'];
 
   return (

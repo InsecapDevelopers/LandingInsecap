@@ -75,6 +75,7 @@ export const resources = {
           experience: 'Experiencia',
         },
         certifications: 'Certificaciones y Membresías',
+        accreditationsSubtitle: 'Certificaciones y Membresías que avalan nuestra calidad',
       },
       contactCTA: {
         badge: 'Contacto',
@@ -358,6 +359,7 @@ export const resources = {
           experience: 'Experience',
         },
         certifications: 'Certifications and memberships',
+        accreditationsSubtitle: 'Certifications and memberships that endorse our quality',
       },
       contactCTA: {
         badge: 'Contact',
@@ -647,6 +649,7 @@ export const resources = {
           experience: 'Experiência',
         },
         certifications: 'Certificações e associações',
+        accreditationsSubtitle: 'Certificações e associações que atestam nossa qualidade',
       },
       contactCTA: {
         badge: 'Contato',

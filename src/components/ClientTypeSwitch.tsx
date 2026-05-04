@@ -10,7 +10,7 @@ interface ClientTypeSwitchProps {
 
 export const ClientTypeSwitch = ({ activeMode }: ClientTypeSwitchProps) => {
   const { localizedPath } = useLocalizedPath();
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
 
   const content = {
     es: {
@@ -30,7 +30,7 @@ export const ClientTypeSwitch = ({ activeMode }: ClientTypeSwitchProps) => {
     },
   };
 
-  const locale = (t('language') || 'es') as 'es' | 'en' | 'pt';
+  const locale = (i18n.language?.split('-')[0] || 'es') as 'es' | 'en' | 'pt';
   const messages = content[locale] || content['es'];
 
   const isEmpresa = activeMode === 'empresa';
