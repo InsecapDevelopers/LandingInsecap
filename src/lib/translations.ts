@@ -167,6 +167,7 @@ export const resources = {
         expertFacilitators: 'Facilitadores Expertos',
         trainingHours: 'Horas de Capacitación',
         designedCourses: 'Cantidad de Cursos Diseñados',
+        yearLabel: 'Estadísticas del 2025',
       },
       cart: {
         title: 'Carrito de Compras',
@@ -451,6 +452,7 @@ export const resources = {
         expertFacilitators: 'Expert Facilitators',
         trainingHours: 'Training Hours',
         designedCourses: 'Designed Courses',
+        yearLabel: '2025 Statistics',
       },
       cart: {
         title: 'Shopping Cart',
@@ -741,6 +743,7 @@ export const resources = {
         expertFacilitators: 'Facilitadores Especialistas',
         trainingHours: 'Horas de Capacitação',
         designedCourses: 'Cursos Desenvolvidos',
+        yearLabel: 'Estatísticas de 2025',
       },
       cart: {
         title: 'Carrinho de Compras',
