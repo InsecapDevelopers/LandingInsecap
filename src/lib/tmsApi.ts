@@ -33,6 +33,7 @@ export interface PodioEstrellas {
 }
 
 const BASE = import.meta.env.VITE_TMS_API_URL ?? '';
+export const TMS_BASE_URL = BASE;
 
 async function tmsGet<T>(path: string, fallback: T): Promise<T> {
   try {
@@ -83,6 +84,16 @@ export const getLiderComercial = async (): Promise<LiderComercial | null> => {
 
 export const getMuroFamaPodio = () =>
   tmsGet<PodioItem[]>('/api/MuroFama/podio', []);
+
+export const getMuroFamaHtml = async (): Promise<string | null> => {
+  try {
+    const res = await fetch(`${BASE}/MuroFama/resumenfamaweb`);
+    if (!res.ok) return null;
+    return await res.text();
+  } catch {
+    return null;
+  }
+};
 
 export const getPodioInsecoins = () =>
   tmsGet<PodioInsecoinsItem[]>('/api/MuroFelicidad/podioInsecoins', []);

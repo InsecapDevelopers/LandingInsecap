@@ -1,45 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Trophy } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import {
-  getMuroFamaPodio, PodioItem,
+  TMS_BASE_URL,
   getPodioInsecoins, PodioInsecoinsItem,
 } from '@/lib/tmsApi';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const medalEmoji = ['🥇', '🥈', '🥉'];
-
-const cardBorder = [
-  'border-2 border-yellow-400 md:scale-110',
-  'border border-gray-400',
-  'border border-amber-700',
-];
-
-const PodioCard = ({ item, position }: { item: PodioItem; position: number }) => (
-  <div
-    className={`bg-card rounded-2xl p-6 flex flex-col items-center text-center shadow-md w-full md:w-64 ${cardBorder[position - 1]}`}
-  >
-    <span className="text-3xl mb-3">{medalEmoji[position - 1]}</span>
-    {item.foto ? (
-      <img
-        src={item.foto}
-        alt={item.nombre}
-        className="w-20 h-20 rounded-full object-cover mb-3"
-      />
-    ) : (
-      <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center text-2xl font-bold mb-3">
-        {item.nombre.charAt(0)}
-      </div>
-    )}
-    <p className="font-bold text-foreground text-lg leading-tight">{item.nombre}</p>
-    <p className="text-sm text-muted-foreground mt-1">{item.rol}</p>
-    <p className="text-sm text-muted-foreground">{item.mes}</p>
-    <p className="text-xs text-muted-foreground italic mt-2">{item.logro}</p>
-  </div>
-);
 
 const PodioSkeleton = () => (
   <div className="flex flex-col md:flex-row gap-6 items-center justify-center py-8 px-4">
@@ -136,22 +107,59 @@ const shootCelebration = () => {
   setTimeout(() => confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#3b82f6', '#06b6d4', '#8b5cf6'] }), 200);
 };
 
+// Iframe responsivo: usa zoom para escalar el contenido TMS ajustando el layout automáticamente
+const IframeFama = ({ src, onLoaded, visible }: { src: string; onLoaded: () => void; visible: boolean }) => {
+  const [zoom, setZoom] = useState(1);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const IFRAME_NATURAL_WIDTH = 1200;
+
+  const updateZoom = (el: HTMLDivElement) => {
+    const w = el.offsetWidth;
+    if (w > 0) setZoom(Math.min(1, w / IFRAME_NATURAL_WIDTH));
+  };
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => updateZoom(el));
+    observer.observe(el);
+    updateZoom(el);
+    return () => observer.disconnect();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div ref={wrapperRef} style={{ display: visible ? 'block' : 'none', overflow: 'hidden' }}>
+      <iframe
+        src={src}
+        title="Muro de la Fama"
+        scrolling="no"
+        onLoad={onLoaded}
+        style={{
+          width: `${IFRAME_NATURAL_WIDTH}px`,
+          height: '100%',
+          minHeight: '850px',
+          border: 'none',
+          display: 'block',
+          // zoom ajusta visualmente Y el layout, eliminando espacio sobrante
+          zoom: zoom,
+        }}
+      />
+    </div>
+  );
+};
+
 const HonorTeam = () => {
   const { locale } = useLocalizedPath();
-  const [podio, setPodio] = useState<PodioItem[]>([]);
-  const [loadingPodio, setLoadingPodio] = useState(true);
+  const [famaLoaded, setFamaLoaded] = useState(false);
 
   const [podioInsecoins, setPodioInsecoins] = useState<PodioInsecoinsItem[]>([]);
   const [loadingInsecoins, setLoadingInsecoins] = useState(true);
 
   useEffect(() => {
-    getMuroFamaPodio().then((data) => { setPodio(data); setLoadingPodio(false); });
     getPodioInsecoins().then((data) => { setPodioInsecoins(data); setLoadingInsecoins(false); });
   }, []);
 
-  useEffect(() => {
-    if (!loadingPodio && podio.length > 0) shootStars();
-  }, [loadingPodio, podio.length]);
 
   useEffect(() => {
     if (!loadingInsecoins && podioInsecoins.length > 0) shootCelebration();
@@ -237,52 +245,14 @@ const HonorTeam = () => {
               </p>
             </div>
 
-            {/* Podio Muro de la Fama */}
+            {/* Ganadores Muro de la Fama embebidos */}
             <div className="relative rounded-2xl border border-border overflow-hidden shadow-xl bg-gradient-to-br from-primary/10 via-card to-secondary/10">
-              {/* Orbes decorativos de fondo */}
-              <div className="pointer-events-none absolute -top-16 -left-16 w-64 h-64 rounded-full bg-primary/10 blur-3xl" />
-              <div className="pointer-events-none absolute -bottom-16 -right-16 w-64 h-64 rounded-full bg-secondary/10 blur-3xl" />
-              <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 rounded-full bg-yellow-400/5 blur-2xl" />
-              {loadingPodio && <PodioSkeleton />}
-
-              {!loadingPodio && podio.length === 0 && (
-                <div className="relative flex flex-col md:flex-row items-center justify-center gap-8 py-12 px-8">
-                  {/* Imagen mascota con halo animado */}
-                  <div className="relative flex-shrink-0">
-                    <div className="absolute inset-0 rounded-full bg-primary/20 blur-2xl scale-110 animate-pulse" />
-                    <img
-                      src="/Capin-14.png"
-                      alt="Capin pensando"
-                      className="relative w-52 md:w-64 object-contain drop-shadow-xl select-none"
-                    />
-                  </div>
-
-                  {/* Texto */}
-                  <div className="text-center md:text-left">
-                    {/* Badge animado */}
-                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-semibold uppercase tracking-widest mb-4 animate-pulse">
-                      <span className="w-2 h-2 rounded-full bg-primary inline-block" />
-                      {content.inProgress}
-                    </span>
-                    <h3 className="text-2xl md:text-3xl font-black text-foreground mb-3 leading-tight">
-                      {content.voting1}<br />
-                      <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{content.voting2}</span>
-                    </h3>
-                    <p className="text-muted-foreground text-base max-w-sm leading-relaxed">
-                      {content.votingText}<br />
-                      <span className="font-medium text-foreground">{content.votingTextStrong}</span>
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {!loadingPodio && podio.length > 0 && (
-                <div className="flex flex-col md:flex-row gap-6 items-end justify-center py-8 px-4">
-                  {podio.map((item, idx) => (
-                    <PodioCard key={item.nombre} item={item} position={idx + 1} />
-                  ))}
-                </div>
-              )}
+              {!famaLoaded && <PodioSkeleton />}
+              <IframeFama
+                src={`${TMS_BASE_URL}/MuroFama/resumenfamaweb`}
+                onLoaded={() => { setFamaLoaded(true); shootStars(); }}
+                visible={famaLoaded}
+              />
             </div>
           </section>
 
