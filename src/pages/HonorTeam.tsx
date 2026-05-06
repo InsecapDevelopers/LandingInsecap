@@ -107,8 +107,8 @@ const shootCelebration = () => {
   setTimeout(() => confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#3b82f6', '#06b6d4', '#8b5cf6'] }), 200);
 };
 
-// Iframe responsivo: usa zoom para escalar el contenido TMS ajustando el layout automáticamente
-const IframeFama = ({ src, onLoaded, visible }: { src: string; onLoaded: () => void; visible: boolean }) => {
+// Iframe responsivo: siempre en el DOM para que ResizeObserver obtenga el ancho real
+const IframeFama = ({ src, onLoaded, loaded }: { src: string; onLoaded: () => void; loaded: boolean }) => {
   const [zoom, setZoom] = useState(1);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const IFRAME_NATURAL_WIDTH = 1200;
@@ -129,7 +129,14 @@ const IframeFama = ({ src, onLoaded, visible }: { src: string; onLoaded: () => v
   }, []);
 
   return (
-    <div ref={wrapperRef} style={{ display: visible ? 'block' : 'none', overflow: 'hidden' }}>
+    // wrapper siempre visible → ResizeObserver tiene ancho real desde el primer render
+    <div ref={wrapperRef} style={{ position: 'relative', overflow: 'hidden', minHeight: loaded ? undefined : '260px' }}>
+      {/* Skeleton superpuesto mientras carga */}
+      {!loaded && (
+        <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
+          <PodioSkeleton />
+        </div>
+      )}
       <iframe
         src={src}
         title="Muro de la Fama"
@@ -137,12 +144,11 @@ const IframeFama = ({ src, onLoaded, visible }: { src: string; onLoaded: () => v
         onLoad={onLoaded}
         style={{
           width: `${IFRAME_NATURAL_WIDTH}px`,
-          height: '100%',
           minHeight: '850px',
           border: 'none',
           display: 'block',
-          // zoom ajusta visualmente Y el layout, eliminando espacio sobrante
           zoom: zoom,
+          visibility: loaded ? 'visible' : 'hidden',
         }}
       />
     </div>
@@ -247,11 +253,10 @@ const HonorTeam = () => {
 
             {/* Ganadores Muro de la Fama embebidos */}
             <div className="relative rounded-2xl border border-border overflow-hidden shadow-xl bg-gradient-to-br from-primary/10 via-card to-secondary/10">
-              {!famaLoaded && <PodioSkeleton />}
               <IframeFama
                 src={`${TMS_BASE_URL}/MuroFama/resumenfamaweb`}
                 onLoaded={() => { setFamaLoaded(true); shootStars(); }}
-                visible={famaLoaded}
+                loaded={famaLoaded}
               />
             </div>
           </section>
