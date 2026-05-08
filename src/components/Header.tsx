@@ -140,7 +140,7 @@ const Header = () => {
                   <Link
                     to={localizedPath(item.href)}
                     onClick={() => { if (item.href === '/') window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    className={`text-primary-foreground/90 hover:text-primary-foreground flex items-center gap-1 py-2 font-medium transition-all duration-300 ${isAtTop ? 'text-sm' : 'text-xs'
+                    className={`text-primary-foreground/90 hover:text-primary-foreground flex items-center gap-1 py-2 font-medium transition-all duration-300 whitespace-nowrap ${isAtTop ? 'text-sm' : 'text-xs'
                       }`}
                   >
                     {t(item.labelKey)}
@@ -156,14 +156,14 @@ const Header = () => {
                         target.scrollIntoView({ behavior: "smooth" });
                       }
                     }}
-                    className={`text-primary-foreground/90 hover:text-primary-foreground flex items-center gap-1 py-2 font-medium transition-all duration-300 cursor-pointer ${isAtTop ? 'text-sm' : 'text-xs'
+                    className={`text-primary-foreground/90 hover:text-primary-foreground flex items-center gap-1 py-2 font-medium transition-all duration-300 cursor-pointer whitespace-nowrap ${isAtTop ? 'text-sm' : 'text-xs'
                       }`}
                   >
                     {t(item.labelKey)}
                   </a>
                 ) : (
                   <span
-                    className={`text-primary-foreground/90 hover:text-primary-foreground flex items-center gap-1 py-2 font-medium transition-all duration-300 cursor-pointer ${isAtTop ? 'text-sm' : 'text-xs'
+                    className={`text-primary-foreground/90 hover:text-primary-foreground flex items-center gap-1 py-2 font-medium transition-all duration-300 cursor-pointer whitespace-nowrap ${isAtTop ? 'text-sm' : 'text-xs'
                       }`}
                   >
                     {t(item.labelKey)}

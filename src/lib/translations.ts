@@ -317,7 +317,7 @@ export const resources = {
           culture: 'Honor and Happiness team',
           quality: 'Quality policy',
           contact: 'Contact us',
-          instructor: 'Want to become an instructor?',
+          instructor: 'Become an Instructor',
           workWithUs: 'Work with us',
           news: 'News',
         },
