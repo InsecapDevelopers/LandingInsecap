@@ -96,7 +96,7 @@ const teamByArea: TeamArea[] = [
     members: [
       {
         name: 'Liliana Herrera Altamirano',
-        role: 'LÍDER DE DESARROLLO DE CURSOS',
+        role: 'LÍDER DE DESARROLLO', //  DE CURSOS
         email: 'lherrera@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lili.webp?v=1769089386'
       },
