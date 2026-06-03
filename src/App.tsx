@@ -17,6 +17,7 @@ import ArticleDetail from "./pages/ArticleDetail";
 import CourseCatalog from "./pages/CourseCatalog";
 import AboutUs from "./pages/AboutUs";
 import OurTeam from "./pages/OurTeam";
+import HonorTeam from "./pages/HonorTeam";
 import QualityPolicy from "./pages/QualityPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Contact from "./pages/Contact";
@@ -52,6 +53,7 @@ const routeDefinitions = [
   { path: 'nuestros-clientes', element: <Clients /> },
   { path: 'nosotros', element: <AboutUs /> },
   { path: 'nuestro-equipo', element: <OurTeam /> },
+  { path: 'equipo-honor', element: <HonorTeam /> },
   { path: 'politica-calidad', element: <QualityPolicy /> },
   { path: 'politica-de-privacidad', element: <PrivacyPolicy /> },
   { path: 'contacto', element: <Contact /> },

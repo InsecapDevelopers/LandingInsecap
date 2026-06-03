@@ -82,6 +82,7 @@ const Header = () => {
       dropdown: [
         { id: 'about-home', labelKey: 'header.nav.about', href: '/nosotros', isLink: true },
         { id: 'team', labelKey: 'header.nav.team', href: '/nuestro-equipo', isLink: true },
+        { id: 'culture', labelKey: 'header.nav.culture', href: '/equipo-honor', isLink: true },
         { id: 'experience', labelKey: 'header.nav.experience', href: '/Experiencia-y-Respaldo', isLink: true },
         { id: 'quality', labelKey: 'header.nav.quality', href: '/politica-calidad', isLink: true },
         { id: 'contact', labelKey: 'header.nav.contact', href: '#contacto', isAnchor: true },
