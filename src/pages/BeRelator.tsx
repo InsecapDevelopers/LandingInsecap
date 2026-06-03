@@ -7,8 +7,9 @@ import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Upload, Send, Loader2, CheckCircle2, Check, ChevronsUpDown, X } from 'lucide-react';
+import { Upload, Send, Loader2, CheckCircle2, Check, ChevronsUpDown, X, FileText } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
@@ -214,10 +215,13 @@ const BeRelator = () => {
     disponibilidadId: '',
     categoriaId: '',
     ciudadId: '',
+    estadoCivil: '',
   });
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [pdfPreviewUrl, setPdfPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // States para selectores
@@ -324,46 +328,42 @@ const BeRelator = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     setCvFile(file);
+    // Generar URL de preview solo para PDF
+    if (pdfPreviewUrl) URL.revokeObjectURL(pdfPreviewUrl);
+    if (file && file.name.toLowerCase().endsWith('.pdf')) {
+      setPdfPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setPdfPreviewUrl(null);
+    }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    // Validar correo (acepta mínimo formato texto@texto.texto ej: a@a.cl)
+
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(formData.correo)) {
-      toast({
-        variant: "destructive",
-        title: content.invalidEmailTitle,
-        description: content.invalidEmailDesc,
-      });
+      toast({ variant: "destructive", title: content.invalidEmailTitle, description: content.invalidEmailDesc });
       return;
     }
 
     if (cvFile) {
       const fileName = cvFile.name.toLowerCase();
       const validExtensions = ['.pdf', '.doc', '.docx'];
-      const hasValidExtension = validExtensions.some((extension) => fileName.endsWith(extension));
-
-      if (!hasValidExtension) {
-        toast({
-          variant: "destructive",
-          title: content.invalidFileTitle,
-          description: content.invalidFileDesc,
-        });
+      if (!validExtensions.some((ext) => fileName.endsWith(ext))) {
+        toast({ variant: "destructive", title: content.invalidFileTitle, description: content.invalidFileDesc });
         return;
       }
-
       if (cvFile.size > 25 * 1024 * 1024) {
-        toast({
-          variant: "destructive",
-          title: content.invalidFileTitle,
-          description: content.fileTooLargeDesc,
-        });
+        toast({ variant: "destructive", title: content.invalidFileTitle, description: content.fileTooLargeDesc });
         return;
       }
     }
 
+    setShowConfirm(true);
+  };
+
+  const doSubmit = async () => {
+    setShowConfirm(false);
     setIsSubmitting(true);
     try {
       const body = new FormData();
@@ -379,6 +379,7 @@ const BeRelator = () => {
       if (formData.disponibilidadId) body.append('IdDisponibilidad', formData.disponibilidadId);
       if (formData.categoriaId) body.append('IdCategoriaR11', formData.categoriaId);
       if (formData.ciudadId) body.append('IdCiudad', formData.ciudadId);
+      if (formData.estadoCivil) body.append('EstadoCivil', formData.estadoCivil);
       selectedIdiomaIds.forEach((idiomaId, index) => body.append(`IdsIdiomas[${index}]`, idiomaId));
       if (cvFile) body.append('ArchivoBase', cvFile, cvFile.name);
 
@@ -396,32 +397,20 @@ const BeRelator = () => {
       });
 
       console.log(`Response HTTP Status: ${response.status} ${response.statusText}`);
-      
       const result = await response.json().catch(() => null);
       console.log("Response Body (JSON):", result);
       console.groupEnd();
 
       if (!response.ok || result?.error) {
-        toast({
-          variant: "destructive",
-          title: content.errorTitle,
-          description: result?.message || content.errorDesc,
-        });
+        toast({ variant: "destructive", title: content.errorTitle, description: result?.message || content.errorDesc });
         return;
       }
 
       setSubmitted(true);
-      toast({
-        title: content.successTitle,
-        description: result?.message || content.successDesc,
-      });
+      toast({ title: content.successTitle, description: result?.message || content.successDesc });
     } catch (err) {
       console.error("[LANDING][POSTULAR] Exception al hacer fetch:", err);
-      toast({
-        variant: "destructive",
-        title: content.errorTitle,
-        description: content.errorDesc,
-      });
+      toast({ variant: "destructive", title: content.errorTitle, description: content.errorDesc });
     } finally {
       setIsSubmitting(false);
     }
@@ -449,6 +438,7 @@ const BeRelator = () => {
       labelIdioma: 'Idiomas',
       labelCategoria: 'Categoría',
       labelCiudad: 'Ciudad',
+      labelEstadoCivil: 'Estado Civil',
       formTag: 'TRABAJA CON NOSOTROS',
       formHeading: 'Postula a nuestro equipo',
       formSubheading: 'Cuéntanos quién eres y déjanos tu currículum. El proceso toma menos de dos minutos.',
@@ -493,6 +483,7 @@ const BeRelator = () => {
       labelIdioma: 'Languages',
       labelCategoria: 'Category',
       labelCiudad: 'City',
+      labelEstadoCivil: 'Marital Status',
       labelApellidoMaterno: 'Second Last Name',
       labelRut: 'ID Number',
       labelCorreo: 'Email Address',
@@ -549,6 +540,7 @@ const BeRelator = () => {
       labelIdioma: 'Idiomas',
       labelCategoria: 'Categoria',
       labelCiudad: 'Cidade',
+      labelEstadoCivil: 'Estado Civil',
       formTag: 'TRABALHE CONOSCO',
       formHeading: 'Candidate-se à nossa equipe',
       formSubheading: 'Conte-nos quem você é e envie seu currículo. O processo leva menos de dois minutos.',
@@ -583,6 +575,105 @@ const BeRelator = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+
+      {/* ── Dialog de confirmación ── */}
+      <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-0">
+          <DialogHeader className="px-6 pt-6 pb-0">
+            <DialogTitle className="text-xl font-bold text-slate-900">Revisa tu postulación</DialogTitle>
+            <p className="text-sm text-slate-500 mt-1">Verifica los datos antes de enviar. Una vez enviado no podrás modificarlos.</p>
+          </DialogHeader>
+
+          <div className="px-6 py-4 space-y-5">
+            {/* Datos personales */}
+            <div>
+              <p className="text-[11px] font-bold tracking-widest text-slate-400 uppercase mb-3">Datos personales</p>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                {[
+                  [content.labelNombre, formData.nombre],
+                  [content.labelApellidoPaterno, formData.apellidoPaterno],
+                  [content.labelApellidoMaterno, formData.apellidoMaterno],
+                  [content.labelRut, formData.rut],
+                  [content.labelProfesion, profesiones.find(o => String(o.id) === formData.profesionId)?.nombre || '—'],
+                  [content.labelDisponibilidad, disponibilidades.find(o => String(o.id) === formData.disponibilidadId)?.nombre || '—'],
+                  [content.labelCategoria, categorias.find(o => String(o.id) === formData.categoriaId)?.nombre || '—'],
+                  [content.labelCiudad, formatOptionLabel(ciudades.find(o => String(o.id) === formData.ciudadId) || {})  || '—'],
+                  [content.labelIdioma, selectedIdiomaIds.map(id => idiomas.find(o => String(o.id) === id)?.nombre).filter(Boolean).join(', ') || '—'],
+                  [content.labelEstadoCivil, formData.estadoCivil || '—'],
+                ].map(([label, value]) => (
+                  <div key={label} className="flex flex-col">
+                    <span className="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">{label}</span>
+                    <span className="text-slate-800 font-medium">{value || '—'}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Contacto */}
+            <div className="border-t border-slate-100 pt-4">
+              <p className="text-[11px] font-bold tracking-widest text-slate-400 uppercase mb-3">Contacto</p>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                {[
+                  [content.labelCorreo, formData.correo],
+                  [content.labelTelefono, `${formData.telefonoPrefix} ${formData.telefono}`.trim()],
+                ].map(([label, value]) => (
+                  <div key={label} className="flex flex-col">
+                    <span className="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">{label}</span>
+                    <span className="text-slate-800 font-medium">{value || '—'}</span>
+                  </div>
+                ))}
+                {formData.observaciones.trim() && (
+                  <div className="col-span-2 flex flex-col">
+                    <span className="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">{content.labelObservaciones}</span>
+                    <span className="text-slate-800 font-medium whitespace-pre-line">{formData.observaciones.trim()}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* CV */}
+            <div className="border-t border-slate-100 pt-4">
+              <p className="text-[11px] font-bold tracking-widest text-slate-400 uppercase mb-3">{content.labelCv}</p>
+              {cvFile ? (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                    <FileText className="w-5 h-5 text-blue-500 shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-slate-800 truncate">{cvFile.name}</p>
+                      <p className="text-xs text-slate-400">{(cvFile.size / 1024).toFixed(0)} KB</p>
+                    </div>
+                  </div>
+                  {pdfPreviewUrl && (
+                    <iframe
+                      src={pdfPreviewUrl}
+                      title="Vista previa del CV"
+                      className="w-full rounded-xl border border-slate-200"
+                      style={{ height: '420px' }}
+                    />
+                  )}
+                </div>
+              ) : (
+                <p className="text-sm text-slate-400 italic">Sin archivo adjunto</p>
+              )}
+            </div>
+          </div>
+
+          <DialogFooter className="px-6 pb-6 pt-2 flex flex-col sm:flex-row gap-2 border-t border-slate-100">
+            <DialogClose asChild>
+              <Button variant="outline" className="rounded-xl border-slate-300 text-slate-700 hover:bg-slate-50">
+                Revisar datos
+              </Button>
+            </DialogClose>
+            <Button
+              onClick={doSubmit}
+              className="rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-semibold shadow-sm"
+            >
+              <Send className="w-4 h-4 mr-2" />
+              Confirmar y enviar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <main>
         <PageHero
@@ -624,7 +715,8 @@ const BeRelator = () => {
                           correo: '', telefonoPrefix: '+56', telefono: '9',
                           observaciones: '',
                           profesionId: '', disponibilidadId: '', 
-                          categoriaId: '', ciudadId: '' 
+                          categoriaId: '', ciudadId: '',
+                          estadoCivil: '',
                         });
                       const espanol = idiomas.find(i => i.nombre?.trim().toLowerCase() === 'español' || i.nombre?.trim().toLowerCase() === 'espanol');
                       setSelectedIdiomaIds(espanol ? [String(espanol.id)] : []);
@@ -703,6 +795,25 @@ const BeRelator = () => {
                         required
                         className="rounded-xl border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus-visible:ring-blue-400 focus-visible:border-blue-400 h-11"
                       />
+                    </div>
+                    {/* Estado Civil */}
+                    <div className="space-y-1.5">
+                      <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                        {content.labelEstadoCivil}
+                      </label>
+                      <select
+                        name="estadoCivil"
+                        value={formData.estadoCivil}
+                        onChange={(e) => setFormData(prev => ({ ...prev, estadoCivil: e.target.value }))}
+                        className="w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:border-blue-400 h-11"
+                      >
+                        <option value="">Selecciona...</option>
+                        <option value="Soltero/a">Soltero/a</option>
+                        <option value="Casado/a">Casado/a</option>
+                        <option value="Conviviente civil">Conviviente civil</option>
+                        <option value="Divorciado/a">Divorciado/a</option>
+                        <option value="Viudo/a">Viudo/a</option>
+                      </select>
                     </div>
                     {/* Selectores dinamicos */}
                     <div className="grid sm:grid-cols-2 gap-4">
