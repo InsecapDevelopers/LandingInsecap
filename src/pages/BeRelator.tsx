@@ -18,12 +18,7 @@ const formatOptionLabel = (option: any) => {
   return option.nombre + (option.comuna ? ` (${option.comuna}, ${option.region})` : '');
 };
 
-const getPublicApiBaseUrl = () => {
-  // En DEV usamos ruta relativa para que el proxy de Vite maneje el SSL del backend local.
-  // En producción apuntamos a la URL del env o al dominio de producción.
-  if (import.meta.env.DEV) return '';
-  return import.meta.env.VITE_TMS_API_URL ?? 'https://tms.insecap.cl';
-};
+const getPublicApiBaseUrl = () => import.meta.env.VITE_TMS_API_URL ?? '';
 
 // --- Subcomponente para los Selects con buscador ---
 const SearchableSelect = ({ label, options, value, onChange, placeholder = "Selecciona..." }: {
