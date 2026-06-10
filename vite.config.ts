@@ -6,7 +6,7 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const tmsTarget = env.TMS_PROXY_TARGET || 'https://localhost:44362';
+  const tmsTarget = env.TMS_PROXY_TARGET || 'https://tms.insecap.cl';
 
   return {
     server: {
@@ -14,17 +14,16 @@ export default defineConfig(({ mode }) => {
       port: 8080,
       allowedHosts: true,
       watch: {
-        // Ignorar cambios en .env* para evitar reinicios espurios (causados por extensiones externas)
         ignored: ['**/.env', '**/.env.local', '**/.env.*'],
       },
-      // proxy: {
-      //   '/api': {
-      //     target: tmsTarget,
-      //     changeOrigin: true,
-      //     secure: tmsTarget.startsWith('https'),
-      //     headers: { 'ngrok-skip-browser-warning': 'true' },
-      //   },
-      // },
+      proxy: {
+        '/api': {
+          target: tmsTarget,
+          changeOrigin: true,
+          secure: tmsTarget.startsWith('https'),
+          headers: { 'ngrok-skip-browser-warning': 'true' },
+        },
+      },
     },
     plugins: [react()].filter(Boolean),
     resolve: {
