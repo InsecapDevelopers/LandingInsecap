@@ -27,6 +27,11 @@ const getApiUrl = (endpoint: string) => {
   return endpoint;
 };
 
+const apiHeaders = {
+  'ngrok-skip-browser-warning': 'true',
+  'User-Agent': 'insecap-capacitaciones',
+};
+
 // --- Subcomponente para los Selects con buscador ---
 const SearchableSelect = ({ label, options, value, onChange, placeholder = "Selecciona..." }: {
   label: string, 
@@ -238,16 +243,25 @@ const BeRelator = () => {
     const fetchSelects = async () => {
       try {
         const [resProfesiones, resDisponibilidades, resIdiomas, resCategorias, resCiudades] = await Promise.all([
-          fetch(getApiUrl('/api/publica/profesiones')),
-          fetch(getApiUrl('/api/publica/disponibilidades')),
-          fetch(getApiUrl('/api/publica/idiomas')),
-          fetch(getApiUrl('/api/publica/categorias')),
-          fetch(getApiUrl('/api/publica/ciudades'))
+          fetch(getApiUrl('/api/publica/profesiones'), { headers: apiHeaders }),
+          fetch(getApiUrl('/api/publica/disponibilidades'), { headers: apiHeaders }),
+          fetch(getApiUrl('/api/publica/idiomas'), { headers: apiHeaders }),
+          fetch(getApiUrl('/api/publica/categorias'), { headers: apiHeaders }),
+          fetch(getApiUrl('/api/publica/ciudades'), { headers: apiHeaders })
         ]);
 
         const parseData = async (res: Response) => {
-          const json = await res.json();
-          return json.data || json;
+          if (!res.ok) {
+            throw new Error(`API error: ${res.status} ${res.statusText}`);
+          }
+          try {
+            const json = await res.json();
+            return json.data || json;
+          } catch (e) {
+            const text = await res.clone().text();
+            console.error('Failed to parse JSON, response:', text.substring(0, 200));
+            throw new Error('Invalid JSON response from API');
+          }
         };
 
         if (resProfesiones.ok) setProfesiones(await parseData(resProfesiones));
@@ -394,6 +408,7 @@ const BeRelator = () => {
 
       const response = await fetch(getApiUrl('/api/publica/postular'), {
         method: 'POST',
+        headers: apiHeaders,
         body,
       });
 
