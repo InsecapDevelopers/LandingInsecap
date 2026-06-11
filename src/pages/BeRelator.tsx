@@ -268,12 +268,31 @@ const BeRelator = () => {
           ciudades: getApiUrl(endpoints.ciudades),
         });
 
+        console.log('[BeRelator] Iniciando requests...');
+        console.log('[BeRelator] Dominio actual:', window.location.origin);
+        console.log('[BeRelator] Dominio API:', 'https://tms.insecap.cl');
+
+        const fetchEndpoint = async (url: string, name: string) => {
+          try {
+            console.log(`[BeRelator] Haciendo fetch a ${name}: ${url}`);
+            const response = await fetch(url, { headers: apiHeaders });
+            console.log(`[BeRelator] ${name} respuesta recibida:`, { ok: response.ok, status: response.status });
+            return response;
+          } catch (err) {
+            console.error(`[BeRelator] ${name} fetch falló:`, {
+              error: err instanceof Error ? err.message : String(err),
+              type: err instanceof TypeError ? 'TypeError (posible CORS)' : typeof err,
+            });
+            throw err;
+          }
+        };
+
         const [resProfesiones, resDisponibilidades, resIdiomas, resCategorias, resCiudades] = await Promise.all([
-          fetch(getApiUrl(endpoints.profesiones), { headers: apiHeaders }),
-          fetch(getApiUrl(endpoints.disponibilidades), { headers: apiHeaders }),
-          fetch(getApiUrl(endpoints.idiomas), { headers: apiHeaders }),
-          fetch(getApiUrl(endpoints.categorias), { headers: apiHeaders }),
-          fetch(getApiUrl(endpoints.ciudades), { headers: apiHeaders })
+          fetchEndpoint(getApiUrl(endpoints.profesiones), 'profesiones'),
+          fetchEndpoint(getApiUrl(endpoints.disponibilidades), 'disponibilidades'),
+          fetchEndpoint(getApiUrl(endpoints.idiomas), 'idiomas'),
+          fetchEndpoint(getApiUrl(endpoints.categorias), 'categorias'),
+          fetchEndpoint(getApiUrl(endpoints.ciudades), 'ciudades')
         ]);
 
         console.log('[BeRelator] Respuestas recibidas:', {
@@ -391,11 +410,40 @@ const BeRelator = () => {
 
         console.log('[BeRelator] ✓ Carga de selectores completada exitosamente');
       } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        const isCORSError =
+          errorMessage.includes('Failed to fetch') ||
+          errorMessage.includes('fetch') ||
+          (error instanceof TypeError && errorMessage.includes('Failed'));
+
         console.error("[BeRelator] ✗ Error al cargar los selectores:", {
-          error: error instanceof Error ? error.message : String(error),
+          error: errorMessage,
+          isCORSError: isCORSError ? 'PROBABLE (Failed to fetch generalmente es CORS)' : 'No identificado',
+          possibleCauses: isCORSError ? [
+            'El backend en tms.insecap.cl no permite CORS desde ' + window.location.origin,
+            'El servidor rechaza requests sin autenticación',
+            'El header ngrok-skip-browser-warning es rechazado',
+            'Certificado SSL inválido o no confiable'
+          ] : [
+            'Error de red',
+            'Servidor no disponible',
+            'Timeout'
+          ],
+          domainInfo: {
+            currentDomain: window.location.origin,
+            apiDomain: 'https://tms.insecap.cl',
+            crossOrigin: window.location.origin !== 'https://tms.insecap.cl'
+          },
           stack: error instanceof Error ? error.stack : undefined,
           timestamp: new Date().toISOString(),
         });
+
+        // Log adicional para debugging
+        console.warn('[BeRelator] DEBUGGING INFO:');
+        console.warn('1. Si ves "Failed to fetch", es un error CORS');
+        console.warn('2. Verifica que tms.insecap.cl tenga CORS habilitado');
+        console.warn('3. Debe permitir requests desde:', window.location.origin);
+        console.warn('4. Abre DevTools → Network y recarga para ver el estado de los requests');
       }
     };
 
