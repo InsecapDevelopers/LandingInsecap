@@ -226,7 +226,7 @@ const teamByArea: TeamArea[] = [
       },
       {
         name: 'Jeinmy Carvajal Diaz',
-        role: 'COORDINADORA LOGÍSTICA',
+        role: 'COORDINACIÓN LOGÍSTICA',
         email: 'jcarvajal@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/JeinmyWEBP.webp?v=1781197273',
         location: 'Calama'
