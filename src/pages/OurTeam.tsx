@@ -99,7 +99,7 @@ const teamByArea: TeamArea[] = [
         name: 'Gabriela Hormazabal Cerda',
         role: 'COBRANZAS',
         email: 'ghormazabal@insecap.cl',
-        photo: 'https://cdn.shopify.com/videos/c/o/v/d5d9027a2da54c8ba2fd3bc129f0914e.mp4'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GabrielaWEBP.webp?v=1781196357'
       },
     ]
   },
@@ -122,18 +122,18 @@ const teamByArea: TeamArea[] = [
         name: 'Johnson Valencia Rivera',
         role: 'ANALISTA SELECCIÓN Y DESARROLLO DE FACILITADORES',
         email: 'jvalencia@insecap.cl',
-        photo: 'https://cdn.shopify.com/videos/c/o/v/2467eb7a312f42e6b889c5bd420c78f4.mp4'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/JohnsonWEBP.webp?v=1781196190'
       },
     ]
   },
   {
-    area: 'Calidad y Servicio & Área Técnica',
+    area: 'Diseño de Cursos',
     members: [
       {
-        name: 'César Velásquez Mata',
-        role: 'JEFE DE CALIDAD Y SERVICIOS',
-        email: 'cvelasquez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cesar_COMP.webp?v=1769089936'
+        name: 'Eduardo Ramírez Pizarro',
+        role: 'DISEÑADOR CURRICULAR',
+        email: 'eramirez@insecap.cl',
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Eduardo_Ramirez_COMP.webp?v=1769089936'
       },
       {
         name: 'Franco Picón Viza',
@@ -142,10 +142,10 @@ const teamByArea: TeamArea[] = [
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Franco.webp?v=1769089386'
       },
       {
-        name: 'Eduardo Ramírez Pizarro',
-        role: 'DISEÑADOR CURRICULAR',
-        email: 'eramirez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Eduardo_Ramirez_COMP.webp?v=1769089936'
+        name: 'Jeisy Aravena Ortiz',
+        role: 'DISEÑADORA EDITORIAL',
+        email: 'jaravena@insecap.cl',
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Jeisy_Aravena_2025.webp?v=1769089936'
       },
       {
         name: 'Marian Brito Mata',
@@ -154,16 +154,22 @@ const teamByArea: TeamArea[] = [
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Marian_COMP.webp?v=1769089936'
       },
       {
-        name: 'Jeisy Aravena Ortiz',
-        role: 'DISEÑADORA EDITORIAL',
-        email: 'jaravena@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Jeisy_Aravena_2025.webp?v=1769089936'
+        name: 'Cecilia Panozo Díaz',
+        role: 'DISEÑADORA INSTRUCCIONAL',
+        email: 'cpanozo@insecap.cl',
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/CeciliaWEBP.webp?v=1781196023'
       },
     ]
   },
   {
     area: 'Servicio Presencial',
     members: [
+      {
+        name: 'César Velásquez Mata',
+        role: 'JEFE DE CALIDAD Y SERVICIOS',
+        email: 'cvelasquez@insecap.cl',
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cesar_COMP.webp?v=1769089936'
+      },
       {
         name: 'Francisco José Arguinzones Carvajal',
         role: 'COORDINACIÓN LOGÍSTICA',
