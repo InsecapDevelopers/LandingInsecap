@@ -89,17 +89,46 @@ const teamByArea: TeamArea[] = [
         email: 'krojas@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karla.webp?v=1769089386'
       },
+      {
+        name: 'Alexis Rodríguez Lobos',
+        role: 'RECURSOS HUMANOS',
+        email: 'arodriguez@insecap.cl',
+        photo: 'https://cdn.shopify.com/videos/c/o/v/2467eb7a312f42e6b889c5bd420c78f4.mp4'
+      },
+      {
+        name: 'Gabriela Hormazabal Cerda',
+        role: 'COBRANZAS',
+        email: 'ghormazabal@insecap.cl',
+        photo: 'https://cdn.shopify.com/videos/c/o/v/d5d9027a2da54c8ba2fd3bc129f0914e.mp4'
+      },
+    ]
+  },
+  {
+    area: 'Desarrollo de Cursos',
+    members: [
+      {
+        name: 'Liliana Herrera Altamirano',
+        role: 'LÍDER DE DESARROLLO',
+        email: 'lherrera@insecap.cl',
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lili.webp?v=1769089386'
+      },
+      {
+        name: 'Jorge Muñoz',
+        role: 'TUTOR DE DESARROLLO DE FACILITADORES',
+        email: 'jmunoz@insecap.cl',
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Jorge.webp?v=1769089386'
+      },
+      {
+        name: 'Johnson Valencia Rivera',
+        role: 'ANALISTA SELECCIÓN Y DESARROLLO DE FACILITADORES',
+        email: 'jvalencia@insecap.cl',
+        photo: 'https://cdn.shopify.com/videos/c/o/v/2467eb7a312f42e6b889c5bd420c78f4.mp4'
+      },
     ]
   },
   {
     area: 'Calidad y Servicio & Área Técnica',
     members: [
-      {
-        name: 'Liliana Herrera Altamirano',
-        role: 'LÍDER DE DESARROLLO', //  DE CURSOS
-        email: 'lherrera@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lili.webp?v=1769089386'
-      },
       {
         name: 'César Velásquez Mata',
         role: 'JEFE DE CALIDAD Y SERVICIOS',
@@ -117,12 +146,6 @@ const teamByArea: TeamArea[] = [
         role: 'DISEÑADOR CURRICULAR',
         email: 'eramirez@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Eduardo_Ramirez_COMP.webp?v=1769089936'
-      },
-      {
-        name: 'Jorge Muñoz',
-        role: 'TUTOR DE DESARROLLO DE FACILITADORES',
-        email: 'jmunoz@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Jorge.webp?v=1769089386'
       },
       {
         name: 'Marian Brito Mata',
@@ -380,6 +403,7 @@ const OurTeam = () => {
     Gerencia: content.management,
     'Área Comercial': locale === 'en' ? 'Commercial Area' : locale === 'pt' ? 'Área Comercial' : 'Área Comercial',
     'RRHH & FINANZAS': locale === 'en' ? 'HR & Finance' : locale === 'pt' ? 'RH e Financas' : 'RRHH y Finanzas',
+    'Desarrollo de Cursos': locale === 'en' ? 'Course Development' : locale === 'pt' ? 'Desenvolvimento de Cursos' : 'Desarrollo de Cursos',
     'Calidad y Servicio & Área Técnica': locale === 'en' ? 'Quality, Service & Technical Area' : locale === 'pt' ? 'Qualidade, Serviço e Área Técnica' : 'Calidad y Servicio y Área Técnica',
     'Servicio Presencial': locale === 'en' ? 'On-site Service' : locale === 'pt' ? 'Serviço Presencial' : 'Servicio Presencial',
     'Mantención': locale === 'en' ? 'Maintenance' : locale === 'pt' ? 'Manutenção' : 'Mantención',
