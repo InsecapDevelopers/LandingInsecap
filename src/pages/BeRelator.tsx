@@ -18,8 +18,6 @@ const formatOptionLabel = (option: any) => {
   return option.nombre + (option.comuna ? ` (${option.comuna}, ${option.region})` : '');
 };
 
-const getPublicApiBaseUrl = () => import.meta.env.VITE_TMS_API_URL ?? '';
-
 // --- Subcomponente para los Selects con buscador ---
 const SearchableSelect = ({ label, options, value, onChange, placeholder = "Selecciona..." }: {
   label: string, 
@@ -229,14 +227,13 @@ const BeRelator = () => {
 
   useEffect(() => {
     const fetchSelects = async () => {
-      const baseUrl = getPublicApiBaseUrl();
       try {
         const [resProfesiones, resDisponibilidades, resIdiomas, resCategorias, resCiudades] = await Promise.all([
-          fetch(`${baseUrl}/api/publica/profesiones`),
-          fetch(`${baseUrl}/api/publica/disponibilidades`),
-          fetch(`${baseUrl}/api/publica/idiomas`),
-          fetch(`${baseUrl}/api/publica/categorias`),
-          fetch(`${baseUrl}/api/publica/ciudades`)
+          fetch('/api/publica/profesiones'),
+          fetch('/api/publica/disponibilidades'),
+          fetch('/api/publica/idiomas'),
+          fetch('/api/publica/categorias'),
+          fetch('/api/publica/ciudades')
         ]);
 
         const parseData = async (res: Response) => {
@@ -379,14 +376,14 @@ const BeRelator = () => {
       if (cvFile) body.append('ArchivoBase', cvFile, cvFile.name);
 
       console.group(`[LANDING][POSTULAR] >>> Nueva postulación: ${formData.rut.trim()} - ${formData.nombre.trim()}`);
-      console.log("URL de destino:", `${getPublicApiBaseUrl()}/api/publica/postular`);
+      console.log("URL de destino:", `/api/publica/postular`);
       const payloadLog: any = {};
       for (const [key, value] of body.entries()) {
         payloadLog[key] = value instanceof File ? `File: ${value.name} (${value.size} bytes)` : value;
       }
       console.log("Payload (FormData):", payloadLog);
 
-      const response = await fetch(`${getPublicApiBaseUrl()}/api/publica/postular`, {
+      const response = await fetch(`/api/publica/postular`, {
         method: 'POST',
         body,
       });
