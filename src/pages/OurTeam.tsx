@@ -30,13 +30,15 @@ const teamByArea: TeamArea[] = [
         name: 'Marcela Riquelme Robles',
         role: 'GERENTE DE OPERACIONES',
         email: 'mriquelme@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Marcela_Riquelme.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Marcela_Riquelme.webp?v=1769089386',
+        location: 'Transversal'
       },
       {
         name: 'Santiago Henriquez Romero',
         role: 'GERENTE GENERAL',
         email: 'shenriquez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Santiago_Henriquez.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Santiago_Henriquez.webp?v=1769089386',
+        location: 'Transversal'
       },
     ]
   },
@@ -185,7 +187,7 @@ const teamByArea: TeamArea[] = [
         role: 'JEFE DE CALIDAD Y SERVICIOS',
         email: 'cvelasquez@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cesar_COMP.webp?v=1769089936',
-        location: 'Antofagasta, Santiago'
+        location: 'Antofagasta - Santiago'
       },
       {
         name: 'Francisco José Arguinzones Carvajal',
@@ -199,7 +201,7 @@ const teamByArea: TeamArea[] = [
         role: 'GESTIÓN POST CURSO',
         email: 'pdelgado@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/paola_delgado.webp?v=1769089386',
-        location: 'Antofagasta, Santiago'
+        location: 'Antofagasta - Santiago'
       },
       {
         name: 'Andrea Araneda Arevena',
@@ -321,7 +323,7 @@ const teamByArea: TeamArea[] = [
         role: 'INFRAESTRUCTURA TI',
         email: 'rmorales@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Renato_-_copia.webp?v=1776264169',
-        location: 'Calama'
+        location: 'Antofagasta - Calama'
       }
     ]
   },
