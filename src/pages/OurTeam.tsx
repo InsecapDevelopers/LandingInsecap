@@ -1,3 +1,4 @@
+import React from 'react';
 import { Mail } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -410,6 +411,14 @@ const MemberCard = ({ member, delay = 0, contactLabel }: { member: TeamMember; d
 const AreaSection = ({ area, contactLabel }: { area: TeamArea; contactLabel: string }) => {
   const anim = useStaggerAnimation({ threshold: 0.12 });
   const headerAnim = useScrollAnimation({ threshold: 0.2 });
+  const [hasAnimated, setHasAnimated] = React.useState(false);
+
+  React.useEffect(() => {
+    if (anim.isVisible && !hasAnimated) {
+      setHasAnimated(true);
+    }
+  }, [anim.isVisible, hasAnimated]);
+
   return (
     <div>
       <div
@@ -423,8 +432,8 @@ const AreaSection = ({ area, contactLabel }: { area: TeamArea; contactLabel: str
         {area.members.map((member, i) => (
           <div
             key={i}
-            className={`transition-all duration-500 ease-out ${anim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-            style={{ transitionDelay: anim.isVisible ? `${i * 80}ms` : '0ms' }}
+            className={`transition-all duration-500 ease-out ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            style={{ transitionDelay: hasAnimated ? `${i * 80}ms` : '0ms' }}
           >
             <MemberCard member={member} contactLabel={contactLabel} />
           </div>
@@ -439,6 +448,13 @@ const OurTeam = () => {
   const introAnim    = useScrollAnimation({ threshold: 0.2 });
   const descAnim     = useScrollAnimation({ threshold: 0.15 });
   const gerenciaAnim = useStaggerAnimation({ threshold: 0.15 });
+  const [hasAnimatedGerencia, setHasAnimatedGerencia] = React.useState(false);
+
+  React.useEffect(() => {
+    if (gerenciaAnim.isVisible && !hasAnimatedGerencia) {
+      setHasAnimatedGerencia(true);
+    }
+  }, [gerenciaAnim.isVisible, hasAnimatedGerencia]);
 
   const content = {
     es: {
@@ -545,8 +561,8 @@ const OurTeam = () => {
               {displayAreas[0].members.map((member, i) => (
                 <div
                   key={i}
-                  className={`transition-all duration-500 ease-out ${gerenciaAnim.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-                  style={{ transitionDelay: gerenciaAnim.isVisible ? `${i * 120}ms` : '0ms' }}
+                  className={`transition-all duration-500 ease-out ${hasAnimatedGerencia ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  style={{ transitionDelay: hasAnimatedGerencia ? `${i * 120}ms` : '0ms' }}
                 >
                   <MemberCard member={member} contactLabel={content.contact} />
                 </div>
