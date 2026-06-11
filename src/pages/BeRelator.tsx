@@ -18,6 +18,15 @@ const formatOptionLabel = (option: any) => {
   return option.nombre + (option.comuna ? ` (${option.comuna}, ${option.region})` : '');
 };
 
+const getApiUrl = (endpoint: string) => {
+  const baseUrl = import.meta.env.VITE_TMS_API_URL;
+  // In production, use full URL; in development, use relative path (proxied by Vite)
+  if (import.meta.env.PROD) {
+    return `${baseUrl}${endpoint}`;
+  }
+  return endpoint;
+};
+
 // --- Subcomponente para los Selects con buscador ---
 const SearchableSelect = ({ label, options, value, onChange, placeholder = "Selecciona..." }: {
   label: string, 
@@ -229,11 +238,11 @@ const BeRelator = () => {
     const fetchSelects = async () => {
       try {
         const [resProfesiones, resDisponibilidades, resIdiomas, resCategorias, resCiudades] = await Promise.all([
-          fetch('/api/publica/profesiones'),
-          fetch('/api/publica/disponibilidades'),
-          fetch('/api/publica/idiomas'),
-          fetch('/api/publica/categorias'),
-          fetch('/api/publica/ciudades')
+          fetch(getApiUrl('/api/publica/profesiones')),
+          fetch(getApiUrl('/api/publica/disponibilidades')),
+          fetch(getApiUrl('/api/publica/idiomas')),
+          fetch(getApiUrl('/api/publica/categorias')),
+          fetch(getApiUrl('/api/publica/ciudades'))
         ]);
 
         const parseData = async (res: Response) => {
@@ -376,14 +385,14 @@ const BeRelator = () => {
       if (cvFile) body.append('ArchivoBase', cvFile, cvFile.name);
 
       console.group(`[LANDING][POSTULAR] >>> Nueva postulación: ${formData.rut.trim()} - ${formData.nombre.trim()}`);
-      console.log("URL de destino:", `/api/publica/postular`);
+      console.log("URL de destino:", getApiUrl('/api/publica/postular'));
       const payloadLog: any = {};
       for (const [key, value] of body.entries()) {
         payloadLog[key] = value instanceof File ? `File: ${value.name} (${value.size} bytes)` : value;
       }
       console.log("Payload (FormData):", payloadLog);
 
-      const response = await fetch(`/api/publica/postular`, {
+      const response = await fetch(getApiUrl('/api/publica/postular'), {
         method: 'POST',
         body,
       });
