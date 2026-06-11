@@ -13,6 +13,7 @@ interface TeamMember {
   role: string;
   email?: string;
   photo?: string;
+  location?: string;
 }
 
 interface TeamArea {
@@ -46,31 +47,36 @@ const teamByArea: TeamArea[] = [
         name: 'Karen Riquelme Robles',
         role: 'ASESOR COMERCIAL',
         email: 'Kriquelme@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karen_Riquelme.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karen_Riquelme.webp?v=1769089386',
+        location: 'Calama'
       },
       {
         name: 'Claudio Hervera Rojas',
         role: 'ASESOR COMERCIAL',
         email: 'chervera@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Claudio_Hervera_Rojas.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Claudio_Hervera_Rojas.webp?v=1769089386',
+        location: 'Talca'
       },
       {
         name: 'Michel Carvajal Carvacho',
         role: 'ASESOR COMERCIAL',
         email: 'mcarvajal@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Michel_Carvajal_COMP.webp?v=1769089936'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Michel_Carvajal_COMP.webp?v=1769089936',
+        location: 'Calama'
       },
       {
         name: 'Paola Rojas Medina',
         role: 'ASESOR COMERCIAL',
         email: 'projas@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Paola_Rojas_COMP.webp?v=1769089936'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Paola_Rojas_COMP.webp?v=1769089936',
+        location: 'Santiago'
       },
       {
         name: 'Natalie Galván Sierra',
         role: 'ASESOR COMERCIAL',
         email: 'ngalvan@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NatalieGalvanv2-ezgif.com-video-to-webp-converter.webp?v=1773344345'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NatalieGalvanv2-ezgif.com-video-to-webp-converter.webp?v=1773344345',
+        location: 'Antofagasta'
       },
     ]
   },
@@ -81,25 +87,28 @@ const teamByArea: TeamArea[] = [
         name: 'Javiera Montiel Riquelme',
         role: 'CONTROL DE CALIDAD Y FINANZAS',
         email: 'jmontiel@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Javiera_Montiel.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Javiera_Montiel.webp?v=1769089386',
+        location: 'Santiago'
       },
       {
         name: 'Karla Rojas Palomino',
         role: 'FACTURACIÓN',
         email: 'krojas@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karla.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karla.webp?v=1769089386',
+        location: 'Calama'
       },
-      {
-        name: 'Alexis Rodríguez Lobos',
-        role: 'RECURSOS HUMANOS',
-        email: 'arodriguez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/AlexisWEBP.webp?v=1781196862'
-      },
+      // {
+      //   name: 'Alexis Rodríguez Lobos',
+      //   role: 'RECURSOS HUMANOS',
+      //   email: 'arodriguez@insecap.cl',
+      //   photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/AlexisWEBP.webp?v=1781196862'
+      // },
       {
         name: 'Gabriela Hormazabal Cerda',
         role: 'COBRANZAS',
         email: 'ghormazabal@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GabrielaWEBP.webp?v=1781196357'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GabrielaWEBP.webp?v=1781196357',
+        location: 'Santiago'
       },
     ]
   },
@@ -110,19 +119,22 @@ const teamByArea: TeamArea[] = [
         name: 'Liliana Herrera Altamirano',
         role: 'LÍDER DE DESARROLLO',
         email: 'lherrera@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lili.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lili.webp?v=1769089386',
+        location: 'Antofagasta'
       },
       {
         name: 'Jorge Muñoz',
         role: 'TUTOR DE DESARROLLO DE FACILITADORES',
         email: 'jmunoz@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Jorge.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Jorge.webp?v=1769089386',
+        location: 'Temuco'
       },
       {
         name: 'Johnson Valencia Rivera',
         role: 'ANALISTA SELECCIÓN Y DESARROLLO DE FACILITADORES',
         email: 'jvalencia@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/JohnsonWEBP.webp?v=1781196190'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/JohnsonWEBP.webp?v=1781196190',
+        location: 'Antofagasta'
       },
     ]
   },
@@ -133,25 +145,29 @@ const teamByArea: TeamArea[] = [
         name: 'Eduardo Ramírez Pizarro',
         role: 'DISEÑADOR CURRICULAR',
         email: 'eramirez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Eduardo_Ramirez_COMP.webp?v=1769089936'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Eduardo_Ramirez_COMP.webp?v=1769089936',
+        location: 'Antofagasta'
       },
       {
         name: 'Franco Picón Viza',
         role: 'DISEÑADOR CURRICULAR',
         email: 'fpicon@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Franco.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Franco.webp?v=1769089386',
+        location: 'Antofagasta'
       },
       {
         name: 'Jeisy Aravena Ortiz',
         role: 'DISEÑADORA EDITORIAL',
         email: 'jaravena@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Jeisy_Aravena_2025.webp?v=1769089936'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Jeisy_Aravena_2025.webp?v=1769089936',
+        location: 'Antofagasta'
       },
       {
         name: 'Marian Brito Mata',
         role: 'DISEÑADORA EDITORIAL',
         email: 'mbrito@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Marian_COMP.webp?v=1769089936'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Marian_COMP.webp?v=1769089936',
+        location: 'Antofagasta'
       },
       // {
       //   name: 'Cecilia Panozo Díaz',
@@ -168,43 +184,50 @@ const teamByArea: TeamArea[] = [
         name: 'César Velásquez Mata',
         role: 'JEFE DE CALIDAD Y SERVICIOS',
         email: 'cvelasquez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cesar_COMP.webp?v=1769089936'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cesar_COMP.webp?v=1769089936',
+        location: 'Antofagasta, Santiago'
       },
       {
         name: 'Francisco José Arguinzones Carvajal',
-        role: 'COORDINACIÓN LOGÍSTICA',
+        role: 'SUPERVISOR DE SERVICIO PRESENCIAL',
         email: 'farguinzones@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Francisco.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Francisco.webp?v=1769089386',
+        location: 'Calama'
       },
       {
         name: 'Paola Delgado García',
         role: 'GESTIÓN POST CURSO',
         email: 'pdelgado@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/paola_delgado.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/paola_delgado.webp?v=1769089386',
+        location: 'Antofagasta, Santiago'
       },
       {
         name: 'Andrea Araneda Arevena',
         role: 'COORDINACIÓN LOGÍSTICA',
         email: 'aaraneda@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/AndreaAranedaAravena.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/AndreaAranedaAravena.webp?v=1769089386',
+        location: 'Santiago'
       },
       {
         name: 'Yilia Molina Rivera',
         role: 'GESTIÓN POST CURSO',
         email: 'ymolina@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Yilia_ORIGINAL.webp?v=1769089937'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Yilia_ORIGINAL.webp?v=1769089937',
+        location: 'Calama'
       },
       {
         name: 'Nicolás Aguilar Monardes',
         role: 'COORDINACIÓN LOGÍSTICA',
         email: 'naguilar@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NicoA_543c82f6-186b-4bbb-90bf-acc011a13e5b.webp?v=1773348098'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NicoA_543c82f6-186b-4bbb-90bf-acc011a13e5b.webp?v=1773348098',
+        location: 'Antofagasta'
       },
       {
         name: 'Jeinmy Carvajal Diaz',
         role: 'COORDINADORA LOGÍSTICA',
         email: 'jcarvajal@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/JeinmyWEBP.webp?v=1781197273'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/JeinmyWEBP.webp?v=1781197273',
+        location: 'Calama'
       },
     ]
   },
@@ -215,27 +238,32 @@ const teamByArea: TeamArea[] = [
         name: 'Dilia Villegas Martínez',
         role: 'RECEPCIÓN',
         email: 'dvillegas@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Dilia_COMP.webp?v=1769089936'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Dilia_COMP.webp?v=1769089936',
+        location: 'Calama'
       },
       {
         name: 'Lucy Condorcett Anza',
         role: 'MANTENCIÓN',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lucy_Condorcet._con_Fondomp4.webp?v=1769090189'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lucy_Condorcet._con_Fondomp4.webp?v=1769090189',
+        location: 'Calama'
       },
       {
         name: 'Ana Rojas Chung',
         role: 'MANTENCIÓN',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ana_Rojas.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ana_Rojas.webp?v=1769089386',
+        location: 'Antofagasta'
       },
       {
         name: 'Ana Avalos Paz',
         role: 'MANTENCIÓN',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ana_Avalos_v2_ultraliviano.webp?v=1770235241'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ana_Avalos_v2_ultraliviano.webp?v=1770235241',
+        location: 'Calama'
       },
       {
         name: 'Karen Viatela Montoya',
         role: 'MANTENCIÓN',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karen_Viatela_4c04986b-8cdf-4129-8c28-d9eb07f437aa.webp?v=1773343569'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karen_Viatela_4c04986b-8cdf-4129-8c28-d9eb07f437aa.webp?v=1773343569',
+        location: 'Calama'
       },
     ]
   },
@@ -246,7 +274,8 @@ const teamByArea: TeamArea[] = [
         name: 'Mauricio Barrera Bravo',
         role: 'DISEÑADOR GRÁFICO',
         email: 'mbarrera@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Mau.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Mau.webp?v=1769089386',
+        location: 'Antofagasta'
       },
     ]
   },
@@ -257,7 +286,8 @@ const teamByArea: TeamArea[] = [
         name: 'Vanessa Castillo Suárez',
         role: 'SUPERVISORA DE CONEXIONES ONLINE',
         email: 'vcastillo@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Vanessa_Castillo_504ef7de-a946-4084-bb93-59209111834d.webp?v=1769089936'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Vanessa_Castillo_504ef7de-a946-4084-bb93-59209111834d.webp?v=1769089936',
+        location: 'Talca'
       },
     ]
   },
@@ -268,26 +298,30 @@ const teamByArea: TeamArea[] = [
         name: 'Wilson Carvajal Rozas',
         role: 'JEFE TICA',
         email: 'wcarvajal@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Wilson_Carvajal_v2.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Wilson_Carvajal_v2.webp?v=1769089386',
+        location: 'Antofagasta'
       },
       {
         name: 'Ernes Fuenzalida Tello',
         role: 'DESARROLLADOR DE SOFTWARE',
         email: 'efuenzalida@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ernes_Fuenzalida.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ernes_Fuenzalida.webp?v=1769089386',
+        location: 'Antofagasta'
       },
       {
         name: 'Luis Fernández Veroiza',
         role: 'ANALISTA PROGRAMADOR',
         email: 'lfernandez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Luis.webp?v=1769089386'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Luis.webp?v=1769089386',
+        location: 'Santiago'
       },
 
       {
         name: 'Renato Morales Constancio',
         role: 'INFRAESTRUCTURA TI',
         email: 'rmorales@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Renato_-_copia.webp?v=1776264169'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Renato_-_copia.webp?v=1776264169',
+        location: 'Calama'
       }
     ]
   },
@@ -357,9 +391,14 @@ const MemberCard = ({ member, delay = 0, contactLabel }: { member: TeamMember; d
         <h3 className="font-bold text-[#0c1a6b] text-base leading-tight mb-1">
           {member.name}
         </h3>
-        <p className="text-xs font-semibold text-[#485CC7] tracking-wide uppercase">
+        <p className="text-xs font-semibold text-[#485CC7] tracking-wide uppercase mb-2">
           {member.role}
         </p>
+        {member.location && (
+          <p className="text-xs text-slate-600">
+            {member.location}
+          </p>
+        )}
       </div>
     </div>
   );
