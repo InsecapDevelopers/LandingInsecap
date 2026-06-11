@@ -101,12 +101,6 @@ const teamByArea: TeamArea[] = [
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lili.webp?v=1769089386'
       },
       {
-        name: 'Viviana Zepeda Santibañez',
-        role: 'LÍDER DE DISEÑO DE CURSOS',
-        email: 'vzepeda@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Viviana_b5905a1a-d870-49a9-a502-f747011f3395.webp?v=1773348370',
-      },
-      {
         name: 'César Velásquez Mata',
         role: 'JEFE DE CALIDAD Y SERVICIOS',
         email: 'cvelasquez@insecap.cl',
