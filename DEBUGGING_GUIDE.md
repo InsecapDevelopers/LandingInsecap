@@ -7,6 +7,18 @@
 3. **Ve a la pestaña "Console"**
 4. **Filtra por `[BeRelator`** en la barra de búsqueda de la consola
 
+## Errores más comunes (Quick Reference)
+
+| Error | Síntoma | Causa probable | Solución |
+|-------|---------|----------------|----------|
+| **Failed to fetch** | No aparece en Network tab | CORS bloqueado | Revisar configuración CORS del backend |
+| **<!doctype html>** | JSON parsing error | API devuelve página de error | Verificar que API esté disponible |
+| **404 Not Found** | Status 404 en Network | Endpoint incorrecto | Revisar URL del endpoint |
+| **500 Internal Server Error** | Status 500 en Network | Error del backend | Revisar logs del servidor |
+| **0 (cancel)** | Request cancelado | Timeout o navegación interrumpida | Reintentar |
+
+---
+
 ## Qué buscar
 
 ### ✓ Flujo correcto de carga de selectores
@@ -23,6 +35,58 @@ Deberías ver estos logs en orden:
 ```
 
 Si ves esto, **TODO FUNCIONA CORRECTAMENTE** ✅
+
+---
+
+### ✗ Error: "Failed to fetch" (CORS ERROR) ⚠️
+
+**Síntoma en consola:**
+```
+[BeRelator] Iniciando carga de selectores...
+[BeRelator] URLs finales: { profesiones: 'https://tms.insecap.cl/api/publica/profesiones', ... }
+[BeRelator] ✗ Error al cargar los selectores: {
+  error: 'Failed to fetch',
+  isCORSError: 'PROBABLE (Failed to fetch generalmente es CORS)',
+  possibleCauses: [
+    'El backend en tms.insecap.cl no permite CORS desde https://insecap.cl',
+    'El servidor rechaza requests sin autenticación',
+    'El header ngrok-skip-browser-warning es rechazado',
+    'Certificado SSL inválido o no confiable'
+  ]
+}
+```
+
+**¿Qué es CORS?**
+CORS (Cross-Origin Resource Sharing) es un mecanismo de seguridad del navegador que impide que un sitio en un dominio llame a un API en otro dominio sin permiso.
+
+- 🔴 **Dominio del sitio (frontend):** `https://insecap.cl`
+- 🔴 **Dominio del API (backend):** `https://tms.insecap.cl`
+- ❌ Diferentes dominios = Necesita CORS
+
+**Solución - El equipo de backend debe:**
+
+1. **Habilitar CORS en tms.insecap.cl**
+   ```
+   Access-Control-Allow-Origin: https://insecap.cl
+   Access-Control-Allow-Methods: GET, POST, OPTIONS
+   Access-Control-Allow-Headers: Content-Type, ngrok-skip-browser-warning, User-Agent
+   ```
+
+2. **O alternativamente:** Usar un proxy en el mismo dominio
+   - En lugar de llamar a `https://tms.insecap.cl/api/...`
+   - Llamar a `https://insecap.cl/api/...` (que proxea a tms.insecap.cl)
+
+3. **Verificar el certificado SSL**
+   - Abre `https://tms.insecap.cl` en el navegador
+   - ¿Muestra advertencia de certificado?
+   - Si sí, revisa el certificado con el equipo de IT
+
+**Pasos para verificar:**
+1. Abre DevTools (F12) → **Network**
+2. Recarga la página
+3. Busca un request a `tms.insecap.cl`
+4. Si no aparece ninguno = **CORS error** (el navegador bloqueó antes de enviar)
+5. Si aparece pero devuelve error = Otro problema
 
 ---
 
