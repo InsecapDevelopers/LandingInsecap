@@ -20,11 +20,17 @@ const formatOptionLabel = (option: any) => {
 
 const getApiUrl = (endpoint: string) => {
   const baseUrl = import.meta.env.VITE_TMS_API_URL;
-  // In production, use full URL; in development, use relative path (proxied by Vite)
-  if (import.meta.env.PROD) {
-    return `${baseUrl}${endpoint}`;
-  }
-  return endpoint;
+  const isProd = import.meta.env.PROD;
+  const url = isProd ? `${baseUrl}${endpoint}` : endpoint;
+
+  console.log('[BeRelator] getApiUrl:', {
+    isProd,
+    baseUrl,
+    endpoint,
+    finalUrl: url,
+  });
+
+  return url;
 };
 
 const apiHeaders = {
@@ -241,44 +247,119 @@ const BeRelator = () => {
 
   useEffect(() => {
     const fetchSelects = async () => {
+      console.log('[BeRelator] Iniciando carga de selectores...');
+      console.log('[BeRelator] Ambiente:', { PROD: import.meta.env.PROD, MODE: import.meta.env.MODE });
+      console.log('[BeRelator] Headers a usar:', apiHeaders);
+
       try {
+        const endpoints = {
+          profesiones: '/api/publica/profesiones',
+          disponibilidades: '/api/publica/disponibilidades',
+          idiomas: '/api/publica/idiomas',
+          categorias: '/api/publica/categorias',
+          ciudades: '/api/publica/ciudades',
+        };
+
+        console.log('[BeRelator] URLs finales:', {
+          profesiones: getApiUrl(endpoints.profesiones),
+          disponibilidades: getApiUrl(endpoints.disponibilidades),
+          idiomas: getApiUrl(endpoints.idiomas),
+          categorias: getApiUrl(endpoints.categorias),
+          ciudades: getApiUrl(endpoints.ciudades),
+        });
+
         const [resProfesiones, resDisponibilidades, resIdiomas, resCategorias, resCiudades] = await Promise.all([
-          fetch(getApiUrl('/api/publica/profesiones'), { headers: apiHeaders }),
-          fetch(getApiUrl('/api/publica/disponibilidades'), { headers: apiHeaders }),
-          fetch(getApiUrl('/api/publica/idiomas'), { headers: apiHeaders }),
-          fetch(getApiUrl('/api/publica/categorias'), { headers: apiHeaders }),
-          fetch(getApiUrl('/api/publica/ciudades'), { headers: apiHeaders })
+          fetch(getApiUrl(endpoints.profesiones), { headers: apiHeaders }),
+          fetch(getApiUrl(endpoints.disponibilidades), { headers: apiHeaders }),
+          fetch(getApiUrl(endpoints.idiomas), { headers: apiHeaders }),
+          fetch(getApiUrl(endpoints.categorias), { headers: apiHeaders }),
+          fetch(getApiUrl(endpoints.ciudades), { headers: apiHeaders })
         ]);
 
-        const parseData = async (res: Response) => {
+        console.log('[BeRelator] Respuestas recibidas:', {
+          profesiones: { ok: resProfesiones.ok, status: resProfesiones.status, statusText: resProfesiones.statusText, contentType: resProfesiones.headers.get('content-type') },
+          disponibilidades: { ok: resDisponibilidades.ok, status: resDisponibilidades.status, statusText: resDisponibilidades.statusText, contentType: resDisponibilidades.headers.get('content-type') },
+          idiomas: { ok: resIdiomas.ok, status: resIdiomas.status, statusText: resIdiomas.statusText, contentType: resIdiomas.headers.get('content-type') },
+          categorias: { ok: resCategorias.ok, status: resCategorias.status, statusText: resCategorias.statusText, contentType: resCategorias.headers.get('content-type') },
+          ciudades: { ok: resCiudades.ok, status: resCiudades.status, statusText: resCiudades.statusText, contentType: resCiudades.headers.get('content-type') },
+        });
+
+        const parseData = async (res: Response, endpoint: string) => {
+          console.log(`[BeRelator] Parseando ${endpoint}...`);
+
           if (!res.ok) {
+            const errorText = await res.text();
+            console.error(`[BeRelator] ERROR ${endpoint} - Status: ${res.status} ${res.statusText}`, {
+              status: res.status,
+              statusText: res.statusText,
+              contentType: res.headers.get('content-type'),
+              responseStart: errorText.substring(0, 300),
+            });
             throw new Error(`API error: ${res.status} ${res.statusText}`);
           }
+
           try {
-            const json = await res.json();
-            return json.data || json;
+            const text = await res.text();
+            console.log(`[BeRelator] Respuesta de ${endpoint} (primeros 500 chars):`, text.substring(0, 500));
+
+            const json = JSON.parse(text);
+            const data = json.data || json;
+
+            console.log(`[BeRelator] ${endpoint} parseado exitosamente:`, {
+              hasData: !!data,
+              isArray: Array.isArray(data),
+              length: Array.isArray(data) ? data.length : 'N/A',
+              firstItem: Array.isArray(data) && data.length > 0 ? data[0] : null,
+            });
+
+            return data;
           } catch (e) {
-            const text = await res.clone().text();
-            console.error('Failed to parse JSON, response:', text.substring(0, 200));
-            throw new Error('Invalid JSON response from API');
+            console.error(`[BeRelator] ERROR parseando JSON de ${endpoint}:`, {
+              error: e instanceof Error ? e.message : String(e),
+              responseLength: (await res.clone().text()).length,
+              responseSample: (await res.clone().text()).substring(0, 300),
+            });
+            throw new Error(`Invalid JSON response from ${endpoint}: ${e instanceof Error ? e.message : String(e)}`);
           }
         };
 
-        if (resProfesiones.ok) setProfesiones(await parseData(resProfesiones));
-        if (resDisponibilidades.ok) setDisponibilidades(await parseData(resDisponibilidades));
+        if (resProfesiones.ok) {
+          const data = await parseData(resProfesiones, 'profesiones');
+          setProfesiones(data);
+          console.log('[BeRelator] setProfesiones llamado con', data.length, 'items');
+        } else {
+          console.warn('[BeRelator] profesiones no OK:', resProfesiones.status);
+        }
+
+        if (resDisponibilidades.ok) {
+          const data = await parseData(resDisponibilidades, 'disponibilidades');
+          setDisponibilidades(data);
+          console.log('[BeRelator] setDisponibilidades llamado con', data.length, 'items');
+        } else {
+          console.warn('[BeRelator] disponibilidades no OK:', resDisponibilidades.status);
+        }
+
         if (resIdiomas.ok) {
-          const fetchedIdiomas = await parseData(resIdiomas);
+          const fetchedIdiomas = await parseData(resIdiomas, 'idiomas');
           setIdiomas(fetchedIdiomas);
+          console.log('[BeRelator] setIdiomas llamado con', fetchedIdiomas.length, 'items');
+
           // Set Español por defecto si existe y no hay nada seleccionado
           if (Array.isArray(fetchedIdiomas)) {
             const espanol = fetchedIdiomas.find(i => i.nombre?.trim().toLowerCase() === 'español' || i.nombre?.trim().toLowerCase() === 'espanol');
             if (espanol) {
+              console.log('[BeRelator] Español encontrado, ID:', espanol.id);
               setSelectedIdiomaIds(prev => prev.length === 0 ? [String(espanol.id)] : prev);
+            } else {
+              console.warn('[BeRelator] Español no encontrado en idiomas');
             }
           }
+        } else {
+          console.warn('[BeRelator] idiomas no OK:', resIdiomas.status);
         }
+
         if (resCategorias.ok) {
-          const catData = await parseData(resCategorias);
+          const catData = await parseData(resCategorias, 'categorias');
           if (Array.isArray(catData)) {
             const excluded = ['Pre-Contrato', 'Recertificaciones de Capacitación', 'Miscellaneous'];
             const seen = new Set();
@@ -290,14 +371,31 @@ const BeRelator = () => {
               seen.add(name);
               return true;
             });
+            console.log('[BeRelator] setCategorias llamado con', filteredCat.length, 'items (original:', catData.length, ')');
             setCategorias(filteredCat);
           } else {
+            console.log('[BeRelator] setCategorias (no es array) llamado');
             setCategorias(catData);
           }
+        } else {
+          console.warn('[BeRelator] categorias no OK:', resCategorias.status);
         }
-        if (resCiudades.ok) setCiudades(await parseData(resCiudades));
+
+        if (resCiudades.ok) {
+          const data = await parseData(resCiudades, 'ciudades');
+          setCiudades(data);
+          console.log('[BeRelator] setCiudades llamado con', data.length, 'items');
+        } else {
+          console.warn('[BeRelator] ciudades no OK:', resCiudades.status);
+        }
+
+        console.log('[BeRelator] ✓ Carga de selectores completada exitosamente');
       } catch (error) {
-        console.error("Error al cargar los selectores:", error);
+        console.error("[BeRelator] ✗ Error al cargar los selectores:", {
+          error: error instanceof Error ? error.message : String(error),
+          stack: error instanceof Error ? error.stack : undefined,
+          timestamp: new Date().toISOString(),
+        });
       }
     };
 
@@ -378,8 +476,10 @@ const BeRelator = () => {
   };
 
   const doSubmit = async () => {
+    console.log('[BeRelator.doSubmit] Iniciando submit del formulario...');
     setShowConfirm(false);
     setIsSubmitting(true);
+
     try {
       const body = new FormData();
       body.append('Nombre', formData.nombre.trim());
@@ -398,37 +498,75 @@ const BeRelator = () => {
       selectedIdiomaIds.forEach((idiomaId, index) => body.append(`IdsIdiomas[${index}]`, idiomaId));
       if (cvFile) body.append('ArchivoBase', cvFile, cvFile.name);
 
-      console.group(`[LANDING][POSTULAR] >>> Nueva postulación: ${formData.rut.trim()} - ${formData.nombre.trim()}`);
-      console.log("URL de destino:", getApiUrl('/api/publica/postular'));
       const payloadLog: any = {};
       for (const [key, value] of body.entries()) {
         payloadLog[key] = value instanceof File ? `File: ${value.name} (${value.size} bytes)` : value;
       }
-      console.log("Payload (FormData):", payloadLog);
 
+      console.group('[BeRelator.doSubmit] Nueva postulación');
+      console.log('URL de destino:', getApiUrl('/api/publica/postular'));
+      console.log('Headers:', apiHeaders);
+      console.log('FormData:', payloadLog);
+      console.log('Ambiente:', { PROD: import.meta.env.PROD, MODE: import.meta.env.MODE });
+      console.groupEnd();
+
+      console.log('[BeRelator.doSubmit] Enviando fetch...');
       const response = await fetch(getApiUrl('/api/publica/postular'), {
         method: 'POST',
         headers: apiHeaders,
         body,
       });
 
-      console.log(`Response HTTP Status: ${response.status} ${response.statusText}`);
-      const result = await response.json().catch(() => null);
-      console.log("Response Body (JSON):", result);
-      console.groupEnd();
+      console.log('[BeRelator.doSubmit] Respuesta recibida:', {
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        contentType: response.headers.get('content-type'),
+      });
 
-      if (!response.ok || result?.error) {
+      let result: any = null;
+      try {
+        const responseText = await response.text();
+        console.log('[BeRelator.doSubmit] Respuesta texto (primeros 500 chars):', responseText.substring(0, 500));
+
+        result = JSON.parse(responseText);
+        console.log('[BeRelator.doSubmit] Respuesta JSON parseada:', result);
+      } catch (parseErr) {
+        console.error('[BeRelator.doSubmit] Error parseando respuesta JSON:', {
+          error: parseErr instanceof Error ? parseErr.message : String(parseErr),
+        });
+        result = null;
+      }
+
+      if (!response.ok) {
+        console.error('[BeRelator.doSubmit] ✗ Respuesta HTTP no OK:', {
+          status: response.status,
+          statusText: response.statusText,
+          result,
+        });
         toast({ variant: "destructive", title: content.errorTitle, description: result?.message || content.errorDesc });
         return;
       }
 
+      if (result?.error) {
+        console.error('[BeRelator.doSubmit] ✗ Backend retornó error:', result);
+        toast({ variant: "destructive", title: content.errorTitle, description: result?.message || content.errorDesc });
+        return;
+      }
+
+      console.log('[BeRelator.doSubmit] ✓ Postulación enviada exitosamente');
       setSubmitted(true);
       toast({ title: content.successTitle, description: result?.message || content.successDesc });
     } catch (err) {
-      console.error("[LANDING][POSTULAR] Exception al hacer fetch:", err);
+      console.error("[BeRelator.doSubmit] ✗ Exception al hacer fetch:", {
+        error: err instanceof Error ? err.message : String(err),
+        stack: err instanceof Error ? err.stack : undefined,
+        timestamp: new Date().toISOString(),
+      });
       toast({ variant: "destructive", title: content.errorTitle, description: content.errorDesc });
     } finally {
       setIsSubmitting(false);
+      console.log('[BeRelator.doSubmit] Submit completado');
     }
   };
 
