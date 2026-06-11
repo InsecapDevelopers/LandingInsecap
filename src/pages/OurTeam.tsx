@@ -93,7 +93,7 @@ const teamByArea: TeamArea[] = [
         name: 'Alexis Rodríguez Lobos',
         role: 'RECURSOS HUMANOS',
         email: 'arodriguez@insecap.cl',
-        photo: 'https://cdn.shopify.com/videos/c/o/v/2467eb7a312f42e6b889c5bd420c78f4.mp4'
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/AlexisWEBP.webp?v=1781196862'
       },
       {
         name: 'Gabriela Hormazabal Cerda',
@@ -153,12 +153,12 @@ const teamByArea: TeamArea[] = [
         email: 'mbrito@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Marian_COMP.webp?v=1769089936'
       },
-      {
-        name: 'Cecilia Panozo Díaz',
-        role: 'DISEÑADORA INSTRUCCIONAL',
-        email: 'cpanozo@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/CeciliaWEBP.webp?v=1781196023'
-      },
+      // {
+      //   name: 'Cecilia Panozo Díaz',
+      //   role: 'DISEÑADORA INSTRUCCIONAL',
+      //   email: 'cpanozo@insecap.cl',
+      //   photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/CeciliaWEBP.webp?v=1781196023'
+      // },
     ]
   },
   {
@@ -199,6 +199,12 @@ const teamByArea: TeamArea[] = [
         role: 'COORDINACIÓN LOGÍSTICA',
         email: 'naguilar@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NicoA_543c82f6-186b-4bbb-90bf-acc011a13e5b.webp?v=1773348098'
+      },
+      {
+        name: 'Jeinmy Carvajal Diaz',
+        role: 'COORDINADORA LOGÍSTICA',
+        email: 'jcarvajal@insecap.cl',
+        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/JeinmyWEBP.webp?v=1781197273'
       },
     ]
   },
