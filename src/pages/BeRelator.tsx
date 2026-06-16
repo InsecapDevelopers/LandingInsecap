@@ -33,10 +33,13 @@ const getApiUrl = (endpoint: string) => {
   return url;
 };
 
-const apiHeaders = {
-  'ngrok-skip-browser-warning': 'true',
-  'User-Agent': 'insecap-capacitaciones',
-};
+// Headers personalizados para el fetch del navegador. No incluir
+// 'ngrok-skip-browser-warning': en producción el navegador llama a
+// tms.insecap.cl directamente (sin túnel ngrok) y ese header no-simple
+// dispara un preflight que el servidor rechaza, bloqueando la petición por CORS.
+// El proxy de Vite (vite.config.ts) ya lo inyecta del lado del servidor en dev
+// cuando TMS_PROXY_TARGET apunta a un túnel ngrok.
+const apiHeaders: HeadersInit = {};
 
 // --- Subcomponente para los Selects con buscador ---
 const SearchableSelect = ({ label, options, value, onChange, placeholder = "Selecciona..." }: {
