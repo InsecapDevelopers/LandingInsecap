@@ -175,6 +175,17 @@ export const ShopifyProducts = ({
           data = await fetchProducts(limit, query);
         }
 
+        // ponytail: ocultar cursos Codelco en modalidad E-Asincrono
+        const norm = (s: string) =>
+          s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+        data = data.filter(
+          (p) =>
+            !(
+              norm(p.node.title).includes('codelco') &&
+              norm(p.node.productType || '').includes('asincrono')
+            )
+        );
+
         setProducts(data);
       } catch (err) {
         setError(t('shopify.loadError'));
