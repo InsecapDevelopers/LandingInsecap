@@ -238,13 +238,6 @@ const teamByArea: TeamArea[] = [
     area: 'Mantención',
     members: [
       {
-        name: 'Dilia Villegas Martínez',
-        role: 'RECEPCIÓN',
-        email: 'dvillegas@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Dilia_COMP.webp?v=1769089936',
-        location: 'Calama'
-      },
-      {
         name: 'Lucy Condorcett Anza',
         role: 'MANTENCIÓN',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lucy_Condorcet._con_Fondomp4.webp?v=1769090189',
