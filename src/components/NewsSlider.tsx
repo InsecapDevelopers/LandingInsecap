@@ -126,26 +126,108 @@ const NewsSlider: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
-      <div className="container mx-auto px-8 md:px-16 lg:px-20">
-        <div className="flex items-end justify-between mb-10">
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-insecap-cyan mb-2 block">
-              {t('blog.sectionBadge')}
-            </span>
-            <h2 className="text-3xl lg:text-4xl font-bold text-insecap-blue">
-              {t('blog.latestNews')}
-            </h2>
-          </div>
-          <Link
-            to={localizedPath('/noticias')}
-            className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-insecap-cyan hover:text-insecap-blue transition-colors group"
+    <section className="pb-16 bg-gradient-to-b from-slate-50 via-white to-gray-50 overflow-hidden">
+      {/* Banner full-width, sin bordes ni padding. overflow-visible para que las olas salgan hacia abajo */}
+      <div className="relative w-full bg-gradient-to-b from-slate-50 to-blue-50 h-[180px] md:h-[240px] mb-12">
+          {/* Olas azules: SVG propio que desborda el banner hacia abajo */}
+          <svg
+            className="pointer-events-none absolute right-0 top-0 h-[210%] w-[45%] overflow-visible"
+            viewBox="0 0 640 480"
+            preserveAspectRatio="xMaxYMin slice"
+            aria-hidden="true"
           >
-            {t('news.seeMore')}
-            <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
-          </Link>
+            <defs>
+              <linearGradient id="wave1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#dbeafe" />
+                <stop offset="100%" stopColor="#93c5fd" />
+              </linearGradient>
+              <linearGradient id="wave2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#60a5fa" />
+                <stop offset="100%" stopColor="#2563eb" />
+              </linearGradient>
+              <pattern id="dotsLight" width="34" height="34" patternUnits="userSpaceOnUse">
+                <circle cx="5" cy="5" r="5" fill="#ffffff" />
+              </pattern>
+            </defs>
+            <path
+              fill="url(#wave1)"
+              d="M60 -40 C240 130 120 340 320 520 L640 520 L640 -40 Z"
+              opacity="0.6"
+            />
+            <path
+              fill="url(#wave2)"
+              d="M260 -40 C440 150 320 360 520 520 L640 520 L640 -40 Z"
+            />
+            <rect x="480" y="120" width="120" height="120" fill="url(#dotsLight)" opacity="0.7" />
+          </svg>
+
+          {/* Fondo gráfico (elementos dentro del banner) */}
+          <svg
+            className="absolute inset-0 h-full w-full overflow-hidden"
+            viewBox="0 0 2136 480"
+            preserveAspectRatio="xMidYMid slice"
+            aria-hidden="true"
+          >
+            <defs>
+              <pattern id="dots" width="34" height="34" patternUnits="userSpaceOnUse">
+                <circle cx="5" cy="5" r="5" fill="#bfdbfe" />
+              </pattern>
+            </defs>
+
+            {/* (grilla de puntos derecha ahora vive en el SVG de olas) */}
+            {/* Grilla de puntos inferior izquierda */}
+            <rect x="40" y="300" width="100" height="120" fill="url(#dots)" opacity="0.7" />
+
+            {/* Icono de cámara (arriba izquierda) */}
+            <g fill="#e2e8f0">
+              <rect x="30" y="130" width="110" height="76" rx="16" />
+              <path d="M140 152 L192 128 L192 208 L140 184 Z" />
+            </g>
+
+            {/* Placeholders de tarjetas de blog (abajo) */}
+            <g opacity="0.55">
+              {[240, 700, 1160].map((x) => (
+                <g key={x} transform={`translate(${x} 320)`}>
+                  <rect width="400" height="150" rx="14" fill="#eef2f7" />
+                  <rect x="20" y="20" width="130" height="90" rx="9" fill="#dbe4ee" />
+                  <rect x="170" y="24" width="190" height="13" rx="6" fill="#dbe4ee" />
+                  <rect x="170" y="50" width="160" height="11" rx="5" fill="#e5ebf2" />
+                  <rect x="170" y="72" width="180" height="11" rx="5" fill="#e5ebf2" />
+                  <rect x="170" y="94" width="110" height="11" rx="5" fill="#e5ebf2" />
+                </g>
+              ))}
+            </g>
+          </svg>
+
+          {/* Contenido real */}
+          <div className="absolute inset-0 z-10 flex items-center">
+            <div className="container mx-auto px-8 md:px-16 lg:px-20">
+              <span className="text-xs md:text-sm font-bold uppercase tracking-[0.25em] text-insecap-cyan mb-2 block">
+                {t('blog.sectionBadge')}
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-insecap-blue leading-tight">
+                {t('blog.latestNews')}
+              </h2>
+              <div className="h-1 w-16 bg-insecap-cyan rounded-full mt-3 md:mt-4" />
+              <Link
+                to={localizedPath('/noticias')}
+                className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-insecap-blue hover:text-insecap-cyan transition-colors group mt-4 md:mt-5"
+              >
+                {t('news.seeMore')}
+                <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Capin (imagen transparente) */}
+          <img
+            src="/CapinReportero.webp"
+            alt="Capin Reportero"
+            className="absolute bottom-0 right-[4%] lg:right-[8%] z-20 hidden h-[115%] w-auto object-contain md:block"
+          />
         </div>
 
+        <div className="container mx-auto px-8 md:px-16 lg:px-20">
         <div className="grid lg:grid-cols-5 gap-6">
           <div className="lg:col-span-3">
             {featuredArticle && (
