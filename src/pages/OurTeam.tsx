@@ -239,7 +239,7 @@ const teamByArea: TeamArea[] = [
     members: [
       {
         name: 'Lucy Condorcett Anza',
-        role: 'MANTENCIÓN',
+        role: 'RECEPCIÓN',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lucy_Condorcet._con_Fondomp4.webp?v=1769090189',
         location: 'Calama'
       },

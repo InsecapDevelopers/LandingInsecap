@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-// Importar estilos de Swiper
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 
 // Importar tipos y funciones de Shopify
 import { fetchBlogArticlesGraphQL, ShopifyArticle } from '@/lib/shopify';
 
 // Importar componentes UI
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
@@ -31,7 +21,7 @@ const NewsSlider: React.FC = () => {
     const loadArticles = async () => {
       try {
         setLoading(true);
-        const data = await fetchBlogArticlesGraphQL('noticias', 5);
+        const data = await fetchBlogArticlesGraphQL('noticias', 4);
         setArticles(data.articles);
         setError(null);
       } catch (err) {
@@ -69,29 +59,34 @@ const NewsSlider: React.FC = () => {
     return (
       <section className="py-16 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-8 md:px-16 lg:px-20">
-          {/* Header Skeleton */}
-          <div className="text-center mb-12">
-            <Skeleton className="h-6 w-32 mx-auto mb-4" />
-            <Skeleton className="h-10 w-64 mx-auto mb-4" />
-            <Skeleton className="h-5 w-96 mx-auto" />
+          <div className="mb-10">
+            <Skeleton className="h-4 w-32 mb-3" />
+            <Skeleton className="h-10 w-72" />
           </div>
 
-          {/* Card Skeleton */}
-          <div className="max-w-6xl mx-auto">
-            <Card className="overflow-hidden">
-              <CardContent className="p-0">
-                <div className="grid md:grid-cols-5 gap-0">
-                  <Skeleton className="h-[400px] md:col-span-2" />
-                  <div className="p-8 md:col-span-3 flex flex-col justify-center">
-                    <Skeleton className="h-6 w-40 mb-4" />
-                    <Skeleton className="h-8 w-full mb-3" />
-                    <Skeleton className="h-8 w-3/4 mb-4" />
-                    <Skeleton className="h-20 w-full mb-6" />
-                    <Skeleton className="h-10 w-32" />
+          <div className="grid lg:grid-cols-5 gap-6">
+            <div className="lg:col-span-3">
+              <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden animate-pulse h-full">
+                <Skeleton className="h-64 md:h-72 w-full" />
+                <div className="p-6 space-y-3">
+                  <Skeleton className="h-7 w-4/5" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-2/3" />
+                </div>
+              </div>
+            </div>
+            <div className="lg:col-span-2 flex flex-col gap-4">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="bg-white rounded-xl border border-gray-200 p-4 flex gap-4 animate-pulse">
+                  <Skeleton className="h-20 w-20 rounded-lg" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-3 w-24" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-3 w-2/3" />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -120,117 +115,146 @@ const NewsSlider: React.FC = () => {
     );
   }
 
+  const featuredArticle = articles[0];
+  const secondaryArticles = articles.slice(1, 4);
+
+  const getArticleCategory = (article: ShopifyArticle): string => {
+    if (article.blog?.handle) {
+      return article.blog.handle.replace(/-/g, ' ');
+    }
+    return t('blog.sectionBadge');
+  };
+
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
       <div className="container mx-auto px-8 md:px-16 lg:px-20">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <Badge variant="outline" className="mb-4 text-insecap-cyan border-insecap-cyan">
-            {t('blog.sectionBadge')}
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-blue-950 mb-4">
-            {t('blog.latestNews').split(' ')[0]} <span className="text-insecap-cyan">{t('blog.latestNews').split(' ').slice(1).join(' ')}</span>
-          </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            {t('blog.latestNewsDesc')}
-          </p>
+        <div className="flex items-end justify-between mb-10">
+          <div>
+            <span className="text-xs font-semibold uppercase tracking-widest text-insecap-cyan mb-2 block">
+              {t('blog.sectionBadge')}
+            </span>
+            <h2 className="text-3xl lg:text-4xl font-bold text-insecap-blue">
+              {t('blog.latestNews')}
+            </h2>
+          </div>
+          <Link
+            to={localizedPath('/noticias')}
+            className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-insecap-cyan hover:text-insecap-blue transition-colors group"
+          >
+            {t('news.seeMore')}
+            <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
+          </Link>
         </div>
 
-        {/* Swiper Slider */}
-        <div className="max-w-6xl mx-auto">
-          <Swiper
-            modules={[Autoplay, Pagination, Navigation]}
-            spaceBetween={30}
-            slidesPerView={1}
-            loop={true}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-            }}
-            navigation={true}
-            className="news-swiper [&_.swiper-button-next]:text-insecap-cyan [&_.swiper-button-prev]:text-insecap-cyan [&_.swiper-pagination-bullet-active]:bg-insecap-cyan [&_.swiper-button-next]:after:text-3xl [&_.swiper-button-prev]:after:text-3xl"
-          >
-            {articles.map((article) => (
-              <SwiperSlide key={article.id}>
-                <Card className="overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-0 mb-12">
-                  <CardContent className="p-0">
-                    {/* Layout Horizontal en Desktop, Vertical en Mobile */}
-                    <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
-                      {/* Imagen - 40% en desktop */}
-                      <div className="relative h-64 md:h-[400px] md:col-span-2 overflow-hidden bg-gradient-to-br from-insecap-blue to-insecap-cyan">
-                        {article.image ? (
-                          <img
-                            src={article.image.url}
-                            alt={article.image.altText || article.title}
-                            className="w-full h-full object-contain transition-transform duration-500 hover:scale-105"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-white">
-                            <div className="text-center">
-                              <Calendar className="w-16 h-16 mx-auto mb-2 opacity-50" />
-                              <p className="text-sm opacity-75">Sin imagen</p>
-                            </div>
-                          </div>
+        <div className="grid lg:grid-cols-5 gap-6">
+          <div className="lg:col-span-3">
+            {featuredArticle && (
+              <Link to={localizedPath(`/noticias/${featuredArticle.blog.handle}/${featuredArticle.handle}`)} className="group block h-full">
+                <div className="relative bg-white rounded-2xl overflow-hidden shadow-md border border-gray-200 hover:shadow-xl transition-all duration-300 h-full transform-gpu group-hover:-translate-y-1 group-hover:scale-[1.01]">
+                  <div className="relative overflow-hidden bg-white">
+                    {featuredArticle.image ? (
+                      <img
+                        src={featuredArticle.image.url}
+                        alt={featuredArticle.image.altText || featuredArticle.title}
+                        className="block w-full h-auto transition-transform duration-500 transform-gpu group-hover:scale-[1.03]"
+                        loading="lazy"
+                      />
+                    ) : null}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
+                    <span className="absolute top-4 left-4 text-xs font-semibold px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/30 uppercase">
+                      {getArticleCategory(featuredArticle)}
+                    </span>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-insecap-blue leading-snug mb-3 group-hover:text-insecap-cyan transition-colors line-clamp-2">
+                      {featuredArticle.title}
+                    </h3>
+                    <p className="text-gray-500 text-sm leading-relaxed mb-4 line-clamp-2">
+                      {featuredArticle.excerpt
+                        ? stripHtml(featuredArticle.excerpt)
+                        : truncateText(stripHtml(featuredArticle.contentHtml), 140)}
+                    </p>
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-4 text-xs text-gray-400 flex-wrap">
+                        <span className="flex items-center gap-1.5">
+                          <Calendar size={12} />
+                          {formatDate(featuredArticle.updatedAt ?? featuredArticle.publishedAt)}
+                        </span>
+                        {featuredArticle.authorV2?.name && (
+                          <span className="flex items-center gap-1.5">
+                            <User size={12} />
+                            {featuredArticle.authorV2.name}
+                          </span>
                         )}
                       </div>
-
-                      {/* Contenido - 60% en desktop */}
-                      <div className="p-8 md:p-10 md:col-span-3 flex flex-col justify-center">
-                        {/* Badge con fecha */}
-                        <div className="flex items-center gap-4 mb-4 flex-wrap">
-                          <Badge variant="secondary" className="flex items-center gap-1.5 bg-insecap-cyan/10 text-insecap-cyan border-0">
-                            <Calendar className="w-3.5 h-3.5" />
-                            {formatDate(article.updatedAt ?? article.publishedAt)}
-                          </Badge>
-                        </div>
-
-                        {/* Título */}
-                        <h3 className="text-2xl md:text-3xl font-bold text-insecap-cyan mb-4 line-clamp-2 leading-tight">
-                          {article.title}
-                        </h3>
-
-                        {/* Excerpt o contenido truncado */}
-                        <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-6 line-clamp-3">
-                          {article.excerpt
-                            ? stripHtml(article.excerpt)
-                            : truncateText(stripHtml(article.contentHtml), 180)}
-                        </p>
-
-                        {/* Botón de acción */}
-                        <div>
-                          <Button
-                            asChild
-                            className="bg-insecap-cyan hover:bg-insecap-cyan/90 text-white font-semibold group"
-                          >
-                            <Link to={localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}>
-                              {t('news.readMore')}
-                              <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-                            </Link>
-                          </Button>
-                        </div>
-                      </div>
+                      <span className="text-sm font-medium text-insecap-cyan flex items-center gap-1 group-hover:gap-2 transition-all">
+                        {t('news.readMore')} <ArrowRight size={14} />
+                      </span>
                     </div>
-                  </CardContent>
-                </Card>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+                  </div>
+                </div>
+              </Link>
+            )}
+          </div>
 
-        {/* Link para ver todas las noticias */}
-        <div className="text-center mt-8">
-          <Button variant="outline" asChild className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
-            <Link to={localizedPath('/noticias')}>
-              {t('news.seeMore')}
-              <ArrowRight className="ml-2 w-4 h-4" />
+          <div className="lg:col-span-2 flex flex-col gap-4">
+            {secondaryArticles.map((article) => (
+              <Link
+                key={article.id}
+                to={localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}
+                className="group block"
+              >
+                <div className="relative flex items-center gap-4 rounded-xl overflow-hidden border border-insecap-cyan/60 hover:border-insecap-cyan hover:shadow-xl transition-all duration-300 p-4 isolate transform-gpu group-hover:scale-[1.015] group-hover:-translate-y-0.5">
+                  <div className="absolute inset-0 rounded-[inherit] overflow-hidden pointer-events-none">
+                    {article.image ? (
+                      <img
+                        src={article.image.url}
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute inset-0 w-full h-full object-cover blur-sm scale-105 opacity-45 transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-br from-insecap-blue to-insecap-cyan opacity-70" />
+                    )}
+                    <div className="absolute inset-0 bg-[#0A1E55]/72 backdrop-blur-sm" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-[#0B1D4F]/25 to-black/45" />
+                  </div>
+
+                  <div className="relative w-40 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                    {article.image ? (
+                      <img
+                        src={article.image.url}
+                        alt={article.image.altText || article.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    ) : null}
+                  </div>
+
+                  <div className="relative flex-1 min-w-0">
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-cyan-200 drop-shadow-sm">
+                      {getArticleCategory(article)}
+                    </span>
+                    <h4 className="text-sm font-semibold text-white leading-snug mt-0.5 mb-1.5 line-clamp-2 group-hover:text-cyan-100 transition-colors">
+                      {article.title}
+                    </h4>
+                    <p className="text-xs text-slate-100/95 flex items-center gap-1">
+                      <Calendar size={10} />
+                      {formatDate(article.updatedAt ?? article.publishedAt)}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+
+            <Link
+              to={localizedPath('/noticias')}
+              className="sm:hidden flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-insecap-blue text-insecap-blue text-sm font-semibold hover:bg-insecap-blue hover:text-white transition-all"
+            >
+              {t('news.seeMore')} <ArrowRight size={15} />
             </Link>
-          </Button>
+          </div>
         </div>
       </div>
     </section>
