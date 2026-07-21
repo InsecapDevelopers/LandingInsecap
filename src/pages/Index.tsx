@@ -1,4 +1,5 @@
 import Header from '@/components/Header';
+import VideoHero from '@/components/VideoHero';
 import Hero from '@/components/Hero';
 import AccreditationsStrip from '@/components/AccreditationsStrip';
 import Categories from '@/components/Categories';
@@ -22,9 +23,18 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        <Hero />
-        <AccreditationsStrip />
-        <NewsSlider />
+        <VideoHero />
+        {/* Fondo unificado: hero → acreditaciones → noticias fluyen sobre un mismo gradiente */}
+        <div className="relative overflow-hidden bg-gradient-to-b from-[hsl(210,20%,98%)] via-white to-gray-50">
+          <div
+            className="absolute top-[38%] -left-40 w-[520px] h-[520px] rounded-full blur-3xl opacity-25 pointer-events-none"
+            style={{ background: 'radial-gradient(circle, #38BDF8 0%, transparent 65%)' }}
+            aria-hidden="true"
+          />
+          <Hero />
+          <AccreditationsStrip />
+          <NewsSlider />
+        </div>
         <Catalog />
         {isSimulatorsEnabled && <SimulatorBanner />}
         <OurClients />
