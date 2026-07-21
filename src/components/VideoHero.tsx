@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion
 import { ChevronDown, MapPin } from 'lucide-react';
 import type { CSSProperties } from 'react';
 import { DiaTextReveal } from '@/components/ui/dia-text-reveal';
+import { isOpenCourseOfferEnabled } from '@/lib/featureFlags';
 import { useTranslation } from 'react-i18next';
 
 // ponytail: pega aquí la URL del .mp4 (Shopify CDN o /public). Vacío => solo poster.
@@ -129,7 +130,7 @@ const VideoHero = () => {
           transition={{ duration: 0.7, delay: 0.25, ease: 'easeOut' }}
           className="mt-8 flex justify-center"
         >
-          <span className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/25 text-white/95 text-sm sm:text-base font-semibold tracking-wide shadow-[0_0_30px_rgba(56,189,248,0.25)]">
+          <span className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/25 text-white/95 text-sm sm:text-base font-semibold tracking-wide">
             <span className="relative flex h-2 w-2" aria-hidden="true">
               {!reduceMotion && (
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
@@ -170,20 +171,34 @@ const VideoHero = () => {
 
       {/* ── Indicador de scroll (une visualmente ambas secciones) ── */}
       <motion.a
-        href="#cursos-destacados"
-        aria-label={t('videoHero.scroll', 'Bajar al contenido')}
+        href={isOpenCourseOfferEnabled ? '#curso-abierto' : '#cursos-destacados'}
+        aria-label={
+          isOpenCourseOfferEnabled
+            ? t('videoHero.offerScroll', 'Click para inscribirte en el nuevo curso')
+            : t('videoHero.scroll', 'Bajar al contenido')
+        }
         onClick={(e) => {
           e.preventDefault();
-          ref.current?.nextElementSibling?.scrollIntoView({ behavior: 'smooth' });
+          const target = isOpenCourseOfferEnabled
+            ? document.getElementById('curso-abierto')
+            : ref.current?.nextElementSibling;
+          target?.scrollIntoView({ behavior: 'smooth' });
         }}
         animate={reduceMotion ? undefined : { y: [0, 8, 0] }}
         transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.95 }}
         style={{ x: '-50%' }}
-        className="absolute bottom-8 sm:bottom-11 left-1/2 z-30 w-16 h-16 rounded-full bg-white shadow-sm border border-slate-200 flex items-center justify-center text-sky-600 hover:bg-sky-50 transition-colors"
+        className="group absolute bottom-8 sm:bottom-11 left-1/2 z-30 flex flex-col items-center gap-2.5"
       >
-        <ChevronDown className="w-7 h-7" />
+        {isOpenCourseOfferEnabled && (
+          <span className="px-4 py-1.5 rounded-full bg-white shadow-sm border border-slate-200 text-insecap-blue text-xs sm:text-sm font-semibold whitespace-nowrap">
+            {t('videoHero.offerScroll', '¡Click para inscribirte en el nuevo curso!')}
+          </span>
+        )}
+        <span className="w-16 h-16 rounded-full bg-white shadow-sm border border-slate-200 flex items-center justify-center text-sky-600 group-hover:bg-sky-50 transition-colors">
+          <ChevronDown className="w-7 h-7" />
+        </span>
       </motion.a>
     </section>
   );

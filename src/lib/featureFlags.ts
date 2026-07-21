@@ -39,3 +39,10 @@ export const isB2bCatalogEnabled: boolean =
  */
 export const isSimulatorsEnabled: boolean =
   import.meta.env.VITE_SIMULATORS_ENABLED === 'true';
+
+/**
+ * Muestra la seccion "Curso Abierto" (rolling text + card de oferta) en Home.
+ * Activar solo cuando exista una oferta vigente.
+ */
+export const isOpenCourseOfferEnabled: boolean =
+  import.meta.env.VITE_OPEN_COURSE_OFFER === 'true';

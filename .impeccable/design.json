@@ -1,0 +1,26 @@
+{
+  "name": "INSECAP Capacitaciones",
+  "source": "DESIGN.md",
+  "extensions": {
+    "shadows": {
+      "card": "0 4px 20px -4px hsl(231 54% 53% / 0.1)",
+      "hover": "0 8px 30px -4px hsl(222 65% 28% / 0.15)",
+      "cta-glow": "0 0 30px rgba(56, 189, 248, 0.35)"
+    },
+    "gradients": {
+      "cta": "linear-gradient(135deg, #0ea5e9 0%, #38BDF8 100%)",
+      "keyword-text": "linear-gradient(to right, #0ea5e9, #22d3ee)",
+      "footer": "linear-gradient(135deg, hsl(190 100% 35%) 0%, hsl(231 54% 45%) 50%, hsl(231 54% 30%) 100%)",
+      "section-bg": "linear-gradient(to bottom, hsl(210 20% 98%), #ffffff, #f9fafb)"
+    },
+    "motion": {
+      "library": "framer-motion",
+      "enter": { "pattern": "fadeUp", "duration": "0.6s", "ease": "cubic-bezier(0.25, 0.46, 0.45, 0.94)", "stagger": "0.12s", "viewportOnce": true },
+      "hover": { "buttons": "scale 1.04", "cards": "translateY(-4px) scale(1.01)" },
+      "shine": { "animation": "animate-shine", "duration": "6s", "highlight": "#7dd3fc" },
+      "crossfade": { "duration": "1.4s", "interval": "5s", "scaleFrom": 1.05 },
+      "reducedMotion": "obligatorio via useReducedMotion / prefers-reduced-motion"
+    },
+    "focus": { "ring": "2px hsl(231 54% 53%)" }
+  }
+}

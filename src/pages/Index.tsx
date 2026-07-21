@@ -16,7 +16,8 @@ import NumberTickerDemo from '@/components/Statistics';
 import NewsSlider from '@/components/NewsSlider';
 import InnovationSection from '@/components/InnovationSection';
 import SimulatorBanner from '@/components/SimulatorBanner';
-import { isSimulatorsEnabled } from '@/lib/featureFlags';
+import OpenCourseOffer from '@/components/OpenCourseOffer';
+import { isOpenCourseOfferEnabled, isSimulatorsEnabled } from '@/lib/featureFlags';
 
 const Index = () => {
   return (
@@ -26,12 +27,8 @@ const Index = () => {
         <VideoHero />
         {/* Fondo unificado: hero → acreditaciones → noticias fluyen sobre un mismo gradiente */}
         <div className="relative overflow-hidden bg-gradient-to-b from-[hsl(210,20%,98%)] via-white to-gray-50">
-          <div
-            className="absolute top-[38%] -left-40 w-[520px] h-[520px] rounded-full blur-3xl opacity-25 pointer-events-none"
-            style={{ background: 'radial-gradient(circle, #38BDF8 0%, transparent 65%)' }}
-            aria-hidden="true"
-          />
           <Hero />
+          {isOpenCourseOfferEnabled && <OpenCourseOffer />}
           <AccreditationsStrip />
           <NewsSlider />
         </div>

@@ -61,17 +61,7 @@ const Hero = () => {
 
   return (
     <section className="relative w-full bg-transparent">
-      {/* ── Fondos llamativos: blobs de color + retícula suave ── */}
-      <div
-        className="absolute -top-32 -right-32 w-[560px] h-[560px] rounded-full blur-3xl opacity-40 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #38BDF8 0%, transparent 65%)' }}
-        aria-hidden="true"
-      />
-      <div
-        className="absolute -bottom-40 -left-40 w-[520px] h-[520px] rounded-full blur-3xl opacity-30 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #818cf8 0%, transparent 65%)' }}
-        aria-hidden="true"
-      />
+      {/* ── Fondo: retícula de puntos suave ── */}
       <svg
         className="absolute inset-0 w-full h-full opacity-[0.35] pointer-events-none text-slate-300"
         xmlns="http://www.w3.org/2000/svg"

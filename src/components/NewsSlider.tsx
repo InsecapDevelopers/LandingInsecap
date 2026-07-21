@@ -197,12 +197,6 @@ const NewsSlider: React.FC = () => {
           </Link>
         </div>
 
-        {/* Capin apoyado sobre las olas (completo dentro del banner) */}
-        <img
-          src="/CapinReportero.webp"
-          alt="Capin Reportero"
-          className="absolute bottom-0 right-[6%] lg:right-[12%] z-20 hidden h-[95%] w-auto object-contain object-bottom md:block"
-        />
       </div>
 
       <div className="relative z-10 container mx-auto px-8 md:px-16 lg:px-20">
