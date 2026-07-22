@@ -27,6 +27,7 @@ import SimulatorCatalog from "./pages/SimulatorCatalog";
 import SimulatorModels from "./pages/SimulatorModels";
 import SimulatorExtinguisherDetail from "./pages/SimulatorExtinguisherDetail";
 import BeRelator from "./pages/BeRelator";
+import OpenCourseForm from "./pages/OpenCourseForm";
 import Clients from "./pages/Clients";
 import NotFound from "./pages/NotFound";
 import ExperienciaYRespaldo from "./pages/Xp";
@@ -57,6 +58,7 @@ const routeDefinitions = [
   { path: 'politica-calidad', element: <QualityPolicy /> },
   { path: 'politica-de-privacidad', element: <PrivacyPolicy /> },
   { path: 'contacto', element: <Contact /> },
+  { path: 'formulario/cursos-abiertos', element: <OpenCourseForm /> },
   { path: 'Experiencia-y-Respaldo', element: <ExperienciaYRespaldo /> },
   { path: 'relator-trabaja-con-nosotros', element: <BeRelator /> },
   { path: 'noticias', element: <Blog /> },
