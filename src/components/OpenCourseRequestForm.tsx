@@ -40,6 +40,9 @@ const formatDate = (iso: string) => {
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(value);
 
+// Sentinel: ningún curso real usa este id. Al elegirlo se pide texto libre en vez de idCalendarizacionAbierta.
+const CURSO_NO_LISTADO = '-1';
+
 interface OpenCourseRequestFormProps {
   onSuccess?: () => void;
   // Cuando se pasan, fijan y ocultan el campo correspondiente (ej. vista /formulario/cursos-abiertos).
@@ -95,6 +98,7 @@ const OpenCourseRequestForm = ({
   // El select de cursos reemplaza el texto libre cuando la modalidad viene fija (vista /cursos-abiertos)
   // o cuando el usuario elige "Particular" en el flujo general de contacto.
   const showCursoSelect = fixedModalidad !== undefined || formData.tipoContactado === '1';
+  const cursoNoListadoSelected = showCursoSelect && formData.idCalendarizacionAbierta === CURSO_NO_LISTADO;
 
   useEffect(() => {
     if (!showCursoSelect || !formData.modalidadEjecucion) {
@@ -131,6 +135,7 @@ const OpenCourseRequestForm = ({
       labelCurso: 'Curso',
       loadingCursos: 'Cargando cursos...',
       noCursos: 'No hay cursos disponibles para esta modalidad',
+      cursoNoListado: 'El curso que quiero no está en la lista',
       labelCursoInteres: 'Curso de interés',
       placeholderCursoInteres: 'Ej: Curso de prevención de riesgos',
       labelMensaje: 'Mensaje',
@@ -162,6 +167,7 @@ const OpenCourseRequestForm = ({
       labelCurso: 'Course',
       loadingCursos: 'Loading courses...',
       noCursos: 'No courses available for this modality',
+      cursoNoListado: "The course I want isn't on the list",
       labelCursoInteres: 'Course of interest',
       placeholderCursoInteres: 'E.g: Risk prevention course',
       labelMensaje: 'Message',
@@ -193,6 +199,7 @@ const OpenCourseRequestForm = ({
       labelCurso: 'Curso',
       loadingCursos: 'Carregando cursos...',
       noCursos: 'Nenhum curso disponível para esta modalidade',
+      cursoNoListado: 'O curso que eu quero não está na lista',
       labelCursoInteres: 'Curso de interesse',
       placeholderCursoInteres: 'Ex: Curso de prevenção de riscos',
       labelMensaje: 'Mensagem',
@@ -239,8 +246,9 @@ const OpenCourseRequestForm = ({
         aceptaPrivacidad: formData.aceptaPrivacidad,
         tipoContactado: Number(formData.tipoContactado),
         modalidadEjecucion: Number(formData.modalidadEjecucion),
-        idCalendarizacionAbierta: showCursoSelect ? Number(formData.idCalendarizacionAbierta) : null,
-        cursoInteres: showCursoSelect ? null : formData.cursoInteres.trim(),
+        idCalendarizacionAbierta:
+          showCursoSelect && !cursoNoListadoSelected ? Number(formData.idCalendarizacionAbierta) : null,
+        cursoInteres: !showCursoSelect || cursoNoListadoSelected ? formData.cursoInteres.trim() : null,
       };
 
       const res = await fetch(getApiUrl('/api/contacto'), {
@@ -425,6 +433,7 @@ const OpenCourseRequestForm = ({
             <option value="">
               {loadingCursos ? content.loadingCursos : cursos.length === 0 ? content.noCursos : content.selectPlaceholder}
             </option>
+            <option value={CURSO_NO_LISTADO}>{content.cursoNoListado}</option>
             {Object.entries(
               cursos.reduce<Record<string, CursoParticular[]>>((grupos, curso) => {
                 (grupos[curso.nombreCurso] ??= []).push(curso);
@@ -441,6 +450,16 @@ const OpenCourseRequestForm = ({
               </optgroup>
             ))}
           </select>
+          {cursoNoListadoSelected && (
+            <Input
+              name="cursoInteres"
+              value={formData.cursoInteres}
+              onChange={handleChange}
+              placeholder={content.placeholderCursoInteres}
+              required
+              className={`${inputClass} mt-2`}
+            />
+          )}
         </div>
       ) : (
         formData.tipoContactado === '2' && (
