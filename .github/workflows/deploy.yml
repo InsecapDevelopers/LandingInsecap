@@ -54,6 +54,7 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             VITE_TMS_API_URL=${{ vars.VITE_TMS_API_URL }}
+            VITE_TMS_PLUS_API_URL=${{ vars.VITE_TMS_PLUS_API_URL }}
             VITE_ECOMMERCE_ENABLED=${{ vars.VITE_ECOMMERCE_ENABLED }}
             VITE_LECTURA_JSON=${{ vars.VITE_LECTURA_JSON }}
             VITE_B2B_CATALOG_ENABLED=${{ vars.VITE_B2B_CATALOG_ENABLED }}

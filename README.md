@@ -47,6 +47,8 @@ Crea un archivo `.env.local` en la raíz si necesitas sobreescribir valores. Las
 | Variable             | Uso                                                                         |
 | -------------------- | --------------------------------------------------------------------------- |
 | `TMS_PROXY_TARGET`   | Target del proxy `/api` en dev server (default `https://tms.insecap.cl`)    |
+| `TMS_PLUS_PROXY_TARGET` | Target del proxy `/api/contacto` en dev server, TMS Plus (default `https://api-plus.insecap.cl`) |
+| `VITE_TMS_PLUS_API_URL` | URL del TMS Plus en producción (usada por el formulario de cursos abiertos) |
 | `VITE_*`             | Cualquier variable expuesta al cliente (se embebe en el bundle al build)    |
 
 > El proxy `/api` definido en [vite.config.ts](vite.config.ts) aplica **solo** al servidor de desarrollo. En producción configura el reverse proxy a nivel de infraestructura/CDN.
