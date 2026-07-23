@@ -1,21 +1,14 @@
-import { useEffect } from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import OpenCourseRequestForm from '@/components/OpenCourseRequestForm';
 
 const ContactCTA = () => {
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const handler = (e: MessageEvent) => {
-      if (e.origin !== 'https://tms.insecap.cl') return;
-      if (e.data?.event === 'contacto_enviado') {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: 'contacto_enviado' });
-      }
-    };
-    window.addEventListener('message', handler);
-    return () => window.removeEventListener('message', handler);
-  }, []);
+  const handleFormSuccess = () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'contacto_enviado' });
+  };
 
   return (
     <section id="contacto" className="py-16 lg:py-24 relative overflow-hidden">
@@ -119,13 +112,8 @@ const ContactCTA = () => {
           <div className="w-full bg-white/5 py-12 border-b border-primary-foreground/10">
             <div className="container mx-auto px-8 md:px-14 lg:px-16 text-center">
               <h4 className="font-bold text-2xl mb-8 text-secondary">{t('contactCTA.stayInTouch')}</h4>
-              <div className="max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl bg-white">
-                <iframe
-                  src="https://tms.insecap.cl/Contacto/Contactar"
-                  className="w-full h-[600px] border-none"
-                  title={t('contactCTA.iframeTitle')}
-                  scrolling="auto"
-                />
+              <div className="max-w-xl mx-auto rounded-2xl shadow-2xl bg-white p-8 text-left">
+                <OpenCourseRequestForm onSuccess={handleFormSuccess} />
               </div>
             </div>
           </div>

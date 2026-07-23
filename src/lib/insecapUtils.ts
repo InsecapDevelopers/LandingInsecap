@@ -27,3 +27,28 @@ export const getYearsOfExperience = (): number => {
     ? currentYear - OPERATIONAL_START_YEAR
     : currentYear - OPERATIONAL_START_YEAR - 1;
 };
+
+/** Formatea un RUT chileno mientras se escribe: 12.345.678-9. */
+export const formatRut = (rut: string): string => {
+  let cleanRut = rut.replace(/[^0-9kK]/g, '').toUpperCase();
+
+  if (cleanRut.length > 9) {
+    cleanRut = cleanRut.slice(0, 9);
+  }
+
+  if (cleanRut.length === 0) return '';
+  if (cleanRut.length <= 1) return cleanRut;
+
+  const dv = cleanRut.slice(-1);
+  const body = cleanRut.slice(0, -1);
+
+  let formattedBody = '';
+  for (let i = body.length - 1, j = 0; i >= 0; i--, j++) {
+    formattedBody = body.charAt(i) + formattedBody;
+    if ((j + 1) % 3 === 0 && i !== 0) {
+      formattedBody = '.' + formattedBody;
+    }
+  }
+
+  return `${formattedBody}-${dv}`;
+};

@@ -13,6 +13,7 @@ import { Upload, Send, Loader2, CheckCircle2, Check, ChevronsUpDown, X, FileText
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { formatRut } from "@/lib/insecapUtils";
 
 const formatOptionLabel = (option: any) => {
   return option.nombre + (option.comuna ? ` (${option.comuna}, ${option.region})` : '');
@@ -452,31 +453,6 @@ const BeRelator = () => {
 
     fetchSelects();
   }, []);
-
-  const formatRut = (rut: string) => {
-    let cleanRut = rut.replace(/[^0-9kK]/g, '').toUpperCase();
-    
-    // Limitar a 9 caracteres (8 para el cuerpo + 1 para el DV)
-    if (cleanRut.length > 9) {
-      cleanRut = cleanRut.slice(0, 9);
-    }
-
-    if (cleanRut.length === 0) return '';
-    if (cleanRut.length <= 1) return cleanRut;
-
-    const dv = cleanRut.slice(-1);
-    const body = cleanRut.slice(0, -1);
-
-    let formattedBody = '';
-    for (let i = body.length - 1, j = 0; i >= 0; i--, j++) {
-      formattedBody = body.charAt(i) + formattedBody;
-      if ((j + 1) % 3 === 0 && i !== 0) {
-        formattedBody = '.' + formattedBody;
-      }
-    }
-
-    return `${formattedBody}-${dv}`;
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

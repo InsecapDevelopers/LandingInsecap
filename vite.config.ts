@@ -6,6 +6,7 @@ import path from "path";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const tmsTarget = env.TMS_PROXY_TARGET || 'https://tms.insecap.cl';
+  const tmsPlusTarget = env.TMS_PLUS_PROXY_TARGET || 'https://api-plus.insecap.cl';
 
   return {
     server: {
@@ -16,6 +17,13 @@ export default defineConfig(({ mode }) => {
         ignored: ['**/.env', '**/.env.local', '**/.env.*'],
       },
       proxy: {
+        // Ruta más específica primero: /api/contacto va al TMS Plus, el resto de /api al TMS.
+        '/api/contacto': {
+          target: tmsPlusTarget,
+          changeOrigin: true,
+          secure: tmsPlusTarget.startsWith('https'),
+          headers: { 'ngrok-skip-browser-warning': 'true' },
+        },
         '/api': {
           target: tmsTarget,
           changeOrigin: true,
