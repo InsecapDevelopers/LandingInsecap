@@ -41,7 +41,7 @@ const OpenCourseForm = () => {
             <div className="max-w-xl mx-auto rounded-2xl shadow-2xl bg-white p-8">
               <OpenCourseRequestForm
                 fixedCiudadNombre="Calama"
-                fixedTipoContactado="2"
+                fixedTipoContactado="1"
                 fixedModalidad="1"
               />
             </div>
