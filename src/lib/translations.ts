@@ -49,7 +49,7 @@ export const resources = {
             h1: 'Capacitación que fortalece tu operación',
             h2: 'Formación especializada para empresas de minería, construcción, transporte, manufactura y sector industrial en todo Chile.',
             prefix: 'Preparando tu equipo para',
-            words: ['operar mejor', 'reducir riesgos', 'mejorar productividad', 'cumplir estándares'],
+            words: ['mejorar productividad', 'operar mejor', 'reducir riesgos', 'cumplir estándares'],
             suffix: '',
           },
           {
@@ -67,6 +67,8 @@ export const resources = {
             suffix: '',
           },
         ],
+        reach: 'A lo largo de todo Chile',
+        eyebrow: 'Desarrollando competencias',
         ctaCourses: 'Ver listado de cursos',
         ctaContact: 'Contáctanos',
         stats: {
@@ -340,7 +342,7 @@ export const resources = {
             h1: 'Training that strengthens your operation',
             h2: 'Specialized learning programs for companies in mining, construction, transport, manufacturing and industrial services throughout Chile.',
             prefix: 'Preparing your team to',
-            words: ['operate better', 'reduce risk', 'improve productivity', 'meet standards'],
+            words: ['improve productivity', 'operate better', 'reduce risk', 'meet standards'],
             suffix: '',
           },
           {
@@ -358,6 +360,8 @@ export const resources = {
             suffix: '',
           },
         ],
+        reach: 'All across Chile',
+        eyebrow: 'Developing skills',
         ctaCourses: 'See course catalog',
         ctaContact: 'Contact us',
         stats: {
@@ -631,7 +635,7 @@ export const resources = {
             h1: 'Capacitação que fortalece sua operação',
             h2: 'Formação especializada para empresas de mineração, construção, transporte, manufatura e setor industrial em todo o Chile.',
             prefix: 'Preparando sua equipe para',
-            words: ['operar melhor', 'reduzir riscos', 'melhorar produtividade', 'cumprir padrões'],
+            words: ['melhorar produtividade', 'operar melhor', 'reduzir riscos', 'cumprir padrões'],
             suffix: '',
           },
           {
@@ -649,6 +653,8 @@ export const resources = {
             suffix: '',
           },
         ],
+        reach: 'Ao longo de todo o Chile',
+        eyebrow: 'Desenvolvendo competências',
         ctaCourses: 'Ver catálogo de cursos',
         ctaContact: 'Fale conosco',
         stats: {

@@ -1,4 +1,5 @@
 import Header from '@/components/Header';
+import VideoHero from '@/components/VideoHero';
 import Hero from '@/components/Hero';
 import AccreditationsStrip from '@/components/AccreditationsStrip';
 import Categories from '@/components/Categories';
@@ -15,16 +16,22 @@ import NumberTickerDemo from '@/components/Statistics';
 import NewsSlider from '@/components/NewsSlider';
 import InnovationSection from '@/components/InnovationSection';
 import SimulatorBanner from '@/components/SimulatorBanner';
-import { isSimulatorsEnabled } from '@/lib/featureFlags';
+import OpenCourseOffer from '@/components/OpenCourseOffer';
+import { isOpenCourseOfferEnabled, isSimulatorsEnabled } from '@/lib/featureFlags';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        <Hero />
-        <AccreditationsStrip />
-        <NewsSlider />
+        <VideoHero />
+        {/* Fondo unificado: hero → acreditaciones → noticias fluyen sobre un mismo gradiente */}
+        <div className="relative overflow-hidden bg-gradient-to-b from-[hsl(210,20%,98%)] via-white to-gray-50">
+          <Hero />
+          {isOpenCourseOfferEnabled && <OpenCourseOffer />}
+          <AccreditationsStrip />
+          <NewsSlider />
+        </div>
         <Catalog />
         {isSimulatorsEnabled && <SimulatorBanner />}
         <OurClients />

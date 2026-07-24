@@ -69,14 +69,16 @@ export default function BackToTop() {
             transition={{ duration: 0.3 }}
             className="fixed bottom-8 right-8 z-40"
           >
-            <Button
-              onClick={scrollToTop}
-              size="icon"
-              className="rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-primary hover:bg-primary/90"
-              aria-label={t('aria.backToTop')}
-            >
-              <ChevronUp className="h-6 w-6" />
-            </Button>
+            <motion.div whileHover={{ scale: 1.1, y: -3 }} whileTap={{ scale: 0.92 }}>
+              <Button
+                onClick={scrollToTop}
+                size="icon"
+                className="w-14 h-14 rounded-full shadow-lg hover:shadow-xl hover:shadow-primary/30 transition-shadow duration-300 bg-primary hover:bg-primary/90 group"
+                aria-label={t('aria.backToTop')}
+              >
+                <ChevronUp className="!h-7 !w-7 transition-transform duration-300 group-hover:-translate-y-0.5" />
+              </Button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

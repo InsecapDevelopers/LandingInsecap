@@ -38,8 +38,8 @@ const AccreditationsStrip = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 + i * 0.15, ease: 'easeOut' }}
-                whileHover={{ scale: 1.1 }}
-                className="h-10 md:h-14 w-auto object-contain transition-transform duration-300 cursor-pointer"
+                whileHover={{ scale: 1.12, transition: { duration: 0.25, delay: 0 } }}
+                className="h-10 md:h-14 w-auto object-contain cursor-pointer"
                 loading="lazy"
               />
             ))}
@@ -53,8 +53,8 @@ const AccreditationsStrip = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 + (topLogos.length + i) * 0.15, ease: 'easeOut' }}
-                whileHover={{ scale: 1.1 }}
-                className={`w-auto object-contain transition-transform duration-300 cursor-pointer ${
+                whileHover={{ scale: 1.12, transition: { duration: 0.25, delay: 0 } }}
+                className={`w-auto object-contain cursor-pointer ${
                   logo.alt === 'OTEC Acreditada por Codelco' ? 'h-20 md:h-28' : 'h-14 md:h-20'
                 }`}
                 loading="lazy"

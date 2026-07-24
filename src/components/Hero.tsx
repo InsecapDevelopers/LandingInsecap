@@ -1,12 +1,13 @@
-import { useMemo, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Users, GraduationCap, Clock, Instagram, Facebook, Linkedin } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight, GraduationCap, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { WordRotate } from '@/components/ui/word-rotate';
+import { getYearsOfExperience } from '@/lib/insecapUtils';
 
 const CAPIN_IMG = '/CapinMov.webp';
 
-const HERO_BACKGROUNDS = [
+const HERO_IMAGES = [
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_111938161.png?v=1772461187',
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Banner-Nosotros-Web-16-anos-scaled.jpg?v=1776093986',
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cascada-fachada-y-letrero-scaled.jpg?v=1776094124',
@@ -18,105 +19,22 @@ const HERO_BACKGROUNDS = [
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112344017.png?v=1772461433',
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112418054.png?v=1772461465',
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112454997.png?v=1772461500',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GHorquilla3675_web.jpg?v=1773345899'
-];
-
-/* ——— Custom SVG icons ——— */
-const XIcon = ({ className }: { className?: string }) => (
-  <svg role="img" viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
-    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
-  </svg>
-);
-
-const TikTokIcon = ({ className }: { className?: string }) => (
-  <svg role="img" viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
-    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.13-.32-2.34-.14-3.41.37-1.33.64-2.18 2.08-2.1 3.59.08 1.48 1.21 2.74 2.66 2.96 1.34.23 2.73-.24 3.63-1.23.54-.59.81-1.35.81-2.14V.02Z" />
-  </svg>
-);
-
-/* ——— Social media data ——— */
-const socialLinks = [
-  { icon: <Instagram className="w-5 h-5" />, href: 'https://www.instagram.com/insecap_capacitacion/', label: 'Instagram' },
-  { icon: <Facebook className="w-5 h-5" />, href: 'https://www.facebook.com/people/InsecapCapacitación/61561168455014/?mibextid=LQQJ4d&rdid=QsS38qFirhGvNMuy&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2FYBQho3cqYYgUoC3z%2F%3Fmibextid%3DLQQJ4d', label: 'Facebook' },
-  { icon: <XIcon className="w-4 h-4" />, href: 'https://x.com/insecap', label: 'X' },
-  { icon: <Linkedin className="w-5 h-5" />, href: 'https://www.linkedin.com/company/insecap-capacitacion/posts/?feedView=all', label: 'LinkedIn' },
-  { icon: <TikTokIcon className="w-5 h-5" />, href: 'https://www.tiktok.com/@insecap.capacitac', label: 'TikTok' },
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GHorquilla3675_web.jpg?v=1773345899',
 ];
 
 /* ——— animation helpers ——— */
-const fadeInLeft = {
-  hidden: { opacity: 0, x: -60 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: { delay: i * 0.18, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const },
-  }),
-};
-
-const fadeInRight = {
-  hidden: { opacity: 0, x: 80, scale: 0.92 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    scale: 1,
-    transition: { delay: 0.3, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const },
-  },
-};
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: 0.6 + i * 0.12, duration: 0.6, ease: 'easeOut' as const },
+    transition: { delay: i * 0.12, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const },
   }),
 };
-
-const socialCardVariant = {
-  hidden: { opacity: 0, x: 30 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: { delay: 0.8 + i * 0.1, duration: 0.5, ease: 'easeOut' as const },
-  }),
-};
-
-/* ——— sub-components ——— */
-const CircuitPattern = () => (
-  <svg
-    className="absolute inset-0 w-full h-full opacity-[0.07] pointer-events-none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      <pattern id="circuit" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
-        {/* horizontal lines */}
-        <line x1="0" y1="40" x2="80" y2="40" stroke="#38BDF8" strokeWidth="1" />
-        <line x1="120" y1="40" x2="200" y2="40" stroke="#38BDF8" strokeWidth="1" />
-        <line x1="0" y1="120" x2="60" y2="120" stroke="#38BDF8" strokeWidth="1" />
-        <line x1="140" y1="120" x2="200" y2="120" stroke="#38BDF8" strokeWidth="1" />
-        {/* vertical lines */}
-        <line x1="80" y1="0" x2="80" y2="40" stroke="#38BDF8" strokeWidth="1" />
-        <line x1="120" y1="40" x2="120" y2="100" stroke="#38BDF8" strokeWidth="1" />
-        <line x1="60" y1="120" x2="60" y2="200" stroke="#38BDF8" strokeWidth="1" />
-        <line x1="140" y1="100" x2="140" y2="120" stroke="#38BDF8" strokeWidth="1" />
-        {/* nodes (dots) */}
-        <circle cx="80" cy="40" r="3" fill="#38BDF8" />
-        <circle cx="120" cy="40" r="3" fill="#38BDF8" />
-        <circle cx="60" cy="120" r="3" fill="#38BDF8" />
-        <circle cx="140" cy="120" r="3" fill="#38BDF8" />
-        <circle cx="140" cy="100" r="2" fill="#38BDF8" />
-        <circle cx="120" cy="100" r="2" fill="#38BDF8" />
-        {/* diagonal accents */}
-        <line x1="80" y1="40" x2="120" y2="100" stroke="#38BDF8" strokeWidth="0.5" />
-        <line x1="140" y1="100" x2="140" y2="120" stroke="#38BDF8" strokeWidth="0.5" />
-      </pattern>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#circuit)" />
-  </svg>
-);
 
 const Hero = () => {
   const { t, i18n } = useTranslation();
+  const reduceMotion = useReducedMotion();
 
   type HeroPhrase = {
     h1: string;
@@ -126,257 +44,200 @@ const Hero = () => {
     suffix: string;
   };
 
-  const heroPhrase = useMemo(() => {
+  // ponytail: h1/h2 de la frase 3; el rotatorio es "Preparando tu equipo para…" (frase 2).
+  const { heroPhrase, rotatePhrase } = useMemo(() => {
     const phrases = t('hero.phrases', { returnObjects: true }) as HeroPhrase[];
-    return phrases[Math.floor(Math.random() * phrases.length)] ?? phrases[0];
+    return { heroPhrase: phrases[2] ?? phrases[0], rotatePhrase: phrases[1] ?? phrases[0] };
   }, [i18n.resolvedLanguage, t]);
 
-  const [currentBg, setCurrentBg] = useState(0);
-
+  // carrusel con fade en la tarjeta de imagen
+  const [currentImg, setCurrentImg] = useState(0);
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentBg((prev) => (prev + 1) % HERO_BACKGROUNDS.length);
-    }, 6000); // Change image every 6 seconds
+    const timer = setInterval(() => setCurrentImg((p) => (p + 1) % HERO_IMAGES.length), 5000);
     return () => clearInterval(timer);
   }, []);
 
+  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+
   return (
-    <section className="relative w-full min-h-screen lg:min-h-[780px] overflow-hidden flex items-center">
-      {/* ── Background Carousel ── */}
-      {HERO_BACKGROUNDS.map((bg, idx) => (
-        <motion.div
-          key={bg}
-          initial={false}
-          animate={{
-            opacity: currentBg === idx ? 1 : 0,
-            filter: currentBg === idx ? 'blur(0px)' : 'blur(10px)',
-            scale: currentBg === idx ? 1 : 1.05,
-          }}
-          transition={{ duration: 1.8, ease: "easeInOut" }}
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${bg}')` }}
-        />
-      ))}
+    <section className="relative w-full bg-transparent">
+      {/* ── Fondo: retícula de puntos suave ── */}
+      <svg
+        className="absolute inset-0 w-full h-full opacity-[0.35] pointer-events-none text-slate-300"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <defs>
+          <pattern id="hero-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1.5" fill="currentColor" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#hero-dots)" />
+      </svg>
 
-      {/* Blue Overlays (Similar to Catalog) */}
-      <div className="absolute inset-0 bg-blue-800 bg-opacity-70 backdrop-blur-[2px]"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-blue-900 opacity-60"></div>
-      <CircuitPattern />
-
-      {/* subtle radial glow */}
-      <div
-        className="absolute top-0 right-0 w-[700px] h-[700px] opacity-20 pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle at 70% 30%, #38BDF8 0%, transparent 60%)',
-        }}
+      {/* formas geométricas flotantes */}
+      <motion.div
+        animate={reduceMotion ? undefined : { y: [0, -14, 0], rotate: [12, 20, 12] }}
+        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-24 left-[6%] w-10 h-10 border-[3px] border-sky-400/50 rounded-lg rotate-12 pointer-events-none hidden md:block"
+        aria-hidden="true"
+      />
+      <motion.div
+        animate={reduceMotion ? undefined : { y: [0, 12, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        className="absolute bottom-32 right-[8%] w-6 h-6 rounded-full border-[3px] border-indigo-400/50 pointer-events-none hidden md:block"
+        aria-hidden="true"
       />
 
-      {/* ── Main Content ── */}
-      <div className="container mx-auto px-8 sm:px-14 lg:px-16 relative z-10 pt-32 pb-36 lg:pt-32 lg:pb-44">
-        <div className="flex flex-col lg:flex-row items-center lg:items-center gap-8 lg:gap-4">
-          {/* ─── LEFT COLUMN ─── */}
-          <div className="flex-1 text-center lg:text-left max-w-xl lg:max-w-[560px]">
-            <motion.h1
+      {/* ── Contenido ── */}
+      <div className="container mx-auto px-8 sm:px-14 lg:px-16 relative z-10 py-20 lg:py-28">
+        <div className="grid lg:grid-cols-2 gap-14 lg:gap-10 items-center">
+          {/* ─── IZQUIERDA: texto ─── */}
+          <div className="text-center lg:text-left max-w-xl mx-auto lg:mx-0">
+            <motion.p
               custom={0}
-              variants={fadeInLeft}
+              variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: false, amount: 0.3 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] font-extrabold text-white leading-[1.12] mb-4 tracking-tight"
+              viewport={{ once: true, amount: 0.3 }}
+              className="inline-flex items-center gap-2.5 mb-5 text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-insecap-cyan"
             >
-              {heroPhrase.h1}
+              <span className="w-8 h-1 rounded-full bg-gradient-to-r from-sky-500 to-cyan-400" aria-hidden="true" />
+              {t('hero.eyebrow')}
+            </motion.p>
+
+            <motion.h1
+              custom={1}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              className="text-[clamp(1.9rem,6.5vw,3rem)] font-extrabold text-slate-900 leading-[1.15] tracking-tight mb-6"
+            >
+              {rotatePhrase.prefix}
+              {/* línea reservada: la palabra rota sin mover el resto del layout */}
+              <span className="block min-h-[1.35em]">
+                <WordRotate
+                  as="span"
+                  words={rotatePhrase.words}
+                  duration={2500}
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-cyan-400 inline-block whitespace-nowrap max-w-full"
+                />
+              </span>
             </motion.h1>
 
-            <motion.div
-              custom={0.5}
-              variants={fadeInLeft}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: false, amount: 0.3 }}
-              className="text-xl sm:text-2xl lg:text-[1.75rem] font-bold text-white/90 mb-6 leading-tight"
-            >
-              {heroPhrase.prefix}
-              <br />
-              <WordRotate
-                as="span"
-                words={heroPhrase.words}
-                duration={2500}
-                className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-cyan-400 inline-block drop-shadow-sm mt-1"
-              />
-              {heroPhrase.suffix && (
-                <>
-                  <br className="hidden sm:block" />
-                  {heroPhrase.suffix}
-                </>
-              )}
-            </motion.div>
-
             <motion.p
-              custom={1}
-              variants={fadeInLeft}
+              custom={2}
+              variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: false, amount: 0.3 }}
-              className="text-white/70 text-base sm:text-[1.1rem] mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed"
+              viewport={{ once: true, amount: 0.3 }}
+              className="text-slate-600 text-base sm:text-lg leading-relaxed mb-9"
             >
               {heroPhrase.h2}
             </motion.p>
 
-            {/* CTA Buttons */}
             <motion.div
-              custom={2}
-              variants={fadeInLeft}
+              custom={3}
+              variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: false, amount: 0.3 }}
-              className="flex flex-wrap gap-4 justify-center lg:justify-start mb-10"
+              viewport={{ once: true, amount: 0.3 }}
+              className="flex flex-wrap gap-4 justify-center lg:justify-start"
             >
               <motion.a
                 href="#cursos-destacados"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById('cursos-destacados')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                animate={{ y: [0, -120, 0] }}
-                transition={{
-                  duration: 0.6,
-                  repeat: Infinity,
-                  repeatDelay: 2.5,
-                  ease: "easeInOut",
-                }}
-                className="group relative inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm text-white overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(56,189,248,0.35)]"
-                style={{
-                  background: 'linear-gradient(135deg, #0ea5e9 0%, #38BDF8 100%)',
-                }}
+                onClick={(e) => { e.preventDefault(); scrollTo('cursos-destacados'); }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-white shadow-lg shadow-sky-500/30 transition-shadow hover:shadow-xl hover:shadow-sky-500/40"
+                style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #38BDF8 100%)' }}
               >
-                <BookOpen className="w-4 h-4" />
                 {t('hero.ctaCourses')}
+                <ArrowRight className="w-4 h-4" />
               </motion.a>
               <motion.a
                 href="#contacto"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                animate={{ y: [0, -120, 0] }}
-                transition={{
-                  duration: 0.6,
-                  repeat: Infinity,
-                  repeatDelay: 2.5,
-                  ease: "easeInOut",
-                  delay: 0.3,
-                }}
-                className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm text-white border-2 border-white/30 hover:border-sky-400 hover:text-sky-300 transition-all duration-300 backdrop-blur-sm"
+                onClick={(e) => { e.preventDefault(); scrollTo('contacto'); }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-slate-700 border-2 border-slate-300 hover:border-sky-500 hover:text-sky-600 transition-colors bg-white/70 backdrop-blur-sm"
               >
                 {t('hero.ctaContact')}
               </motion.a>
             </motion.div>
-
-            {/* ── Stats row ── */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: false, amount: 0.3 }}
-              className="flex items-center gap-6 sm:gap-8 justify-center lg:justify-start"
-            >
-              {/* Logo Vinculación */}
-              <motion.img
-                custom={0}
-                variants={fadeInUp}
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                src="/logos/Vinculacion.png"
-                alt="Vinculación INSECAP"
-                className="h-28 sm:h-32 w-auto object-contain opacity-90 shrink-0 cursor-pointer"
-              />
-              <div className="w-px h-10 bg-white/20 shrink-0" aria-hidden="true" />
-              <div className="flex gap-8 sm:gap-10">
-                {[
-                  { icon: <Users className="w-5 h-5 text-sky-400" />, value: '53k+', label: t('hero.stats.trainedUsers') },
-                  { icon: <GraduationCap className="w-5 h-5 text-sky-400" />, value: '2,3K+', label: t('hero.stats.coursesDelivered') },
-                  { icon: <Clock className="w-5 h-5 text-sky-400" />, value: '16 años', label: t('hero.stats.experience') },
-                ].map((stat, i) => (
-                  <motion.div key={stat.label} custom={i + 1} variants={fadeInUp} className="flex flex-col items-center lg:items-start gap-1">
-                    <div className="flex items-center gap-2">
-                      {stat.icon}
-                      <span className="text-white font-bold text-lg sm:text-xl whitespace-nowrap">{stat.value}</span>
-                    </div>
-                    <span className="text-white/50 text-xs font-medium">{stat.label}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
           </div>
 
-          {/* ─── RIGHT COLUMN — Mascot + floating cards ─── */}
+          {/* ─── DERECHA: tarjeta de imagen + chips flotantes + Capín ─── */}
           <motion.div
-            variants={fadeInRight}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false, amount: 0.3 }}
-            className="flex-1 relative flex items-end justify-center min-h-[380px] sm:min-h-[480px] lg:min-h-[540px]"
+            initial={{ opacity: 0, x: 60, scale: 0.95 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="relative mx-auto w-full max-w-[560px]"
           >
-            {/* Capin mascot */}
-            <motion.img
+            {/* marco de gradiente desplazado detrás */}
+            <div
+              className="absolute -inset-3 rounded-[2.5rem] bg-gradient-to-br from-sky-400 via-cyan-300 to-indigo-400 -rotate-2 opacity-70"
+              aria-hidden="true"
+            />
+            <div
+              className="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/3] bg-slate-200"
+              role="img"
+              aria-label="Instalaciones y actividades de INSECAP"
+            >
+              {HERO_IMAGES.map((img, idx) => (
+                <motion.div
+                  key={img}
+                  initial={false}
+                  animate={{
+                    opacity: currentImg === idx ? 1 : 0,
+                    scale: currentImg === idx ? 1 : 1.05,
+                  }}
+                  transition={{ duration: 1.4, ease: 'easeInOut' }}
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url('${img}')` }}
+                />
+              ))}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent" aria-hidden="true" />
+            </div>
+
+            {/* chips de stats */}
+            <motion.div
+              animate={reduceMotion ? undefined : { y: [0, -8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute -top-5 -left-4 sm:-left-8 flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 backdrop-blur-md shadow-xl border border-white"
+            >
+              <span className="w-9 h-9 rounded-xl bg-sky-100 flex items-center justify-center">
+                <GraduationCap className="w-5 h-5 text-sky-600" />
+              </span>
+              <span className="text-left">
+                <span className="block text-slate-900 font-bold text-sm leading-none">2.3K+</span>
+                <span className="block text-slate-500 text-xs mt-1">{t('hero.stats.coursesDelivered')}</span>
+              </span>
+            </motion.div>
+            <motion.div
+              animate={reduceMotion ? undefined : { y: [0, 8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+              className="absolute -bottom-5 right-2 sm:-right-6 flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 backdrop-blur-md shadow-xl border border-white"
+            >
+              <span className="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center">
+                <Clock className="w-5 h-5 text-indigo-600" />
+              </span>
+              <span className="text-left">
+                <span className="block text-slate-900 font-bold text-sm leading-none">{getYearsOfExperience()} años</span>
+                <span className="block text-slate-500 text-xs mt-1">{t('hero.stats.experience')}</span>
+              </span>
+            </motion.div>
+
+            {/* Capín asomado */}
+            <img
               src={CAPIN_IMG}
               alt="Capín — mascota de Insecap"
-              className="relative z-10 w-[260px] sm:w-[320px] lg:w-[380px] h-auto drop-shadow-2xl object-contain"
-              style={{ filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))' }}
+              className="absolute -bottom-8 -left-6 sm:-left-14 w-32 sm:w-40 drop-shadow-2xl pointer-events-none"
             />
-
-            {/* ── Floating Social Media Bar ── */}
-            <div className="absolute top-1/2 -translate-y-1/2 right-0 sm:right-2 lg:-right-6 z-20 hidden sm:flex flex-col gap-3">
-              {socialLinks.map((social, i) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  custom={i}
-                  variants={socialCardVariant}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: false, amount: 0.3 }}
-                  whileHover={{ scale: 1.15, x: -4 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-11 h-11 rounded-xl bg-insecap-cyan backdrop-blur-xl border border-white/20 flex items-center justify-center text-white hover:bg-insecap-cyan/80 hover:border-white/40 transition-colors shadow-lg cursor-pointer"
-                >
-                  {social.icon}
-                </motion.a>
-              ))}
-            </div>
           </motion.div>
         </div>
-      </div>
-
-      {/* ── Bottom Wave ── */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-20">
-        <svg
-          className="relative block w-full"
-          style={{ height: '100px' }}
-          viewBox="0 0 1440 100"
-          preserveAspectRatio="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* Celeste/sky wave behind */}
-          <path
-            d="M0,60 C240,20 480,90 720,50 C960,10 1200,70 1440,40 L1440,100 L0,100 Z"
-            fill="#0ea5e9"
-            opacity="0.5"
-          />
-          {/* Blue accent wave */}
-          <path
-            d="M0,70 C360,30 720,95 1080,55 C1260,35 1380,60 1440,50 L1440,100 L0,100 Z"
-            fill="#0369a1"
-            opacity="0.35"
-          />
-          {/* White foreground wave */}
-          <path
-            d="M0,80 C320,55 640,95 960,70 C1120,58 1300,80 1440,65 L1440,100 L0,100 Z"
-            fill="hsl(210, 20%, 98%)"
-          />
-        </svg>
       </div>
     </section>
   );

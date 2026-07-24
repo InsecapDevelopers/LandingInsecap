@@ -126,7 +126,7 @@ const NewsSlider: React.FC = () => {
   };
 
   return (
-    <section className="relative pb-16 md:pb-24 bg-gradient-to-b from-slate-50 via-white to-gray-50 overflow-hidden">
+    <section className="relative pb-16 md:pb-24 bg-transparent overflow-hidden">
       {/* Fondo unificado: olas + puntos fluyen a lo largo de toda la sección (cohesión banner ↔ tarjetas) */}
       <svg
         className="pointer-events-none absolute right-0 top-0 z-0 h-full w-[55%] md:w-[42%]"
@@ -146,9 +146,10 @@ const NewsSlider: React.FC = () => {
           <pattern id="dotsLight" width="34" height="34" patternUnits="userSpaceOnUse">
             <circle cx="5" cy="5" r="4.5" fill="#ffffff" />
           </pattern>
-          {/* Fade inferior para que las olas se disuelvan antes del final de la sección */}
+          {/* Fade superior e inferior: las olas emergen del fondo compartido y se disuelven al final */}
           <linearGradient id="waveFade" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#fff" stopOpacity="1" />
+            <stop offset="0%" stopColor="#fff" stopOpacity="0" />
+            <stop offset="14%" stopColor="#fff" stopOpacity="1" />
             <stop offset="72%" stopColor="#fff" stopOpacity="1" />
             <stop offset="100%" stopColor="#fff" stopOpacity="0" />
           </linearGradient>
@@ -196,12 +197,6 @@ const NewsSlider: React.FC = () => {
           </Link>
         </div>
 
-        {/* Capin apoyado sobre las olas (completo dentro del banner) */}
-        <img
-          src="/CapinReportero.webp"
-          alt="Capin Reportero"
-          className="absolute bottom-0 right-[6%] lg:right-[12%] z-20 hidden h-[95%] w-auto object-contain object-bottom md:block"
-        />
       </div>
 
       <div className="relative z-10 container mx-auto px-8 md:px-16 lg:px-20">
