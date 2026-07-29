@@ -10,9 +10,14 @@
  */
 import type { ShopifyArticle } from './shopify';
 
-// En dev se deja vacío y pasa por el proxy de Vite; en producción apunta al host de la API.
-const API_BASE = (import.meta.env.VITE_TMS_API_URL || '').replace(/\/+$/, '');
-const NEWS_ENDPOINT = `${API_BASE}/api/publica/noticias`;
+// El módulo vive en el TMS Plus. En dev se usa ruta relativa y el proxy de Vite
+// (vite.config.ts → TMS_PLUS_PROXY_TARGET) la reenvía server-side, evitando CORS;
+// en producción se arma la URL completa. Mismo patrón que OpenCourseRequestForm.
+const NEWS_PATH = '/api/publica/noticias';
+const newsUrl = (suffix = '') => {
+  const baseUrl = (import.meta.env.VITE_TMS_PLUS_API_URL || '').replace(/\/+$/, '');
+  return `${import.meta.env.PROD ? baseUrl : ''}${NEWS_PATH}${suffix}`;
+};
 
 interface ApiNoticia {
   id: number;
@@ -54,14 +59,14 @@ export async function fetchNews(
   page = 1,
   perPage = 9
 ): Promise<{ articles: ShopifyArticle[]; total: number }> {
-  const res = await fetch(`${NEWS_ENDPOINT}?page=${page}&per_page=${perPage}`);
+  const res = await fetch(newsUrl(`?page=${page}&per_page=${perPage}`));
   if (!res.ok) throw new Error(`Error al cargar noticias: ${res.status}`);
   const json: ApiListado = await res.json();
   return { articles: json.data.map(toArticle), total: json.total };
 }
 
 export async function fetchNewsBySlug(slug: string): Promise<ShopifyArticle | null> {
-  const res = await fetch(`${NEWS_ENDPOINT}/${encodeURIComponent(slug)}`);
+  const res = await fetch(newsUrl(`/${encodeURIComponent(slug)}`));
   if (res.status === 404) return null; // no existe, oculta o eliminada
   if (!res.ok) throw new Error(`Error al cargar la noticia: ${res.status}`);
   return toArticle(await res.json());
