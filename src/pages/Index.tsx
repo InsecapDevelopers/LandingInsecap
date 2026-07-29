@@ -17,6 +17,7 @@ import NewsSlider from '@/components/NewsSlider';
 import InnovationSection from '@/components/InnovationSection';
 import SimulatorBanner from '@/components/SimulatorBanner';
 import OpenCourseOffer from '@/components/OpenCourseOffer';
+import WaveDivider from '@/components/WaveDivider';
 import { isOpenCourseOfferEnabled, isSimulatorsEnabled } from '@/lib/featureFlags';
 
 const Index = () => {
@@ -28,8 +29,14 @@ const Index = () => {
         {/* Fondo unificado: hero → acreditaciones → noticias fluyen sobre un mismo gradiente */}
         <div className="relative overflow-hidden bg-gradient-to-b from-[hsl(210,20%,98%)] via-white to-gray-50">
           <Hero />
-          {isOpenCourseOfferEnabled && <OpenCourseOffer />}
           <AccreditationsStrip />
+          {isOpenCourseOfferEnabled && (
+            <>
+              {/* -mb-px evita la costura de 1px entre la onda y la sección */}
+              <WaveDivider className="-mb-px" />
+              <OpenCourseOffer />
+            </>
+          )}
           <NewsSlider />
         </div>
         <Catalog />

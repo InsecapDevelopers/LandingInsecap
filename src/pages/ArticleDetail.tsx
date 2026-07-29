@@ -7,7 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowLeft, Share2, Newspaper, X } from 'lucide-react';
-import { fetchArticleByHandleGraphQL, formatArticleDate, ShopifyArticle } from '@/lib/shopify';
+import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
+import { fetchNewsBySlug } from '@/lib/newsData';
 import { toast } from 'sonner';
 import PageHero from '@/components/PageHero';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
@@ -71,7 +72,7 @@ const ArticleDetail = () => {
       
       try {
         setIsLoading(true);
-        const data = await fetchArticleByHandleGraphQL(blogHandle, articleHandle);
+        const data = await fetchNewsBySlug(articleHandle);
         setArticle(data);
       } catch (err) {
         console.error('Error loading article:', err);

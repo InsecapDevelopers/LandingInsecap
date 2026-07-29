@@ -7,7 +7,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowRight, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react';
-import { fetchBlogArticlesGraphQL, formatArticleDate, ShopifyArticle } from '@/lib/shopify';
+import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
+import { fetchNews } from '@/lib/newsData';
 import PageHero from '@/components/PageHero';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
@@ -85,15 +86,15 @@ const ArticleCardSkeleton = () => (
 const Blog = () => {
   const { localizedPath, locale } = useLocalizedPath();
   const [allArticles, setAllArticles] = useState<ShopifyArticle[]>([]);
+  const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const gridRef = useRef<HTMLElement>(null);
 
-  // Paginación client-side (exacta porque tenemos todos los artículos)
-  const start = (currentPage - 1) * ARTICLES_PER_PAGE;
-  const pageArticles = allArticles.slice(start, start + ARTICLES_PER_PAGE);
-  const totalPages = Math.ceil(allArticles.length / ARTICLES_PER_PAGE);
+  // El servidor ya devuelve la página pedida
+  const pageArticles = allArticles;
+  const totalPages = Math.ceil(total / ARTICLES_PER_PAGE);
 
   const content = {
     es: {
@@ -107,31 +108,23 @@ const Blog = () => {
     },
   }[locale];
 
-  // Cargar TODOS los artículos en lotes al montar el componente
   useEffect(() => {
-    const loadAll = async () => {
+    const load = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        const collected: ShopifyArticle[] = [];
-        let cursor: string | null = null;
-
-        // Shopify permite hasta 250 por request; iteramos hasta agotar las páginas
-        do {
-          const data = await fetchBlogArticlesGraphQL('noticias', 250, cursor);
-          collected.push(...data.articles);
-          cursor = data.pageInfo.hasNextPage ? data.pageInfo.endCursor : null;
-        } while (cursor);
-
-        setAllArticles(collected);
+        const { articles, total: totalNoticias } = await fetchNews(currentPage, ARTICLES_PER_PAGE);
+        setAllArticles(articles);
+        setTotal(totalNoticias);
       } catch {
         setError('No se pudieron cargar las noticias. Por favor, intenta de nuevo más tarde.');
       } finally {
         setIsLoading(false);
       }
     };
-    loadAll();
-  }, []);
+    load();
+    // con la API interna cada cambio de página es un request nuevo
+  }, [currentPage]);
 
   const goToPage = (page: number) => {
     setCurrentPage(page);

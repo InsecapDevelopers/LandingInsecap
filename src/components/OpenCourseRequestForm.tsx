@@ -37,9 +37,6 @@ const formatDate = (iso: string) => {
   return Number.isNaN(d.getTime()) ? iso : d.toLocaleDateString('es-CL');
 };
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(value);
-
 // Sentinel: ningún curso real usa este id. Al elegirlo se pide texto libre en vez de idCalendarizacionAbierta.
 const CURSO_NO_LISTADO = '-1';
 
@@ -49,6 +46,8 @@ interface OpenCourseRequestFormProps {
   fixedCiudadNombre?: string;
   fixedTipoContactado?: '1' | '2';
   fixedModalidad?: '1' | '2';
+  /** Preselecciona una fecha del select (id de calendarización que entrega la API). */
+  preselectedCalendarizacionId?: string;
 }
 
 const OpenCourseRequestForm = ({
@@ -56,6 +55,7 @@ const OpenCourseRequestForm = ({
   fixedCiudadNombre,
   fixedTipoContactado,
   fixedModalidad,
+  preselectedCalendarizacionId,
 }: OpenCourseRequestFormProps) => {
   const { locale, localizedPath } = useLocalizedPath();
   const { toast } = useToast();
@@ -71,7 +71,7 @@ const OpenCourseRequestForm = ({
     aceptaPrivacidad: false,
     tipoContactado: (fixedTipoContactado ?? '') as '' | '1' | '2',
     modalidadEjecucion: (fixedModalidad ?? '') as '' | '1' | '2',
-    idCalendarizacionAbierta: '',
+    idCalendarizacionAbierta: preselectedCalendarizacionId ?? '',
     cursoInteres: '',
   });
 
@@ -109,13 +109,20 @@ const OpenCourseRequestForm = ({
     setLoadingCursos(true);
     fetch(getApiUrl(`/api/contacto/cursos-particulares?modalidad=${formData.modalidadEjecucion}`))
       .then((res) => (res.ok ? res.json() : []))
-      .then((data) => {
+      .then((data: CursoParticular[]) => {
         setCursos(data);
-        setFormData((prev) => ({ ...prev, idCalendarizacionAbierta: '' }));
+        // Conserva la fecha que venía preseleccionada desde el carrusel, si sigue vigente.
+        const preseleccionValida =
+          preselectedCalendarizacionId &&
+          data.some((curso) => String(curso.id) === preselectedCalendarizacionId);
+        setFormData((prev) => ({
+          ...prev,
+          idCalendarizacionAbierta: preseleccionValida ? preselectedCalendarizacionId : '',
+        }));
       })
       .catch(() => setCursos([]))
       .finally(() => setLoadingCursos(false));
-  }, [showCursoSelect, formData.modalidadEjecucion]);
+  }, [showCursoSelect, formData.modalidadEjecucion, preselectedCalendarizacionId]);
 
   const content = {
     es: {
@@ -442,9 +449,11 @@ const OpenCourseRequestForm = ({
             ).map(([nombreCurso, fechas]) => (
               <optgroup key={nombreCurso} label={nombreCurso}>
                 {fechas.map((curso) => (
+                  // El nombre va también en la opción: al cerrarse el select el optgroup
+                  // no se ve y solo quedaría la fecha, sin decir de qué curso es.
                   <option key={curso.id} value={curso.id}>
-                    {formatDate(curso.fechaInicio)} al {formatDate(curso.fechaTermino)} —{' '}
-                    {formatCurrency(curso.valorMaximoPorPersona)}
+                    {nombreCurso} — {formatDate(curso.fechaInicio)} al{' '}
+                    {formatDate(curso.fechaTermino)}
                   </option>
                 ))}
               </optgroup>
