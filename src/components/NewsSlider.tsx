@@ -4,7 +4,8 @@ import { Calendar, User, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // Importar tipos y funciones de Shopify
-import { fetchBlogArticlesGraphQL, ShopifyArticle } from '@/lib/shopify';
+import { ShopifyArticle } from '@/lib/shopify';
+import { fetchNews } from '@/lib/newsData';
 
 // Importar componentes UI
 import { Skeleton } from '@/components/ui/skeleton';
@@ -21,7 +22,7 @@ const NewsSlider: React.FC = () => {
     const loadArticles = async () => {
       try {
         setLoading(true);
-        const data = await fetchBlogArticlesGraphQL('noticias', 4);
+        const data = await fetchNews(1, 4);
         setArticles(data.articles);
         setError(null);
       } catch (err) {

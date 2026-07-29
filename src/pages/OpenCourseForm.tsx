@@ -3,9 +3,13 @@ import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import OpenCourseRequestForm from '@/components/OpenCourseRequestForm';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { useSearchParams } from 'react-router-dom';
 
 const OpenCourseForm = () => {
   const { locale } = useLocalizedPath();
+  // ?fecha=<id> llega desde el carrusel de cursos abiertos y preselecciona esa sesión.
+  const [searchParams] = useSearchParams();
+  const fechaId = searchParams.get('fecha') ?? undefined;
 
   const content = {
     es: {
@@ -41,8 +45,9 @@ const OpenCourseForm = () => {
             <div className="max-w-xl mx-auto rounded-2xl shadow-2xl bg-white p-8">
               <OpenCourseRequestForm
                 fixedCiudadNombre="Calama"
-                fixedTipoContactado="2"
+                fixedTipoContactado="1"
                 fixedModalidad="1"
+                preselectedCalendarizacionId={fechaId}
               />
             </div>
           </div>

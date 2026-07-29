@@ -17,7 +17,8 @@ export default defineConfig(({ mode }) => {
         ignored: ['**/.env', '**/.env.local', '**/.env.*'],
       },
       proxy: {
-        // Ruta más específica primero: /api/contacto va al TMS Plus, el resto de /api al TMS.
+        // Ruta más específica primero: /api/contacto va al TMS Plus, el resto de /api
+        // (incluido /api/publica/noticias) al TMS.
         '/api/contacto': {
           target: tmsPlusTarget,
           changeOrigin: true,

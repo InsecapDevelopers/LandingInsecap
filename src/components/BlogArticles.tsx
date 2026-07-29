@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, User, ArrowRight, Newspaper } from 'lucide-react';
-import { fetchBlogArticles, formatArticleDate, ShopifyArticle } from '@/lib/shopify';
+import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
+import { fetchNews } from '@/lib/newsData';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 interface ArticleCardProps {
@@ -105,7 +106,7 @@ export const BlogArticles = ({ blogHandle = 'news', limit = 6, showTitle = true 
     const loadArticles = async () => {
       try {
         setIsLoading(true);
-        const data = await fetchBlogArticles(blogHandle, limit);
+        const { articles: data } = await fetchNews(1, limit);
         setArticles(data);
       } catch (err) {
         setError(t('blog.loadError'));
