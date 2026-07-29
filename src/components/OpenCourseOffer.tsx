@@ -132,7 +132,13 @@ const OpenCourseOffer = () => {
   const cardRotate = useTransform(scrollYProgress, [0.15, 0.7], [5, 0]);
 
   return (
-    <section ref={sectionRef} id="curso-abierto" className="relative py-20 md:py-28 overflow-hidden">
+    <section
+      ref={sectionRef}
+      id="curso-abierto"
+      // Superficie propia: sin un fondo distinto la onda separadora no contrasta contra
+      // el blanco de la sección anterior y no se lee como corte entre bloques.
+      className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-sky-50 via-indigo-50/60 to-white"
+    >
       {/* ── Rolling text ── */}
       <div
         className="text-center text-[clamp(1.8rem,6vw,4rem)] font-extrabold uppercase tracking-tight text-insecap-blue mb-12 md:mb-16 px-4"
@@ -166,10 +172,10 @@ const OpenCourseOffer = () => {
             aria-selected={current === i}
             aria-controls={`curso-panel-${i}`}
             onClick={() => api?.scrollTo(i)}
-            className={`px-5 py-3 rounded-full text-sm font-semibold transition-all ${
+            className={`px-7 py-4 md:px-9 md:py-5 rounded-full text-base md:text-lg font-semibold transition-all duration-150 active:scale-95 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-insecap-blue focus-visible:ring-offset-2 ${
               current === i
                 ? 'bg-insecap-blue text-white shadow-lg shadow-insecap-blue/30'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
+                : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900'
             }`}
           >
             {offer.title} {offer.titleHighlight}
