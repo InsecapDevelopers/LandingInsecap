@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from 'framer-motion';
-import { ArrowRight, Calendar, MapPin, Users } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, MapPin, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
@@ -69,6 +69,21 @@ const OFFERS = [
     ],
     details: [
       { icon: MapPin, text: 'Sede Calama · La Cascada 1513' },
+      { icon: Users, text: 'Cupos limitados · certificación incluida' },
+    ],
+  },
+  {
+    title: 'SAP PM:',
+    titleHighlight: 'Gestión de Mantenimiento',
+    description:
+      'Curso sincrónico sobre el módulo PM de SAP: avisos, órdenes de trabajo, planes preventivos e indicadores. Dirigido a personal de mantenimiento y planificación que opera el sistema.',
+    image:
+      'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/bc61442a-b46b-4d98-9bad-19da6d6aaeab.jpeg',
+    // Sin id de calendarización: el formulario deja elegir el curso
+    sessions: [{ id: null, label: '28-08-2026' }],
+    modalidad: 'Modalidad sincrónica',
+    details: [
+      { icon: Clock, text: '24 horas cronológicas' },
       { icon: Users, text: 'Cupos limitados · certificación incluida' },
     ],
   },
@@ -202,7 +217,7 @@ const OpenCourseOffer = () => {
                     <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
                       <img
                         src={offer.image}
-                        alt={`Afiche del curso ${offer.title} ${offer.titleHighlight}, agosto 2026, sede Calama, modalidad presencial`}
+                        alt={`Afiche del curso ${offer.title} ${offer.titleHighlight}, agosto 2026`}
                         className="absolute inset-0 w-full h-full object-cover"
                         loading={slide === 0 ? 'eager' : 'lazy'}
                       />
@@ -231,7 +246,8 @@ const OpenCourseOffer = () => {
                         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                           <span className="text-slate-800 font-semibold">Agosto 2026</span>
                           <span className="text-slate-500 text-sm">
-                            {t('openOffer.modality', 'Modalidad presencial (seleccione la fecha)')}
+                            {offer.modalidad ??
+                              t('openOffer.modality', 'Modalidad presencial (seleccione la fecha)')}
                           </span>
                         </div>
                       </div>
@@ -241,7 +257,7 @@ const OpenCourseOffer = () => {
                         {offer.sessions.map((fecha) => (
                           <li key={fecha.id}>
                             <Link
-                              to={`${localizedPath(OFFER_HREF)}?fecha=${fecha.id}`}
+                              to={`${localizedPath(OFFER_HREF)}${fecha.id ? `?fecha=${fecha.id}` : ''}`}
                               aria-label={`Inscribirse en ${offer.title} ${offer.titleHighlight}, ${fecha.label}`}
                               className="group flex items-center justify-between gap-3 px-4 py-3 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium tabular-nums transition-all duration-150 hover:border-blue-500 hover:text-insecap-blue active:scale-[0.98] motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"
                             >
