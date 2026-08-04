@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
-import { BriefcaseBusiness } from 'lucide-react';
+import { CalendarDays } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { useTranslation } from 'react-i18next';
 
 interface ClientTypeSwitchProps {
-  activeMode: 'empresa' | 'particular';
+  // 'abiertos' reemplaza al antiguo 'particular': el catálogo B2C dejó de ofrecerse.
+  activeMode: 'empresa' | 'abiertos';
 }
 
 export const ClientTypeSwitch = ({ activeMode }: ClientTypeSwitchProps) => {
@@ -15,17 +16,17 @@ export const ClientTypeSwitch = ({ activeMode }: ClientTypeSwitchProps) => {
   const content = {
     es: {
       clientTypeLabel: 'Tipo de cliente',
-      peopleClient: 'Particular',
+      peopleClient: 'Cursos Abiertos',
       businessClient: 'Empresa',
     },
     en: {
       clientTypeLabel: 'Client type',
-      peopleClient: 'Individual',
+      peopleClient: 'Open Courses',
       businessClient: 'Corporate',
     },
     pt: {
       clientTypeLabel: 'Tipo de cliente',
-      peopleClient: 'Particular',
+      peopleClient: 'Cursos Abertos',
       businessClient: 'Empresa',
     },
   };
@@ -55,7 +56,7 @@ export const ClientTypeSwitch = ({ activeMode }: ClientTypeSwitchProps) => {
                   {messages.businessClient}
                 </Button>
               </Link>
-              <Link to={localizedPath('/cursos')} className="flex-1 md:flex-none">
+              <Link to={localizedPath('/cursos-abiertos')} className="flex-1 md:flex-none">
                 <Button
                   variant={!isEmpresa ? 'default' : 'ghost'}
                   disabled={!isEmpresa}
@@ -65,7 +66,7 @@ export const ClientTypeSwitch = ({ activeMode }: ClientTypeSwitchProps) => {
                       : 'text-muted-foreground transition-colors hover:text-foreground'
                   }`}
                 >
-                  <BriefcaseBusiness className="mr-2 h-4 w-4" />
+                  <CalendarDays className="mr-2 h-4 w-4" />
                   {messages.peopleClient}
                 </Button>
               </Link>

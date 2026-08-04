@@ -509,7 +509,7 @@ const LegacyCourseCatalog = () => {
           breadcrumbs={[{ label: content.breadcrumb }]}
         />
 
-        <ClientTypeSwitch activeMode="particular" />
+        <ClientTypeSwitch activeMode="abiertos" />
 
         <div className="container mx-auto px-8 md:px-14 lg:px-16 mt-12">
           {/* Intro */}

@@ -22,6 +22,7 @@ import QualityPolicy from "./pages/QualityPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Contact from "./pages/Contact";
 import B2bCourseCatalogPage from "./pages/B2bCourseCatalogPage";
+import OpenCoursesCatalog from "./pages/OpenCoursesCatalog";
 import B2bCourseDetailPage from "./pages/B2bCourseDetailPage";
 import SimulatorCatalog from "./pages/SimulatorCatalog";
 import SimulatorModels from "./pages/SimulatorModels";
@@ -37,11 +38,21 @@ import { isSimulatorsEnabled } from "./lib/featureFlags";
 
 const queryClient = new QueryClient();
 
+/** /cursos (catálogo B2C retirado) → /cursos-abiertos, conservando el prefijo de idioma.
+ *  Un `Navigate` relativo caería en la ruta `cursos/:handle` y daría "Curso no encontrado". */
+const CursosRedirect = () => {
+  const { locale } = useParams();
+
+  return <Navigate to={locale ? `/${locale}/cursos-abiertos` : '/cursos-abiertos'} replace />;
+};
+
 const routeDefinitions = [
   { path: '', element: <Index /> },
   { path: 'curso/:handle', element: <CourseDetail /> },
   { path: 'cursos/:handle', element: <CourseDetail /> },
-  { path: 'cursos', element: <CourseCatalog /> },
+  // El catálogo particular (B2C) se retiró: /cursos redirige a los cursos abiertos.
+  { path: 'cursos', element: <CursosRedirect /> },
+  { path: 'cursos-abiertos', element: <OpenCoursesCatalog /> },
   { path: 'cursos-empresas', element: <B2bCourseCatalogPage /> },
   { path: 'curso-empresa/:handle', element: <B2bCourseDetailPage /> },
   ...(isSimulatorsEnabled
@@ -70,6 +81,7 @@ const LegacyRedirect = () => {
 
   return <Navigate to={`${buildLocalizedPath(location.pathname, fallbackLanguage)}${location.search}${location.hash}`} replace />;
 };
+
 
 const LocaleRouteSync = () => {
   const { locale } = useParams();
