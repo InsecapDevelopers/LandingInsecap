@@ -40,12 +40,26 @@ const formatDate = (iso: string) => {
 // Sentinel: ningún curso real usa este id. Al elegirlo se pide texto libre en vez de idCalendarizacionAbierta.
 const CURSO_NO_LISTADO = '-1';
 
+// Cursos abiertos ofertados que todavía no tienen calendarización cargada en el TMS.
+// Se listan igual para que se puedan solicitar; viajan como texto libre (cursoInteres),
+// no como idCalendarizacionAbierta. Al cargarlos en el TMS, borrar la entrada de aquí.
+const CURSOS_SIN_CALENDARIZACION = [
+  {
+    id: '-2',
+    modalidad: '2', // sincrónico / online
+    nombreCurso: 'SAP PM: Gestión de Mantenimiento',
+    fecha: '28-08-2026',
+  },
+];
+
 interface OpenCourseRequestFormProps {
   onSuccess?: () => void;
   // Cuando se pasan, fijan y ocultan el campo correspondiente (ej. vista /formulario/cursos-abiertos).
   fixedCiudadNombre?: string;
   fixedTipoContactado?: '1' | '2';
   fixedModalidad?: '1' | '2';
+  /** Preselecciona la modalidad dejándola editable (hay cursos abiertos presenciales y online). */
+  defaultModalidad?: '1' | '2';
   /** Preselecciona una fecha del select (id de calendarización que entrega la API). */
   preselectedCalendarizacionId?: string;
 }
@@ -55,6 +69,7 @@ const OpenCourseRequestForm = ({
   fixedCiudadNombre,
   fixedTipoContactado,
   fixedModalidad,
+  defaultModalidad,
   preselectedCalendarizacionId,
 }: OpenCourseRequestFormProps) => {
   const { locale, localizedPath } = useLocalizedPath();
@@ -70,7 +85,7 @@ const OpenCourseRequestForm = ({
     noTieneRut: false,
     aceptaPrivacidad: false,
     tipoContactado: (fixedTipoContactado ?? '') as '' | '1' | '2',
-    modalidadEjecucion: (fixedModalidad ?? '') as '' | '1' | '2',
+    modalidadEjecucion: (fixedModalidad ?? defaultModalidad ?? '') as '' | '1' | '2',
     idCalendarizacionAbierta: preselectedCalendarizacionId ?? '',
     cursoInteres: '',
   });
@@ -97,8 +112,19 @@ const OpenCourseRequestForm = ({
 
   // El select de cursos reemplaza el texto libre cuando la modalidad viene fija (vista /cursos-abiertos)
   // o cuando el usuario elige "Particular" en el flujo general de contacto.
-  const showCursoSelect = fixedModalidad !== undefined || formData.tipoContactado === '1';
+  const showCursoSelect =
+    fixedModalidad !== undefined || defaultModalidad !== undefined || formData.tipoContactado === '1';
   const cursoNoListadoSelected = showCursoSelect && formData.idCalendarizacionAbierta === CURSO_NO_LISTADO;
+
+  // Cursos ofertados sin calendarización, filtrados por la modalidad elegida.
+  const cursosSinCalendarizacion = CURSOS_SIN_CALENDARIZACION.filter(
+    (c) => c.modalidad === formData.modalidadEjecucion
+  );
+  const cursoSinCalendarizacionSelected = cursosSinCalendarizacion.find(
+    (c) => c.id === formData.idCalendarizacionAbierta
+  );
+  // Ambos casos viajan como texto libre; solo el "no listado" pide escribirlo a mano.
+  const enviarComoTextoLibre = cursoNoListadoSelected || Boolean(cursoSinCalendarizacionSelected);
 
   useEffect(() => {
     if (!showCursoSelect || !formData.modalidadEjecucion) {
@@ -254,8 +280,12 @@ const OpenCourseRequestForm = ({
         tipoContactado: Number(formData.tipoContactado),
         modalidadEjecucion: Number(formData.modalidadEjecucion),
         idCalendarizacionAbierta:
-          showCursoSelect && !cursoNoListadoSelected ? Number(formData.idCalendarizacionAbierta) : null,
-        cursoInteres: !showCursoSelect || cursoNoListadoSelected ? formData.cursoInteres.trim() : null,
+          showCursoSelect && !enviarComoTextoLibre ? Number(formData.idCalendarizacionAbierta) : null,
+        cursoInteres: cursoSinCalendarizacionSelected
+          ? `${cursoSinCalendarizacionSelected.nombreCurso} — ${cursoSinCalendarizacionSelected.fecha}`
+          : !showCursoSelect || cursoNoListadoSelected
+            ? formData.cursoInteres.trim()
+            : null,
       };
 
       const res = await fetch(getApiUrl('/api/contacto'), {
@@ -438,9 +468,18 @@ const OpenCourseRequestForm = ({
             className="w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:border-blue-400 h-11 disabled:opacity-50"
           >
             <option value="">
-              {loadingCursos ? content.loadingCursos : cursos.length === 0 ? content.noCursos : content.selectPlaceholder}
+              {loadingCursos
+                ? content.loadingCursos
+                : cursos.length === 0 && cursosSinCalendarizacion.length === 0
+                  ? content.noCursos
+                  : content.selectPlaceholder}
             </option>
             <option value={CURSO_NO_LISTADO}>{content.cursoNoListado}</option>
+            {cursosSinCalendarizacion.map((curso) => (
+              <option key={curso.id} value={curso.id}>
+                {curso.nombreCurso} — {curso.fecha}
+              </option>
+            ))}
             {Object.entries(
               cursos.reduce<Record<string, CursoParticular[]>>((grupos, curso) => {
                 (grupos[curso.nombreCurso] ??= []).push(curso);

@@ -43,10 +43,11 @@ const OpenCourseForm = () => {
         <section className="py-10 lg:py-14">
           <div className="container mx-auto px-8 md:px-14 lg:px-16">
             <div className="max-w-xl mx-auto rounded-2xl shadow-2xl bg-white p-8">
+              {/* defaultModalidad (no fixed): la oferta incluye presenciales y online */}
               <OpenCourseRequestForm
                 fixedCiudadNombre="Calama"
                 fixedTipoContactado="1"
-                fixedModalidad="1"
+                defaultModalidad="1"
                 preselectedCalendarizacionId={fechaId}
               />
             </div>
