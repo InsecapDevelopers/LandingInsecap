@@ -68,13 +68,6 @@ const teamByArea: TeamArea[] = [
         location: 'Calama'
       },
       {
-        name: 'Paola Rojas Medina',
-        role: 'ASESOR COMERCIAL',
-        email: 'projas@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Paola_Rojas_COMP.webp?v=1769089936',
-        location: 'Santiago'
-      },
-      {
         name: 'Natalie Galván Sierra',
         role: 'ASESOR COMERCIAL',
         email: 'ngalvan@insecap.cl',
@@ -144,13 +137,6 @@ const teamByArea: TeamArea[] = [
   {
     area: 'Diseño de Cursos',
     members: [
-      {
-        name: 'Eduardo Ramírez Pizarro',
-        role: 'DISEÑADOR CURRICULAR',
-        email: 'eramirez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Eduardo_Ramirez_COMP.webp?v=1769089936',
-        location: 'Antofagasta'
-      },
       {
         name: 'Franco Picón Viza',
         role: 'DISEÑADOR CURRICULAR',
@@ -317,7 +303,7 @@ const teamByArea: TeamArea[] = [
         role: 'INFRAESTRUCTURA TI',
         email: 'rmorales@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Renato_-_copia.webp?v=1776264169',
-        location: 'Antofagasta - Calama'
+        location: 'Antofagasta'
       }
     ]
   },
