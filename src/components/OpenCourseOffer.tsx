@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from 'framer-motion';
-import { ArrowRight, Calendar, Clock, MapPin, Users } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, Info, MapPin, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
@@ -79,9 +79,11 @@ const OFFERS = [
       'Curso sincrónico sobre el módulo PM de SAP: avisos, órdenes de trabajo, planes preventivos e indicadores. Dirigido a personal de mantenimiento y planificación que opera el sistema.',
     image:
       'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/bc61442a-b46b-4d98-9bad-19da6d6aaeab.jpeg',
-    // Sin id de calendarización: el formulario deja elegir el curso
-    sessions: [{ id: null, label: '28-08-2026' }],
+    // id "-2" = entrada de CURSOS_SIN_CALENDARIZACION del formulario (aún no está en el TMS)
+    sessions: [{ id: '-2', label: '28-08-2026' }],
+    modalidadId: '2',
     modalidad: 'Modalidad sincrónica',
+    nota: 'La fecha indicada corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el relator en la primera sesión.',
     details: [
       { icon: Clock, text: '24 horas cronológicas' },
       { icon: Users, text: 'Cupos limitados · certificación incluida' },
@@ -257,7 +259,7 @@ const OpenCourseOffer = () => {
                         {offer.sessions.map((fecha) => (
                           <li key={fecha.id}>
                             <Link
-                              to={`${localizedPath(OFFER_HREF)}${fecha.id ? `?fecha=${fecha.id}` : ''}`}
+                              to={`${localizedPath(OFFER_HREF)}?fecha=${fecha.id}&modalidad=${offer.modalidadId ?? '1'}`}
                               aria-label={`Inscribirse en ${offer.title} ${offer.titleHighlight}, ${fecha.label}`}
                               className="group flex items-center justify-between gap-3 px-4 py-3 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium tabular-nums transition-all duration-150 hover:border-blue-500 hover:text-insecap-blue active:scale-[0.98] motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"
                             >
@@ -272,6 +274,12 @@ const OpenCourseOffer = () => {
                           </li>
                         ))}
                       </ul>
+                      {offer.nota && (
+                        <p className="mt-4 flex gap-2 text-sm leading-relaxed text-slate-500">
+                          <Info className="mt-0.5 w-4 h-4 shrink-0 text-blue-600" />
+                          <span>{offer.nota}</span>
+                        </p>
+                      )}
                     </div>
 
                     <div className="grid gap-4">
@@ -288,7 +296,7 @@ const OpenCourseOffer = () => {
 
                     <div className="mt-4">
                       <Link
-                        to={localizedPath(OFFER_HREF)}
+                        to={`${localizedPath(OFFER_HREF)}?fecha=${offer.sessions[0].id}&modalidad=${offer.modalidadId ?? '1'}`}
                         className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-white shadow-lg shadow-sky-500/30 transition-transform duration-100 ease-out hover:scale-105 active:scale-90 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
                         style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #38BDF8 100%)' }}
                       >

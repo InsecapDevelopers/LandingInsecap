@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Calendar, MapPin, Clock, ArrowRight } from "lucide-react";
+import { Calendar, MapPin, Clock, ArrowRight, Info } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
@@ -58,9 +58,15 @@ const CURSOS = [
     imagen:
       "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/bc61442a-b46b-4d98-9bad-19da6d6aaeab.jpeg",
     modalidad: "Sincrónico",
+    modalidadId: "2",
     duracion: "24 horas",
-    // Sin id: no tiene calendarización cargada, el formulario deja elegir el curso
-    sesiones: [{ id: null, label: "28-08-2026" }],
+    // id "-2" = entrada de CURSOS_SIN_CALENDARIZACION en el formulario (aún no está en el TMS)
+    sesiones: [{ id: "-2", label: "28-08-2026" }],
+    nota: {
+      es: "La fecha indicada corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el relator en la primera sesión.",
+      en: "The date shown is the first day (Friday, 4 hrs). The 24 hrs are split into 4-hr Fridays and 8-hr Saturdays; remaining days are agreed with the instructor in the first session.",
+      pt: "A data indicada corresponde ao primeiro dia (sexta-feira, 4 hrs). As 24 hrs sao distribuidas em sextas de 4 hrs e sabados de 8 hrs; os demais dias sao acordados com o instrutor na primeira sessao.",
+    },
   },
 ];
 
@@ -180,7 +186,7 @@ const OpenCoursesCatalog = () => {
                       {curso.sesiones.map((sesion) => (
                         <li key={sesion.label}>
                           <Link
-                            to={`${localizedPath(FORM_HREF)}${sesion.id ? `?fecha=${sesion.id}` : ""}`}
+                            to={`${localizedPath(FORM_HREF)}?fecha=${sesion.id}&modalidad=${curso.modalidadId ?? "1"}`}
                             aria-label={`${content.enroll}: ${curso.titulo}, ${sesion.label}`}
                             className="group flex items-center justify-between gap-3 rounded-lg border border-border bg-background px-4 py-3 text-sm font-medium tabular-nums transition-all duration-150 hover:border-insecap-blue hover:text-insecap-blue active:scale-[0.98] motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-insecap-blue"
                           >
@@ -195,6 +201,13 @@ const OpenCoursesCatalog = () => {
                         </li>
                       ))}
                     </ul>
+
+                    {curso.nota && (
+                      <p className="mt-4 flex gap-2 rounded-lg bg-muted/60 p-3 text-xs leading-relaxed text-muted-foreground">
+                        <Info className="mt-0.5 w-4 h-4 shrink-0 text-insecap-blue" />
+                        <span>{curso.nota[locale]}</span>
+                      </p>
+                    )}
                   </div>
                 </article>
               ))}

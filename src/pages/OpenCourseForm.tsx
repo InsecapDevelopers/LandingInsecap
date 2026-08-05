@@ -7,9 +7,10 @@ import { useSearchParams } from 'react-router-dom';
 
 const OpenCourseForm = () => {
   const { locale } = useLocalizedPath();
-  // ?fecha=<id> llega desde el carrusel de cursos abiertos y preselecciona esa sesión.
+  // ?fecha=<id>&modalidad=<1|2> llegan desde el catálogo de cursos abiertos y preseleccionan la sesión.
   const [searchParams] = useSearchParams();
   const fechaId = searchParams.get('fecha') ?? undefined;
+  const modalidad = searchParams.get('modalidad') === '2' ? '2' : '1';
 
   const content = {
     es: {
@@ -47,7 +48,7 @@ const OpenCourseForm = () => {
               <OpenCourseRequestForm
                 fixedCiudadNombre="Calama"
                 fixedTipoContactado="1"
-                defaultModalidad="1"
+                defaultModalidad={modalidad}
                 preselectedCalendarizacionId={fechaId}
               />
             </div>

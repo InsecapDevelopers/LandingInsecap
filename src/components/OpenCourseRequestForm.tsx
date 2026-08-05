@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Send, Loader2, CheckCircle2 } from 'lucide-react';
+import { Send, Loader2, CheckCircle2, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -49,6 +49,11 @@ const CURSOS_SIN_CALENDARIZACION = [
     modalidad: '2', // sincrónico / online
     nombreCurso: 'SAP PM: Gestión de Mantenimiento',
     fecha: '28-08-2026',
+    nota: {
+      es: 'La fecha corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el relator en la primera sesión.',
+      en: 'The date shown is the first day (Friday, 4 hrs). The 24 hrs are split into 4-hr Fridays and 8-hr Saturdays; remaining days are agreed with the instructor in the first session.',
+      pt: 'A data indicada corresponde ao primeiro dia (sexta-feira, 4 hrs). As 24 hrs sao distribuidas em sextas de 4 hrs e sabados de 8 hrs; os demais dias sao acordados com o instrutor na primeira sessao.',
+    },
   },
 ];
 
@@ -137,10 +142,12 @@ const OpenCourseRequestForm = ({
       .then((res) => (res.ok ? res.json() : []))
       .then((data: CursoParticular[]) => {
         setCursos(data);
-        // Conserva la fecha que venía preseleccionada desde el carrusel, si sigue vigente.
+        // Conserva la fecha que venía preseleccionada desde el catálogo, si sigue vigente.
+        // Los cursos sin calendarización no vienen en la respuesta: se validan aparte.
         const preseleccionValida =
           preselectedCalendarizacionId &&
-          data.some((curso) => String(curso.id) === preselectedCalendarizacionId);
+          (data.some((curso) => String(curso.id) === preselectedCalendarizacionId) ||
+            CURSOS_SIN_CALENDARIZACION.some((c) => c.id === preselectedCalendarizacionId));
         setFormData((prev) => ({
           ...prev,
           idCalendarizacionAbierta: preseleccionValida ? preselectedCalendarizacionId : '',
@@ -498,6 +505,12 @@ const OpenCourseRequestForm = ({
               </optgroup>
             ))}
           </select>
+          {cursoSinCalendarizacionSelected?.nota && (
+            <p className="mt-2 flex gap-2 rounded-xl bg-slate-50 border border-slate-200 p-3 text-xs leading-relaxed text-slate-600">
+              <Info className="mt-0.5 w-4 h-4 shrink-0 text-blue-600" />
+              <span>{cursoSinCalendarizacionSelected.nota[locale]}</span>
+            </p>
+          )}
           {cursoNoListadoSelected && (
             <Input
               name="cursoInteres"
