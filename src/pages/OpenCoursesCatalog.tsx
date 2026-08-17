@@ -60,8 +60,9 @@ const CURSOS = [
     modalidad: "Sincrónico",
     modalidadId: "2",
     duracion: "24 horas",
-    // id "-2" = entrada de CURSOS_SIN_CALENDARIZACION en el formulario (aún no está en el TMS)
-    sesiones: [{ id: "-2", label: "28-08-2026" }],
+    // id 468 = calendarización real del TMS (ES-TEC-3001, 28-08-2026 al 01-09-2026).
+    // Antes era "-2" (entrada hardcodeada del formulario), que no generaba interesado en el R08.
+    sesiones: [{ id: "468", label: "28-08-2026" }],
     nota: {
       es: "La fecha indicada corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el relator en la primera sesión.",
       en: "The date shown is the first day (Friday, 4 hrs). The 24 hrs are split into 4-hr Fridays and 8-hr Saturdays; remaining days are agreed with the instructor in the first session.",

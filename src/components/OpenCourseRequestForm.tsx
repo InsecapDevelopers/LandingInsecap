@@ -43,19 +43,28 @@ const CURSO_NO_LISTADO = '-1';
 // Cursos abiertos ofertados que todavía no tienen calendarización cargada en el TMS.
 // Se listan igual para que se puedan solicitar; viajan como texto libre (cursoInteres),
 // no como idCalendarizacionAbierta. Al cargarlos en el TMS, borrar la entrada de aquí.
-const CURSOS_SIN_CALENDARIZACION = [
-  {
-    id: '-2',
-    modalidad: '2', // sincrónico / online
-    nombreCurso: 'SAP PM: Gestión de Mantenimiento',
-    fecha: '28-08-2026',
-    nota: {
-      es: 'La fecha corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el relator en la primera sesión.',
-      en: 'The date shown is the first day (Friday, 4 hrs). The 24 hrs are split into 4-hr Fridays and 8-hr Saturdays; remaining days are agreed with the instructor in the first session.',
-      pt: 'A data indicada corresponde ao primeiro dia (sexta-feira, 4 hrs). As 24 hrs sao distribuidas em sextas de 4 hrs e sabados de 8 hrs; os demais dias sao acordados com o instrutor na primeira sessao.',
-    },
+//
+// OJO: un curso listado acá NO genera interesado en el R08 del TMS — el backend solo lo crea
+// cuando llega un idCalendarizacionAbierta real (ContactoPublicoController). Por eso esta lista
+// es un último recurso: si el curso ya tiene calendarización vigente, sacarlo de acá.
+const CURSOS_SIN_CALENDARIZACION: {
+  id: string;
+  modalidad: string;
+  nombreCurso: string;
+  fecha: string;
+  nota?: Record<string, string>;
+}[] = [];
+
+// Aclaraciones por calendarización (id que entrega /cursos-particulares). Para cursos cuya
+// distribución horaria no se deduce de las fechas del select.
+const NOTAS_POR_CALENDARIZACION: Record<string, Record<string, string>> = {
+  // 468 = SAP PM (ES-TEC-3001), 28-08-2026: 24 hrs repartidas en viernes y sábados.
+  '468': {
+    es: 'La fecha corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el relator en la primera sesión.',
+    en: 'The date shown is the first day (Friday, 4 hrs). The 24 hrs are split into 4-hr Fridays and 8-hr Saturdays; remaining days are agreed with the instructor in the first session.',
+    pt: 'A data indicada corresponde ao primeiro dia (sexta-feira, 4 hrs). As 24 hrs sao distribuidas em sextas de 4 hrs e sabados de 8 hrs; os demais dias sao acordados com o instrutor na primeira sessao.',
   },
-];
+};
 
 interface OpenCourseRequestFormProps {
   onSuccess?: () => void;
@@ -130,6 +139,11 @@ const OpenCourseRequestForm = ({
   );
   // Ambos casos viajan como texto libre; solo el "no listado" pide escribirlo a mano.
   const enviarComoTextoLibre = cursoNoListadoSelected || Boolean(cursoSinCalendarizacionSelected);
+  // La aclaración horaria sale del mapa por calendarización; si el curso todavía es hardcodeado,
+  // se usa la suya.
+  const notaCurso =
+    cursoSinCalendarizacionSelected?.nota ??
+    NOTAS_POR_CALENDARIZACION[formData.idCalendarizacionAbierta];
 
   useEffect(() => {
     if (!showCursoSelect || !formData.modalidadEjecucion) {
@@ -304,7 +318,13 @@ const OpenCourseRequestForm = ({
       const result = await res.json().catch(() => null);
 
       if (!res.ok || !result?.success) {
-        toast({ variant: 'destructive', title: content.errorTitle, description: result?.message || content.errorDesc });
+        // El backend manda la lista de campos inválidos en `errors`; se muestran en vez del mensaje genérico
+        const errors: string[] = Array.isArray(result?.errors) ? result.errors : [];
+        toast({
+          variant: 'destructive',
+          title: content.errorTitle,
+          description: errors.length ? errors.join(' ') : result?.message || content.errorDesc,
+        });
         return;
       }
 
@@ -402,7 +422,9 @@ const OpenCourseRequestForm = ({
           value={formData.ciudadId}
           onChange={(e) => setFormData((prev) => ({ ...prev, ciudadId: e.target.value }))}
           required
-          disabled={!!fixedCiudadNombre}
+          // Si la ciudad fija no existe en el catálogo, se deja elegir: un select deshabilitado
+          // salta el `required` y el backend responde 400 (CiudadId obligatorio).
+          disabled={!!fixedCiudadNombre && !!formData.ciudadId}
           className="w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:border-blue-400 h-11 disabled:opacity-70 disabled:cursor-not-allowed"
         >
           <option value="">{content.selectPlaceholder}</option>
@@ -505,10 +527,10 @@ const OpenCourseRequestForm = ({
               </optgroup>
             ))}
           </select>
-          {cursoSinCalendarizacionSelected?.nota && (
+          {notaCurso && (
             <p className="mt-2 flex gap-2 rounded-xl bg-slate-50 border border-slate-200 p-3 text-xs leading-relaxed text-slate-600">
               <Info className="mt-0.5 w-4 h-4 shrink-0 text-blue-600" />
-              <span>{cursoSinCalendarizacionSelected.nota[locale]}</span>
+              <span>{notaCurso[locale]}</span>
             </p>
           )}
           {cursoNoListadoSelected && (

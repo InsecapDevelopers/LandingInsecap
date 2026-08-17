@@ -79,8 +79,9 @@ const OFFERS = [
       'Curso sincrónico sobre el módulo PM de SAP: avisos, órdenes de trabajo, planes preventivos e indicadores. Dirigido a personal de mantenimiento y planificación que opera el sistema.',
     image:
       'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/bc61442a-b46b-4d98-9bad-19da6d6aaeab.jpeg',
-    // id "-2" = entrada de CURSOS_SIN_CALENDARIZACION del formulario (aún no está en el TMS)
-    sessions: [{ id: '-2', label: '28-08-2026' }],
+    // id 468 = calendarización real del TMS (ES-TEC-3001, 28-08-2026 al 01-09-2026).
+    // Antes era '-2' (entrada hardcodeada del formulario), que no generaba interesado en el R08.
+    sessions: [{ id: '468', label: '28-08-2026' }],
     modalidadId: '2',
     modalidad: 'Modalidad sincrónica',
     nota: 'La fecha indicada corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el relator en la primera sesión.',
