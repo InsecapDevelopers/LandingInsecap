@@ -486,17 +486,19 @@ const BeRelator = () => {
       return;
     }
 
-    if (cvFile) {
-      const fileName = cvFile.name.toLowerCase();
-      const validExtensions = ['.pdf', '.doc', '.docx'];
-      if (!validExtensions.some((ext) => fileName.endsWith(ext))) {
-        toast({ variant: "destructive", title: content.invalidFileTitle, description: content.invalidFileDesc });
-        return;
-      }
-      if (cvFile.size > 25 * 1024 * 1024) {
-        toast({ variant: "destructive", title: content.invalidFileTitle, description: content.fileTooLargeDesc });
-        return;
-      }
+    if (!cvFile) {
+      toast({ variant: "destructive", title: content.invalidFileTitle, description: content.cvRequiredDesc });
+      return;
+    }
+
+    const fileName = cvFile.name.toLowerCase();
+    if (!['.pdf', '.doc', '.docx'].some((ext) => fileName.endsWith(ext))) {
+      toast({ variant: "destructive", title: content.invalidFileTitle, description: content.invalidFileDesc });
+      return;
+    }
+    if (cvFile.size > 25 * 1024 * 1024) {
+      toast({ variant: "destructive", title: content.invalidFileTitle, description: content.fileTooLargeDesc });
+      return;
     }
 
     setShowConfirm(true);
@@ -646,6 +648,7 @@ const BeRelator = () => {
       invalidFileTitle: 'Archivo inválido',
       invalidFileDesc: 'Adjunta un archivo PDF, DOC o DOCX válido.',
       fileTooLargeDesc: 'El currículum no puede superar los 25 MB.',
+      cvRequiredDesc: 'Debes adjuntar tu currículum para poder postular.',
       errorTitle: 'No se pudo enviar la postulación',
       errorDesc: 'Ocurrió un problema al enviar tu información. Inténtalo nuevamente.',
     },
@@ -697,6 +700,7 @@ const BeRelator = () => {
       invalidFileTitle: 'Invalid file',
       invalidFileDesc: 'Attach a valid PDF, DOC or DOCX file.',
       fileTooLargeDesc: 'The resume file cannot exceed 25 MB.',
+      cvRequiredDesc: 'You must attach your resume to apply.',
       errorTitle: 'Could not submit application',
       errorDesc: 'There was a problem sending your information. Please try again.',
     },
@@ -748,6 +752,7 @@ const BeRelator = () => {
       invalidFileTitle: 'Arquivo inválido',
       invalidFileDesc: 'Anexe um arquivo PDF, DOC ou DOCX válido.',
       fileTooLargeDesc: 'O currículo não pode exceder 25 MB.',
+      cvRequiredDesc: 'Você deve anexar seu currículo para se candidatar.',
       errorTitle: 'Não foi possível enviar a candidatura',
       errorDesc: 'Ocorreu um problema ao enviar suas informações. Tente novamente.',
     },
@@ -1116,7 +1121,7 @@ const BeRelator = () => {
                     {/* CV */}
                     <div className="space-y-1.5">
                       <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
-                        {content.labelCv}
+                        {content.labelCv} <span className="text-red-500">*</span>
                       </label>
                       <button
                         type="button"
