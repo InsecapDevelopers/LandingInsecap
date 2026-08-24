@@ -53,7 +53,18 @@ const CURSOS_SIN_CALENDARIZACION: {
   nombreCurso: string;
   fecha: string;
   nota?: Record<string, string>;
-}[] = [];
+}[] = [
+  // Septiembre 2026 · presenciales Calama (ids negativos, sin calendarización en el TMS todavía)
+  { id: '-10', modalidad: '1', nombreCurso: 'Trabajo en Altura Física', fecha: '01-09-2026' },
+  { id: '-11', modalidad: '1', nombreCurso: 'Trabajo en Altura Física', fecha: '08-09-2026' },
+  { id: '-12', modalidad: '1', nombreCurso: 'Trabajo en Altura Física', fecha: '22-09-2026' },
+  { id: '-13', modalidad: '1', nombreCurso: 'Técnicas de Aislación y Bloqueo', fecha: '03-09-2026' },
+  { id: '-14', modalidad: '1', nombreCurso: 'Técnicas de Aislación y Bloqueo', fecha: '10-09-2026' },
+  { id: '-15', modalidad: '1', nombreCurso: 'Técnicas de Aislación y Bloqueo', fecha: '24-09-2026' },
+  { id: '-16', modalidad: '1', nombreCurso: 'Espacios Confinados', fecha: '04-09-2026' },
+  { id: '-17', modalidad: '1', nombreCurso: 'Espacios Confinados', fecha: '11-09-2026' },
+  { id: '-18', modalidad: '1', nombreCurso: 'Espacios Confinados', fecha: '25-09-2026' },
+];
 
 // Aclaraciones por calendarización (id que entrega /cursos-particulares). Para cursos cuya
 // distribución horaria no se deduce de las fechas del select.

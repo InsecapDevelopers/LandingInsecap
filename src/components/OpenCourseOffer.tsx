@@ -25,11 +25,26 @@ const OFFERS = [
       'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/f7ae80b8-69c6-4cd3-b60e-22c98c401da9.jpeg',
     // Las fechas son datos, no una frase: se listan una por línea para poder escanearlas.
     // id = calendarización de la API (/api/contacto/cursos-particulares); preselecciona la fecha en el form
-    sessions: [
-      { id: '456', label: '03-08-2026 al 04-08-2026' },
-      { id: '457', label: '10-08-2026 al 11-08-2026' },
-      { id: '458', label: '17-08-2026 al 18-08-2026' },
-      { id: '459', label: '24-08-2026 al 24-08-2026' },
+    months: [
+      {
+        label: 'Agosto 2026',
+        sessions: [
+          { id: '456', label: '03-08-2026 al 04-08-2026' },
+          { id: '457', label: '10-08-2026 al 11-08-2026' },
+          { id: '458', label: '17-08-2026 al 18-08-2026' },
+          { id: '459', label: '24-08-2026 al 24-08-2026' },
+        ],
+      },
+      {
+        // ids negativos = sin calendarización aún (CURSOS_SIN_CALENDARIZACION del formulario)
+        label: 'Septiembre 2026',
+        image: 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/fd2e0110-4a81-4300-96b6-7182af43300a.jpeg',
+        sessions: [
+          { id: '-10', label: '01-09-2026' },
+          { id: '-11', label: '08-09-2026' },
+          { id: '-12', label: '22-09-2026' },
+        ],
+      },
     ],
     details: [
       { icon: MapPin, text: 'Sede Calama · La Cascada 1513' },
@@ -43,11 +58,26 @@ const OFFERS = [
       'Curso presencial sobre procedimientos LOTO con simulador de bloqueo eléctrico. Dirigido a personal de mantenimiento y operaciones que interviene equipos energizados.',
     image:
       'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/f7834dae-418d-40fb-bff5-fc60720f0db1.jpeg',
-    sessions: [
-      { id: '460', label: '04-08-2026 al 04-08-2026' },
-      { id: '461', label: '11-08-2026 al 11-08-2026' },
-      { id: '462', label: '18-08-2026 al 18-08-2026' },
-      { id: '463', label: '25-08-2026 al 25-08-2026' },
+    months: [
+      {
+        label: 'Agosto 2026',
+        sessions: [
+          { id: '460', label: '04-08-2026 al 04-08-2026' },
+          { id: '461', label: '11-08-2026 al 11-08-2026' },
+          { id: '462', label: '18-08-2026 al 18-08-2026' },
+          { id: '463', label: '25-08-2026 al 25-08-2026' },
+        ],
+      },
+      {
+        // ids negativos = sin calendarización aún (CURSOS_SIN_CALENDARIZACION del formulario)
+        label: 'Septiembre 2026',
+        image: 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/eca834f1-d559-4c72-9b1d-49e8539cb04c.jpeg',
+        sessions: [
+          { id: '-13', label: '03-09-2026' },
+          { id: '-14', label: '10-09-2026' },
+          { id: '-15', label: '24-09-2026' },
+        ],
+      },
     ],
     details: [
       { icon: MapPin, text: 'Sede Calama · La Cascada 1513' },
@@ -61,11 +91,26 @@ const OFFERS = [
       'Curso presencial con práctica en rescate y control de atmósferas peligrosas. Dirigido a trabajadores que ingresan a espacios confinados y a quienes supervisan la maniobra.',
     image:
       'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/0c86ecc5-7301-495c-a23e-cae1bf549914.jpeg',
-    sessions: [
-      { id: '464', label: '06-08-2026 al 06-08-2026' },
-      { id: '465', label: '13-08-2026 al 13-08-2026' },
-      { id: '466', label: '20-08-2026 al 20-08-2026' },
-      { id: '467', label: '27-08-2026 al 27-08-2026' },
+    months: [
+      {
+        label: 'Agosto 2026',
+        sessions: [
+          { id: '464', label: '06-08-2026 al 06-08-2026' },
+          { id: '465', label: '13-08-2026 al 13-08-2026' },
+          { id: '466', label: '20-08-2026 al 20-08-2026' },
+          { id: '467', label: '27-08-2026 al 27-08-2026' },
+        ],
+      },
+      {
+        // ids negativos = sin calendarización aún (CURSOS_SIN_CALENDARIZACION del formulario)
+        label: 'Septiembre 2026',
+        image: 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/27bda1db-b09b-4276-8435-a3b2b2989bf8.jpeg',
+        sessions: [
+          { id: '-16', label: '04-09-2026' },
+          { id: '-17', label: '11-09-2026' },
+          { id: '-18', label: '25-09-2026' },
+        ],
+      },
     ],
     details: [
       { icon: MapPin, text: 'Sede Calama · La Cascada 1513' },
@@ -81,7 +126,7 @@ const OFFERS = [
       'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/bc61442a-b46b-4d98-9bad-19da6d6aaeab.jpeg',
     // id 468 = calendarización real del TMS (ES-TEC-3001, 28-08-2026 al 01-09-2026).
     // Antes era '-2' (entrada hardcodeada del formulario), que no generaba interesado en el R08.
-    sessions: [{ id: '468', label: '28-08-2026' }],
+    months: [{ label: 'Agosto 2026', sessions: [{ id: '468', label: '28-08-2026' }] }],
     modalidadId: '2',
     modalidad: 'Modalidad sincrónica',
     nota: 'La fecha indicada corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el relator en la primera sesión.',
@@ -93,6 +138,9 @@ const OFFERS = [
 ];
 
 const OFFER_HREF = '/formulario/cursos-abiertos';
+// Tandas: se muestra una a la vez; cada curso lista solo las fechas del mes elegido.
+const MESES = ['Agosto 2026', 'Septiembre 2026'];
+type Tanda = { label: string; image?: string; sessions: { id: string; label: string }[] };
 
 /* Rolling text: cada carácter converge al centro con el scroll (adaptado de Skiper31 CharacterV1) */
 const RollingChar = ({
@@ -138,6 +186,12 @@ const OpenCourseOffer = () => {
 
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [mes, setMes] = useState(MESES[0]);
+  const offers = OFFERS.flatMap((offer) => {
+    const month: Tanda | undefined = offer.months.find((m) => m.label === mes);
+    // La tanda puede traer su propio afiche (septiembre); si no, usa el del curso.
+    return month ? [{ ...offer, sessions: month.sessions, image: month.image ?? offer.image }] : [];
+  });
 
   useEffect(() => {
     if (!api) return;
@@ -176,13 +230,39 @@ const OpenCourseOffer = () => {
             ))}
       </div>
 
+      {/* ── Filtro de tanda: agosto / septiembre ── */}
+      <div
+        role="group"
+        aria-label={t('openOffer.monthFilter', 'Mes de la programación')}
+        className="flex justify-center gap-2 mb-8 px-4"
+      >
+        {MESES.map((m) => (
+          <button
+            key={m}
+            type="button"
+            aria-pressed={mes === m}
+            onClick={() => {
+              setMes(m);
+              setCurrent(0);
+            }}
+            className={`px-5 py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider border-2 transition-all duration-150 active:scale-95 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 ${
+              mes === m
+                ? 'border-sky-500 bg-sky-500 text-white shadow-lg shadow-sky-500/30'
+                : 'border-slate-300 bg-transparent text-slate-600 hover:border-sky-400 hover:text-sky-600'
+            }`}
+          >
+            {m}
+          </button>
+        ))}
+      </div>
+
       {/* ── Tabs: un botón por curso, para saltar directo al que interesa ── */}
       <div
         role="tablist"
         aria-label={t('openOffer.tablist', 'Cursos abiertos disponibles')}
         className="container mx-auto px-8 md:px-16 lg:px-20 mb-12 md:mb-14 flex flex-wrap justify-center gap-3"
       >
-        {OFFERS.map((offer, i) => (
+        {offers.map((offer, i) => (
           <button
             key={offer.titleHighlight}
             role="tab"
@@ -203,9 +283,10 @@ const OpenCourseOffer = () => {
 
       {/* ── Carrusel: imagen cuadrada + contenido (estilo sección DUA) ── */}
       <div className="container mx-auto px-8 md:px-16 lg:px-20">
-        <Carousel opts={{ loop: true }} setApi={setApi} className="w-full">
+        {/* key={mes}: al cambiar de tanda el carrusel se remonta y vuelve al primer curso */}
+        <Carousel key={mes} opts={{ loop: true }} setApi={setApi} className="w-full">
           <CarouselContent>
-            {OFFERS.map((offer, slide) => (
+            {offers.map((offer, slide) => (
               <CarouselItem
                 key={offer.titleHighlight}
                 id={`curso-panel-${slide}`}
@@ -220,7 +301,7 @@ const OpenCourseOffer = () => {
                     <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
                       <img
                         src={offer.image}
-                        alt={`Afiche del curso ${offer.title} ${offer.titleHighlight}, agosto 2026`}
+                        alt={`Afiche del curso ${offer.title} ${offer.titleHighlight}`}
                         className="absolute inset-0 w-full h-full object-cover"
                         loading={slide === 0 ? 'eager' : 'lazy'}
                       />
@@ -247,7 +328,7 @@ const OpenCourseOffer = () => {
                       <div className="flex items-center gap-4">
                         <Calendar className="w-5 h-5 text-blue-600 shrink-0" />
                         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                          <span className="text-slate-800 font-semibold">Agosto 2026</span>
+                          <span className="text-slate-800 font-semibold">{mes}</span>
                           <span className="text-slate-500 text-sm">
                             {offer.modalidad ??
                               t('openOffer.modality', 'Modalidad presencial (seleccione la fecha)')}
@@ -318,7 +399,7 @@ const OpenCourseOffer = () => {
 
         {/* Indicadores: refuerzan la posición al deslizar en móvil; en escritorio mandan los tabs */}
         <div className="flex lg:hidden justify-center gap-2 mt-10" aria-hidden="true">
-          {OFFERS.map((offer, i) => (
+          {offers.map((offer, i) => (
             <span
               key={offer.titleHighlight}
               className={`h-2.5 rounded-full transition-all ${
