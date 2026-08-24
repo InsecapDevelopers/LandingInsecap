@@ -8,9 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 // ponytail: pega aquí la URL del .mp4 (Shopify CDN o /public). Vacío => solo poster.
 const VIDEO_SRC = 'https://cdn.shopify.com/videos/c/o/v/24efdc373f8f4f5c8ebebbce1ecdb1e7.mp4';
-const POSTER =
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Banner-Nosotros-Web-16-anos-scaled.jpg?v=1776093986';
-
+const POSTER =  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cascada-fachada-y-letrero-scaled.jpg?v=1776094124'
 // ponytail: el CDN sirve tanto .mp4 como .webp animado; el tag correcto depende de la extensión.
 const IS_VIDEO = /\.(mp4|webm|mov|m4v)(\?|$)/i.test(VIDEO_SRC);
 

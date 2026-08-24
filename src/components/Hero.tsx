@@ -9,7 +9,6 @@ const CAPIN_IMG = '/CapinMov.webp';
 
 const HERO_IMAGES = [
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_111938161.png?v=1772461187',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Banner-Nosotros-Web-16-anos-scaled.jpg?v=1776093986',
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cascada-fachada-y-letrero-scaled.jpg?v=1776094124',
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede-Antofagasta-web.jpg?v=1773345628',
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112057871.png?v=1772461266',
