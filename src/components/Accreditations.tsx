@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Award, CheckCircle, Shield, FileCheck } from 'lucide-react';
 
 const backingLogos = [
+  { src: '/logos/SELLO_2728.svg', alt: 'Certificadora NCh2728' },
   { src: '/logos/CCS.png', alt: 'Cámara de Comercio de Santiago' },
   { src: '/logos/SICEP.png', alt: 'SICEP' },
   { src: '/logos/Sello Acreditado Codelco Color.png', alt: 'OTEC Acreditada por Codelco' },
