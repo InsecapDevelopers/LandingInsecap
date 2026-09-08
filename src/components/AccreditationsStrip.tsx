@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 const topLogos = [
   { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498', alt: 'SENCE' },
-  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo_slogan.svg?v=1772193702', alt: 'NCh2728' },
   { src: '/logos/CCS.png', alt: 'Cámara de Comercio de Santiago' },
   { src: '/logos/SICEP.png', alt: 'SICEP' },
 ];

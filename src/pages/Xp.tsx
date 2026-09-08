@@ -96,7 +96,6 @@ const ExperienciaYRespaldo = () => {
       growthDescStrong: 'INSECAP como socio estratégico en capacitación',
       certs: [
         { title: 'Registro SENCE', description: 'Contamos con registro vigente ante el Servicio Nacional de Capacitación y Empleo (SENCE), habilitándonos para impartir capacitación con franquicia tributaria a lo largo del país.', badge: 'N° Resolución: 12208' },
-        { title: 'Norma NCh2728:2015', description: 'Certificación anual que acredita el cumplimiento de los requisitos para operar como Organismo Técnico de Capacitación (OTEC), garantizando calidad en nuestros servicios formativos.', badge: 'Certificación Vigente' },
         { title: 'ISO 9001:2015', description: 'Certificación anual de la Norma Internacional que rige nuestros procesos en cuanto a servicios de calidad y mejora continua, asegurando estándares de clase mundial.', badge: 'Certificación Vigente' },
         { title: 'Cámara de Comercio de Santiago (CCS)', description: 'Como miembros de la CCS, estamos habilitados para postular a requerimientos y necesidades de capacitación de un gran sector de empresas de la industria en general.', badge: 'Miembro Activo' },
         { title: 'SICEP', description: 'Somos miembros de SICEP, lo cual nos habilita para postular a requerimientos y necesidades de capacitación de un gran sector de empresas de la industria en general.', badge: 'Miembro Activo' },
@@ -118,7 +117,6 @@ const ExperienciaYRespaldo = () => {
       growthDescStrong: 'INSECAP as a strategic training partner',
       certs: [
         { title: 'SENCE Registration', description: 'We hold a valid registration with the National Training and Employment Service (SENCE), enabling us to deliver training with tax incentives throughout the country.', badge: 'N° Resolución: 12208' },
-        { title: 'NCh2728:2015 Standard', description: 'Annual certification that accredits compliance with the requirements to operate as a Technical Training Organization (OTEC), ensuring quality in our training services.', badge: 'Valid Certification' },
         { title: 'ISO 9001:2015', description: 'Annual certification of the International Standard governing our processes in terms of quality services and continuous improvement, ensuring world-class standards.', badge: 'Valid Certification' },
         { title: 'Santiago Chamber of Commerce (CCS)', description: 'As members of the CCS, we are enabled to apply for training requirements and needs of a large segment of companies across industry.', badge: 'Active Member' },
         { title: 'SICEP', description: 'We are members of SICEP, which enables us to apply for training requirements and needs of a large segment of companies across industry.', badge: 'Active Member' },
@@ -140,7 +138,6 @@ const ExperienciaYRespaldo = () => {
       growthDescStrong: 'INSECAP como parceiro estratégico em capacitação',
       certs: [
         { title: 'Registro SENCE', description: 'Possuímos registro vigente junto ao Serviço Nacional de Capacitação e Emprego (SENCE), habilitando-nos a oferecer capacitação com incentivo fiscal em todo o país.', badge: 'N° Resolução: 12208' },
-        { title: 'Norma NCh2728:2015', description: 'Certificação anual que acredita o cumprimento dos requisitos para operar como Organismo Técnico de Capacitação (OTEC), garantindo qualidade em nossos serviços formativos.', badge: 'Certificação Vigente' },
         { title: 'ISO 9001:2015', description: 'Certificação anual da Norma Internacional que rege nossos processos em termos de serviços de qualidade e melhoria contínua, assegurando padrões de classe mundial.', badge: 'Certificação Vigente' },
         { title: 'Câmara de Comércio de Santiago (CCS)', description: 'Como membros da CCS, estamos habilitados a candidatar-nos a requisitos e necessidades de capacitação de um grande setor de empresas da indústria em geral.', badge: 'Membro Ativo' },
         { title: 'SICEP', description: 'Somos membros do SICEP, o que nos habilita a candidatar-nos a requisitos e necessidades de capacitação de um grande setor de empresas da indústria em geral.', badge: 'Membro Ativo' },
@@ -161,7 +158,6 @@ const ExperienciaYRespaldo = () => {
   // Datos visuales fijos de certificaciones (logos/iconos)
   const certVisuals = [
     { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498', logoAlt: 'Logo SENCE', iconType: 'logo' as const, badgeColor: 'blue' as const },
-    { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo_slogan.svg?v=1772193702', logoAlt: 'Certificadora NCh2728', iconType: 'logo' as const, badgeColor: 'green' as const },
     { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', logoAlt: 'Certificadora ISO 9001', iconType: 'logo' as const, badgeColor: 'green' as const },
     { logo: '/logos/CCS.png', logoAlt: 'Logo CCS', iconType: 'logo' as const, badgeColor: 'blue' as const },
     { logo: '/logos/SICEP.png', logoAlt: 'Logo SICEP', iconType: 'logo' as const, badgeColor: 'blue' as const },
@@ -203,7 +199,6 @@ const ExperienciaYRespaldo = () => {
           'certificaciones OTEC',
           'SENCE',
           'ISO 9001',
-          'NCh 2728',
           locale === 'en' ? 'mining training' : locale === 'pt' ? 'capacitacao mineracao' : 'capacitación minería',
           locale === 'en' ? 'professional training Chile' : locale === 'pt' ? 'formacao profissional Chile' : 'formación profesional Chile'
         ]}
@@ -341,7 +336,6 @@ const ExperienciaYRespaldo = () => {
                 <p className="text-center text-slate-400 text-xs font-semibold uppercase tracking-widest mb-8">Respaldados por</p>
                 <div className="flex flex-wrap items-center justify-center gap-10">
                   <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498" alt="Logo SENCE" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
-                  <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logo_slogan.svg?v=1772193702" alt="Certificadora NCh2728" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                   <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585" alt="ISO 9001" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                   <img src="/logos/CCS.png" alt="Logo CCS" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                   <img src="/logos/SICEP.png" alt="Logo SICEP" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
