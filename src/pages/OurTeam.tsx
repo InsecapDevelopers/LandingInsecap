@@ -74,6 +74,12 @@ const teamByArea: TeamArea[] = [
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NatalieGalvanv2-ezgif.com-video-to-webp-converter.webp?v=1773344345',
         location: 'Antofagasta'
       },
+      {
+        name: 'Arlette Pérez Vega',
+        role: 'ASESOR COMERCIAL',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/arlette-4345bd00.webp',
+        location: 'Santiago'
+      },
     ]
   },
   {
@@ -156,6 +162,12 @@ const teamByArea: TeamArea[] = [
         role: 'DISEÑADORA EDITORIAL',
         email: 'mbrito@insecap.cl',
         photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Marian_COMP.webp?v=1769089936',
+        location: 'Antofagasta'
+      },
+      {
+        name: 'Aldo Jiménez Rojas',
+        role: 'ESPECIALISTA EN PREVENCIÓN DE RIESGOS',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/aldo-c4aaea66.webp',
         location: 'Antofagasta'
       },
       // {
