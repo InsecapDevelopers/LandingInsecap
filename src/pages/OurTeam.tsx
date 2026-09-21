@@ -77,6 +77,7 @@ const teamByArea: TeamArea[] = [
       {
         name: 'Arlette Pérez Vega',
         role: 'ASESOR COMERCIAL',
+        email: 'aperez@insecap.cl',
         photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/arlette-4345bd00.webp',
         location: 'Santiago'
       },
@@ -167,6 +168,7 @@ const teamByArea: TeamArea[] = [
       {
         name: 'Aldo Jiménez Rojas',
         role: 'ESPECIALISTA EN PREVENCIÓN DE RIESGOS',
+        email: 'ajimenez@insecap.cl',
         photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/aldo-c4aaea66.webp',
         location: 'Antofagasta'
       },
