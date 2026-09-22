@@ -42,7 +42,11 @@ assert.deepStrictEqual(altura.batches[0].sessions.map((s) => s.label), ['22-09-2
 r = at('2026-10-02T10:00:00');
 assert.deepStrictEqual(r.months, ['Octubre 2026']);
 assert.ok(!r.courses.some((c) => c.titleHighlight === 'Aislación y Bloqueo'));
-assert.deepStrictEqual(r.courses.map((c) => c.titleHighlight), ['Altura Física', 'Confinados']);
+assert.deepStrictEqual(r.courses.map((c) => c.titleHighlight), [
+  'Altura Física',
+  'Confinados',
+  'Sustancias Peligrosas',
+]);
 
 // El día mismo de la fecha sigue vigente
 r = at('2026-10-01T23:00:00');

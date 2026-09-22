@@ -137,6 +137,27 @@ export const OPEN_COURSES: OpenCourse[] = [
     ],
   },
   {
+    title: 'Manejo de',
+    titleHighlight: 'Sustancias Peligrosas',
+    webCode: 'WEB-SUSTANCIAS',
+    description:
+      'Curso presencial sobre almacenamiento, transporte y manipulación de sustancias peligrosas: clasificación, hojas de datos de seguridad y respuesta ante derrames. Dirigido a quienes operan con productos químicos en faena.',
+    duration: '8 horas',
+    modalityId: '1',
+    modality: 'Presencial',
+    location: CALAMA,
+    batches: [
+      {
+        month: 'Octubre 2026',
+        image: `${IMG}sustancias-peligrosas-calama-62d4c6f9.jpeg`,
+        sessions: [
+          { id: '-29', date: '2026-10-13', label: '13-10-2026' },
+          { id: '-30', date: '2026-10-22', label: '22-10-2026' },
+        ],
+      },
+    ],
+  },
+  {
     title: 'SAP PM:',
     titleHighlight: 'Gestión de Mantenimiento',
     webCode: 'WEB-SAP-PM',
