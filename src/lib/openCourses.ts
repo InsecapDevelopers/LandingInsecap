@@ -38,6 +38,12 @@ export interface OpenCourse {
   /** Etiqueta visible; puede decir "Blended" aunque modalityId sea '1'. */
   modality: string;
   location?: string;
+  /**
+   * Código con que el R08 agrupa las solicitudes de este curso mientras la fecha no tenga
+   * calendarización: viaja en las observaciones del interesado, sin crear ningún curso en la
+   * base. Debe empezar con "WEB-".
+   */
+  webCode: string;
   note?: Record<string, string>;
   batches: OpenCourseBatch[];
 }
@@ -49,6 +55,7 @@ export const OPEN_COURSES: OpenCourse[] = [
   {
     title: 'Trabajo en',
     titleHighlight: 'Altura Física',
+    webCode: 'WEB-ALTURA',
     description:
       'Curso presencial con práctica en torres de entrenamiento y equipos reales. Dirigido a trabajadores que realizan labores sobre nivel y necesitan acreditar competencias para faena.',
     duration: '8 horas',
@@ -79,6 +86,7 @@ export const OPEN_COURSES: OpenCourse[] = [
   {
     title: 'Técnicas de',
     titleHighlight: 'Aislación y Bloqueo',
+    webCode: 'WEB-AISLACION',
     description:
       'Curso presencial sobre procedimientos LOTO con simulador de bloqueo eléctrico. Dirigido a personal de mantenimiento y operaciones que interviene equipos energizados.',
     duration: '5,54 horas',
@@ -100,6 +108,7 @@ export const OPEN_COURSES: OpenCourse[] = [
   {
     title: 'Espacios',
     titleHighlight: 'Confinados',
+    webCode: 'WEB-CONFINADOS',
     description:
       'Curso presencial con práctica en rescate y control de atmósferas peligrosas. Dirigido a trabajadores que ingresan a espacios confinados y a quienes supervisan la maniobra.',
     duration: '8 horas',
@@ -130,6 +139,7 @@ export const OPEN_COURSES: OpenCourse[] = [
   {
     title: 'SAP PM:',
     titleHighlight: 'Gestión de Mantenimiento',
+    webCode: 'WEB-SAP-PM',
     description:
       'Curso sincrónico sobre el módulo PM de SAP S/4 HANA: avisos, órdenes de trabajo, planes preventivos e indicadores. Dirigido a personal de mantenimiento y planificación que opera el sistema.',
     duration: '24 horas',
@@ -151,6 +161,7 @@ export const OPEN_COURSES: OpenCourse[] = [
   {
     title: 'Formación de',
     titleHighlight: 'Guardia de Seguridad',
+    webCode: 'WEB-OS10',
     description:
       'Curso OS10 blended para quienes buscan desempeñarse como guardia de seguridad: marco legal, procedimientos de control y prevención de riesgos, con los contenidos exigidos por Carabineros para la acreditación. Combina sesiones en línea con jornadas presenciales.',
     duration: '90 horas',
@@ -233,6 +244,7 @@ export function getSessionsWithoutCalendar() {
           nombreCurso: `${course.title} ${course.titleHighlight}${s.city ? ` · ${s.city}` : ''}`,
           fecha: s.label,
           ciudad: s.city,
+          codigoCursoWeb: course.webCode,
           nota: course.note,
         })),
     ),

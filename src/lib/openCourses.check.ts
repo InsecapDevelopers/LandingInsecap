@@ -90,4 +90,13 @@ assert.strictEqual(getSessionCity('-27'), 'Calama');
 assert.strictEqual(getSessionCity('-20'), undefined);
 assert.strictEqual(getSessionCity(undefined), undefined);
 
+// El backend agrupa en el R08 por este código y rechaza lo que no empiece en "WEB-":
+// un curso nuevo sin código volvería a no generar interesados.
+for (const curso of OPEN_COURSES) {
+  assert.ok(curso.webCode.startsWith('WEB-'), `${curso.titleHighlight}: webCode inválido`);
+  assert.ok(curso.webCode.length <= 50);
+}
+assert.strictEqual(new Set(OPEN_COURSES.map((c) => c.webCode)).size, OPEN_COURSES.length);
+assert.ok(sel.every((s) => s.codigoCursoWeb?.startsWith('WEB-')));
+
 console.log('openCourses: OK');

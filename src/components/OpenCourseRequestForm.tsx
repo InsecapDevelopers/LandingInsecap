@@ -140,6 +140,9 @@ const OpenCourseRequestForm = ({
     cursoSinCalendarizacionSelected?.nota ??
     NOTAS_POR_CALENDARIZACION[formData.idCalendarizacionAbierta];
 
+  // Online no se dicta en ninguna sede: la ciudad no se pregunta ni se manda.
+  const pideCiudad = formData.modalidadEjecucion !== '2';
+
   // Un curso dictado en varias sedes (el OS10) trae la ciudad en la fecha: al cambiar de
   // fecha la ciudad del formulario tiene que seguirla, o contradice al curso elegido.
   const ciudadDelCurso = cursoSinCalendarizacionSelected?.ciudad;
@@ -298,7 +301,7 @@ const OpenCourseRequestForm = ({
         email: formData.email.trim(),
         telefono: formData.telefono.trim(),
         mensaje: formData.mensaje.trim(),
-        ciudadId: formData.ciudadId ? Number(formData.ciudadId) : null,
+        ciudadId: pideCiudad && formData.ciudadId ? Number(formData.ciudadId) : null,
         rut: formData.noTieneRut ? '' : formData.rut.trim(),
         noTieneRut: formData.noTieneRut,
         aceptaPrivacidad: formData.aceptaPrivacidad,
@@ -311,6 +314,9 @@ const OpenCourseRequestForm = ({
           : !showCursoSelect || cursoNoListadoSelected
             ? formData.cursoInteres.trim()
             : null,
+        // Sin calendarización el backend no sabe a qué curso asociar el interesado del R08:
+        // este código ("WEB-ALTURA", …) le dice bajo cuál agruparlo.
+        codigoCursoWeb: cursoSinCalendarizacionSelected?.codigoCursoWeb ?? null,
       };
 
       const res = await fetch(getApiUrl('/api/contacto'), {
@@ -419,6 +425,8 @@ const OpenCourseRequestForm = ({
         </label>
       </div>
 
+      {/* La ciudad define la sede: en online no aporta y obligaba a elegir una cualquiera. */}
+      {pideCiudad && (
       <div className="space-y-1.5">
         <label className={labelClass}>{content.labelCiudad}</label>
         <select
@@ -439,6 +447,7 @@ const OpenCourseRequestForm = ({
           ))}
         </select>
       </div>
+      )}
 
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
