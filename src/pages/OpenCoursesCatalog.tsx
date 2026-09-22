@@ -1,64 +1,25 @@
-import { Link } from "react-router-dom";
-import { Calendar, MapPin, Clock, ArrowRight } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { Calendar, MapPin, Clock, ArrowRight, Info } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import SEO from "@/components/SEO";
 import { ClientTypeSwitch } from "@/components/ClientTypeSwitch";
 import { useLocalizedPath } from "@/hooks/use-localized-path";
+import { coursesForMonth, getUpcomingBatches, matchMonthParam } from "@/lib/openCourses";
 
-// ponytail: catálogo estático. La oferta de cursos abiertos cambia una vez al mes y se
-// edita aquí; conectar a la API de calendarizaciones cuando exista el flujo real.
-const MES = "Septiembre 2026";
 const FORM_HREF = "/formulario/cursos-abiertos";
-
-const CURSOS = [
-  {
-    titulo: "Trabajo en Altura Física",
-    duracion: "8 horas",
-    modalidad: "Presencial",
-    sede: "Calama · La Cascada 1513",
-    imagen:
-      "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/fd2e0110-4a81-4300-96b6-7182af43300a.jpeg",
-    // ids negativos = sin calendarización en el TMS (CURSOS_SIN_CALENDARIZACION del formulario)
-    sesiones: [
-      { id: "-10", label: "01-09-2026" },
-      { id: "-11", label: "08-09-2026" },
-      { id: "-12", label: "22-09-2026" },
-    ],
-  },
-  {
-    titulo: "Técnicas de Aislación y Bloqueo",
-    duracion: "5,54 horas",
-    modalidad: "Presencial",
-    sede: "Calama · La Cascada 1513",
-    imagen:
-      "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/eca834f1-d559-4c72-9b1d-49e8539cb04c.jpeg",
-    // ids negativos = sin calendarización en el TMS (CURSOS_SIN_CALENDARIZACION del formulario)
-    sesiones: [
-      { id: "-13", label: "03-09-2026" },
-      { id: "-14", label: "10-09-2026" },
-      { id: "-15", label: "24-09-2026" },
-    ],
-  },
-  {
-    titulo: "Espacios Confinados",
-    duracion: "8 horas",
-    modalidad: "Presencial",
-    sede: "Calama · La Cascada 1513",
-    imagen:
-      "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/27bda1db-b09b-4276-8435-a3b2b2989bf8.jpeg",
-    // ids negativos = sin calendarización en el TMS (CURSOS_SIN_CALENDARIZACION del formulario)
-    sesiones: [
-      { id: "-16", label: "04-09-2026" },
-      { id: "-17", label: "11-09-2026" },
-      { id: "-18", label: "25-09-2026" },
-    ],
-  },
-];
 
 const OpenCoursesCatalog = () => {
   const { localizedPath, locale } = useLocalizedPath();
+  // Lo ya dictado se descarta solo: en octubre las fechas de septiembre no aparecen.
+  const { courses, months } = useMemo(() => getUpcomingBatches(), []);
+  // ?mes=octubre abre la página ya filtrada: sirve para enlazar una tanda desde una campaña.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const mesDeLaUrl = matchMonthParam(searchParams.get("mes"), months);
+  const [mes, setMes] = useState(mesDeLaUrl ?? months[0]);
+  const cursos = coursesForMonth(mes ?? "", courses);
 
   const content = {
     es: {
@@ -123,64 +84,103 @@ const OpenCoursesCatalog = () => {
               {content.intro}
             </p>
 
-            {/* Mes de la programación vigente */}
-            <div className="mt-10 mb-10 text-center">
-              <h2 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight text-insecap-blue">
-                {MES}
-              </h2>
-              <div className="mx-auto mt-3 h-1.5 w-20 rounded-full bg-gradient-to-r from-blue-600 to-indigo-400" />
-            </div>
+            {/* Con varias tandas vigentes el mes se elige; con una sola es solo el título. */}
+            {months.length > 1 ? (
+              <div
+                role="group"
+                aria-label={content.monthFilter}
+                className="mt-10 mb-10 flex justify-center gap-2"
+              >
+                {months.map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    aria-pressed={mes === m}
+                    onClick={() => {
+                      setMes(m);
+                      // La URL sigue al filtro: así el enlace se puede copiar y compartir.
+                      setSearchParams(
+                        { mes: m.split(" ")[0].toLowerCase() },
+                        { replace: true },
+                      );
+                    }}
+                    className={`px-5 py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider border-2 transition-all duration-150 active:scale-95 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-insecap-blue focus-visible:ring-offset-2 ${
+                      mes === m
+                        ? "border-insecap-blue bg-insecap-blue text-white shadow-lg shadow-insecap-blue/30"
+                        : "border-border bg-transparent text-muted-foreground hover:border-insecap-blue hover:text-insecap-blue"
+                    }`}
+                  >
+                    {m}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="mt-10 mb-10 text-center">
+                <h2 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight text-insecap-blue">
+                  {mes}
+                </h2>
+                <div className="mx-auto mt-3 h-1.5 w-20 rounded-full bg-gradient-to-r from-blue-600 to-indigo-400" />
+              </div>
+            )}
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
-              {CURSOS.map((curso, i) => (
+              {cursos.map((curso, i) => {
+                // El modelo parte el título para que la home destaque la segunda mitad.
+                const titulo = `${curso.title} ${curso.titleHighlight}`;
+                return (
                 <article
-                  key={curso.titulo}
+                  key={titulo}
                   className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
                 >
                   <img
-                    src={curso.imagen}
-                    alt={`Afiche del curso ${curso.titulo}, ${MES}, modalidad ${curso.modalidad}`}
+                    src={curso.image}
+                    alt={`Afiche del curso ${titulo}, ${mes}, modalidad ${curso.modality}`}
                     loading={i === 0 ? "eager" : "lazy"}
                     className="aspect-square w-full object-cover"
                   />
 
                   <div className="flex flex-col p-6">
                     <h3 className="text-lg font-bold text-foreground leading-snug">
-                      {curso.titulo}
+                      {titulo}
                     </h3>
 
                     <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
-                      {curso.sede && (
+                      {curso.location && (
                         <span className="inline-flex items-center gap-1.5">
                           <MapPin className="w-4 h-4 text-insecap-blue" />
-                          {curso.sede}
+                          {curso.location}
                         </span>
                       )}
                       <span className="inline-flex items-center gap-1.5">
                         <Calendar className="w-4 h-4 text-insecap-blue" />
-                        {curso.modalidad}
+                        {curso.modality}
                       </span>
-                      {curso.duracion && (
+                      {curso.duration && (
                         <span className="inline-flex items-center gap-1.5">
                           <Clock className="w-4 h-4 text-insecap-blue" />
-                          {curso.duracion}
+                          {curso.duration}
                         </span>
                       )}
                     </div>
 
                     <p className="mt-6 mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {content.sessions} · {MES}
+                      {content.sessions} · {mes}
                     </p>
 
                     <ul className="flex flex-col gap-2">
-                      {curso.sesiones.map((sesion) => (
-                        <li key={sesion.label}>
+                      {curso.sessions.map((sesion) => (
+                        <li key={sesion.id}>
                           <Link
-                            to={`${localizedPath(FORM_HREF)}?fecha=${sesion.id}&modalidad=1`}
-                            aria-label={`${content.enroll}: ${curso.titulo}, ${sesion.label}`}
+                            to={`${localizedPath(FORM_HREF)}?fecha=${sesion.id}&modalidad=${curso.modalityId}`}
+                            aria-label={`${content.enroll}: ${titulo}, ${sesion.label}${sesion.city ? `, sede ${sesion.city}` : ""}`}
                             className="group flex items-center justify-between gap-3 rounded-lg border border-border bg-background px-4 py-3 text-sm font-medium tabular-nums transition-all duration-150 hover:border-insecap-blue hover:text-insecap-blue active:scale-[0.98] motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-insecap-blue"
                           >
-                            {sesion.label}
+                            <span>
+                              {sesion.label}
+                              {sesion.city && (
+                                <span className="ml-2 font-normal text-muted-foreground">{sesion.city}</span>
+                              )}
+                            </span>
                             <span className="flex items-center gap-1.5 shrink-0 text-insecap-blue font-semibold">
                               <span className="hidden lg:inline opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                                 {content.enroll}
@@ -191,9 +191,17 @@ const OpenCoursesCatalog = () => {
                         </li>
                       ))}
                     </ul>
+
+                    {curso.note && (
+                      <p className="mt-4 flex gap-2 rounded-lg bg-muted/60 p-3 text-xs leading-relaxed text-muted-foreground">
+                        <Info className="mt-0.5 w-4 h-4 shrink-0 text-insecap-blue" />
+                        <span>{curso.note[locale]}</span>
+                      </p>
+                    )}
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>

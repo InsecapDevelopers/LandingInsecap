@@ -66,7 +66,7 @@ const QualityPolicy = () => {
       missionText: '"Entregar soluciones de capacitación con metodologías de vanguardia, asegurando el aprendizaje efectivo en las personas, con atención en las necesidades del mercado para enfrentar los desafíos en favor del crecimiento y la sustentabilidad de cada cliente. Lo anterior se materializa en el marco de la eficiencia y eficacia, en pos de la mejora continua de INSECAP Capacitación."',
       excellence: 'Excelencia en Formación',
       excellenceText: 'INSECAP Capacitación es un Organismo Técnico de Capacitación dedicado a brindar servicios de formación de excelencia a empresas privadas, públicas y particulares, mediante diversas metodologías de aprendizaje efectivo.',
-      paragraph: 'Otorgando capacitación de calidad, orientada a satisfacer plenamente las necesidades y demandas de los clientes, contando para ello con experiencia en el rubro, material y equipamiento idóneo, así como también relatores calificados y competentes, agregando valor a todas las actividades de capacitación.',
+      paragraph: 'Otorgando capacitación de calidad, orientada a satisfacer plenamente las necesidades y demandas de los clientes, contando para ello con experiencia en el rubro, material y equipamiento idóneo, así como también facilitadores calificados y competentes, agregando valor a todas las actividades de capacitación.',
       certification: 'Certificación Vigente',
       norm: 'Norma NCh 2728',
       objectivesTitle: 'Objetivos de Calidad',

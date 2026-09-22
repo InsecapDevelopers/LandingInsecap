@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from 'framer-motion';
-import { ArrowRight, Calendar, MapPin, Users } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, Info, MapPin, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import {
   Carousel,
@@ -12,63 +12,7 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from '@/components/ui/carousel';
-
-// ponytail: contenido de las ofertas editable aquí; conectar a la API de cursos abiertos
-// cuando exista el flujo real.
-const OFFERS = [
-  {
-    title: 'Trabajo en',
-    titleHighlight: 'Altura Física',
-    description:
-      'Curso presencial con práctica en torres de entrenamiento y equipos reales. Dirigido a trabajadores que realizan labores sobre nivel y necesitan acreditar competencias para faena.',
-    image: 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/fd2e0110-4a81-4300-96b6-7182af43300a.jpeg',
-    // Las fechas son datos, no una frase: se listan una por línea para poder escanearlas.
-    // ids negativos = sin calendarización en el TMS (CURSOS_SIN_CALENDARIZACION del formulario)
-    sessions: [
-      { id: '-10', label: '01-09-2026' },
-      { id: '-11', label: '08-09-2026' },
-      { id: '-12', label: '22-09-2026' },
-    ],
-    details: [
-      { icon: MapPin, text: 'Sede Calama · La Cascada 1513' },
-      { icon: Users, text: 'Cupos limitados · certificación incluida' },
-    ],
-  },
-  {
-    title: 'Técnicas de',
-    titleHighlight: 'Aislación y Bloqueo',
-    description:
-      'Curso presencial sobre procedimientos LOTO con simulador de bloqueo eléctrico. Dirigido a personal de mantenimiento y operaciones que interviene equipos energizados.',
-    image: 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/eca834f1-d559-4c72-9b1d-49e8539cb04c.jpeg',
-    // ids negativos = sin calendarización en el TMS (CURSOS_SIN_CALENDARIZACION del formulario)
-    sessions: [
-      { id: '-13', label: '03-09-2026' },
-      { id: '-14', label: '10-09-2026' },
-      { id: '-15', label: '24-09-2026' },
-    ],
-    details: [
-      { icon: MapPin, text: 'Sede Calama · La Cascada 1513' },
-      { icon: Users, text: 'Cupos limitados · certificación incluida' },
-    ],
-  },
-  {
-    title: 'Espacios',
-    titleHighlight: 'Confinados',
-    description:
-      'Curso presencial con práctica en rescate y control de atmósferas peligrosas. Dirigido a trabajadores que ingresan a espacios confinados y a quienes supervisan la maniobra.',
-    image: 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/27bda1db-b09b-4276-8435-a3b2b2989bf8.jpeg',
-    // ids negativos = sin calendarización en el TMS (CURSOS_SIN_CALENDARIZACION del formulario)
-    sessions: [
-      { id: '-16', label: '04-09-2026' },
-      { id: '-17', label: '11-09-2026' },
-      { id: '-18', label: '25-09-2026' },
-    ],
-    details: [
-      { icon: MapPin, text: 'Sede Calama · La Cascada 1513' },
-      { icon: Users, text: 'Cupos limitados · certificación incluida' },
-    ],
-  },
-];
+import { coursesForMonth, getUpcomingBatches, matchMonthParam } from '@/lib/openCourses';
 
 const OFFER_HREF = '/formulario/cursos-abiertos';
 
@@ -116,6 +60,12 @@ const OpenCourseOffer = () => {
 
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  // Lo ya dictado se descarta solo: en octubre las fechas de septiembre no aparecen.
+  const { courses, months } = useMemo(() => getUpcomingBatches(), []);
+  // ?mes=octubre abre la home con esa tanda ya elegida (enlaces de campaña).
+  const [searchParams] = useSearchParams();
+  const [mes, setMes] = useState(matchMonthParam(searchParams.get('mes'), months) ?? months[0]);
+  const offers = coursesForMonth(mes ?? '', courses);
 
   useEffect(() => {
     if (!api) return;
@@ -126,6 +76,10 @@ const OpenCourseOffer = () => {
   // card: entra como en StickyCard002 (scale 0.7 / rotación 5° → 1 / 0°)
   const cardScale = useTransform(scrollYProgress, [0.15, 0.7], [0.7, 1]);
   const cardRotate = useTransform(scrollYProgress, [0.15, 0.7], [5, 0]);
+
+  // Sin tandas vigentes la sección entera sobra: mejor nada que un carrusel vacío.
+  // Va después de los hooks para no alterar su orden entre renders.
+  if (!offers.length) return null;
 
   return (
     <section
@@ -154,13 +108,41 @@ const OpenCourseOffer = () => {
             ))}
       </div>
 
+      {/* ── Filtro de tanda: solo aparece si hay más de un mes con fechas vigentes ── */}
+      {months.length > 1 && (
+        <div
+          role="group"
+          aria-label={t('openOffer.monthFilter', 'Mes de la programación')}
+          className="flex justify-center gap-2 mb-8 px-4"
+        >
+          {months.map((m) => (
+            <button
+              key={m}
+              type="button"
+              aria-pressed={mes === m}
+              onClick={() => {
+                setMes(m);
+                setCurrent(0);
+              }}
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider border-2 transition-all duration-150 active:scale-95 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 ${
+                mes === m
+                  ? 'border-sky-500 bg-sky-500 text-white shadow-lg shadow-sky-500/30'
+                  : 'border-slate-300 bg-transparent text-slate-600 hover:border-sky-400 hover:text-sky-600'
+              }`}
+            >
+              {m}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* ── Tabs: un botón por curso, para saltar directo al que interesa ── */}
       <div
         role="tablist"
         aria-label={t('openOffer.tablist', 'Cursos abiertos disponibles')}
         className="container mx-auto px-8 md:px-16 lg:px-20 mb-12 md:mb-14 flex flex-wrap justify-center gap-3"
       >
-        {OFFERS.map((offer, i) => (
+        {offers.map((offer, i) => (
           <button
             key={offer.titleHighlight}
             role="tab"
@@ -181,9 +163,10 @@ const OpenCourseOffer = () => {
 
       {/* ── Carrusel: imagen cuadrada + contenido (estilo sección DUA) ── */}
       <div className="container mx-auto px-8 md:px-16 lg:px-20">
-        <Carousel opts={{ loop: true }} setApi={setApi} className="w-full">
+        {/* key={mes}: al cambiar de tanda el carrusel se remonta y vuelve al primer curso */}
+        <Carousel key={mes} opts={{ loop: true }} setApi={setApi} className="w-full">
           <CarouselContent>
-            {OFFERS.map((offer, slide) => (
+            {offers.map((offer, slide) => (
               <CarouselItem
                 key={offer.titleHighlight}
                 id={`curso-panel-${slide}`}
@@ -225,9 +208,9 @@ const OpenCourseOffer = () => {
                       <div className="flex items-center gap-4">
                         <Calendar className="w-5 h-5 text-blue-600 shrink-0" />
                         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                          <span className="text-slate-800 font-semibold">Septiembre 2026</span>
+                          <span className="text-slate-800 font-semibold">{mes}</span>
                           <span className="text-slate-500 text-sm">
-                            {t('openOffer.modality', 'Modalidad presencial (seleccione la fecha)')}
+                            {t('openOffer.modalityLabel', 'Modalidad')} {offer.modality.toLowerCase()}
                           </span>
                         </div>
                       </div>
@@ -237,11 +220,16 @@ const OpenCourseOffer = () => {
                         {offer.sessions.map((fecha) => (
                           <li key={fecha.id}>
                             <Link
-                              to={`${localizedPath(OFFER_HREF)}?fecha=${fecha.id}&modalidad=1`}
-                              aria-label={`Inscribirse en ${offer.title} ${offer.titleHighlight}, ${fecha.label}`}
+                              to={`${localizedPath(OFFER_HREF)}?fecha=${fecha.id}&modalidad=${offer.modalityId}`}
+                              aria-label={`Inscribirse en ${offer.title} ${offer.titleHighlight}, ${fecha.label}${fecha.city ? `, sede ${fecha.city}` : ''}`}
                               className="group flex items-center justify-between gap-3 px-4 py-3 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium tabular-nums transition-all duration-150 hover:border-blue-500 hover:text-insecap-blue active:scale-[0.98] motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"
                             >
-                              {fecha.label}
+                              <span>
+                                {fecha.label}
+                                {fecha.city && (
+                                  <span className="ml-2 text-slate-500 font-normal">{fecha.city}</span>
+                                )}
+                              </span>
                               <span className="flex items-center gap-1.5 text-blue-600 text-sm font-semibold shrink-0">
                                 <span className="hidden sm:inline opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                                   {t('openOffer.enroll', 'Inscribirse')}
@@ -252,10 +240,20 @@ const OpenCourseOffer = () => {
                           </li>
                         ))}
                       </ul>
+                      {offer.note && (
+                        <p className="mt-4 flex gap-2 text-sm leading-relaxed text-slate-500">
+                          <Info className="mt-0.5 w-4 h-4 shrink-0 text-blue-600" />
+                          <span>{offer.note.es}</span>
+                        </p>
+                      )}
                     </div>
 
                     <div className="grid gap-4">
-                      {offer.details.map(({ icon: Icon, text: detail }, i) => (
+                      {[
+                        { icon: Clock, text: `${offer.duration} cronológicas` },
+                        ...(offer.location ? [{ icon: MapPin, text: offer.location }] : []),
+                        { icon: Users, text: 'Cupos limitados' },
+                      ].map(({ icon: Icon, text: detail }, i) => (
                         <div
                           key={i}
                           className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100 transition-all hover:bg-slate-100"
@@ -268,7 +266,7 @@ const OpenCourseOffer = () => {
 
                     <div className="mt-4">
                       <Link
-                        to={`${localizedPath(OFFER_HREF)}?fecha=${offer.sessions[0].id}&modalidad=1`}
+                        to={`${localizedPath(OFFER_HREF)}?fecha=${offer.sessions[0].id}&modalidad=${offer.modalityId}`}
                         className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-white shadow-lg shadow-sky-500/30 transition-transform duration-100 ease-out hover:scale-105 active:scale-90 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
                         style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #38BDF8 100%)' }}
                       >
@@ -289,7 +287,7 @@ const OpenCourseOffer = () => {
 
         {/* Indicadores: refuerzan la posición al deslizar en móvil; en escritorio mandan los tabs */}
         <div className="flex lg:hidden justify-center gap-2 mt-10" aria-hidden="true">
-          {OFFERS.map((offer, i) => (
+          {offers.map((offer, i) => (
             <span
               key={offer.titleHighlight}
               className={`h-2.5 rounded-full transition-all ${

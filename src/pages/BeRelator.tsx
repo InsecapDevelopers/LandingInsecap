@@ -605,7 +605,7 @@ const BeRelator = () => {
       subtitle: 'Insecap Capacitación',
       breadcrumb: 'TRABAJA CON NOSOTROS',
       brand: 'Insecap Capacitación',
-      paragraph1: 'Estamos en constante búsqueda de talento apasionado por la enseñanza y la capacitación. Si eres un relator de capacitación con experiencia y compromiso por compartir tu conocimiento, te invitamos a formar parte de nuestro dinámico equipo de facilitadores.',
+      paragraph1: 'Estamos en constante búsqueda de talento apasionado por la enseñanza y la capacitación. Si eres un facilitador de capacitación con experiencia y compromiso por compartir tu conocimiento, te invitamos a formar parte de nuestro dinámico equipo de facilitadores.',
       paragraph2: 'Para iniciar el proceso, te pedimos que completes nuestro formulario de contacto. En él podrás proporcionarnos información sobre tu experiencia, áreas de especialización y cómo crees que puedes contribuir a nuestro equipo.',
       formTitle: 'Formulario Trabaja con Nosotros',
       labelNombre: 'Nombre',

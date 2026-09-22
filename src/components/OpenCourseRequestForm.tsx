@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { formatRut } from '@/lib/insecapUtils';
+import { getSessionsWithoutCalendar } from '@/lib/openCourses';
 import { Link } from 'react-router-dom';
 
 interface Ciudad {
@@ -40,38 +41,21 @@ const formatDate = (iso: string) => {
 // Sentinel: ningún curso real usa este id. Al elegirlo se pide texto libre en vez de idCalendarizacionAbierta.
 const CURSO_NO_LISTADO = '-1';
 
-// Cursos abiertos ofertados que todavía no tienen calendarización cargada en el TMS.
-// Se listan igual para que se puedan solicitar; viajan como texto libre (cursoInteres),
-// no como idCalendarizacionAbierta. Al cargarlos en el TMS, borrar la entrada de aquí.
+// Fechas ofertadas que todavía no tienen calendarización cargada en el TMS (id negativo en
+// src/lib/openCourses.ts). Se listan igual para que se puedan solicitar; viajan como texto
+// libre (cursoInteres), no como idCalendarizacionAbierta.
 //
-// OJO: un curso listado acá NO genera interesado en el R08 del TMS — el backend solo lo crea
-// cuando llega un idCalendarizacionAbierta real (ContactoPublicoController). Por eso esta lista
-// es un último recurso: si el curso ya tiene calendarización vigente, sacarlo de acá.
-const CURSOS_SIN_CALENDARIZACION: {
-  id: string;
-  modalidad: string;
-  nombreCurso: string;
-  fecha: string;
-  nota?: Record<string, string>;
-}[] = [
-  // Septiembre 2026 · presenciales Calama (ids negativos, sin calendarización en el TMS todavía)
-  { id: '-10', modalidad: '1', nombreCurso: 'Trabajo en Altura Física', fecha: '01-09-2026' },
-  { id: '-11', modalidad: '1', nombreCurso: 'Trabajo en Altura Física', fecha: '08-09-2026' },
-  { id: '-12', modalidad: '1', nombreCurso: 'Trabajo en Altura Física', fecha: '22-09-2026' },
-  { id: '-13', modalidad: '1', nombreCurso: 'Técnicas de Aislación y Bloqueo', fecha: '03-09-2026' },
-  { id: '-14', modalidad: '1', nombreCurso: 'Técnicas de Aislación y Bloqueo', fecha: '10-09-2026' },
-  { id: '-15', modalidad: '1', nombreCurso: 'Técnicas de Aislación y Bloqueo', fecha: '24-09-2026' },
-  { id: '-16', modalidad: '1', nombreCurso: 'Espacios Confinados', fecha: '04-09-2026' },
-  { id: '-17', modalidad: '1', nombreCurso: 'Espacios Confinados', fecha: '11-09-2026' },
-  { id: '-18', modalidad: '1', nombreCurso: 'Espacios Confinados', fecha: '25-09-2026' },
-];
+// OJO: una fecha así NO genera interesado en el R08 del TMS — el backend solo lo crea cuando
+// llega un idCalendarizacionAbierta real (ContactoPublicoController). Al cargar el curso en el
+// TMS, cambiar su id negativo por el real en openCourses.ts y desaparece de esta lista.
+const CURSOS_SIN_CALENDARIZACION = getSessionsWithoutCalendar();
 
 // Aclaraciones por calendarización (id que entrega /cursos-particulares). Para cursos cuya
 // distribución horaria no se deduce de las fechas del select.
 const NOTAS_POR_CALENDARIZACION: Record<string, Record<string, string>> = {
   // 468 = SAP PM (ES-TEC-3001), 28-08-2026: 24 hrs repartidas en viernes y sábados.
   '468': {
-    es: 'La fecha corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el relator en la primera sesión.',
+    es: 'La fecha corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el facilitador en la primera sesión.',
     en: 'The date shown is the first day (Friday, 4 hrs). The 24 hrs are split into 4-hr Fridays and 8-hr Saturdays; remaining days are agreed with the instructor in the first session.',
     pt: 'A data indicada corresponde ao primeiro dia (sexta-feira, 4 hrs). As 24 hrs sao distribuidas em sextas de 4 hrs e sabados de 8 hrs; os demais dias sao acordados com o instrutor na primeira sessao.',
   },
@@ -155,6 +139,15 @@ const OpenCourseRequestForm = ({
   const notaCurso =
     cursoSinCalendarizacionSelected?.nota ??
     NOTAS_POR_CALENDARIZACION[formData.idCalendarizacionAbierta];
+
+  // Un curso dictado en varias sedes (el OS10) trae la ciudad en la fecha: al cambiar de
+  // fecha la ciudad del formulario tiene que seguirla, o contradice al curso elegido.
+  const ciudadDelCurso = cursoSinCalendarizacionSelected?.ciudad;
+  useEffect(() => {
+    if (!ciudadDelCurso || !ciudades.length) return;
+    const match = ciudades.find((c) => c.nombre.toLowerCase() === ciudadDelCurso.toLowerCase());
+    if (match) setFormData((prev) => ({ ...prev, ciudadId: String(match.id) }));
+  }, [ciudadDelCurso, ciudades]);
 
   useEffect(() => {
     if (!showCursoSelect || !formData.modalidadEjecucion) {

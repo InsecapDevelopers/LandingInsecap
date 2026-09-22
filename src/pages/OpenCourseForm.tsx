@@ -4,6 +4,7 @@ import PageHero from '@/components/PageHero';
 import OpenCourseRequestForm from '@/components/OpenCourseRequestForm';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { useSearchParams } from 'react-router-dom';
+import { getSessionCity } from '@/lib/openCourses';
 
 const OpenCourseForm = () => {
   const { locale } = useLocalizedPath();
@@ -11,6 +12,9 @@ const OpenCourseForm = () => {
   const [searchParams] = useSearchParams();
   const fechaId = searchParams.get('fecha') ?? undefined;
   const modalidad = searchParams.get('modalidad') === '2' ? '2' : '1';
+  // Hay cursos que se dictan en más de una sede (el OS10 en Calama y Santiago): la ciudad
+  // sale de la fecha elegida, no de una constante, o el formulario contradice al curso.
+  const ciudad = getSessionCity(fechaId) ?? 'Calama';
 
   const content = {
     es: {
@@ -46,7 +50,7 @@ const OpenCourseForm = () => {
             <div className="max-w-xl mx-auto rounded-2xl shadow-2xl bg-white p-8">
               {/* defaultModalidad (no fixed): la oferta incluye presenciales y online */}
               <OpenCourseRequestForm
-                fixedCiudadNombre="Calama"
+                fixedCiudadNombre={ciudad}
                 fixedTipoContactado="1"
                 defaultModalidad={modalidad}
                 preselectedCalendarizacionId={fechaId}
