@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Calendar, MapPin, Clock, ArrowRight, Info } from "lucide-react";
+import { Calendar, MapPin, Clock, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
@@ -10,126 +9,56 @@ import { useLocalizedPath } from "@/hooks/use-localized-path";
 
 // ponytail: catálogo estático. La oferta de cursos abiertos cambia una vez al mes y se
 // edita aquí; conectar a la API de calendarizaciones cuando exista el flujo real.
-// Tandas: se muestra una a la vez; cada curso lista solo las fechas del mes elegido.
-const MESES = ["Agosto 2026", "Septiembre 2026"];
-type Tanda = { mes: string; imagen?: string; sesiones: { id: string; label: string }[] };
+const MES = "Septiembre 2026";
 const FORM_HREF = "/formulario/cursos-abiertos";
 
 const CURSOS = [
   {
     titulo: "Trabajo en Altura Física",
     duracion: "8 horas",
-    imagen:
-      "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/f7ae80b8-69c6-4cd3-b60e-22c98c401da9.jpeg",
     modalidad: "Presencial",
     sede: "Calama · La Cascada 1513",
-    // id = calendarización del TMS; preselecciona la fecha en el formulario
-    meses: [
-      {
-        mes: "Agosto 2026",
-        sesiones: [
-          { id: "456", label: "03-08-2026 al 04-08-2026" },
-          { id: "457", label: "10-08-2026 al 11-08-2026" },
-          { id: "458", label: "17-08-2026 al 18-08-2026" },
-          { id: "459", label: "24-08-2026 al 24-08-2026" },
-        ],
-      },
-      {
-        // ids negativos = sin calendarización aún (CURSOS_SIN_CALENDARIZACION del formulario)
-        mes: "Septiembre 2026",
-        imagen: "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/fd2e0110-4a81-4300-96b6-7182af43300a.jpeg",
-        sesiones: [
-          { id: "-10", label: "01-09-2026" },
-          { id: "-11", label: "08-09-2026" },
-          { id: "-12", label: "22-09-2026" },
-        ],
-      },
+    imagen:
+      "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/fd2e0110-4a81-4300-96b6-7182af43300a.jpeg",
+    // ids negativos = sin calendarización en el TMS (CURSOS_SIN_CALENDARIZACION del formulario)
+    sesiones: [
+      { id: "-10", label: "01-09-2026" },
+      { id: "-11", label: "08-09-2026" },
+      { id: "-12", label: "22-09-2026" },
     ],
   },
   {
     titulo: "Técnicas de Aislación y Bloqueo",
     duracion: "5,54 horas",
-    imagen:
-      "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/f7834dae-418d-40fb-bff5-fc60720f0db1.jpeg",
     modalidad: "Presencial",
     sede: "Calama · La Cascada 1513",
-    meses: [
-      {
-        mes: "Agosto 2026",
-        sesiones: [
-          { id: "460", label: "04-08-2026 al 04-08-2026" },
-          { id: "461", label: "11-08-2026 al 11-08-2026" },
-          { id: "462", label: "18-08-2026 al 18-08-2026" },
-          { id: "463", label: "25-08-2026 al 25-08-2026" },
-        ],
-      },
-      {
-        // ids negativos = sin calendarización aún (CURSOS_SIN_CALENDARIZACION del formulario)
-        mes: "Septiembre 2026",
-        imagen: "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/eca834f1-d559-4c72-9b1d-49e8539cb04c.jpeg",
-        sesiones: [
-          { id: "-13", label: "03-09-2026" },
-          { id: "-14", label: "10-09-2026" },
-          { id: "-15", label: "24-09-2026" },
-        ],
-      },
+    imagen:
+      "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/eca834f1-d559-4c72-9b1d-49e8539cb04c.jpeg",
+    // ids negativos = sin calendarización en el TMS (CURSOS_SIN_CALENDARIZACION del formulario)
+    sesiones: [
+      { id: "-13", label: "03-09-2026" },
+      { id: "-14", label: "10-09-2026" },
+      { id: "-15", label: "24-09-2026" },
     ],
   },
   {
     titulo: "Espacios Confinados",
     duracion: "8 horas",
-    imagen:
-      "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/0c86ecc5-7301-495c-a23e-cae1bf549914.jpeg",
     modalidad: "Presencial",
     sede: "Calama · La Cascada 1513",
-    meses: [
-      {
-        mes: "Agosto 2026",
-        sesiones: [
-          { id: "464", label: "06-08-2026 al 06-08-2026" },
-          { id: "465", label: "13-08-2026 al 13-08-2026" },
-          { id: "466", label: "20-08-2026 al 20-08-2026" },
-          { id: "467", label: "27-08-2026 al 27-08-2026" },
-        ],
-      },
-      {
-        // ids negativos = sin calendarización aún (CURSOS_SIN_CALENDARIZACION del formulario)
-        mes: "Septiembre 2026",
-        imagen: "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/27bda1db-b09b-4276-8435-a3b2b2989bf8.jpeg",
-        sesiones: [
-          { id: "-16", label: "04-09-2026" },
-          { id: "-17", label: "11-09-2026" },
-          { id: "-18", label: "25-09-2026" },
-        ],
-      },
-    ],
-  },
-  {
-    titulo: "SAP PM: Gestión de Mantenimiento",
     imagen:
-      "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/bc61442a-b46b-4d98-9bad-19da6d6aaeab.jpeg",
-    modalidad: "Sincrónico",
-    modalidadId: "2",
-    duracion: "24 horas",
-    // id 468 = calendarización real del TMS (ES-TEC-3001, 28-08-2026 al 01-09-2026).
-    // Antes era "-2" (entrada hardcodeada del formulario), que no generaba interesado en el R08.
-    meses: [{ mes: "Agosto 2026", sesiones: [{ id: "468", label: "28-08-2026" }] }],
-    nota: {
-      es: "La fecha indicada corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el relator en la primera sesión.",
-      en: "The date shown is the first day (Friday, 4 hrs). The 24 hrs are split into 4-hr Fridays and 8-hr Saturdays; remaining days are agreed with the instructor in the first session.",
-      pt: "A data indicada corresponde ao primeiro dia (sexta-feira, 4 hrs). As 24 hrs sao distribuidas em sextas de 4 hrs e sabados de 8 hrs; os demais dias sao acordados com o instrutor na primeira sessao.",
-    },
+      "https://storageisecap.sfo2.digitaloceanspaces.com/noticias/27bda1db-b09b-4276-8435-a3b2b2989bf8.jpeg",
+    // ids negativos = sin calendarización en el TMS (CURSOS_SIN_CALENDARIZACION del formulario)
+    sesiones: [
+      { id: "-16", label: "04-09-2026" },
+      { id: "-17", label: "11-09-2026" },
+      { id: "-18", label: "25-09-2026" },
+    ],
   },
 ];
 
 const OpenCoursesCatalog = () => {
   const { localizedPath, locale } = useLocalizedPath();
-  const [mes, setMes] = useState(MESES[0]);
-  const cursos = CURSOS.flatMap((curso) => {
-    const grupo: Tanda | undefined = curso.meses.find((m) => m.mes === mes);
-    // La tanda puede traer su propio afiche (septiembre); si no, usa el del curso.
-    return grupo ? [{ ...curso, sesiones: grupo.sesiones, imagen: grupo.imagen ?? curso.imagen }] : [];
-  });
 
   const content = {
     es: {
@@ -194,38 +123,23 @@ const OpenCoursesCatalog = () => {
               {content.intro}
             </p>
 
-            {/* Filtro de tanda: agosto / septiembre */}
-            <div
-              role="group"
-              aria-label={content.monthFilter}
-              className="mt-10 mb-10 flex justify-center gap-2"
-            >
-              {MESES.map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  aria-pressed={mes === m}
-                  onClick={() => setMes(m)}
-                  className={`px-5 py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider border-2 transition-all duration-150 active:scale-95 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-insecap-blue focus-visible:ring-offset-2 ${
-                    mes === m
-                      ? "border-insecap-blue bg-insecap-blue text-white shadow-lg shadow-insecap-blue/30"
-                      : "border-border bg-transparent text-muted-foreground hover:border-insecap-blue hover:text-insecap-blue"
-                  }`}
-                >
-                  {m}
-                </button>
-              ))}
+            {/* Mes de la programación vigente */}
+            <div className="mt-10 mb-10 text-center">
+              <h2 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight text-insecap-blue">
+                {MES}
+              </h2>
+              <div className="mx-auto mt-3 h-1.5 w-20 rounded-full bg-gradient-to-r from-blue-600 to-indigo-400" />
             </div>
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
-              {cursos.map((curso, i) => (
+              {CURSOS.map((curso, i) => (
                 <article
                   key={curso.titulo}
                   className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
                 >
                   <img
                     src={curso.imagen}
-                    alt={`Afiche del curso ${curso.titulo}, ${mes}, modalidad ${curso.modalidad}`}
+                    alt={`Afiche del curso ${curso.titulo}, ${MES}, modalidad ${curso.modalidad}`}
                     loading={i === 0 ? "eager" : "lazy"}
                     className="aspect-square w-full object-cover"
                   />
@@ -255,14 +169,14 @@ const OpenCoursesCatalog = () => {
                     </div>
 
                     <p className="mt-6 mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {content.sessions} · {mes}
+                      {content.sessions} · {MES}
                     </p>
 
                     <ul className="flex flex-col gap-2">
                       {curso.sesiones.map((sesion) => (
                         <li key={sesion.label}>
                           <Link
-                            to={`${localizedPath(FORM_HREF)}?fecha=${sesion.id}&modalidad=${curso.modalidadId ?? "1"}`}
+                            to={`${localizedPath(FORM_HREF)}?fecha=${sesion.id}&modalidad=1`}
                             aria-label={`${content.enroll}: ${curso.titulo}, ${sesion.label}`}
                             className="group flex items-center justify-between gap-3 rounded-lg border border-border bg-background px-4 py-3 text-sm font-medium tabular-nums transition-all duration-150 hover:border-insecap-blue hover:text-insecap-blue active:scale-[0.98] motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-insecap-blue"
                           >
@@ -277,13 +191,6 @@ const OpenCoursesCatalog = () => {
                         </li>
                       ))}
                     </ul>
-
-                    {curso.nota && (
-                      <p className="mt-4 flex gap-2 rounded-lg bg-muted/60 p-3 text-xs leading-relaxed text-muted-foreground">
-                        <Info className="mt-0.5 w-4 h-4 shrink-0 text-insecap-blue" />
-                        <span>{curso.nota[locale]}</span>
-                      </p>
-                    )}
                   </div>
                 </article>
               ))}
