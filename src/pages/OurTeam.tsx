@@ -152,13 +152,6 @@ const teamByArea: TeamArea[] = [
         location: 'Antofagasta'
       },
       {
-        name: 'Jeisy Aravena Ortiz',
-        role: 'DISEÑADORA EDITORIAL',
-        email: 'jaravena@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Jeisy_Aravena_2025.webp?v=1769089936',
-        location: 'Antofagasta'
-      },
-      {
         name: 'Marian Brito Mata',
         role: 'DISEÑADORA EDITORIAL',
         email: 'mbrito@insecap.cl',
