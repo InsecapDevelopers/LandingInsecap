@@ -23,6 +23,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Contact from "./pages/Contact";
 import B2bCourseCatalogPage from "./pages/B2bCourseCatalogPage";
 import OpenCoursesCatalog from "./pages/OpenCoursesCatalog";
+import SapSpecialty from "./pages/SapSpecialty";
 import B2bCourseDetailPage from "./pages/B2bCourseDetailPage";
 import SimulatorCatalog from "./pages/SimulatorCatalog";
 import SimulatorModels from "./pages/SimulatorModels";
@@ -54,6 +55,7 @@ const routeDefinitions = [
   { path: 'cursos', element: <CursosRedirect /> },
   { path: 'cursos-abiertos', element: <OpenCoursesCatalog /> },
   { path: 'cursos-empresas', element: <B2bCourseCatalogPage /> },
+  { path: 'especialidades/sap-pm', element: <SapSpecialty /> },
   { path: 'curso-empresa/:handle', element: <B2bCourseDetailPage /> },
   ...(isSimulatorsEnabled
     ? [

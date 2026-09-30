@@ -131,12 +131,16 @@
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    /* clip evita el scroll horizontal sin volver al html/body contenedor de scroll:
+       con `hidden` a secas, position: sticky deja de funcionar en todo el sitio. */
+    overflow-x: clip;
   }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     overflow-x: hidden;
+    overflow-x: clip;
   }
 
   /* Justificar párrafos globalmente */

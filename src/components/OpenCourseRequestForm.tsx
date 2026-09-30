@@ -71,6 +71,8 @@ interface OpenCourseRequestFormProps {
   defaultModalidad?: '1' | '2';
   /** Preselecciona una fecha del select (id de calendarización que entrega la API). */
   preselectedCalendarizacionId?: string;
+  /** Precarga "Curso de interés" y lo mantiene al día (ej. los cursos elegidos en /sap). */
+  cursoInteres?: string;
 }
 
 const OpenCourseRequestForm = ({
@@ -80,6 +82,7 @@ const OpenCourseRequestForm = ({
   fixedModalidad,
   defaultModalidad,
   preselectedCalendarizacionId,
+  cursoInteres,
 }: OpenCourseRequestFormProps) => {
   const { locale, localizedPath } = useLocalizedPath();
   const { toast } = useToast();
@@ -96,7 +99,7 @@ const OpenCourseRequestForm = ({
     tipoContactado: (fixedTipoContactado ?? '') as '' | '1' | '2',
     modalidadEjecucion: (fixedModalidad ?? defaultModalidad ?? '') as '' | '1' | '2',
     idCalendarizacionAbierta: preselectedCalendarizacionId ?? '',
-    cursoInteres: '',
+    cursoInteres: cursoInteres ?? '',
   });
 
   const [formData, setFormData] = useState(buildInitialFormState);
@@ -105,6 +108,10 @@ const OpenCourseRequestForm = ({
   const [loadingCursos, setLoadingCursos] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (cursoInteres !== undefined) setFormData((prev) => ({ ...prev, cursoInteres }));
+  }, [cursoInteres]);
 
   useEffect(() => {
     fetch(getApiUrl('/api/contacto/ciudades'))

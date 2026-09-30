@@ -26,7 +26,8 @@ const TikTokIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const Footer = () => {
+/** showContact=false: páginas con su propio formulario (ej. /especialidades/sap-pm) no repiten el general. */
+const Footer = ({ showContact = true }: { showContact?: boolean }) => {
   const [bgIndex, setBgIndex] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { t } = useTranslation();
@@ -147,7 +148,7 @@ const Footer = () => {
   return (
     <footer className="gradient-footer text-white" id="footer-root">
 
-      <ContactCTA />
+      {showContact && <ContactCTA />}
 
       {/* ── Hero strip "Creciendo Juntos" con parallax ── */}
       <div

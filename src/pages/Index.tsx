@@ -18,6 +18,7 @@ import InnovationSection from '@/components/InnovationSection';
 import SimulatorBanner from '@/components/SimulatorBanner';
 import OpenCourseOffer from '@/components/OpenCourseOffer';
 import WaveDivider from '@/components/WaveDivider';
+import SapMineralsBanner from '@/components/SapMineralsBanner';
 import { isOpenCourseOfferEnabled, isSimulatorsEnabled } from '@/lib/featureFlags';
 
 const Index = () => {
@@ -30,6 +31,8 @@ const Index = () => {
         <div className="relative overflow-hidden bg-gradient-to-b from-[hsl(210,20%,98%)] via-white to-gray-50">
           <Hero />
           <AccreditationsStrip />
+          {/* Especialidad prioritaria: bajo los sellos Codelco/CCM, antes de la oferta mensual */}
+          <SapMineralsBanner />
           {isOpenCourseOfferEnabled && (
             <>
               {/* -mb-px evita la costura de 1px entre la onda y la sección */}

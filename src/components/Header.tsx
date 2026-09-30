@@ -8,6 +8,7 @@ import CartDrawer from './CartDrawer';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { isB2bCatalogEnabled, isEcommerceEnabled } from '@/lib/featureFlags';
+import { SAP_HREF } from '@/lib/sapCatalog';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -73,6 +74,7 @@ const Header = () => {
       href: defaultCoursesHref,
       dropdown: [
         { id: 'course-list', labelKey: 'header.nav.courseList', href: defaultCoursesHref, isLink: true },
+        { id: 'sap-pm', labelKey: 'header.nav.sapSpecialty', href: SAP_HREF, isLink: true },
       ]
     },
     {
