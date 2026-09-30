@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
 import { Button } from '@/components/ui/button';
 import CartDrawer from './CartDrawer';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { stripLocaleFromPath } from '@/lib/locale-routing';
 import { isB2bCatalogEnabled, isEcommerceEnabled } from '@/lib/featureFlags';
 import { SAP_HREF } from '@/lib/sapCatalog';
 import {
@@ -23,6 +25,8 @@ type NavItem = {
   href: string;
   isLink?: boolean;
   isAnchor?: boolean;
+  /** Rutas extra que también marcan el ítem como activo (ej. /cursos-abiertos en Cursos). */
+  activePrefixes?: string[];
   dropdown?: {
     id: string;
     labelKey: string;
@@ -38,6 +42,15 @@ const Header = () => {
   const [isAtTop, setIsAtTop] = useState(true);
   const { t } = useTranslation();
   const { localizedPath } = useLocalizedPath();
+  const { pathname } = useLocation();
+  const reduceMotion = useReducedMotion();
+  const currentPath = stripLocaleFromPath(pathname);
+  const matchesPath = (href: string) =>
+    href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(`${href}/`);
+  const isActiveItem = (item: NavItem) =>
+    matchesPath(item.href) ||
+    (item.activePrefixes ?? []).some((prefix) => currentPath.startsWith(prefix)) ||
+    (item.dropdown ?? []).some((sub) => !sub.isAnchor && matchesPath(sub.href));
 
   const handleLogoClick = () => {
     window.scrollTo({
@@ -72,11 +85,12 @@ const Header = () => {
       id: 'courses',
       labelKey: 'header.nav.courses',
       href: defaultCoursesHref,
+      activePrefixes: ['/curso', '/formulario/cursos-abiertos'],
       dropdown: [
         { id: 'course-list', labelKey: 'header.nav.courseList', href: defaultCoursesHref, isLink: true },
-        { id: 'sap-pm', labelKey: 'header.nav.sapSpecialty', href: SAP_HREF, isLink: true },
       ]
     },
+    { id: 'sap', labelKey: 'header.nav.sap', href: SAP_HREF, isLink: true },
     {
       id: 'about',
       labelKey: 'header.nav.about',
@@ -107,6 +121,16 @@ const Header = () => {
     }
   ];
 
+  // Efecto tipo CILOG: una píldora translúcida vive en el ítem activo y se desliza al que tiene hover;
+  // mientras el hover está en otro ítem, el activo queda marcado con un contorno.
+  const activeId = navItems.find(isActiveItem)?.id ?? null;
+  const pillId = activeDropdown ?? activeId;
+  const pillTransition = reduceMotion ? { duration: 0 } : { type: 'spring' as const, bounce: 0.2, duration: 0.45 };
+  const desktopLinkClass = (item: NavItem) =>
+    `relative z-10 flex items-center gap-1 rounded-full px-3 py-1.5 font-medium whitespace-nowrap transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${isAtTop ? 'text-sm' : 'text-xs'} ${
+      pillId === item.id || activeId === item.id ? 'text-white' : 'text-primary-foreground/90 hover:text-primary-foreground'
+    }`;
+
   return (
     <header className="w-full fixed top-0 z-50 transition-all duration-500 ease-in-out">
       {/* Main Navigation */}
@@ -130,7 +154,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className={`hidden lg:flex items-center transition-all duration-500 ${isAtTop ? 'gap-6' : 'gap-4'}`}>
+          <div className={`hidden lg:flex items-center transition-all duration-500 ${isAtTop ? 'gap-1' : 'gap-0.5'}`}>
             {navItems.map((item) => (
               <div
                 key={item.id}
@@ -138,12 +162,23 @@ const Header = () => {
                 onMouseEnter={() => setActiveDropdown(item.id)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
+                {pillId === item.id && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    aria-hidden="true"
+                    className="absolute inset-0 rounded-full bg-white/25"
+                    transition={pillTransition}
+                  />
+                )}
+                {activeId === item.id && pillId !== item.id && (
+                  <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-full border-2 border-white" />
+                )}
                 {item.isLink ? (
                   <Link
                     to={localizedPath(item.href)}
+                    aria-current={activeId === item.id ? 'page' : undefined}
                     onClick={() => { if (item.href === '/') window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    className={`text-primary-foreground/90 hover:text-primary-foreground flex items-center gap-1 py-2 font-medium transition-all duration-300 whitespace-nowrap ${isAtTop ? 'text-sm' : 'text-xs'
-                      }`}
+                    className={desktopLinkClass(item)}
                   >
                     {t(item.labelKey)}
                     {item.dropdown && <ChevronDown className="w-4 h-4" />}
@@ -158,16 +193,12 @@ const Header = () => {
                         target.scrollIntoView({ behavior: "smooth" });
                       }
                     }}
-                    className={`text-primary-foreground/90 hover:text-primary-foreground flex items-center gap-1 py-2 font-medium transition-all duration-300 cursor-pointer whitespace-nowrap ${isAtTop ? 'text-sm' : 'text-xs'
-                      }`}
+                    className={`${desktopLinkClass(item)} cursor-pointer`}
                   >
                     {t(item.labelKey)}
                   </a>
                 ) : (
-                  <span
-                    className={`text-primary-foreground/90 hover:text-primary-foreground flex items-center gap-1 py-2 font-medium transition-all duration-300 cursor-pointer whitespace-nowrap ${isAtTop ? 'text-sm' : 'text-xs'
-                      }`}
-                  >
+                  <span className={`${desktopLinkClass(item)} cursor-pointer`}>
                     {t(item.labelKey)}
                     {item.dropdown && <ChevronDown className="w-4 h-4" />}
                   </span>
@@ -277,7 +308,11 @@ const Header = () => {
                   {item.isLink ? (
                     <Link
                       to={localizedPath(item.href)}
-                      className="block py-3 text-primary-foreground/90 hover:text-primary-foreground flex-grow"
+                      aria-current={isActiveItem(item) ? 'page' : undefined}
+                      className={`block flex-grow ${isActiveItem(item)
+                        ? 'my-1.5 rounded-lg bg-white/25 px-3 py-2 font-semibold text-white'
+                        : 'py-3 text-primary-foreground/90 hover:text-primary-foreground'
+                        }`}
                       onClick={() => {
                         if (item.href === '/') window.scrollTo({ top: 0, behavior: 'smooth' });
                         if (!item.dropdown) setIsMenuOpen(false);
@@ -302,7 +337,11 @@ const Header = () => {
                     </a>
                   ) : (
                     <button
-                      className="block w-full text-left py-3 text-primary-foreground/90 hover:text-primary-foreground"
+                      aria-current={isActiveItem(item) ? 'page' : undefined}
+                      className={`block w-full text-left ${isActiveItem(item)
+                        ? 'my-1.5 rounded-lg bg-white/25 px-3 py-2 font-semibold text-white'
+                        : 'py-3 text-primary-foreground/90 hover:text-primary-foreground'
+                        }`}
                       onClick={() => setActiveDropdown(activeDropdown === item.id ? null : item.id)}
                     >
                       {t(item.labelKey)}
