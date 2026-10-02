@@ -1,5 +1,5 @@
 // node docs/marketing/build-google-ads.mjs — genera los CSV de Google Ads Editor y valida límites de caracteres (30 titulo / 90 descripcion / 15 path).
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import assert from 'node:assert';
 import { fileURLToPath } from 'node:url';
 
@@ -158,10 +158,21 @@ const ads = [['Campaign', 'Ad Group', 'Ad type', ...Array.from({ length: 12 }, (
 const seen = new Set();
 const groupNames = new Set();
 
+// Solo se publican keywords con volumen medido en el Planificador (planificador-2026-10.csv).
+// ponytail: las demás quedan en el script como candidatas; la concordancia de frase de las
+// genéricas ("curso trabajo en altura") ya cubre sus variantes largas ("... codelco").
+const CON_VOLUMEN = new Set(readFileSync(`${OUT}/planificador-2026-10.csv`, 'utf8').split('\n').slice(1).map((l) => l.split(',')[0].trim()).filter(Boolean));
+const sinVolumen = [];
+
 for (const { name, groups, headlines, descs, path1, neg } of CAMPS) {
   for (const d of descs) assert(d.length <= 90, `descripcion >90 (${d.length}): ${d}`);
   let n = 0;
-  for (const [tema, g, url, h1, path2, kws] of groups) {
+  let nGroups = 0;
+  for (const [tema, g, url, h1, path2, all] of groups) {
+    const kws = all.filter((k) => CON_VOLUMEN.has(k));
+    sinVolumen.push(...all.filter((k) => !CON_VOLUMEN.has(k)));
+    if (!kws.length) continue;
+    nGroups++;
     const group = name.endsWith('Web') ? `${tema} - ${g}` : g;
     assert(!groupNames.has(group), `grupo repetido: ${group}`);
     groupNames.add(group);
@@ -180,11 +191,11 @@ for (const { name, groups, headlines, descs, path1, neg } of CAMPS) {
     ads.push([name, group, 'Responsive search ad', ...hs, ...Array(12 - hs.length).fill(''), ...descs, path1, path2, url]);
   }
   for (const x of neg) kw.push([name, '', x, 'Campaign Negative Phrase', '']);
-  console.log(`${name}: ${groups.length} grupos, ${n} keywords, ${neg.length} negativas`);
+  console.log(`${name}: ${nGroups} grupos, ${n} keywords, ${neg.length} negativas`);
 }
 
 mkdirSync(OUT, { recursive: true });
 // BOM para que Excel y Google Ads Editor lean bien los acentos
 writeFileSync(`${OUT}/google-ads-keywords.csv`, '\ufeff' + csv(kw));
 writeFileSync(`${OUT}/google-ads-anuncios.csv`, '\ufeff' + csv(ads));
-console.log(`total: ${seen.size} keywords, ${ads.length - 1} anuncios`);
+console.log(`total: ${seen.size} keywords, ${ads.length - 1} anuncios; sin volumen (no publicadas): ${sinVolumen.length}`);

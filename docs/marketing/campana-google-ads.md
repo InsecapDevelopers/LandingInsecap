@@ -6,8 +6,8 @@ invertir hay que pasarlas por el Planificador de Palabras Clave de la cuenta.
 
 Archivos para importar en Google Ads Editor:
 
-- [google-ads-keywords.csv](google-ads-keywords.csv) — 184 keywords en concordancia de frase + negativas por campaña.
-- [google-ads-anuncios.csv](google-ads-anuncios.csv) — 34 anuncios responsivos de búsqueda (uno por grupo).
+- [google-ads-keywords.csv](google-ads-keywords.csv) — 96 keywords con volumen (de 184 candidatas) en concordancia de frase + negativas por campaña.
+- [google-ads-anuncios.csv](google-ads-anuncios.csv) — 28 anuncios responsivos de búsqueda (uno por grupo).
 
 Los dos CSV se generan con `node docs/marketing/build-google-ads.mjs`, que además valida largos
 (30/90/15), keywords duplicadas y keywords que choquen con una negativa. Para cambiar keywords o
@@ -55,6 +55,25 @@ Esto es una hipótesis razonada, no un dato: para confirmar qué keywords usa ca
 falta el Planificador de Google Ads (pestaña "empezar con un sitio web" con el dominio del
 competidor) o una herramienta tipo Ahrefs/Semrush.
 
+## 2b. Lo que dijo el Planificador (02-10-2026)
+
+Medido en la cuenta 747-111-3076, Chile, sept 2025–ago 2026 ([planificador-2026-10.csv](planificador-2026-10.csv)).
+Los rangos son gruesos porque la cuenta no tiene campañas publicando.
+
+- **Tienen volumen 96 de 184 keywords.** El generador solo publica esas; el resto queda en el
+  script como candidatas.
+- **Las de mandante minero (Codelco, Escondida, BHP, riesgos críticos, contratistas) no tienen
+  volumen medible.** La hipótesis 1 no se sostiene como fuente de búsquedas: el diferencial va en
+  el texto del anuncio y en la landing, no en keywords. La concordancia de frase de "curso trabajo
+  en altura" igual captura "curso trabajo en altura codelco" si alguien lo busca.
+- **Más buscadas:** curso grúa horquilla (1K–10K), insecap (1K–10K), y en 100–1K: trabajo en
+  altura, rigger, CAEX, maquinaria pesada, retroexcavadora, cargador frontal, camión pluma,
+  soldadura SENCE, electricidad industrial, otec calama/antofagasta, cursos sence antofagasta,
+  curso os10 calama, curso sap pm.
+- **CPC barato:** la mayoría entre CLP 100 y 300 (parte baja) y CLP 300–1.200 (parte alta).
+  Excepción: "cursos sence para empresas" (hasta CLP 17.729).
+- **SAP PM es chico:** "curso sap pm" (100–1K) más 5 keywords de 10–100.
+
 ## 3. Estructura
 
 Dos campañas, solo Búsqueda. Sin Display ni Performance Max hasta tener conversiones medidas.
@@ -62,8 +81,8 @@ Presupuesto separado para que SAP, de ticket más alto, no compita por presupues
 
 | Campaña | Landing | Grupos | Keywords | % presupuesto sugerido |
 |---|---|---|---|---|
-| `INS \| Search \| Web` | fichas de `/curso-empresa/…`, `/cursos-empresas`, `/cursos-abiertos` | 30 | 160 | 70 % |
-| `INS \| Search \| SAP PM` | `/especialidades/sap-pm` | 4 | 24 | 30 % |
+| `INS \| Search \| Web` | fichas de `/curso-empresa/…`, `/cursos-empresas`, `/cursos-abiertos` | 25 | 90 | 80 % |
+| `INS \| Search \| SAP PM` | `/especialidades/sap-pm` | 3 | 6 | 20 % |
 
 Grupos de la campaña Web (el prefijo es el tema, para leer los informes agrupados):
 
