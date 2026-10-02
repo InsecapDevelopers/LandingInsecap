@@ -5,11 +5,6 @@ import OpenCourseRequestForm from '@/components/OpenCourseRequestForm';
 const ContactCTA = () => {
   const { t } = useTranslation();
 
-  const handleFormSuccess = () => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: 'contacto_enviado' });
-  };
-
   return (
     <section id="contacto" className="py-16 lg:py-24 relative overflow-hidden">
       {/* Background Pattern */}
@@ -113,7 +108,7 @@ const ContactCTA = () => {
             <div className="container mx-auto px-8 md:px-14 lg:px-16 text-center">
               <h4 className="font-bold text-2xl mb-8 text-secondary">{t('contactCTA.stayInTouch')}</h4>
               <div className="max-w-xl mx-auto rounded-2xl shadow-2xl bg-white p-8 text-left">
-                <OpenCourseRequestForm onSuccess={handleFormSuccess} />
+                <OpenCourseRequestForm />
               </div>
             </div>
           </div>

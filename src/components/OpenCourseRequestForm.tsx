@@ -345,6 +345,18 @@ const OpenCourseRequestForm = ({
         return;
       }
 
+      // Conversión para GTM / Google Ads. Va aquí y no en cada página para que ningún uso del
+      // formulario (home, footer, cursos abiertos, SAP) quede sin medir.
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'contacto_enviado',
+        tipo_cliente: payload.tipoContactado === 2 ? 'empresa' : 'persona',
+        curso:
+          payload.cursoInteres ||
+          cursos.find((c) => String(c.id) === formData.idCalendarizacionAbierta)?.nombreCurso ||
+          '',
+        pagina: window.location.pathname,
+      });
       setSubmitted(true);
       onSuccess?.();
     } catch {
