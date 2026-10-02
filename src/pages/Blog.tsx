@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowRight, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react';
 import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
 import { fetchNews } from '@/lib/newsData';
+import { SITE_URL } from '@/lib/locale-routing';
 import PageHero from '@/components/PageHero';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
@@ -171,7 +172,7 @@ const Blog = () => {
           '@type': 'Blog',
           'name': 'Blog INSECAP - Noticias y Artículos',
           'description': 'Blog oficial de INSECAP con noticias, artículos y recursos sobre capacitación y desarrollo profesional en Chile',
-          'url': `https://insecap-capacitaciones.myshopify.com${localizedPath('/noticias')}`,
+          'url': `${SITE_URL}${localizedPath('/noticias')}`,
           'publisher': {
             '@type': 'Organization',
             'name': 'INSECAP',
@@ -198,7 +199,7 @@ const Blog = () => {
                 'url': 'https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png'
               }
             },
-            'url': `https://insecap-capacitaciones.myshopify.com${localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}`
+            'url': `${SITE_URL}${localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}`
           }))
         }}
       />

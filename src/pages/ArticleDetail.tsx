@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowLeft, Share2, Newspaper, X } from 'lucide-react';
 import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
 import { fetchNewsBySlug } from '@/lib/newsData';
+import { SITE_URL } from '@/lib/locale-routing';
 import { toast } from 'sonner';
 import PageHero from '@/components/PageHero';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
@@ -283,7 +284,7 @@ const ArticleDetail = () => {
               },
               'mainEntityOfPage': {
                 '@type': 'WebPage',
-                '@id': `https://insecap-capacitaciones.myshopify.com${localizedPath(`/noticias/${blogHandle}/${articleHandle}`)}`
+                '@id': `${SITE_URL}${localizedPath(`/noticias/${blogHandle}/${articleHandle}`)}`
               },
               'articleSection': content.news,
               'inLanguage': content.language
@@ -296,19 +297,19 @@ const ArticleDetail = () => {
                   '@type': 'ListItem',
                   'position': 1,
                   'name': content.home,
-                  'item': `https://insecap-capacitaciones.myshopify.com${localizedPath('/')}`
+                  'item': `${SITE_URL}${localizedPath('/')}`
                 },
                 {
                   '@type': 'ListItem',
                   'position': 2,
                   'name': content.news,
-                  'item': `https://insecap-capacitaciones.myshopify.com${localizedPath('/noticias')}`
+                  'item': `${SITE_URL}${localizedPath('/noticias')}`
                 },
                 {
                   '@type': 'ListItem',
                   'position': 3,
                   'name': article.title,
-                  'item': `https://insecap-capacitaciones.myshopify.com${localizedPath(`/noticias/${blogHandle}/${articleHandle}`)}`
+                  'item': `${SITE_URL}${localizedPath(`/noticias/${blogHandle}/${articleHandle}`)}`
                 }
               ]
             }

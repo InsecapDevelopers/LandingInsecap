@@ -2,6 +2,9 @@ import { fallbackLanguage, supportedLanguages, type AppLanguage } from './transl
 
 const ABSOLUTE_URL_PATTERN = /^https?:\/\//i;
 
+// Dominio público del sitio: base de canonical, hreflang y JSON-LD.
+export const SITE_URL = 'https://insecap.cl';
+
 export const isAppLanguage = (value: string | undefined | null): value is AppLanguage => {
   if (!value) {
     return false;

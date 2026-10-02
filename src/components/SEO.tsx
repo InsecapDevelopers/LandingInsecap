@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { buildLocalizedPath, getLocaleFromPath, getLocaleMeta, isAbsoluteUrl, stripLocaleFromPath } from '@/lib/locale-routing';
+import { buildLocalizedPath, getLocaleFromPath, getLocaleMeta, isAbsoluteUrl, SITE_URL, stripLocaleFromPath } from '@/lib/locale-routing';
 import { fallbackLanguage, supportedLanguages } from '@/lib/translations';
 
 interface SEOProps {
@@ -50,7 +50,7 @@ const SEO = ({
   const defaultTitle = t('seo.defaultTitle');
   const defaultDescription = t('seo.defaultDescription');
   const defaultImage = 'https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png';
-  const baseUrl = 'https://insecap-capacitaciones.myshopify.com';
+  const baseUrl = SITE_URL;
   const currentLocale = getLocaleFromPath(location.pathname) ?? fallbackLanguage;
   const localeMeta = getLocaleMeta(currentLocale);
   const sourcePath = url && !isAbsoluteUrl(url) ? url : location.pathname;
