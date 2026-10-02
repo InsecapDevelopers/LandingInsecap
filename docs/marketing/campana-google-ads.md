@@ -88,16 +88,16 @@ Grupos de la campaña Web (el prefijo es el tema, para leer los informes agrupad
 
 | Tema | Grupos | Keywords |
 |---|---|---|
-| Estándares Mineros | 6 | 42 |
-| Seguridad Empresas | 8 | 39 |
-| Operación de Equipos | 6 | 29 |
-| Local Norte | 4 | 20 |
-| Técnicos Industriales | 4 | 19 |
-| General OTEC | 1 | 6 |
-| Marca | 1 | 5 |
+| Estándares Mineros (solo LOTO) | 1 | 2 |
+| Seguridad Empresas | 8 | 25 |
+| Operación de Equipos | 6 | 28 |
+| Local Norte | 4 | 12 |
+| Técnicos Industriales | 4 | 15 |
+| General OTEC | 1 | 4 |
+| Marca | 1 | 4 |
 
-Grupos de la campaña SAP PM: SAP PM General (9), Planificación y Programación (6), KPI y
-Confiabilidad (6), PM MM (3).
+Grupos de la campaña SAP PM: SAP PM General (3), Planificación y Programación (1), KPI y
+Confiabilidad (2). PM MM queda sin keywords con volumen.
 
 Lo que se pierde al juntar todo lo no-SAP en una campaña: no se puede dar presupuesto ni
 ubicación distintos por tema. Las keywords de Local Norte ya llevan la ciudad, así que funcionan
