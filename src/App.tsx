@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -45,6 +45,23 @@ const CursosRedirect = () => {
   const { locale } = useParams();
 
   return <Navigate to={locale ? `/${locale}/cursos-abiertos` : '/cursos-abiertos'} replace />;
+};
+
+/** Meta Pixel en SPA: el snippet de index.html registra solo la primera carga;
+ *  cada navegación interna se reporta aquí como un PageView nuevo. */
+const MetaPixelPageView = () => {
+  const { pathname } = useLocation();
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    (window as Window & { fbq?: (...args: unknown[]) => void }).fbq?.('track', 'PageView');
+  }, [pathname]);
+
+  return null;
 };
 
 const routeDefinitions = [
@@ -133,6 +150,7 @@ const App = () => {
         <BackToTop />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ScrollToTop />
+          <MetaPixelPageView />
           {/*<PromoPopup />*/}
           <Routes>
             {routeDefinitions.map((routeDefinition) => (
