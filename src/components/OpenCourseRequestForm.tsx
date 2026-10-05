@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { formatRut } from '@/lib/insecapUtils';
 import { getSessionsWithoutCalendar } from '@/lib/openCourses';
+import { getAttributionPayload } from '@/lib/attribution';
 import { Link } from 'react-router-dom';
 
 interface Ciudad {
@@ -324,6 +325,8 @@ const OpenCourseRequestForm = ({
         // Sin calendarización el backend no sabe a qué curso asociar el interesado del R08:
         // este código ("WEB-ALTURA", …) le dice bajo cuál agruparlo.
         codigoCursoWeb: cursoSinCalendarizacionSelected?.codigoCursoWeb ?? null,
+        // Origen publicitario (gclid / utm) para cruzar el contacto con las campañas en el TMS.
+        atribucion: getAttributionPayload(),
       };
 
       const res = await fetch(getApiUrl('/api/contacto'), {
