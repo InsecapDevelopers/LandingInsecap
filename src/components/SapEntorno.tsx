@@ -15,9 +15,9 @@ const TEXT = {
     title: 'Practican en un SAP armado a la medida de tu empresa.',
     lead: 'Configuramos nuestro entorno SAP S/4HANA con la estructura de tu operación. Tu equipo practica con datos que reconoce, sin tocar tu sistema productivo.',
     points: [
-      { title: 'Ubicaciones técnicas', text: 'La jerarquía de tu faena: área, flota, equipo y sistema, con una codificación como la tuya.' },
+      { title: 'Ubicaciones técnicas', text: 'La jerarquía de tu operación: área, flota, equipo y sistema, con una codificación como la tuya.' },
       { title: 'Equipos y flotas', text: 'Cargadores frontales, grúas puente y los activos que tu equipo mantiene día a día.' },
-      { title: 'Centros de costo de la región', text: 'Centros de costo y de planificación como los de las faenas del norte de Chile.' },
+      { title: 'Centros de costo de la región', text: 'Centros de costo y de planificación como los de las operaciones del norte de Chile.' },
       { title: 'Sin riesgo', text: 'Un entorno propio: se equivocan, repiten y aprenden sin afectar tu operación.' },
     ],
     real: 'Captura real',
@@ -31,9 +31,9 @@ const TEXT = {
     title: 'They practice on an SAP built around your company.',
     lead: 'We configure our SAP S/4HANA environment with the structure of your operation. Your team practices on data they recognize, without touching your production system.',
     points: [
-      { title: 'Functional locations', text: 'Your site hierarchy: area, fleet, equipment and system, coded the way you code them.' },
+      { title: 'Functional locations', text: 'Your operation’s hierarchy: area, fleet, equipment and system, coded the way you code them.' },
       { title: 'Equipment and fleets', text: 'Front loaders, overhead cranes and the assets your team maintains every day.' },
-      { title: 'Regional cost centers', text: 'Cost and planning centers like those of mining sites in northern Chile.' },
+      { title: 'Regional cost centers', text: 'Cost and planning centers like those of operations in northern Chile.' },
       { title: 'Risk-free', text: 'An environment of our own: they make mistakes, repeat and learn without affecting your operation.' },
     ],
     real: 'Real screenshot',

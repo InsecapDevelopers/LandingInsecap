@@ -202,7 +202,7 @@ const ENV_CDN = 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias';
 export const SAP_ENV_SHOTS = [
   {
     src: `${ENV_CDN}/sap2-23d39a46.jpeg`, w: 1519, h: 904, zoom: 1.6,
-    alt: { es: 'Ubicaciones técnicas de una faena minera', en: 'Functional locations of a mining site', pt: 'Locais de instalação de uma operação mineira' },
+    alt: { es: 'Ubicaciones técnicas en el entorno de práctica', en: 'Functional locations in the practice environment', pt: 'Locais de instalação no ambiente de prática' },
   },
   {
     src: `${ENV_CDN}/sap3-a2c823e9.jpeg`, w: 1600, h: 855, zoom: 2.2,
