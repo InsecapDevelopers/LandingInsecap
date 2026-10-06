@@ -69,11 +69,7 @@ const PreguntasFrecuentes = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO
-        title="Preguntas frecuentes"
-        description="Respuestas sobre INSECAP: qué es una OTEC, franquicia SENCE, duración de trabajo en altura, cursos con estándar Codelco, cursos en terreno y e-learning."
-        url="/preguntas-frecuentes"
-      />
+      <SEO url="/preguntas-frecuentes" />
       <Header />
 
       <main className="pb-16" lang={locale === 'es' ? undefined : 'es'}>

@@ -40,10 +40,11 @@ export interface SeoRoute {
 }
 
 /**
- * PT se publica con `noindex,follow` hasta corregir las tildes de los textos (decisión 1.3).
- * TODO: Fase 3 lo pasa a true.
+ * PT institucional se indexa desde la Fase 3, con las tildes corregidas y los textos de JSX en los
+ * diccionarios (decisión 1.3). En false vuelve a `noindex,follow` y sale del hreflang.
+ * TODO: revisión nativa del portugués (sección 4, punto 8).
  */
-export const PT_INDEXABLE = false;
+export const PT_INDEXABLE = true;
 
 const ALL: Record<AppLanguage, boolean> = { es: true, en: true, pt: true };
 const ES_ONLY: Record<AppLanguage, boolean> = { es: true, en: false, pt: false };
@@ -110,6 +111,14 @@ export const seoRoutes: SeoRoute[] = [
 ];
 
 export const isDynamicSeoRoute = (route: SeoRoute) => route.path.includes(':');
+
+/**
+ * Clave de `seo.pages` (translations.ts) con el title y la description escritos a mano de una
+ * ruta estática: su propio path ('inicio' para la home). Las rutas con parámetros los arman
+ * desde sus datos (cursos-seo.ts, sedes.ts, noticias) y no tienen clave.
+ */
+export const getSeoPageKey = (route: SeoRoute): string | null =>
+  isDynamicSeoRoute(route) ? null : route.path || 'inicio';
 
 /**
  * Busca la entrada de la tabla para un pathname con prefijo de idioma (`/es/nosotros`).

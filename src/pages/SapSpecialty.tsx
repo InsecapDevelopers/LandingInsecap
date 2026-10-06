@@ -53,9 +53,6 @@ const SapSpecialty = () => {
 
   const c = {
     es: {
-      seoTitle: 'Especialidad SAP S/4HANA PM a medida | Insecap Minerals',
-      seoDescription:
-        'Formación SAP S/4HANA Módulo PM para equipos de mantenimiento de minería e industria: 9 cursos, 162 h, práctica en plataforma propia. Calama, Antofagasta y online.',
       badge: 'Insecap Minerals',
       eyebrow: 'Especialidad SAP S/4HANA · Módulo PM',
       h1: 'SAP a medida',
@@ -118,9 +115,6 @@ const SapSpecialty = () => {
       trademark: 'SAP y SAP S/4HANA son marcas registradas de SAP SE en Alemania y otros países. Insecap no está afiliado a SAP SE.',
     },
     en: {
-      seoTitle: 'Tailored SAP S/4HANA PM Specialization | Insecap Minerals',
-      seoDescription:
-        'SAP S/4HANA PM Module training for mining and industrial maintenance teams: 9 courses, 162 h, hands-on practice on our own platform. Calama, Antofagasta and online.',
       badge: 'Insecap Minerals',
       eyebrow: 'SAP S/4HANA PM Module Specialization',
       h1: 'SAP tailored',
@@ -183,9 +177,6 @@ const SapSpecialty = () => {
       trademark: 'SAP and SAP S/4HANA are registered trademarks of SAP SE in Germany and other countries. Insecap is not affiliated with SAP SE.',
     },
     pt: {
-      seoTitle: 'Especialização SAP S/4HANA PM sob medida | Insecap Minerals',
-      seoDescription:
-        'Formação SAP S/4HANA Módulo PM para equipes de manutenção de mineração e indústria: 9 cursos, 162 h, prática em plataforma própria. Calama, Antofagasta e online.',
       badge: 'Insecap Minerals',
       eyebrow: 'Especialização SAP S/4HANA · Módulo PM',
       h1: 'SAP sob medida',
@@ -265,11 +256,8 @@ const SapSpecialty = () => {
   return (
     <div className="min-h-screen bg-white">
       <SEO
-        title={c.seoTitle}
-        description={c.seoDescription}
         url={SAP_HREF}
         type="website"
-        keywords={['curso SAP PM', 'SAP S/4HANA mantenimiento', 'capacitación SAP Antofagasta', 'capacitación SAP Calama', 'Insecap Minerals']}
       />
       <Header />
 

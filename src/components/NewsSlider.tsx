@@ -85,7 +85,7 @@ const NewsSlider: React.FC = () => {
     return (
       <section className="py-16 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-8 md:px-16 lg:px-20 text-center">
-          <p className="text-gray-500">Próximamente nuevas noticias</p>
+          <p className="text-gray-500">{t('news.empty')}</p>
         </div>
       </section>
     );

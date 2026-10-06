@@ -47,7 +47,8 @@ ENV VITE_TMS_API_URL=$VITE_TMS_API_URL \
 # APIs en vez de reutilizar el dist/ de una ejecución anterior (cache type=gha).
 ARG BUILD_ID=local
 RUN echo "BUILD_ID=${BUILD_ID}" && npm run build \
-    && mkdir -p /app/nginx && mv dist/redirects.map /app/nginx/redirects.map
+    && mkdir -p /app/nginx && mv dist/redirects.map /app/nginx/redirects.map \
+    && rm -rf dist/_report
 
 # ---------- Stage 2: serve ----------
 FROM nginx:1.27-alpine AS runtime

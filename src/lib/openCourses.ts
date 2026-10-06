@@ -169,7 +169,7 @@ export const OPEN_COURSES: OpenCourse[] = [
     note: {
       es: 'La fecha indicada corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el facilitador en la primera sesión.',
       en: 'The date shown is the first day (Friday, 4 hrs). The 24 hrs are split into 4-hr Fridays and 8-hr Saturdays; remaining days are agreed with the instructor in the first session.',
-      pt: 'A data indicada corresponde ao primeiro dia (sexta-feira, 4 hrs). As 24 hrs sao distribuidas em sextas de 4 hrs e sabados de 8 hrs; os demais dias sao acordados com o instrutor na primeira sessao.',
+      pt: 'A data indicada corresponde ao primeiro dia (sexta-feira, 4 h). As 24 h são distribuídas em sextas-feiras de 4 h e sábados de 8 h; os demais dias são combinados com o instrutor na primeira sessão.',
     },
     batches: [
       {
@@ -195,7 +195,7 @@ export const OPEN_COURSES: OpenCourse[] = [
     note: {
       es: 'La fecha indicada corresponde al inicio del curso. Las 90 hrs del OS10 se distribuyen en varias jornadas; el calendario se acuerda con el facilitador en la primera sesión.',
       en: 'The date shown is the course start. The 90 hrs are spread over several sessions; the schedule is agreed with the instructor in the first session.',
-      pt: 'A data indicada corresponde ao inicio do curso. As 90 hrs sao distribuidas em varias jornadas; o calendario e acordado com o instrutor na primeira sessao.',
+      pt: 'A data indicada corresponde ao início do curso. As 90 h são distribuídas em várias jornadas; o calendário é combinado com o instrutor na primeira sessão.',
     },
     batches: [
       {

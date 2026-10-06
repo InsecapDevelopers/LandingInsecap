@@ -58,7 +58,7 @@ const NOTAS_POR_CALENDARIZACION: Record<string, Record<string, string>> = {
   '468': {
     es: 'La fecha corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el facilitador en la primera sesión.',
     en: 'The date shown is the first day (Friday, 4 hrs). The 24 hrs are split into 4-hr Fridays and 8-hr Saturdays; remaining days are agreed with the instructor in the first session.',
-    pt: 'A data indicada corresponde ao primeiro dia (sexta-feira, 4 hrs). As 24 hrs sao distribuidas em sextas de 4 hrs e sabados de 8 hrs; os demais dias sao acordados com o instrutor na primeira sessao.',
+    pt: 'A data indicada corresponde ao primeiro dia (sexta-feira, 4 h). As 24 h são distribuídas em sextas-feiras de 4 h e sábados de 8 h; os demais dias são combinados com o instrutor na primeira sessão.',
   },
 };
 

@@ -64,6 +64,7 @@ type ModelsCatalogSectionProps = {
 };
 
 const GalleryPanel = memo(({ content, localizedPath }: GalleryPanelProps) => {
+  const { t } = useTranslation();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const handlePrevImage = useCallback(() => {
@@ -95,7 +96,7 @@ const GalleryPanel = memo(({ content, localizedPath }: GalleryPanelProps) => {
         <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white">
           <img
             src={STORE_GALLERY_IMAGES[activeImageIndex]}
-            alt={`Multisim vista ${activeImageIndex + 1}`}
+            alt={t('gallery.photo', { name: content.productName, n: activeImageIndex + 1 })}
             className="h-[320px] w-full object-cover md:h-[480px]"
             decoding="async"
           />
@@ -103,17 +104,17 @@ const GalleryPanel = memo(({ content, localizedPath }: GalleryPanelProps) => {
             type="button"
             onClick={handlePrevImage}
             className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-slate-200 bg-white/90 p-2 text-slate-700 shadow-sm hover:bg-white"
-            aria-label="Imagen anterior"
+            aria-label={t('gallery.prev')}
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-5 w-5" aria-hidden="true" />
           </button>
           <button
             type="button"
             onClick={handleNextImage}
             className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-slate-200 bg-white/90 p-2 text-slate-700 shadow-sm hover:bg-white"
-            aria-label="Siguiente imagen"
+            aria-label={t('gallery.next')}
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -128,11 +129,11 @@ const GalleryPanel = memo(({ content, localizedPath }: GalleryPanelProps) => {
                   ? 'border-insecap-blue ring-2 ring-insecap-blue/30'
                   : 'border-slate-200 hover:border-slate-400'
               }`}
-              aria-label={`Ver imagen ${index + 1}`}
+              aria-label={t('gallery.view', { n: index + 1 })}
             >
               <img
                 src={imageUrl}
-                alt={`Miniatura Multisim ${index + 1}`}
+                alt=""
                 className="h-16 w-16 object-cover md:h-20 md:w-20"
                 loading="lazy"
                 decoding="async"
@@ -229,6 +230,7 @@ const ModelsCatalogSectionInner = ({
   onSelectCategory,
   filteredSimulators,
 }: ModelsCatalogSectionProps) => {
+  const { t } = useTranslation();
   const CARDS_PER_PAGE = 4;
   const [page, setPage] = useState(0);
 
@@ -281,9 +283,9 @@ const ModelsCatalogSectionInner = ({
                 type="button"
                 onClick={() => setPage((p) => p - 1)}
                 className="absolute -left-5 top-1/2 z-10 -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-700 shadow-md hover:bg-slate-50 md:-left-6"
-                aria-label="Página anterior"
+                aria-label={t('pagination.prev')}
               >
-                <ChevronLeft className="h-5 w-5" />
+                <ChevronLeft className="h-5 w-5" aria-hidden="true" />
               </button>
             )}
 
@@ -298,9 +300,9 @@ const ModelsCatalogSectionInner = ({
                 type="button"
                 onClick={() => setPage((p) => p + 1)}
                 className="absolute -right-5 top-1/2 z-10 -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-700 shadow-md hover:bg-slate-50 md:-right-6"
-                aria-label="Página siguiente"
+                aria-label={t('pagination.next')}
               >
-                <ChevronRight className="h-5 w-5" />
+                <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </button>
             )}
           </div>
@@ -313,7 +315,7 @@ const ModelsCatalogSectionInner = ({
                   type="button"
                   onClick={() => setPage(i)}
                   className={`h-2 rounded-full transition-all ${i === page ? 'w-6 bg-insecap-blue' : 'w-2 bg-slate-300 hover:bg-slate-400'}`}
-                  aria-label={`Ir a página ${i + 1}`}
+                  aria-label={t('pagination.goTo', { n: i + 1 })}
                 />
               ))}
             </div>
@@ -426,17 +428,13 @@ const SimulatorModels = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <SEO
-        title={content.title}
-        description={content.storeDescription}
-        url="/simuladores/modelos"
-      />
+      <SEO url="/simuladores/modelos" />
 
       <main className="pb-16">
         <PageHero
           title={content.title}
           subtitle={content.subtitle}
-          breadcrumbs={[{ label: t('header.nav.home'), href: localizedPath('/') }, { label: 'Simuladores', href: localizedPath('/simuladores') }, { label: content.title }]}
+          breadcrumbs={[{ label: t('breadcrumb.simulators'), href: '/simuladores' }, { label: content.title }]}
           backgroundImage={CAEX_BANNER}
         />
 

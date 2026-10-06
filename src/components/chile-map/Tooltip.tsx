@@ -1,5 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { useTranslation } from 'react-i18next';
 
 interface TooltipProps {
   visible: boolean;
@@ -12,9 +13,10 @@ interface TooltipProps {
 }
 
 const Tooltip: React.FC<TooltipProps> = ({ visible, pinPos, nombre, ciudad, direccion, telefono, tipo }) => {
+  const { t } = useTranslation();
   if (!visible || !pinPos) return null;
 
-  const tipoLabel = tipo === 'fisica' ? '📍 Sede Física' : '🌐 Sede Virtual';
+  const tipoLabel = tipo === 'fisica' ? `📍 ${t('sedesMap.physicalType')}` : `🌐 ${t('sedesMap.virtualType')}`;
 
   return createPortal(
     <div

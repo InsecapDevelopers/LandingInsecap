@@ -23,7 +23,7 @@ import { isOpenCourseOfferEnabled, isSimulatorsEnabled } from '@/lib/featureFlag
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      {/* Title y description por defecto (seo.defaultTitle / seo.defaultDescription); canonical /<locale>. */}
+      {/* Title y description de seo.pages.inicio (translations.ts); canonical /<locale>. */}
       <SEO url="/" />
       <Header />
       <main>

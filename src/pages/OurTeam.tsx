@@ -477,11 +477,7 @@ const OurTeam = () => {
     <div className="min-h-screen bg-[#f7f9ff]">
       <Header />
 
-      <SEO
-        title={content.title}
-        description={content.paragraph1}
-        url="/nuestro-equipo"
-      />
+      <SEO url="/nuestro-equipo" />
 
       <main>
         <PageHero
@@ -530,7 +526,7 @@ const OurTeam = () => {
               <div className="hidden lg:flex items-center justify-center shrink-0">
                 <img
                   src="/isotipos/Insecap_Logo-09.png"
-                  alt="Insecap isotipo"
+                  alt=""
                   className="w-48 xl:w-56 opacity-90 drop-shadow-[0_0_32px_rgba(0,184,222,0.35)] select-none"
                   draggable={false}
                 />

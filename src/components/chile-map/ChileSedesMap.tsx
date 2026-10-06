@@ -5,11 +5,11 @@ import ChileMap from './ChileMap';
 import Tooltip from './Tooltip';
 import { sedeLocations } from './data';
 
-type Mode = 'fisicas' | 'virtuales';
+type Mode = 'presenciales' | 'virtuales';
 
 const ChileSedesMap: React.FC = () => {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<Mode>('fisicas');
+  const [mode, setMode] = useState<Mode>('presenciales');
   const [hoveredSede, setHoveredSede] = useState<string | null>(null);
   const [pinPos, setPinPos] = useState<{ x: number; y: number } | null>(null);
 
@@ -39,9 +39,9 @@ const ChileSedesMap: React.FC = () => {
       <div className="hidden md:flex flex-col items-center gap-2 mb-2">
         <div className="flex justify-center gap-3">
         <button
-          onClick={() => setMode('fisicas')}
+          onClick={() => setMode('presenciales')}
           className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 border-2 cursor-pointer ${
-            mode === 'fisicas'
+            mode === 'presenciales'
               ? 'bg-gradient-to-r from-[#3C4F97] to-[#485CC7] text-white border-[#485CC7] shadow-lg shadow-blue-500/25'
               : 'bg-white/60 text-gray-500 border-gray-200 hover:border-[#485CC7]/30 hover:text-[#3C4F97]'
           }`}

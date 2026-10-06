@@ -3,16 +3,16 @@ import Header from '@/components/Header';
 import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
-import { Mail, Phone, MapPin, Send, ExternalLink } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { CONTACT_EMAIL, sedes } from '@/data/sedes';
 
 const Contact = () => {
-  const { locale } = useLocalizedPath();
+  const { locale, localizedPath } = useLocalizedPath();
+  const { t } = useTranslation();
   const { toast } = useToast();
 
   const content = {
@@ -24,8 +24,6 @@ const Contact = () => {
       toastDescription: 'Nos pondremos en contacto contigo a la brevedad.',
       locationsTag: 'Nuestras Sedes',
       locationsTitle: 'Nos encontramos en las siguientes regiones',
-      calama: 'Sucursal Calama',
-      antofagasta: 'Sucursal Antofagasta',
       writeUs: 'Escríbenos',
       writeUsText: 'Si tienes alguna consulta no dudes en escribirnos:',
       mapAlt: 'Mapa de sedes Insecap',
@@ -38,8 +36,6 @@ const Contact = () => {
       toastDescription: 'We will contact you shortly.',
       locationsTag: 'Our Locations',
       locationsTitle: 'We are present in the following regions',
-      calama: 'Calama Branch',
-      antofagasta: 'Antofagasta Branch',
       writeUs: 'Write to us',
       writeUsText: 'If you have any questions, feel free to contact us:',
       mapAlt: 'Insecap locations map',
@@ -49,13 +45,11 @@ const Contact = () => {
       subtitle: 'Estamos ao seu dispor',
       breadcrumb: 'Contato',
       toastTitle: 'Mensagem enviada',
-      toastDescription: 'Entraremos em contato com voce em breve.',
+      toastDescription: 'Entraremos em contato com você em breve.',
       locationsTag: 'Nossas Filiais',
-      locationsTitle: 'Estamos presentes nas seguintes regioes',
-      calama: 'Filial Calama',
-      antofagasta: 'Filial Antofagasta',
-      writeUs: 'Escreva para nos',
-      writeUsText: 'Se tiver alguma duvida, nao hesite em nos escrever:',
+      locationsTitle: 'Estamos presentes nas seguintes regiões',
+      writeUs: 'Escreva para nós',
+      writeUsText: 'Se tiver alguma dúvida, não hesite em nos escrever:',
       mapAlt: 'Mapa das unidades Insecap',
     },
   }[locale];
@@ -72,10 +66,7 @@ const Contact = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
-      <SEO
-        title={content.title}
-        url="/contacto"
-      />
+      <SEO url="/contacto" />
 
       <main>
         <PageHero 
@@ -100,56 +91,39 @@ const Contact = () => {
               />
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {/* Sucursal Calama */}
-              <div className="flex flex-col items-center text-center p-8 rounded-2xl bg-slate-50 border border-slate-100 transition-all hover:shadow-lg">
-                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
-                  <MapPin className="w-8 h-8 text-white -rotate-3" />
-                </div>
-                <h3 className="text-xl font-bold text-blue-950 mb-4">{content.calama}</h3>
-                <div className="space-y-2 text-gray-600">
-                  <p>La cascada 1513</p>
-                  <p className="flex items-center justify-center gap-2">
-                    <Phone className="w-4 h-4 text-blue-600" />
-                    +56 9 7887 6152
-                  </p>
-                  <p className="flex items-center justify-center gap-2">
-                    <Phone className="w-4 h-4 text-blue-600" />
-                    +55 2 926431
-                  </p>
-                </div>
-              </div>
-
-              {/* Sucursal Antofagasta */}
-              <div className="flex flex-col items-center text-center p-8 rounded-2xl bg-slate-50 border border-slate-100 transition-all hover:shadow-lg">
-                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
-                  <MapPin className="w-8 h-8 text-white -rotate-3" />
-                </div>
-                <h3 className="text-xl font-bold text-blue-950 mb-4">{content.antofagasta}</h3>
-                <div className="space-y-2 text-gray-600">
-                  <p>Copiapó 956</p>
-                  <p className="flex items-center justify-center gap-2">
-                    <Phone className="w-4 h-4 text-blue-600" />
-                    +55 2 948575
-                  </p>
-                  <p className="flex items-center justify-center gap-2">
-                    <Phone className="w-4 h-4 text-blue-600" />
-                    +56 9 6125 2832
-                  </p>
-                </div>
-              </div>
+            {/* NAP único desde src/data/sedes.ts */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {sedes.map((sede) => (
+                <address key={sede.slug} className="not-italic flex flex-col items-center text-center p-8 rounded-2xl bg-slate-50 border border-slate-100 transition-all hover:shadow-lg">
+                  <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
+                    <MapPin className="w-8 h-8 text-white -rotate-3" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-xl font-bold text-blue-950 mb-4">
+                    <Link to={localizedPath(`/sedes/${sede.slug}`)} className="hover:underline">
+                      {t(`contactCTA.branches.${sede.slug}`)}
+                    </Link>
+                  </h3>
+                  <div className="space-y-2 text-gray-600">
+                    <p>{sede.direccion}, {sede.ciudad}</p>
+                    <p className="flex items-center justify-center gap-2">
+                      <Phone className="w-4 h-4 text-blue-600" aria-hidden="true" />
+                      <a href={`tel:${sede.telefonoE164}`} className="hover:underline">{sede.telefono}</a>
+                    </p>
+                  </div>
+                </address>
+              ))}
 
               {/* Escríbenos */}
-              <div className="flex flex-col items-center text-center p-8 rounded-2xl bg-slate-50 border border-slate-100 transition-all hover:shadow-lg">
+              <address className="not-italic flex flex-col items-center text-center p-8 rounded-2xl bg-slate-50 border border-slate-100 transition-all hover:shadow-lg">
                 <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
-                  <Mail className="w-8 h-8 text-white -rotate-3" />
+                  <Mail className="w-8 h-8 text-white -rotate-3" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-bold text-blue-950 mb-4">{content.writeUs}</h3>
                 <p className="text-gray-600 mb-2">{content.writeUsText}</p>
-                <a href="mailto:contacto@insecap.cl" className="text-blue-600 font-semibold hover:underline">
-                  contacto@insecap.cl
+                <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-600 font-semibold hover:underline">
+                  {CONTACT_EMAIL}
                 </a>
-              </div>
+              </address>
             </div>
           </div>
         </section>

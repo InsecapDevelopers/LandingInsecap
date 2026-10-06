@@ -39,7 +39,7 @@ import SedeDetail from "./pages/SedeDetail";
 import FranquiciaSence from "./pages/FranquiciaSence";
 import PreguntasFrecuentes from "./pages/PreguntasFrecuentes";
 import { buildLocalizedPath, getLocaleFromPath, getLocaleMeta, isAppLanguage } from "./lib/locale-routing";
-import { getRobotsForPath } from "./lib/seo-routes";
+import SEO from "./components/SEO";
 import { resolveLegacyPath } from "./lib/legacy-redirects";
 import { siteJsonLd } from "./lib/jsonld";
 import { useCartStore } from "./stores/cartStore";
@@ -90,28 +90,21 @@ const AttributionTracker = () => {
   return null;
 };
 
-/** Metadatos por defecto de cada ruta (idioma del <html>, title, description y robots según
- *  seo-routes) y el JSON-LD global (#org, #website). El <SEO> de cada página sobrescribe los
- *  metadatos porque se monta después; el JSON-LD de la página se suma al global. */
+/** Metadatos por defecto de cada ruta (idioma del <html> y <SEO> con los textos de seo.pages,
+ *  canonical, hreflang y robots según seo-routes) y el JSON-LD global (#org, #website). El <SEO>
+ *  de cada página sobrescribe los metadatos porque se monta después; el JSON-LD de la página se
+ *  suma al global. */
 const RouteMeta = () => {
   const { pathname } = useLocation();
-  const { t } = useTranslation();
   const localeMeta = getLocaleMeta(getLocaleFromPath(pathname) ?? fallbackLanguage);
 
   return (
-    <Helmet htmlAttributes={{ lang: localeMeta.htmlLang }}>
-      <title>{t('seo.defaultTitle')}</title>
-      <meta name="description" content={t('seo.defaultDescription')} />
-      <meta name="robots" content={getRobotsForPath(pathname)} />
-      <meta property="og:type" content="website" />
-      <meta property="og:title" content={t('seo.defaultTitle')} />
-      <meta property="og:description" content={t('seo.defaultDescription')} />
-      <meta property="og:site_name" content={t('seo.siteName')} />
-      <meta property="og:locale" content={localeMeta.ogLocale} />
-      <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png" />
-      <meta name="twitter:card" content="summary_large_image" />
-      <script type="application/ld+json">{siteJsonLd}</script>
-    </Helmet>
+    <>
+      <Helmet htmlAttributes={{ lang: localeMeta.htmlLang }}>
+        <script type="application/ld+json">{siteJsonLd}</script>
+      </Helmet>
+      <SEO base />
+    </>
   );
 };
 

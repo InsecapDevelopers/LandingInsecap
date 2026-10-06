@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 import Header from '@/components/Header';
 import SEO from '@/components/SEO';
@@ -34,6 +35,7 @@ type ExtinguisherContent = {
 
 const SimulatorExtinguisherDetail = () => {
   const { localizedPath, locale } = useLocalizedPath();
+  const { t } = useTranslation();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const content = useMemo<ExtinguisherContent>(() => ({
@@ -99,18 +101,14 @@ const SimulatorExtinguisherDetail = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <SEO
-        title={content.subtitle}
-        description={content.description}
-        url="/simuladores/extintores"
-      />
+      <SEO url="/simuladores/extintores" />
 
       <main className="pb-16">
         <PageHero
           title={content.title}
           subtitle={content.subtitle}
           breadcrumbs={[
-            { label: 'Simuladores', href: localizedPath('/simuladores') },
+            { label: t('breadcrumb.simulators'), href: '/simuladores' },
             { label: content.title },
           ]}
           backgroundImage={EXTINGUISHER_BANNER}
@@ -130,7 +128,7 @@ const SimulatorExtinguisherDetail = () => {
               <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white">
                 <img
                   src={EXTINGUISHER_GALLERY_IMAGES[activeImageIndex]}
-                  alt={`Extintor vista ${activeImageIndex + 1}`}
+                  alt={t('gallery.photo', { name: content.subtitle, n: activeImageIndex + 1 })}
                   className="h-[320px] w-full object-contain md:h-[480px]"
                   decoding="async"
                 />
@@ -138,17 +136,17 @@ const SimulatorExtinguisherDetail = () => {
                   type="button"
                   onClick={handlePrevImage}
                   className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-slate-200 bg-white/90 p-2 text-slate-700 shadow-sm hover:bg-white"
-                  aria-label="Imagen anterior"
+                  aria-label={t('gallery.prev')}
                 >
-                  <ChevronLeft className="h-5 w-5" />
+                  <ChevronLeft className="h-5 w-5" aria-hidden="true" />
                 </button>
                 <button
                   type="button"
                   onClick={handleNextImage}
                   className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-slate-200 bg-white/90 p-2 text-slate-700 shadow-sm hover:bg-white"
-                  aria-label="Siguiente imagen"
+                  aria-label={t('gallery.next')}
                 >
-                  <ChevronRight className="h-5 w-5" />
+                  <ChevronRight className="h-5 w-5" aria-hidden="true" />
                 </button>
               </div>
 
@@ -163,11 +161,11 @@ const SimulatorExtinguisherDetail = () => {
                         ? 'border-insecap-blue ring-2 ring-insecap-blue/30'
                         : 'border-slate-200 hover:border-slate-400'
                     }`}
-                    aria-label={`Ver imagen ${index + 1}`}
+                    aria-label={t('gallery.view', { n: index + 1 })}
                   >
                     <img
                       src={imageUrl}
-                      alt={`Miniatura extintor ${index + 1}`}
+                      alt=""
                       className="h-16 w-16 object-cover md:h-20 md:w-20"
                       loading="lazy"
                       decoding="async"

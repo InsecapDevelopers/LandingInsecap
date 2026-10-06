@@ -98,23 +98,23 @@ const QualityPolicy = () => {
       ],
     },
     pt: {
-      title: 'Politica da Qualidade',
+      title: 'Política da Qualidade',
       subtitle: 'Nosso Compromisso',
-      breadcrumb: 'Politica da Qualidade',
-      vision: 'Visao',
-      visionText: '"Ser uma empresa lider em servicos de capacitacao no pais, reconhecida pela qualidade das competencias entregues a cada aluno. Da mesma forma, que os clientes identifiquem a INSECAP como parceira estrategica na formacao de capital humano."',
-      mission: 'Missao',
-      missionText: '"Entregar solucoes de capacitacao com metodologias de vanguarda, assegurando aprendizagem efetiva para as pessoas, com atencao as necessidades do mercado para enfrentar desafios em favor do crescimento e da sustentabilidade de cada cliente. Isso se concretiza dentro de um marco de eficiencia e eficacia em busca da melhoria continua da INSECAP Capacitacao."',
-      excellence: 'Excelencia em Formacao',
-      excellenceText: 'A Insecap Capacitacao e um Organismo Tecnico de Capacitacao dedicado a oferecer servicos de formacao de excelencia para empresas privadas, instituicoes publicas e pessoas, por meio de diversas metodologias de aprendizagem efetiva.',
-      paragraph: 'Oferecemos capacitacao de qualidade, orientada a satisfazer plenamente as necessidades e demandas dos clientes, contando para isso com experiencia no setor, material e equipamentos adequados, alem de instrutores qualificados e competentes que agregam valor a todas as atividades formativas.',
-      certification: 'Certificacao Vigente',
+      breadcrumb: 'Política da Qualidade',
+      vision: 'Visão',
+      visionText: '"Ser uma empresa líder em serviços de capacitação no país, reconhecida pela qualidade das competências entregues a cada aluno. Da mesma forma, que os clientes identifiquem a INSECAP como parceira estratégica na formação de capital humano."',
+      mission: 'Missão',
+      missionText: '"Entregar soluções de capacitação com metodologias de vanguarda, assegurando a aprendizagem efetiva das pessoas, com atenção às necessidades do mercado para enfrentar desafios em favor do crescimento e da sustentabilidade de cada cliente. Isso se concretiza dentro de um marco de eficiência e eficácia, em busca da melhoria contínua da INSECAP Capacitação."',
+      excellence: 'Excelência em Formação',
+      excellenceText: 'A Insecap Capacitação é um Organismo Técnico de Capacitação dedicado a oferecer serviços de formação de excelência para empresas privadas, instituições públicas e pessoas, por meio de diversas metodologias de aprendizagem efetiva.',
+      paragraph: 'Oferecemos capacitação de qualidade, orientada a satisfazer plenamente as necessidades e demandas dos clientes, contando para isso com experiência no setor, material e equipamentos adequados, além de instrutores qualificados e competentes que agregam valor a todas as atividades formativas.',
+      certification: 'Certificação Vigente',
       norm: 'Norma NCh 2728',
       objectivesTitle: 'Objetivos da Qualidade',
       objectives: [
-        { title: 'Satisfacao Total', description: 'Entregar servicos de formacao de qualidade, buscando a satisfacao total dos clientes.' },
-        { title: 'Melhoria Continua', description: 'Melhorar continuamente a eficacia do nosso Sistema de Gestao da Qualidade e cumprir os requisitos legais.' },
-        { title: 'Adequacao de Recursos', description: 'Manter niveis ideais de recursos humanos, equipamentos e materiais utilizados.' },
+        { title: 'Satisfação Total', description: 'Entregar serviços de formação de qualidade, buscando a satisfação total dos clientes.' },
+        { title: 'Melhoria Contínua', description: 'Melhorar continuamente a eficácia do nosso Sistema de Gestão da Qualidade e cumprir os requisitos legais.' },
+        { title: 'Adequação de Recursos', description: 'Manter níveis ideais de recursos humanos, equipamentos e materiais utilizados.' },
       ],
     },
   }[locale];
@@ -123,11 +123,7 @@ const QualityPolicy = () => {
     <div className="min-h-screen bg-white">
       <Header />
 
-      <SEO
-        title={content.title}
-        description={content.excellenceText}
-        url="/politica-calidad"
-      />
+      <SEO url="/politica-calidad" />
 
       <main>
         <PageHero

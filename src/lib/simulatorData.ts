@@ -239,13 +239,13 @@ export const SIMULATOR_CATEGORIES = {
   en: {
     'camiones-mineria': 'Mining Trucks',
     'maquinaria': 'Machinery',
-    'monta-carga': 'Heavy Load',
-    'manejo-4x4': '4x4 Handling',
+    'monta-carga': 'Forklifts',
+    'manejo-4x4': '4x4 Driving',
   },
   pt: {
-    'camiones-mineria': 'Caminhões Mineração',
-    'maquinaria': 'Maquinaria',
-    'monta-carga': 'Elevação de Carga',
-    'manejo-4x4': 'Manejo 4x4',
+    'camiones-mineria': 'Caminhões de mineração',
+    'maquinaria': 'Máquinas pesadas',
+    'monta-carga': 'Empilhadeiras',
+    'manejo-4x4': 'Condução 4x4',
   },
 };

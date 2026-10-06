@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Aceptación de las Fases 1 y 2 (Tarea #8): lo que ven los bots en el HTML inicial,
+# Aceptación de las Fases 1, 2 y 3 (Tarea #8): lo que ven los bots en el HTML inicial,
 # sin ejecutar JS, más las reglas de nginx (404 real, 301 con query, caché, cabeceras)
 # y las URLs en español con los 301 de las URLs antiguas en un solo salto.
 #
@@ -185,7 +185,57 @@ else
   echo "SKIP  ea-* real y check-dist --no-redirect-chains (no está $REDIRECTS_MAP)"
 fi
 
-# 11. Consola del navegador sin warnings de hidratación en /es, /en y /pt.
+# 11. Fase 3, metadatos en /es, /en y /pt: sin keywords, theme-color de marca, canonical
+# absoluta autorreferente, twitter:site y og:image 1200×630 servida desde el dominio.
+# (Largos de title/description, duplicados y hreflang recíproco: scripts/check-dist.mjs.)
+for l in es en pt; do
+  h=$(curl -s "$B/$l")
+  n=$(count 'name="keywords"' <<<"$h");                  check "/$l sin meta keywords ($n)" test "$n" -eq 0
+  tc=$(grep -o 'name="theme-color" content="[^"]*"' <<<"$h" | cut -d'"' -f4)
+  check "/$l theme-color=$tc" test "$tc" = "#485CC7"
+  can=$(grep -o 'rel="canonical" href="[^"]*"' <<<"$h" | cut -d'"' -f4)
+  check "/$l canonical=$can" test "$can" = "https://insecap.cl/$l"
+  n=$(count 'name="twitter:site" content="@insecap"' <<<"$h"); check "/$l twitter:site @insecap ($n)" test "$n" -eq 1
+  og=$(grep -o 'property="og:image" content="[^"]*"' <<<"$h" | cut -d'"' -f4)
+  check "/$l og:image en el dominio ($og)" test "${og#https://insecap.cl/og/}" != "$og"
+done
+c=$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$B/og/insecap-default-1200x630.png")
+check "og:image por defecto → $c" test "$c" = "200 image/png"
+
+# 11b. Fase 3, HTML semántico e idiomas: un <main>, <address> con tel:/mailto: (NAP de
+# src/data/sedes.ts), /pt institucional indexable con hreflang pt recíproco, breadcrumbs visibles
+# con aria-current y portugués sin los errores conocidos.
+# (Alt en todas las imágenes y textos de enlace descriptivos: scripts/check-dist.mjs.)
+for p in es en pt pt/nosotros es/contacto; do
+  h=$(curl -s "$B/$p")
+  n=$(count '<main[ >]' <<<"$h");                         check "/$p un <main> ($n)" test "$n" -eq 1
+  n=$(perl -0777 -ne 'print scalar(() = m{<address\b(?:(?!</address>).)*?href="tel:\+56\d{8,9}"}gs)' <<<"$h")
+  check "/$p <address> con tel:+56 ($n)" test "$n" -ge 1
+  n=$(perl -0777 -ne 'print scalar(() = m{<address\b(?:(?!</address>).)*?href="mailto:[^"]*\@insecap\.cl"}gs)' <<<"$h")
+  check "/$p <address> con mailto: ($n)" test "$n" -ge 1
+done
+n=$(curl -s "$B/es/contacto" | count '+56 55 292 6431'); check "/es/contacto NAP casa matriz +56 55 292 6431 ($n)" test "$n" -ge 1
+n=$(curl -s "$B/es/contacto" | count '+55 2 \|+56 9 7887\|+56 9 6125'); check "/es/contacto sin teléfonos fuera de sedes.ts ($n)" test "$n" -eq 0
+for p in pt pt/nosotros pt/acreditaciones; do
+  h=$(curl -s "$B/$p")
+  check "/$p robots index" grep -qi 'name="robots" content="index' <<<"$h"
+done
+h=$(curl -s "$B/es/nosotros")
+n=$(counti 'hreflang="pt" href="https://insecap.cl/pt/nosotros"' <<<"$h"); check "/es/nosotros hreflang pt → /pt/nosotros ($n)" test "$n" -eq 1
+h=$(curl -s "$B/pt/nosotros")
+n=$(counti 'hreflang="es-CL" href="https://insecap.cl/es/nosotros"' <<<"$h"); check "/pt/nosotros hreflang es-CL recíproco ($n)" test "$n" -eq 1
+n=$(curl -s "$B/pt/cursos" | counti 'name="robots" content="noindex'); check "/pt/cursos (datos) sigue noindex ($n)" test "$n" -eq 1
+noticia=$(curl -s "$B/es/noticias" | grep -o 'href="/es/noticias/[^"?#]*"' | head -1 | cut -d'"' -f2)
+for p in es/cursos/trabajo-en-altura es/cursos/categoria/operacion-de-equipos es/sedes/calama "${noticia#/}"; do
+  n=$(curl -s "$B/$p" | perl -0777 -ne 'print scalar(() = m{<nav\b[^>]*aria-label="[^"]+"[^>]*>\s*<ol\b.*?aria-current="page".*?</nav>}gs)')
+  check "/$p breadcrumb visible con aria-current ($n)" test "$n" -eq 1
+done
+if [ -d "$SCRIPT_DIR/../src" ]; then
+  n=$(grep -rn 'capacitacoes\|fisicas\|Certificacoes' "$SCRIPT_DIR/../src" | wc -l | tr -d ' ')
+  check "src sin portugués sin tildes (capacitacoes|fisicas|Certificacoes: $n)" test "$n" -eq 0
+fi
+
+# 12. Consola del navegador sin warnings de hidratación en /es, /en y /pt.
 if [ "$HYDRATION" = skip ]; then
   echo "SKIP  hidratación (HYDRATION=skip)"
 else

@@ -84,7 +84,7 @@ const Accreditations = () => {
           {/* Logos de respaldo */}
           <div className="mt-12 pt-10 border-t border-primary-foreground/15">
             <p className="text-center text-sm text-primary-foreground/60 uppercase tracking-wider mb-8">
-              Experiencia y Respaldo
+              {t('header.nav.experience')}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
               {backingLogos.map((logo) => (

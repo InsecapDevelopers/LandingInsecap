@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import SEO from '@/components/SEO';
 import NotFound from '@/pages/NotFound';
-import { cursoAreas, getCursoArea, getCursosByArea, getRangoHoras, listarNombres } from '@/data/cursos-seo';
+import { cursoAreas, getAreaSeoMeta, getCursoArea, getCursosByArea, getModalidadesArea, getRangoHoras, listarNombres } from '@/data/cursos-seo';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 /** Cursos de un área del catálogo (/cursos/categoria/:area). Datos locales. */
@@ -19,15 +19,13 @@ const CursoCategoria = () => {
   }
 
   const cursos = getCursosByArea(area.slug);
-  const modalidades = Array.from(new Set(cursos.flatMap((curso) => curso.tema.modalidades)))
-    .sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }))
-    .map((modalidad) => modalidad.toLowerCase());
+  const modalidades = getModalidadesArea(cursos);
   const title = `Cursos de ${area.nombre}`;
   const intro = `INSECAP, OTEC acreditada por SENCE y por Codelco, ofrece ${cursos.length} cursos de ${area.nombre} para empresas, en modalidad ${listarNombres(modalidades)}. Cada curso se cotiza según la modalidad, la carga horaria y el estándar que requiera la empresa.`;
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO title={title} description={intro} url={`/cursos/categoria/${area.slug}`} />
+      <SEO {...getAreaSeoMeta(area)} url={`/cursos/categoria/${area.slug}`} />
       <Header />
 
       <main className="pb-16" lang={locale === 'es' ? undefined : 'es'}>

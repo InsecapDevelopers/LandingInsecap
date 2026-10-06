@@ -72,15 +72,25 @@ const ExpandIcon = () => (
   </svg>
 );
 
+interface SedeGalleryLabels {
+  sede: string;
+  close: string;
+  prev: string;
+  next: string;
+  photoAlt: (sede: string, n: number) => string;
+  thumb: (n: number) => string;
+}
+
 interface SedeGalleryProps {
   images: string[];
   label: string;
+  labels: SedeGalleryLabels;
   index: number;
   setIndex: (i: number) => void;
   onClose: () => void;
 }
 
-const SedeGallery = ({ images, label, index, setIndex, onClose }: SedeGalleryProps) => {
+const SedeGallery = ({ images, label, labels, index, setIndex, onClose }: SedeGalleryProps) => {
   const prev = () => setIndex((index - 1 + images.length) % images.length);
   const next = () => setIndex((index + 1) % images.length);
 
@@ -94,11 +104,11 @@ const SedeGallery = ({ images, label, index, setIndex, onClose }: SedeGalleryPro
         className="shrink-0 flex items-center justify-between px-6 py-3"
         onClick={e => e.stopPropagation()}
       >
-        <span className="text-white/60 text-sm font-medium tracking-wide">Sede {label}</span>
+        <span className="text-white/60 text-sm font-medium tracking-wide">{labels.sede} {label}</span>
         <span className="text-white/50 text-sm tabular-nums">{index + 1} / {images.length}</span>
         <button
           onClick={onClose}
-          aria-label="Cerrar"
+          aria-label={labels.close}
           className="text-white/70 hover:text-white transition-colors ml-4"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -116,7 +126,7 @@ const SedeGallery = ({ images, label, index, setIndex, onClose }: SedeGalleryPro
           {/* Botón anterior */}
           <button
             onClick={prev}
-            aria-label="Anterior"
+            aria-label={labels.prev}
             className="absolute left-0 z-10 p-2 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors -translate-x-10"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -127,7 +137,7 @@ const SedeGallery = ({ images, label, index, setIndex, onClose }: SedeGalleryPro
           <img
             key={index}
             src={images[index]}
-            alt={`${label} ${index + 1}`}
+            alt={labels.photoAlt(label, index + 1)}
             className="max-h-full max-w-full object-contain rounded-2xl shadow-2xl"
             style={{ maxHeight: '100%', maxWidth: '100%' }}
           />
@@ -135,7 +145,7 @@ const SedeGallery = ({ images, label, index, setIndex, onClose }: SedeGalleryPro
           {/* Botón siguiente */}
           <button
             onClick={next}
-            aria-label="Siguiente"
+            aria-label={labels.next}
             className="absolute right-0 z-10 p-2 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors translate-x-10"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -155,9 +165,10 @@ const SedeGallery = ({ images, label, index, setIndex, onClose }: SedeGalleryPro
           <button
             key={i}
             onClick={() => setIndex(i)}
+            aria-label={labels.thumb(i + 1)}
             className={`shrink-0 w-14 h-full rounded-lg overflow-hidden border-2 transition-all ${i === index ? 'border-white opacity-100' : 'border-transparent opacity-40 hover:opacity-75'}`}
           >
-            <img src={src} alt={`Miniatura ${i + 1}`} className="w-full h-full object-cover" />
+            <img src={src} alt="" className="w-full h-full object-cover" />
           </button>
         ))}
       </div>
@@ -210,7 +221,15 @@ const AboutUs = () => {
       mapAntof: 'Mapa Sede Antofagasta',
       mapCalama: 'Mapa Sede Calama',
       mapSantiago: 'Mapa Sede Santiago',
-      virtualImage: 'Sede Virtual',
+      virtualImage: 'Clase de capacitación online de INSECAP',
+      gallery: {
+        sede: 'Sede',
+        close: 'Cerrar',
+        prev: 'Foto anterior',
+        next: 'Foto siguiente',
+        photoAlt: (sede: string, n: number) => `Instalaciones de INSECAP en ${sede}, foto ${n}`,
+        thumb: (n: number) => `Ver foto ${n}`,
+      },
     },
     en: {
       pageTitle: `More than ${getYearsOfExperience()} years of experience`,
@@ -237,34 +256,50 @@ const AboutUs = () => {
       mapAntof: 'Antofagasta Campus Map',
       mapCalama: 'Calama Campus Map',
       mapSantiago: 'Santiago Campus Map',
-      virtualImage: 'Virtual campus',
+      virtualImage: 'INSECAP online training class',
+      gallery: {
+        sede: 'Campus',
+        close: 'Close',
+        prev: 'Previous photo',
+        next: 'Next photo',
+        photoAlt: (sede: string, n: number) => `INSECAP facilities in ${sede}, photo ${n}`,
+        thumb: (n: number) => `View photo ${n}`,
+      },
     },
     pt: {
-      pageTitle: `Mais de ${getYearsOfExperience()} anos de experiencia`,
-      pageSubtitle: 'Sobre nos',
-      breadcrumb: 'Sobre nos',
+      pageTitle: `Mais de ${getYearsOfExperience()} anos de experiência`,
+      pageSubtitle: 'Sobre nós',
+      breadcrumb: 'Sobre nós',
       focus: 'Nosso enfoque',
       whatTitle: 'O que fazemos?',
-      whatText: 'Entregamos solucoes de capacitacao e treinamentos sob medida. Interagimos com as partes interessadas e usuarios finais para que a solucao atenda exatamente o que cada cliente precisa.',
-      availableMode: 'Modalidade disponivel',
-      modalities: ['Presencial', 'Sincrono', 'Assincrono'],
-      modalitiesDesc: ['Em nossas instalacoes ou onde o cliente indicar.', 'Plataformas digitais com aulas ao vivo via streaming.', 'Treinamento autodirigido na plataforma Moodle.'],
-      brand: 'Insecap Capacitacao',
+      whatText: 'Entregamos soluções de capacitação e treinamentos sob medida. Interagimos com as partes interessadas e os usuários finais para que a solução atenda exatamente ao que cada cliente precisa.',
+      availableMode: 'Modalidade disponível',
+      modalities: ['Presencial', 'Síncrono', 'Assíncrono'],
+      modalitiesDesc: ['Em nossas instalações ou onde o cliente indicar.', 'Plataformas digitais com aulas ao vivo via streaming.', 'Treinamento autodirigido na plataforma Moodle.'],
+      brand: 'Insecap Capacitação',
       antof: 'Unidade Antofagasta',
       calama: 'Unidade Calama',
       santiago: 'Unidade Santiago',
       expand: 'Expandir',
-      antofItems: [`${new Date().getFullYear() - 2010} anos realizando capacitacao na regiao.`, 'Equipamentos para pratica: torre de treinamento, Layer e tripode de descida.', 'Sala de coffee break.', 'Salas de capacitacao para ate 35 pessoas.'],
-      calamaItems: ['Salas adaptadas para ate 60 pessoas.', 'Espacos exclusivos para coffee break.'],
-      santiagoItems: ['Unidade localizada no coracao da capital, acessivel de toda a Regiao Metropolitana.', 'Multiplas salas de capacitacao equipadas com tecnologia audiovisual de ultima geracao.', 'Espaco para praticas em campo e simulacoes controladas.', 'Cafe e area de descanso para participantes.'],
+      antofItems: [`${new Date().getFullYear() - 2010} anos realizando capacitação na região.`, 'Equipamentos para a prática: torre de treinamento, Layer e tripé de descida.', 'Sala de coffee break.', 'Salas de capacitação para até 35 pessoas.'],
+      calamaItems: ['Salas adaptadas para até 60 pessoas.', 'Espaços exclusivos para coffee break.'],
+      santiagoItems: ['Unidade localizada no coração da capital, acessível de toda a Região Metropolitana.', 'Múltiplas salas de capacitação equipadas com tecnologia audiovisual de última geração.', 'Espaço para práticas em campo e simulações controladas.', 'Café e área de descanso para participantes.'],
       online: 'Insecap Online',
       virtualTitle: 'Unidades Virtuais',
-      virtualText: 'Nossa metodologia online nos permite chegar a todo o Chile com a mesma qualidade das unidades fisicas, utilizando tecnologia de ponta para aprendizagem.',
-      virtualItems: [`${new Date().getFullYear() - 2020} anos realizando capacitacoes online com sucesso.`, 'Plataforma LMS (Moodle) otimizada para o aluno.', 'Suporte tecnico e academico 24/7.'],
+      virtualText: 'Nossa metodologia online nos permite chegar a todo o Chile com a mesma qualidade das unidades presenciais, utilizando tecnologia de ponta para a aprendizagem.',
+      virtualItems: [`${new Date().getFullYear() - 2020} anos realizando capacitações online com sucesso.`, 'Plataforma LMS (Moodle) otimizada para o aluno.', 'Suporte técnico e acadêmico 24/7.'],
       mapAntof: 'Mapa Unidade Antofagasta',
       mapCalama: 'Mapa Unidade Calama',
       mapSantiago: 'Mapa Unidade Santiago',
-      virtualImage: 'Unidade virtual',
+      virtualImage: 'Aula de capacitação online da INSECAP',
+      gallery: {
+        sede: 'Unidade',
+        close: 'Fechar',
+        prev: 'Foto anterior',
+        next: 'Próxima foto',
+        photoAlt: (sede: string, n: number) => `Instalações da INSECAP em ${sede}, foto ${n}`,
+        thumb: (n: number) => `Ver foto ${n}`,
+      },
     },
   }[locale];
 
@@ -279,11 +314,7 @@ const AboutUs = () => {
     <div className="min-h-screen bg-white">
       <Header />
 
-      <SEO
-        title={content.breadcrumb}
-        description={content.whatText}
-        url="/nosotros"
-      />
+      <SEO url="/nosotros" />
 
       <main>
         <PageHero
@@ -419,7 +450,7 @@ const AboutUs = () => {
                     {antofagastaImages.map((src, index) => (
                       <CarouselItem key={index}>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-lg">
-                          <img src={src} alt={`Antofagasta ${index + 1}`} className="w-full h-full object-cover" />
+                          <img src={src} alt={content.gallery.photoAlt('Antofagasta', index + 1)} className="w-full h-full object-cover" />
                         </div>
                       </CarouselItem>
                     ))}
@@ -457,7 +488,7 @@ const AboutUs = () => {
                     {calamaImages.map((src, index) => (
                       <CarouselItem key={index}>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-lg">
-                          <img src={src} alt={`Calama ${index + 1}`} className="w-full h-full object-cover" />
+                          <img src={src} alt={content.gallery.photoAlt('Calama', index + 1)} className="w-full h-full object-cover" />
                         </div>
                       </CarouselItem>
                     ))}
@@ -547,7 +578,7 @@ const AboutUs = () => {
                 <div className="mt-6 rounded-2xl overflow-hidden shadow-md border border-gray-100 flex-1 min-h-[200px]">
                   <iframe
                     title={content.mapSantiago}
-                    src="https://maps.google.com/maps?q=Valenzuela+Castillos+1063+Santiago+Chile&output=embed&z=15"
+                    src="https://maps.google.com/maps?q=Valenzuela+Castillo+1063+Santiago+Chile&output=embed&z=15"
                     width="100%"
                     height="100%"
                     style={{ border: 0, minHeight: '200px' }}
@@ -573,7 +604,7 @@ const AboutUs = () => {
                     {santiagoImages.map((src, index) => (
                       <CarouselItem key={index}>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-lg">
-                          <img src={src} alt={`Santiago ${index + 1}`} className="w-full h-full object-cover" />
+                          <img src={src} alt={content.gallery.photoAlt('Santiago', index + 1)} className="w-full h-full object-cover" />
                         </div>
                       </CarouselItem>
                     ))}
@@ -657,6 +688,7 @@ const AboutUs = () => {
         <SedeGallery
           images={antofagastaImages}
           label="Antofagasta"
+          labels={content.gallery}
           index={antofLightbox.index}
           setIndex={i => setAntofLightbox(prev => ({ ...prev, index: i }))}
           onClose={() => setAntofLightbox({ open: false, index: 0 })}
@@ -668,6 +700,7 @@ const AboutUs = () => {
         <SedeGallery
           images={calamaImages}
           label="Calama"
+          labels={content.gallery}
           index={calamaLightbox.index}
           setIndex={i => setCalamaLightbox(prev => ({ ...prev, index: i }))}
           onClose={() => setCalamaLightbox({ open: false, index: 0 })}
@@ -679,6 +712,7 @@ const AboutUs = () => {
         <SedeGallery
           images={santiagoImages}
           label="Santiago"
+          labels={content.gallery}
           index={santiagoLightbox.index}
           setIndex={i => setSantiagoLightbox(prev => ({ ...prev, index: i }))}
           onClose={() => setSantiagoLightbox({ open: false, index: 0 })}

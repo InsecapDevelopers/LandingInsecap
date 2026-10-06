@@ -3,7 +3,7 @@ import MapPin from './MapPin';
 import { regiones, regionPaths, regionesDecorativas, sedeLocations, COLORS } from './data';
 
 interface ChileMapProps {
-  mode: 'fisicas' | 'virtuales';
+  mode: 'presenciales' | 'virtuales';
   hoveredSede: string | null;
   onSedeHover: (sedeId: string | null, screenX?: number, screenY?: number) => void;
 }
@@ -18,7 +18,7 @@ const ChileMap: React.FC<ChileMapProps> = ({
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const filteredSedes = useMemo(
-    () => sedeLocations.filter((s) => s.tipo === (mode === 'fisicas' ? 'fisica' : 'virtual')),
+    () => sedeLocations.filter((s) => s.tipo === (mode === 'presenciales' ? 'fisica' : 'virtual')),
     [mode]
   );
 
@@ -94,7 +94,7 @@ const ChileMap: React.FC<ChileMapProps> = ({
         </g>
 
         {/* Sede pins based on mode */}
-        {mode === 'fisicas'
+        {mode === 'presenciales'
           ? /* Physical: MapPin with pulsing animation */
             filteredSedes.map((sede, index) => {
               const pos = transformCoord(sede.pinX, sede.pinY);

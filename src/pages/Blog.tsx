@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
+import { ORG_ID } from '@/lib/jsonld';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -18,6 +20,7 @@ const ARTICLES_PER_PAGE = NEWS_PER_PAGE;
 
 const ArticleCard = ({ article }: { article: ShopifyArticle }) => {
   const { localizedPath } = useLocalizedPath();
+  const { t } = useTranslation();
 
   return (
     <Link to={localizedPath(`/noticias/${article.handle}`)}>
@@ -36,7 +39,7 @@ const ArticleCard = ({ article }: { article: ShopifyArticle }) => {
           )}
           <div className="absolute top-3 left-3">
             <Badge className="bg-insecap-cyan text-white border-0">
-              Noticia
+              {t('blog.newsBadge')}
             </Badge>
           </div>
         </div>
@@ -61,7 +64,7 @@ const ArticleCard = ({ article }: { article: ShopifyArticle }) => {
 
           <div className="flex items-center justify-end pt-4 border-t border-border">
             <span className="text-insecap-cyan font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-              Leer más <ArrowRight className="h-4 w-4" />
+              {t('blog.readMore')} <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </span>
           </div>
         </CardContent>
@@ -86,6 +89,7 @@ const ArticleCardSkeleton = () => (
 );
 
 const Blog = () => {
+  const { t } = useTranslation();
   const { localizedPath, locale } = useLocalizedPath();
   const [currentPage, setCurrentPage] = useState(1);
   const gridRef = useRef<HTMLElement>(null);
@@ -93,7 +97,6 @@ const Blog = () => {
   const { data, isPending: isLoading, isError } = useQuery(newsListQuery(currentPage, ARTICLES_PER_PAGE));
   const allArticles = data?.articles ?? [];
   const total = data?.total ?? 0;
-  const error = isError ? 'No se pudieron cargar las noticias. Por favor, intenta de nuevo más tarde.' : null;
 
   // El servidor ya devuelve la página pedida
   const pageArticles = allArticles;
@@ -101,13 +104,13 @@ const Blog = () => {
 
   const content = {
     es: {
-      title: 'Noticias y Artículos', subtitle: 'Blog y Noticias', breadcrumb: 'Noticias', intro: 'Mantente al día con las últimas novedades de INSECAP en capacitación, seguridad laboral y desarrollo profesional.', loadError: 'Error al cargar noticias',
+      title: 'Noticias y Artículos', subtitle: 'Blog y Noticias', breadcrumb: 'Noticias', intro: 'Mantente al día con las últimas novedades de INSECAP en capacitación, seguridad laboral y desarrollo profesional.', loadError: 'Error al cargar noticias', loadErrorText: 'No se pudieron cargar las noticias. Por favor, intenta de nuevo más tarde.', emptyTitle: 'No hay artículos disponibles', emptyText: 'Pronto publicaremos nuevas noticias. ¡Vuelve pronto!', page: 'Página', of: 'de',
     },
     en: {
-      title: 'News and Articles', subtitle: 'Blog and News', breadcrumb: 'News', intro: 'Stay up to date with the latest INSECAP news on training, workplace safety and professional development.', loadError: 'Error loading news',
+      title: 'News and Articles', subtitle: 'Blog and News', breadcrumb: 'News', intro: 'Stay up to date with the latest INSECAP news on training, workplace safety and professional development.', loadError: 'Error loading news', loadErrorText: 'The news could not be loaded. Please try again later.', emptyTitle: 'No articles available', emptyText: 'We will publish new stories soon. Check back later!', page: 'Page', of: 'of',
     },
     pt: {
-      title: 'Noticias e Artigos', subtitle: 'Blog e Noticias', breadcrumb: 'Noticias', intro: 'Fique por dentro das ultimas novidades da INSECAP sobre capacitacao, seguranca no trabalho e desenvolvimento profissional.', loadError: 'Erro ao carregar noticias',
+      title: 'Notícias e Artigos', subtitle: 'Blog e Notícias', breadcrumb: 'Notícias', intro: 'Fique por dentro das últimas novidades da INSECAP sobre capacitação, segurança no trabalho e desenvolvimento profissional.', loadError: 'Erro ao carregar as notícias', loadErrorText: 'Não foi possível carregar as notícias. Tente novamente mais tarde.', emptyTitle: 'Nenhum artigo disponível', emptyText: 'Em breve publicaremos novas notícias. Volte logo!', page: 'Página', of: 'de',
     },
   }[locale];
 
@@ -138,33 +141,15 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={content.title}
-        description={content.intro}
         url="/noticias"
         type="website"
-        keywords={[
-          'noticias INSECAP',
-          'blog capacitación',
-          'novedades OTEC',
-          'artículos formación profesional',
-          'actualidad laboral Chile',
-          'capacitación empresarial',
-          'desarrollo profesional'
-        ]}
         jsonLd={{
           '@context': 'https://schema.org',
           '@type': 'Blog',
           'name': 'Blog INSECAP - Noticias y Artículos',
           'description': 'Blog oficial de INSECAP con noticias, artículos y recursos sobre capacitación y desarrollo profesional en Chile',
           'url': `${SITE_URL}${localizedPath('/noticias')}`,
-          'publisher': {
-            '@type': 'Organization',
-            'name': 'INSECAP',
-            'logo': {
-              '@type': 'ImageObject',
-              'url': 'https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png'
-            }
-          },
+          'publisher': { '@id': ORG_ID },
           'blogPost': allArticles.slice(0, 10).map((article) => ({
             '@type': 'BlogPosting',
             'headline': article.title,
@@ -175,14 +160,7 @@ const Blog = () => {
               '@type': 'Person',
               'name': article.authorV2?.name || 'INSECAP'
             },
-            'publisher': {
-              '@type': 'Organization',
-              'name': 'INSECAP',
-              'logo': {
-                '@type': 'ImageObject',
-                'url': 'https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png'
-              }
-            },
+            'publisher': { '@id': ORG_ID },
             'url': `${SITE_URL}${localizedPath(`/noticias/${article.handle}`)}`
           }))
         }}
@@ -204,22 +182,22 @@ const Blog = () => {
                   <ArticleCardSkeleton key={i} />
                 ))}
               </div>
-            ) : error ? (
+            ) : isError ? (
               <div className="text-center py-16">
                 <Newspaper className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                 <h2 className="text-2xl font-bold text-foreground mb-2">
                   {content.loadError}
                 </h2>
-                <p className="text-muted-foreground mb-4">{error}</p>
+                <p className="text-muted-foreground mb-4">{content.loadErrorText}</p>
               </div>
             ) : allArticles.length === 0 ? (
               <div className="text-center py-16">
                 <Newspaper className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                 <h2 className="text-2xl font-bold text-foreground mb-2">
-                  No hay artículos disponibles
+                  {content.emptyTitle}
                 </h2>
                 <p className="text-muted-foreground">
-                  Pronto publicaremos nuevas noticias. ¡Vuelve pronto!
+                  {content.emptyText}
                 </p>
               </div>
             ) : (
@@ -235,20 +213,20 @@ const Blog = () => {
                   <div className="mt-12 flex flex-col items-center gap-4">
                     {/* Contador */}
                     <p className="text-sm text-muted-foreground">
-                      Página <span className="font-semibold text-foreground">{currentPage}</span> de{' '}
+                      {content.page} <span className="font-semibold text-foreground">{currentPage}</span> {content.of}{' '}
                       <span className="font-semibold text-foreground">{totalPages}</span>
                     </p>
 
                     {/* Controles */}
-                    <nav className="flex items-center gap-1" aria-label="Paginación">
+                    <nav className="flex items-center gap-1" aria-label={t('pagination.label')}>
                       {/* Anterior */}
                       <button
                         onClick={() => goToPage(currentPage - 1)}
                         disabled={currentPage === 1}
                         className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                       >
-                        <ChevronLeft className="h-4 w-4" />
-                        Anterior
+                        <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+                        {t('pagination.prev')}
                       </button>
 
                       {/* Números */}
@@ -279,8 +257,8 @@ const Blog = () => {
                         disabled={currentPage >= totalPages}
                         className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                       >
-                        Siguiente
-                        <ChevronRight className="h-4 w-4" />
+                        {t('pagination.next')}
+                        <ChevronRight className="h-4 w-4" aria-hidden="true" />
                       </button>
                     </nav>
                   </div>

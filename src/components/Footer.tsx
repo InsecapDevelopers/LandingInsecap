@@ -4,6 +4,7 @@ import { Instagram, Facebook, Linkedin, Phone, Mail, MapPin } from 'lucide-react
 import { useTranslation } from 'react-i18next';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import ContactCTA from './ContactCTA';
+import { CONTACT_EMAIL, sedes } from '@/data/sedes';
 
 const HERO_BACKGROUNDS = [
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_111938161.png?v=1772461187',
@@ -15,13 +16,13 @@ const HERO_BACKGROUNDS = [
 
 // Componentes de iconos personalizados
 const XIcon = ({ className }: { className?: string }) => (
-  <svg role="img" viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
+  <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
     <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
   </svg>
 );
 
 const TikTokIcon = ({ className }: { className?: string }) => (
-  <svg role="img" viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
+  <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
     <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-1.13-.32-2.34-.14-3.41.37-1.33.64-2.18 2.08-2.1 3.59.08 1.48 1.21 2.74 2.66 2.96 1.34.23 2.73-.24 3.63-1.23.54-.59.81-1.35.81-2.14V.02Z"/>
   </svg>
 );
@@ -124,14 +125,6 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // TODO: Fase 8: NAP único desde src/data/sedes.ts.
-  const locations = [
-    { name: t('footer.phones.antofagasta'), address: "Copiapó 956, Antofagasta", phone: "55 294 8575", href: "/sedes/antofagasta" },
-    { name: t('footer.phones.calama'), address: "La Cascada 1513, Calama", phone: "55 292 6431", href: "/sedes/calama" },
-    { name: t('footer.phones.santiago'), address: "Valenzuela Castillo 1063, Santiago", phone: "+56 9 8819 8254", href: "/sedes/santiago" },
-    { name: t('footer.phones.vallenar'), address: "Río del Tránsito 1546, Villa Vista Hermosa, Vallenar", phone: "+56 9 9715 7034", href: "/sedes/vallenar" },
-  ];
-
   const siteMap = [
     { label: t('footer.siteMap.home'), href: "/" },
     { label: t('footer.siteMap.courses'), href: "/cursos" },
@@ -203,22 +196,22 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
           {/* Logo & Social */}
           <div className="col-span-2 lg:col-span-1">
             <Link to={localizedPath('/')} className="inline-flex mb-6" onClick={handleLogoClick}>
-              <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508" alt="logo" className="w-48" />
+              <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508" alt="INSECAP" className="w-48" />
             </Link>
             <div className="flex items-center gap-3 mt-4">
-              <a href="https://instagram.com/insecapcapacitacion" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
-                <Instagram className="w-5 h-5" />
+              <a href="https://instagram.com/insecapcapacitacion" aria-label={t('footer.social', { network: 'Instagram' })} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
+                <Instagram className="w-5 h-5" aria-hidden="true" />
               </a>
-              <a href="https://facebook.com/insecap" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
-                <Facebook className="w-5 h-5" />
+              <a href="https://facebook.com/insecap" aria-label={t('footer.social', { network: 'Facebook' })} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
+                <Facebook className="w-5 h-5" aria-hidden="true" />
               </a>
-              <a href="https://x.com/insecap" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
+              <a href="https://x.com/insecap" aria-label={t('footer.social', { network: 'X' })} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
                 <XIcon className="w-5 h-5" />
               </a>
-              <a href="https://linkedin.com/company/insecap" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
-                <Linkedin className="w-5 h-5" />
+              <a href="https://linkedin.com/company/insecap" aria-label={t('footer.social', { network: 'LinkedIn' })} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
+                <Linkedin className="w-5 h-5" aria-hidden="true" />
               </a>
-              <a href="https://tiktok.com/@insecap" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
+              <a href="https://tiktok.com/@insecap" aria-label={t('footer.social', { network: 'TikTok' })} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
                 <TikTokIcon className="w-5 h-5" />
               </a>
             </div>
@@ -227,45 +220,40 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
           {/* Ubicaciones */}
           <div className="col-span-2 lg:col-span-1">
             <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">{t('footer.locations')}</h4>
-            <div className="space-y-5">
-              {locations.map((loc) => (
-                <div key={loc.name} className="flex items-start gap-2.5">
-                  <MapPin className="w-4 h-4 text-insecap-cyan flex-shrink-0 mt-0.5" />
-                  <div>
-                    <Link to={localizedPath(loc.href)} className="font-semibold text-white text-sm hover:underline">{loc.name}</Link>
-                    <p className="text-white/70 text-sm mt-0.5">{loc.address}</p>
-                  </div>
-                </div>
+            <ul className="space-y-5">
+              {sedes.map((sede) => (
+                <li key={sede.slug} className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-insecap-cyan flex-shrink-0 mt-0.5" aria-hidden="true" />
+                  <address className="not-italic">
+                    <Link to={localizedPath(`/sedes/${sede.slug}`)} className="font-semibold text-white text-sm hover:underline">{t(`footer.phones.${sede.slug}`)}</Link>
+                    <p className="text-white/70 text-sm mt-0.5">{sede.direccion}, {sede.ciudad}</p>
+                  </address>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
           {/* Contáctanos */}
           <div>
             <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">{t('footer.contact')}</h4>
-            <div className="space-y-4">
-              {[
-                { sucursal: t('footer.phones.antofagasta'), phone: '55 294 8575', tel: '552948575' },
-                { sucursal: t('footer.phones.calama'), phone: '55 292 6431', tel: '552926431' },
-                { sucursal: t('footer.phones.santiago'), phone: '+56 9 8819 8254', tel: '+56988198254' },
-                { sucursal: t('footer.phones.vallenar'), phone: '+56 9 9715 7034', tel: '+56997157034' },
-              ].map((c) => (
-                <div key={c.tel}>
-                  <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">{c.sucursal}</p>
-                  <a href={`tel:${c.tel}`} className="flex items-center gap-2 text-white/80 text-sm hover:text-white transition-colors">
-                    <Phone className="w-4 h-4 text-insecap-cyan flex-shrink-0" />
-                    {c.phone}
+            <address className="space-y-4 not-italic">
+              {sedes.map((sede) => (
+                <div key={sede.slug}>
+                  <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">{t(`footer.phones.${sede.slug}`)}</p>
+                  <a href={`tel:${sede.telefonoE164}`} className="flex items-center gap-2 text-white/80 text-sm hover:text-white transition-colors">
+                    <Phone className="w-4 h-4 text-insecap-cyan flex-shrink-0" aria-hidden="true" />
+                    {sede.telefono}
                   </a>
                 </div>
               ))}
               <div>
-                <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">¿Tienes dudas?</p>
-                <a href="mailto:contacto@insecap.cl" className="flex items-center gap-2 text-white/80 text-sm hover:text-white transition-colors">
-                  <Mail className="w-4 h-4 text-insecap-cyan flex-shrink-0" />
-                  Contáctanos
+                <p className="text-white/50 text-xs uppercase tracking-wider mb-0.5">{t('footer.questions')}</p>
+                <a href={`mailto:${CONTACT_EMAIL}`} className="flex items-center gap-2 text-white/80 text-sm hover:text-white transition-colors">
+                  <Mail className="w-4 h-4 text-insecap-cyan flex-shrink-0" aria-hidden="true" />
+                  {CONTACT_EMAIL}
                 </a>
               </div>
-            </div>
+            </address>
           </div>
 
           {/* Mapa Web */}

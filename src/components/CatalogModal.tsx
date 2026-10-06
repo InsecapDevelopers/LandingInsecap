@@ -17,26 +17,28 @@ interface AnimatedCatalogModalProps {
 }
 
 export function CatalogModalContent() {
+  const { t } = useTranslation();
+
   return (
     <div className="text-center space-y-6">
       <h4 className="text-lg md:text-2xl text-neutral-600 dark:text-neutral-100 font-bold">
-        Explora nuestro catálogo de cursos
+        {t('catalogModal.intro')}
       </h4>
       
       <div className="space-y-4">
         <div className="p-4 bg-blue-50 rounded-lg">
-          <h5 className="font-semibold text-blue-950 mb-2">Cursos Disponibles</h5>
-          <p className="text-sm text-blue-700">Accede a una amplia variedad de programas educativos diseñados para potenciar tus habilidades profesionales.</p>
+          <h5 className="font-semibold text-blue-950 mb-2">{t('catalogModal.available')}</h5>
+          <p className="text-sm text-blue-700">{t('catalogModal.availableDesc')}</p>
         </div>
         
         <div className="p-4 bg-blue-50 rounded-lg">
-          <h5 className="font-semibold text-blue-950 mb-2">Capacitación Continua</h5>
-          <p className="text-sm text-blue-700">Mantente actualizado con nuestros cursos de capacitación continua adaptados a las tendencias del mercado.</p>
+          <h5 className="font-semibold text-blue-950 mb-2">{t('catalogModal.continuous')}</h5>
+          <p className="text-sm text-blue-700">{t('catalogModal.continuousDesc')}</p>
         </div>
         
         <div className="p-4 bg-blue-50 rounded-lg">
-          <h5 className="font-semibold text-blue-950 mb-2">Flexibilidad Horaria</h5>
-          <p className="text-sm text-blue-700">Estudia a tu propio ritmo con opciones presenciales, online e híbridas.</p>
+          <h5 className="font-semibold text-blue-950 mb-2">{t('catalogModal.flexible')}</h5>
+          <p className="text-sm text-blue-700">{t('catalogModal.flexibleDesc')}</p>
         </div>
       </div>
     </div>

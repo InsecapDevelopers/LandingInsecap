@@ -109,7 +109,7 @@ const shootCelebration = () => {
 };
 
 // Iframe responsivo: siempre en el DOM para que ResizeObserver obtenga el ancho real
-const IframeFama = ({ src, onLoaded, loaded }: { src: string; onLoaded: () => void; loaded: boolean }) => {
+const IframeFama = ({ src, title, onLoaded, loaded }: { src: string; title: string; onLoaded: () => void; loaded: boolean }) => {
   const [zoom, setZoom] = useState(1);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const IFRAME_NATURAL_WIDTH = 1200;
@@ -140,7 +140,7 @@ const IframeFama = ({ src, onLoaded, loaded }: { src: string; onLoaded: () => vo
       )}
       <iframe
         src={src}
-        title="Muro de la Fama"
+        title={title}
         scrolling="no"
         onLoad={onLoaded}
         style={{
@@ -206,20 +206,20 @@ const HonorTeam = () => {
       monthlyPodium: 'The monthly podium will be updated soon.',
     },
     pt: {
-      title: 'Equipe Honor e Felicidade',
+      title: 'Equipe Honra e Felicidade',
       subtitle: 'Reconhecimento',
-      breadcrumb: 'Honor e Felicidade',
-      intro: 'Reconhecemos o talento, o comprometimento e a excelencia da nossa equipe.',
+      breadcrumb: 'Honra e Felicidade',
+      intro: 'Reconhecemos o talento, o comprometimento e a excelência da nossa equipe.',
       fameWall: 'Muro da Fama',
-      fameText: 'Todo mes, um grupo aleatorio de colaboradores indica o "Colaborador do Mes" e as diferentes areas indicam o "Facilitador do Mes". Toda a equipe vota e o Muro da Fama se enche de historias de esforco e celebracao coletiva.',
+      fameText: 'Todo mês, um grupo aleatório de colaboradores indica o "Colaborador do Mês" e as diferentes áreas indicam o "Facilitador do Mês". Toda a equipe vota e o Muro da Fama se enche de histórias de esforço e celebração coletiva.',
       inProgress: 'Em andamento',
       voting1: 'Estamos em',
-      voting2: 'votacao!',
-      votingText: 'Em breve conheceremos os vencedores do mes.',
+      voting2: 'votação!',
+      votingText: 'Em breve conheceremos os vencedores do mês.',
       votingTextStrong: 'Fique atento aos resultados!',
       happinessWall: 'Muro da Felicidade',
-      happinessText: 'O "Muro da Felicidade" da INSECAP e um espaco criado para promover bem-estar, atitude positiva e coesao entre equipe interna e facilitadores. Seu objetivo e estimular a expressao de gratidao, conquistas, mensagens de apoio e pequenas celebracoes que contribuam para um clima emocional positivo.',
-      monthlyPodium: 'O podio mensal sera atualizado em breve.',
+      happinessText: 'O "Muro da Felicidade" da INSECAP é um espaço criado para promover bem-estar, atitude positiva e coesão entre a equipe interna e os facilitadores. Seu objetivo é estimular a expressão de gratidão, conquistas, mensagens de apoio e pequenas celebrações que contribuam para um clima emocional positivo.',
+      monthlyPodium: 'O pódio mensal será atualizado em breve.',
     },
   }[locale];
 
@@ -227,11 +227,7 @@ const HonorTeam = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <SEO
-        title={content.title}
-        description={content.intro}
-        url="/equipo-honor"
-      />
+      <SEO url="/equipo-honor" />
 
       <main className="pb-16">
         <PageHero
@@ -262,6 +258,7 @@ const HonorTeam = () => {
             <div className="relative rounded-2xl border border-border overflow-hidden shadow-xl bg-gradient-to-br from-primary/10 via-card to-secondary/10">
               <IframeFama
                 src={`${TMS_BASE_URL}/MuroFama/resumenfamaweb`}
+                title={content.fameWall}
                 onLoaded={() => { setFamaLoaded(true); shootStars(); }}
                 loaded={famaLoaded}
               />

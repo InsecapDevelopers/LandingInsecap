@@ -59,10 +59,10 @@ const OurClients: React.FC = () => {
             >
                 <Link to={localizedPath('/nuestros-clientes')} className="group/modal-btn inline-flex items-center justify-center relative overflow-hidden bg-blue-700 text-white py-3 px-8 rounded-full font-semibold hover:bg-blue-800 transition-colors duration-300 shadow-md">
                     <span className="group-hover/modal-btn:translate-x-40 text-center transition duration-500">
-                        {t('ourClients.clickHere')}
+                        {t('ourClients.cta')}
                     </span>
                     <div className="-translate-x-40 group-hover/modal-btn:translate-x-0 flex items-center justify-center absolute inset-0 transition duration-500 text-2xl z-20">
-                        <Users className="w-6 h-6" />
+                        <Users className="w-6 h-6" aria-hidden="true" />
                     </div>
                 </Link>
             </motion.div>

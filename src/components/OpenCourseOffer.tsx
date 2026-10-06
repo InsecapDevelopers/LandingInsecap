@@ -45,7 +45,7 @@ const RollingChar = ({
 
 const OpenCourseOffer = () => {
   const { t } = useTranslation();
-  const { localizedPath } = useLocalizedPath();
+  const { localizedPath, locale } = useLocalizedPath();
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -54,7 +54,7 @@ const OpenCourseOffer = () => {
     offset: ['start end', 'center center'],
   });
 
-  const text = t('openOffer.rolling', 'Cursos abiertos');
+  const text = t('openOffer.rolling');
   const characters = text.toUpperCase().split('');
   const centerIndex = Math.floor(characters.length / 2);
 
@@ -112,7 +112,7 @@ const OpenCourseOffer = () => {
       {months.length > 1 && (
         <div
           role="group"
-          aria-label={t('openOffer.monthFilter', 'Mes de la programación')}
+          aria-label={t('openOffer.monthFilter')}
           className="flex justify-center gap-2 mb-8 px-4"
         >
           {months.map((m) => (
@@ -139,7 +139,7 @@ const OpenCourseOffer = () => {
       {/* ── Tabs: un botón por curso, para saltar directo al que interesa ── */}
       <div
         role="tablist"
-        aria-label={t('openOffer.tablist', 'Cursos abiertos disponibles')}
+        aria-label={t('openOffer.tablist')}
         className="container mx-auto px-8 md:px-16 lg:px-20 mb-12 md:mb-14 flex flex-wrap justify-center gap-3"
       >
         {offers.map((offer, i) => (
@@ -181,12 +181,12 @@ const OpenCourseOffer = () => {
                     <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
                       <img
                         src={offer.image}
-                        alt={`Afiche del curso ${offer.title} ${offer.titleHighlight}`}
+                        alt={t('openOffer.posterAlt', { course: `${offer.title} ${offer.titleHighlight}` })}
                         className="absolute inset-0 w-full h-full object-cover"
                         loading={slide === 0 ? 'eager' : 'lazy'}
                       />
                       <span className="absolute top-6 left-6 px-4 py-1.5 rounded-full bg-insecap-cyan text-white text-xs font-bold uppercase tracking-wider">
-                        {t('openOffer.badge', 'Cupos disponibles')}
+                        {t('openOffer.badge')}
                       </span>
                     </div>
                   </motion.div>
@@ -194,14 +194,14 @@ const OpenCourseOffer = () => {
                   {/* Derecha: texto editable */}
                   <div className="w-full lg:w-1/2 flex flex-col gap-6">
                     <span className="text-blue-600 font-bold tracking-wider uppercase text-sm">
-                      {t('openOffer.eyebrow', 'Inscripciones abiertas')}
+                      {t('openOffer.eyebrow')}
                     </span>
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-tight">
+                    <h2 lang={locale === 'es' ? undefined : 'es'} className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-tight">
                       {offer.title} <span className="text-blue-600">{offer.titleHighlight}</span>
                     </h2>
                     <div className="w-24 h-2 bg-gradient-to-r from-blue-600 to-indigo-400 rounded-full" />
 
-                    <p className="text-gray-600 text-lg leading-relaxed">{offer.description}</p>
+                    <p lang={locale === 'es' ? undefined : 'es'} className="text-gray-600 text-lg leading-relaxed">{offer.description}</p>
 
                     {/* Fechas: una sesión por línea, con cifras tabulares para que alineen */}
                     <div className="bg-slate-50 p-5 rounded-xl border border-slate-100">
@@ -210,7 +210,7 @@ const OpenCourseOffer = () => {
                         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                           <span className="text-slate-800 font-semibold">{mes}</span>
                           <span className="text-slate-500 text-sm">
-                            {t('openOffer.modalityLabel', 'Modalidad')} {offer.modality.toLowerCase()}
+                            {t('openOffer.modalityLabel')} {offer.modality.toLowerCase()}
                           </span>
                         </div>
                       </div>
@@ -221,7 +221,9 @@ const OpenCourseOffer = () => {
                           <li key={fecha.id}>
                             <Link
                               to={`${localizedPath(OFFER_HREF)}?fecha=${fecha.id}&modalidad=${offer.modalityId}`}
-                              aria-label={`Inscribirse en ${offer.title} ${offer.titleHighlight}, ${fecha.label}${fecha.city ? `, sede ${fecha.city}` : ''}`}
+                              aria-label={fecha.city
+                                ? t('openOffer.enrollInCity', { course: `${offer.title} ${offer.titleHighlight}`, date: fecha.label, city: fecha.city })
+                                : t('openOffer.enrollInDate', { course: `${offer.title} ${offer.titleHighlight}`, date: fecha.label })}
                               className="group flex items-center justify-between gap-3 px-4 py-3 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium tabular-nums transition-all duration-150 hover:border-blue-500 hover:text-insecap-blue active:scale-[0.98] motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"
                             >
                               <span>
@@ -232,7 +234,7 @@ const OpenCourseOffer = () => {
                               </span>
                               <span className="flex items-center gap-1.5 text-blue-600 text-sm font-semibold shrink-0">
                                 <span className="hidden sm:inline opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                                  {t('openOffer.enroll', 'Inscribirse')}
+                                  {t('openOffer.enroll')}
                                 </span>
                                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                               </span>
@@ -243,16 +245,16 @@ const OpenCourseOffer = () => {
                       {offer.note && (
                         <p className="mt-4 flex gap-2 text-sm leading-relaxed text-slate-500">
                           <Info className="mt-0.5 w-4 h-4 shrink-0 text-blue-600" />
-                          <span>{offer.note.es}</span>
+                          <span>{offer.note[locale] ?? offer.note.es}</span>
                         </p>
                       )}
                     </div>
 
                     <div className="grid gap-4">
                       {[
-                        { icon: Clock, text: `${offer.duration} cronológicas` },
+                        { icon: Clock, text: t('openOffer.duration', { duration: offer.duration }) },
                         ...(offer.location ? [{ icon: MapPin, text: offer.location }] : []),
-                        { icon: Users, text: 'Cupos limitados' },
+                        { icon: Users, text: t('openOffer.limited') },
                       ].map(({ icon: Icon, text: detail }, i) => (
                         <div
                           key={i}
@@ -269,9 +271,10 @@ const OpenCourseOffer = () => {
                         to={`${localizedPath(OFFER_HREF)}?fecha=${offer.sessions[0].id}&modalidad=${offer.modalityId}`}
                         className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-white shadow-lg shadow-sky-500/30 transition-transform duration-100 ease-out hover:scale-105 active:scale-90 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
                         style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #38BDF8 100%)' }}
+                        aria-label={t('openOffer.ctaCourse', { course: `${offer.title} ${offer.titleHighlight}` })}
                       >
-                        {t('openOffer.cta', 'Inscríbete aquí')}
-                        <ArrowRight className="w-4 h-4" />
+                        {t('openOffer.cta')}
+                        <ArrowRight className="w-4 h-4" aria-hidden="true" />
                       </Link>
                     </div>
                   </div>

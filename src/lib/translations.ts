@@ -79,6 +79,8 @@ export const resources = {
         },
         certifications: 'Certificaciones y Membresías',
         accreditationsSubtitle: 'Certificaciones y Membresías que avalan nuestra calidad',
+        imagesLabel: 'Instalaciones y actividades de INSECAP',
+        years: '{{count}} años',
       },
       contactCTA: {
         badge: 'Contacto',
@@ -121,13 +123,107 @@ export const resources = {
         },
         copyright: 'Insecap Capacitación. Todos los derechos reservados.',
         privacy: 'Política de Privacidad',
+        questions: '¿Tienes dudas?',
+        social: 'INSECAP en {{network}}',
       },
       seo: {
         siteName: 'INSECAP - Capacitaciones',
-        defaultTitle: 'INSECAP - Organismo Técnico de Capacitación',
-        defaultDescription: 'INSECAP es un Organismo Técnico de Capacitación (OTEC) certificado, especializado en formación profesional y desarrollo de competencias laborales en Chile.',
-        defaultKeywords: 'capacitación, OTEC, formación profesional, desarrollo laboral, cursos, Chile, INSECAP',
-        imageAlt: 'INSECAP',
+        imageAlt: 'INSECAP, Organismo Técnico de Capacitación en Chile',
+        // Title y description por página (Fase 3, tarea #8). Clave = ruta de src/lib/seo-routes.ts
+        // ('inicio' para la home). title: solo la keyword; SEO.tsx agrega " | INSECAP" (≤60 en total).
+        // description: 140–155 caracteres, única por ruta y por idioma (lo valida check-dist).
+        fillers: [
+          'INSECAP, OTEC acreditada por SENCE y certificada en NCh 2728:2015 e ISO 9001:2015.',
+          'Sedes en Calama, Antofagasta, Santiago y Vallenar.',
+          'INSECAP, OTEC acreditada por SENCE.',
+          'Cotiza con INSECAP.',
+        ],
+        pages: {
+          inicio: {
+            title: 'OTEC en Chile: capacitación en seguridad y minería',
+            description: 'INSECAP es una OTEC acreditada por SENCE con sedes en Calama, Antofagasta, Santiago y Vallenar. Cursos de seguridad y operación de equipos para la minería.',
+          },
+          nosotros: {
+            title: 'Nosotros: OTEC chilena para la gran minería',
+            description: 'Conoce INSECAP, OTEC chilena que capacita en seguridad, cumplimiento normativo y continuidad operacional, con foco en la gran minería del norte de Chile.',
+          },
+          'nuestro-equipo': {
+            title: 'Nuestro equipo de capacitación',
+            description: 'Conoce al equipo multidisciplinario de INSECAP: facilitadores y profesionales que diseñan programas de capacitación a la medida para la industria minera.',
+          },
+          'equipo-honor': {
+            title: 'Equipo Honor y Felicidad: reconocimientos',
+            description: 'Equipo Honor y Felicidad de INSECAP: cada mes reconocemos a colaboradores que destacan por su talento, compromiso y excelencia en la capacitación en Chile.',
+          },
+          acreditaciones: {
+            title: 'Acreditaciones: SENCE, NCh 2728 e ISO 9001',
+            description: 'INSECAP es OTEC acreditada por SENCE (Resolución N° 12208), certificada en NCh 2728:2015 e ISO 9001:2015 y acreditada por Codelco para capacitar en Chile.',
+          },
+          'sap-pm': {
+            title: 'Curso SAP S/4HANA PM para mantenimiento',
+            description: 'Especialidad SAP S/4HANA PM para mantenimiento en minería e industria: 9 cursos, 162 h y práctica en plataforma propia. Calama, Antofagasta y online.',
+          },
+          simuladores: {
+            title: 'Simuladores de maquinaria pesada y extintores',
+            description: 'Simuladores de INSECAP para capacitar en operación de maquinaria pesada y uso de extintores en un entorno seguro, con escenarios realistas y evaluación.',
+          },
+          'simuladores/modelos': {
+            title: 'Simuladores Multisim de maquinaria pesada',
+            description: 'Modelos de simulador Multisim de INSECAP: cabina realista, escenarios operacionales de alta exigencia y evaluación por desempeño para capacitar operadores.',
+          },
+          'simuladores/extintores': {
+            title: 'Simulador de uso de extintores',
+            description: 'Simulador de uso de extintores de INSECAP: entrena la respuesta ante incendios sin riesgo, con escenarios realistas, clases de fuego y evaluación técnica.',
+          },
+          'nuestros-clientes': {
+            title: 'Clientes: empresas que capacitan con INSECAP',
+            description: 'Empresas de la minería y la industria que capacitan a sus equipos con INSECAP, OTEC acreditada por SENCE, con programas a la medida en todo Chile.',
+          },
+          contacto: {
+            title: 'Contacto: cotiza tu capacitación',
+            description: 'Cotiza cursos de capacitación con INSECAP: escribe a contacto@insecap.cl o llama a la casa matriz en Calama, +56 55 292 6431. Sedes en el norte y Santiago.',
+          },
+          'relator-trabaja-con-nosotros': {
+            title: 'Trabaja con nosotros: relatores y facilitadores',
+            description: 'Postula como relator o facilitador de INSECAP. Buscamos profesionales con experiencia y vocación por enseñar para dictar cursos de capacitación en Chile.',
+          },
+          'politica-calidad': {
+            title: 'Política de calidad',
+            description: 'Política de calidad de INSECAP, OTEC certificada en NCh 2728:2015 e ISO 9001:2015: formación de excelencia para empresas privadas, públicas y particulares.',
+          },
+          'politica-de-privacidad': {
+            title: 'Condiciones del servicio y datos personales',
+            description: 'Condiciones de uso de TMS.INSECAP.CL: cómo INSECAP trata los datos de trabajadores de empresas clientes y coordina reuniones de seguimiento de cursos.',
+          },
+          'cursos-abiertos': {
+            title: 'Cursos abiertos con fecha y cupos disponibles',
+            description: 'Cursos abiertos de INSECAP con fechas programadas y cupos disponibles. Inscríbete de forma individual y certifica tus competencias con una OTEC acreditada.',
+          },
+          'formulario/cursos-abiertos': {
+            title: 'Inscripción a cursos abiertos',
+            description: 'Formulario de inscripción a los cursos abiertos de INSECAP: elige el curso y la fecha, completa tus datos y envía tu solicitud para reservar tu cupo.',
+          },
+          cursos: {
+            title: 'Cursos de capacitación para empresas en Chile',
+            description: 'Catálogo de {{cursos}} cursos de capacitación para empresas en Chile, en {{areas}} áreas: seguridad, operación de equipos, electricidad y más. INSECAP, OTEC SENCE.',
+          },
+          'franquicia-sence': {
+            title: 'Franquicia tributaria SENCE para capacitación',
+            description: 'Capacita con franquicia tributaria SENCE en INSECAP, OTEC acreditada por SENCE (Resolución N° 12208) y certificada en NCh 2728:2015 e ISO 9001:2015.',
+          },
+          'preguntas-frecuentes': {
+            title: 'Preguntas frecuentes sobre cursos y SENCE',
+            description: 'Respuestas sobre INSECAP: qué es una OTEC, franquicia SENCE, duración de trabajo en altura, cursos con estándar Codelco, cursos en terreno y e-learning.',
+          },
+          noticias: {
+            title: 'Noticias de capacitación y seguridad minera',
+            description: 'Noticias de INSECAP: nuevos cursos, simuladores, convenios y actividades de la OTEC en Calama, Antofagasta, Santiago y Vallenar. Capacitación en Chile.',
+          },
+          notFound: {
+            title: 'Página no encontrada',
+            description: 'La página que buscas no existe o cambió de dirección. Revisa el catálogo de cursos de INSECAP, OTEC acreditada por SENCE, o vuelve al inicio del sitio.',
+          },
+        },
       },
       meetUs: {
         badge: 'Conócenos',
@@ -213,6 +309,7 @@ export const resources = {
         loadError: 'No se pudieron cargar las noticias en este momento.',
         readMore: 'Leer más',
         seeMore: 'Ver más noticias',
+        empty: 'Próximamente nuevas noticias',
       },
       locations: {
         badge: 'Nuestras Sedes',
@@ -221,7 +318,7 @@ export const resources = {
       },
       ourClients: {
         title: 'CONOCE A NUESTROS CLIENTES',
-        clickHere: 'Click aquí',
+        cta: 'Conoce a nuestros clientes',
       },
       catalogModal: {
         intro: 'Explora nuestro catálogo de cursos',
@@ -245,12 +342,59 @@ export const resources = {
         viewCart: 'Ver carrito',
         backToTop: 'Volver al tope',
         closePopup: 'Cerrar popup',
+        mainNav: 'Navegación principal',
         close: 'Cerrar',
+      },
+      breadcrumb: {
+        label: 'Ruta de navegación',
+        simulators: 'Simuladores',
+      },
+      gallery: {
+        prev: 'Imagen anterior',
+        next: 'Imagen siguiente',
+        view: 'Ver imagen {{n}}',
+        photo: '{{name}}, imagen {{n}}',
+      },
+      pagination: {
+        label: 'Paginación',
+        prev: 'Anterior',
+        next: 'Siguiente',
+        goTo: 'Ir a la página {{n}}',
+      },
+      combobox: {
+        search: 'Buscar...',
+        empty: 'No se encontraron resultados.',
+        placeholder: 'Selecciona...',
+        placeholderMulti: 'Selecciona uno o más...',
+        remove: 'Quitar {{item}}',
+      },
+      openOffer: {
+        rolling: 'Cursos abiertos',
+        monthFilter: 'Mes de la programación',
+        tablist: 'Cursos abiertos disponibles',
+        badge: 'Cupos disponibles',
+        eyebrow: 'Inscripciones abiertas',
+        modalityLabel: 'Modalidad',
+        enroll: 'Inscribirse',
+        cta: 'Inscríbete en el curso',
+        ctaCourse: 'Inscríbete en el curso {{course}}',
+        limited: 'Cupos limitados',
+        duration: '{{duration}} cronológicas',
+        posterAlt: 'Afiche del curso {{course}}',
+        posterAltFull: 'Afiche del curso {{course}}, {{month}}, modalidad {{modality}}',
+        enrollInDate: 'Inscribirse en {{course}}, {{date}}',
+        enrollInCity: 'Inscribirse en {{course}}, {{date}}, sede {{city}}',
+      },
+      videoHero: {
+        scroll: 'Bajar al contenido',
+        offerScroll: '¡Inscríbete en el nuevo curso abierto!',
       },
       sedesMap: {
         physicalBranches: 'Sedes Físicas',
         virtualBranches: 'Sedes Virtuales',
         mapAlt: 'Mapa de sedes Insecap en Chile',
+        physicalType: 'Sede física',
+        virtualType: 'Sede virtual',
       },
       featuredCourses: {
         badge: 'Catálogo de Cursos',
@@ -376,6 +520,8 @@ export const resources = {
         },
         certifications: 'Certifications and memberships',
         accreditationsSubtitle: 'Certifications and memberships that endorse our quality',
+        imagesLabel: 'INSECAP facilities and activities',
+        years: '{{count}} years',
       },
       contactCTA: {
         badge: 'Contact',
@@ -418,13 +564,104 @@ export const resources = {
         },
         copyright: 'Insecap Training. All rights reserved.',
         privacy: 'Privacy policy',
+        questions: 'Any questions?',
+        social: 'INSECAP on {{network}}',
       },
       seo: {
         siteName: 'INSECAP - Training',
-        defaultTitle: 'INSECAP - Technical Training Organization',
-        defaultDescription: 'INSECAP is a certified Technical Training Organization (OTEC), specialized in professional training and labor competency development in Chile.',
-        defaultKeywords: 'training, OTEC, professional development, labor skills, courses, Chile, INSECAP',
-        imageAlt: 'INSECAP',
+        imageAlt: 'INSECAP, Technical Training Organization in Chile',
+        fillers: [
+          'INSECAP is a SENCE-accredited OTEC certified under NCh 2728:2015 and ISO 9001:2015.',
+          'Offices in Calama, Antofagasta, Santiago and Vallenar.',
+          'INSECAP, SENCE-accredited OTEC.',
+          'Request a quote from INSECAP.',
+        ],
+        pages: {
+          inicio: {
+            title: 'Safety and mining training in Chile (OTEC)',
+            description: 'INSECAP is a SENCE-accredited training organization in Calama, Antofagasta, Santiago and Vallenar. Safety and equipment operation courses for mining.',
+          },
+          nosotros: {
+            title: 'About us: Chilean OTEC for large-scale mining',
+            description: 'Meet INSECAP, a Chilean training organization (OTEC) focused on safety, regulatory compliance and operational continuity for large-scale mining in Chile.',
+          },
+          'nuestro-equipo': {
+            title: 'Our training team',
+            description: 'Meet the multidisciplinary INSECAP team: instructors and professionals who design tailored training programs for mining and industry in Chile.',
+          },
+          'equipo-honor': {
+            title: 'Honor and Happiness Team: recognitions',
+            description: 'INSECAP Honor and Happiness Team: every month we recognize team members who stand out for their talent, commitment and excellence in training in Chile.',
+          },
+          acreditaciones: {
+            title: 'Accreditations: SENCE, NCh 2728 and ISO 9001',
+            description: 'INSECAP is an OTEC accredited by SENCE (Resolution No. 12208), certified under NCh 2728:2015 and ISO 9001:2015, and accredited by Codelco in Chile.',
+          },
+          'sap-pm': {
+            title: 'SAP S/4HANA PM training for maintenance',
+            description: 'SAP S/4HANA PM training for mining and industrial maintenance teams: 9 courses, 162 h and practice on our own platform. Calama, Antofagasta and online.',
+          },
+          simuladores: {
+            title: 'Heavy machinery and fire extinguisher simulators',
+            description: 'INSECAP simulators to train heavy machinery operation and fire extinguisher use in a safe environment, with realistic scenarios and performance assessment.',
+          },
+          'simuladores/modelos': {
+            title: 'Multisim heavy machinery simulators',
+            description: 'INSECAP Multisim simulator models: realistic cabins, demanding operational scenarios and performance-based assessment to train heavy equipment operators.',
+          },
+          'simuladores/extintores': {
+            title: 'Fire extinguisher use simulator',
+            description: 'INSECAP fire extinguisher simulator: practice emergency fire response without risk, with realistic scenarios, fire classes and technique assessment.',
+          },
+          'nuestros-clientes': {
+            title: 'Clients: companies that train with INSECAP',
+            description: 'Mining and industrial companies that train their teams with INSECAP, a SENCE-accredited training organization, through tailored training programs in Chile.',
+          },
+          contacto: {
+            title: 'Contact us: request a training quote',
+            description: 'Request a training quote from INSECAP: email contacto@insecap.cl or call our head office in Calama, +56 55 292 6431. Offices in the north and Santiago.',
+          },
+          'relator-trabaja-con-nosotros': {
+            title: 'Work with us: instructors and facilitators',
+            description: 'Apply to become an INSECAP instructor or facilitator. We look for experienced professionals with a passion for teaching to deliver courses in Chile.',
+          },
+          'politica-calidad': {
+            title: 'Quality policy',
+            description: 'Quality policy of INSECAP, an OTEC certified under NCh 2728:2015 and ISO 9001:2015: excellent training for companies, public bodies and individuals.',
+          },
+          'politica-de-privacidad': {
+            title: 'Service terms and personal data',
+            description: 'Terms of use of TMS.INSECAP.CL: how INSECAP processes data of client company workers and schedules follow-up meetings to coordinate their training.',
+          },
+          'cursos-abiertos': {
+            title: 'Open courses with dates and available seats',
+            description: 'INSECAP open courses with scheduled dates and available seats. Enroll individually and certify your skills with a SENCE-accredited OTEC in Chile.',
+          },
+          'formulario/cursos-abiertos': {
+            title: 'Open course registration',
+            description: 'Registration form for INSECAP open courses: choose the course and date, fill in your details and send your request to book a seat with our team in Chile.',
+          },
+          cursos: {
+            title: 'Corporate training courses in Chile',
+            description: 'Catalog of {{cursos}} corporate training courses in Chile across {{areas}} areas: safety, equipment operation, electricity and more. INSECAP, SENCE-accredited OTEC.',
+          },
+          'franquicia-sence': {
+            title: 'SENCE tax incentive for training',
+            description: 'Train your team with the SENCE tax incentive at INSECAP, an OTEC accredited by SENCE (Resolution No. 12208) and certified under NCh 2728:2015 and ISO 9001.',
+          },
+          'preguntas-frecuentes': {
+            title: 'FAQ about courses and SENCE',
+            description: 'Answers about INSECAP: what an OTEC is, the SENCE tax incentive, work at height course length, Codelco-standard courses, on-site training and e-learning.',
+          },
+          noticias: {
+            title: 'Training and mining safety news',
+            description: 'INSECAP news: new courses, simulators, agreements and activities of our training organization in Calama, Antofagasta, Santiago and Vallenar, Chile.',
+          },
+          notFound: {
+            title: 'Page not found',
+            description: 'The page you are looking for does not exist or has moved. Browse the INSECAP course catalog, a SENCE-accredited OTEC in Chile, or go back to the home page.',
+          },
+        },
       },
       meetUs: {
         badge: 'Get to Know Us',
@@ -510,6 +747,7 @@ export const resources = {
         loadError: 'Could not load news at this time.',
         readMore: 'Read more',
         seeMore: 'See more news',
+        empty: 'New stories coming soon',
       },
       locations: {
         badge: 'Our Branches',
@@ -518,7 +756,7 @@ export const resources = {
       },
       ourClients: {
         title: 'MEET OUR CLIENTS',
-        clickHere: 'Click here',
+        cta: 'Meet our clients',
       },
       catalogModal: {
         intro: 'Explore our course catalog',
@@ -542,12 +780,59 @@ export const resources = {
         viewCart: 'View cart',
         backToTop: 'Back to top',
         closePopup: 'Close popup',
+        mainNav: 'Main navigation',
         close: 'Close',
+      },
+      breadcrumb: {
+        label: 'Breadcrumb',
+        simulators: 'Simulators',
+      },
+      gallery: {
+        prev: 'Previous image',
+        next: 'Next image',
+        view: 'View image {{n}}',
+        photo: '{{name}}, image {{n}}',
+      },
+      pagination: {
+        label: 'Pagination',
+        prev: 'Previous',
+        next: 'Next',
+        goTo: 'Go to page {{n}}',
+      },
+      combobox: {
+        search: 'Search...',
+        empty: 'No results found.',
+        placeholder: 'Select...',
+        placeholderMulti: 'Select one or more...',
+        remove: 'Remove {{item}}',
+      },
+      openOffer: {
+        rolling: 'Open courses',
+        monthFilter: 'Schedule month',
+        tablist: 'Available open courses',
+        badge: 'Seats available',
+        eyebrow: 'Enrollment open',
+        modalityLabel: 'Mode',
+        enroll: 'Enroll',
+        cta: 'Enroll in the course',
+        ctaCourse: 'Enroll in the course {{course}}',
+        limited: 'Limited seats',
+        duration: '{{duration}} (clock hours)',
+        posterAlt: 'Course poster: {{course}}',
+        posterAltFull: 'Course poster: {{course}}, {{month}}, {{modality}} mode',
+        enrollInDate: 'Enroll in {{course}}, {{date}}',
+        enrollInCity: 'Enroll in {{course}}, {{date}}, {{city}} branch',
+      },
+      videoHero: {
+        scroll: 'Scroll to content',
+        offerScroll: 'Enroll in the new open course!',
       },
       sedesMap: {
         physicalBranches: 'Physical Branches',
         virtualBranches: 'Virtual Branches',
         mapAlt: 'Insecap branches map in Chile',
+        physicalType: 'On-site branch',
+        virtualType: 'Virtual branch',
       },
       featuredCourses: {
         badge: 'Course Catalog',
@@ -618,7 +903,7 @@ export const resources = {
           about: 'Sobre nós',
           team: 'Nossa equipe',
           experience: 'Experiência e respaldo',
-          culture: 'Equipe Honor e Felicidade',
+          culture: 'Equipe Honra e Felicidade',
           quality: 'Política de qualidade',
           contact: 'Fale conosco',
           instructor: 'Quer ser instrutor?',
@@ -673,6 +958,8 @@ export const resources = {
         },
         certifications: 'Certificações e associações',
         accreditationsSubtitle: 'Certificações e associações que atestam nossa qualidade',
+        imagesLabel: 'Instalações e atividades da INSECAP',
+        years: '{{count}} anos',
       },
       contactCTA: {
         badge: 'Contato',
@@ -715,13 +1002,104 @@ export const resources = {
         },
         copyright: 'Insecap Capacitação. Todos os direitos reservados.',
         privacy: 'Política de privacidade',
+        questions: 'Tem dúvidas?',
+        social: 'INSECAP no {{network}}',
       },
       seo: {
         siteName: 'INSECAP - Capacitações',
-        defaultTitle: 'INSECAP - Organismo Técnico de Capacitação',
-        defaultDescription: 'INSECAP é um Organismo Técnico de Capacitação (OTEC) certificado, especializado em formação profissional e desenvolvimento de competências laborais no Chile.',
-        defaultKeywords: 'capacitação, OTEC, formação profissional, desenvolvimento laboral, cursos, Chile, INSECAP',
-        imageAlt: 'INSECAP',
+        imageAlt: 'INSECAP, Organismo Técnico de Capacitação no Chile',
+        fillers: [
+          'INSECAP é uma OTEC acreditada pelo SENCE e certificada nas normas NCh 2728:2015 e ISO 9001:2015.',
+          'Unidades em Calama, Antofagasta, Santiago e Vallenar.',
+          'INSECAP, OTEC acreditada pelo SENCE.',
+          'Solicite um orçamento à INSECAP.',
+        ],
+        pages: {
+          inicio: {
+            title: 'Capacitação em segurança e mineração no Chile',
+            description: 'INSECAP é uma OTEC acreditada pelo SENCE com unidades em Calama, Antofagasta, Santiago e Vallenar. Cursos de segurança e operação de equipamentos.',
+          },
+          nosotros: {
+            title: 'Sobre nós: OTEC chilena para a grande mineração',
+            description: 'Conheça a INSECAP, OTEC chilena que capacita em segurança, conformidade normativa e continuidade operacional, com foco na grande mineração do Chile.',
+          },
+          'nuestro-equipo': {
+            title: 'Nossa equipe de capacitação',
+            description: 'Conheça a equipe multidisciplinar da INSECAP: facilitadores e profissionais que desenham programas de capacitação sob medida para a indústria mineradora.',
+          },
+          'equipo-honor': {
+            title: 'Equipe Honra e Felicidade: reconhecimentos',
+            description: 'Equipe Honra e Felicidade da INSECAP: todo mês reconhecemos colaboradores que se destacam pelo talento, comprometimento e excelência na capacitação.',
+          },
+          acreditaciones: {
+            title: 'Acreditações: SENCE, NCh 2728 e ISO 9001',
+            description: 'A INSECAP é OTEC acreditada pelo SENCE (Resolução N° 12208), certificada nas normas NCh 2728:2015 e ISO 9001:2015 e acreditada pela Codelco no Chile.',
+          },
+          'sap-pm': {
+            title: 'Curso SAP S/4HANA PM para manutenção',
+            description: 'Formação SAP S/4HANA PM para equipes de manutenção de mineração e indústria: 9 cursos, 162 h e prática em plataforma própria. Calama, Antofagasta e online.',
+          },
+          simuladores: {
+            title: 'Simuladores de máquinas pesadas e extintores',
+            description: 'Simuladores da INSECAP para capacitar na operação de máquinas pesadas e no uso de extintores em ambiente seguro, com cenários realistas e avaliação.',
+          },
+          'simuladores/modelos': {
+            title: 'Simuladores Multisim de máquinas pesadas',
+            description: 'Modelos de simulador Multisim da INSECAP: cabine realista, cenários operacionais de alta exigência e avaliação por desempenho para capacitar operadores.',
+          },
+          'simuladores/extintores': {
+            title: 'Simulador de uso de extintores de incêndio',
+            description: 'Simulador de uso de extintores da INSECAP: treine a resposta a incêndios sem risco, com cenários realistas, classes de fogo e avaliação da técnica.',
+          },
+          'nuestros-clientes': {
+            title: 'Clientes: empresas que capacitam com a INSECAP',
+            description: 'Empresas da mineração e da indústria que capacitam suas equipes com a INSECAP, OTEC acreditada pelo SENCE, com programas sob medida em todo o Chile.',
+          },
+          contacto: {
+            title: 'Contato: solicite um orçamento de capacitação',
+            description: 'Solicite um orçamento de capacitação à INSECAP: escreva para contacto@insecap.cl ou ligue para a matriz em Calama, +56 55 292 6431. Unidades no Chile.',
+          },
+          'relator-trabaja-con-nosotros': {
+            title: 'Trabalhe conosco: instrutores e facilitadores',
+            description: 'Candidate-se como instrutor ou facilitador da INSECAP. Buscamos profissionais com experiência e vocação para ensinar e ministrar cursos de capacitação.',
+          },
+          'politica-calidad': {
+            title: 'Política da qualidade',
+            description: 'Política da qualidade da INSECAP, OTEC certificada nas normas NCh 2728:2015 e ISO 9001:2015: formação de excelência para empresas, instituições e pessoas.',
+          },
+          'politica-de-privacidad': {
+            title: 'Condições do serviço e dados pessoais',
+            description: 'Condições de uso do TMS.INSECAP.CL: como a INSECAP trata dados de trabalhadores de empresas clientes e agenda reuniões de acompanhamento da capacitação.',
+          },
+          'cursos-abiertos': {
+            title: 'Cursos abertos com datas e vagas disponíveis',
+            description: 'Cursos abertos da INSECAP com datas programadas e vagas disponíveis. Inscreva-se individualmente e certifique suas competências com uma OTEC acreditada.',
+          },
+          'formulario/cursos-abiertos': {
+            title: 'Inscrição em cursos abertos',
+            description: 'Formulário de inscrição nos cursos abertos da INSECAP: escolha o curso e a data, preencha seus dados e envie sua solicitação para reservar uma vaga.',
+          },
+          cursos: {
+            title: 'Cursos de capacitação para empresas no Chile',
+            description: 'Catálogo de {{cursos}} cursos de capacitação para empresas no Chile, em {{areas}} áreas: segurança, operação de equipamentos, eletricidade e mais. INSECAP, OTEC SENCE.',
+          },
+          'franquicia-sence': {
+            title: 'Franquia tributária SENCE para capacitação',
+            description: 'Capacite sua equipe com a franquia tributária SENCE na INSECAP, OTEC acreditada pelo SENCE (Resolução N° 12208) e certificada na norma NCh 2728:2015.',
+          },
+          'preguntas-frecuentes': {
+            title: 'Perguntas frequentes sobre cursos e SENCE',
+            description: 'Respostas sobre a INSECAP: o que é uma OTEC, franquia SENCE, duração do curso de trabalho em altura, padrão Codelco, cursos no local e e-learning.',
+          },
+          noticias: {
+            title: 'Notícias de capacitação e segurança na mineração',
+            description: 'Notícias da INSECAP: novos cursos, simuladores, convênios e atividades da nossa OTEC em Calama, Antofagasta, Santiago e Vallenar. Capacitação no Chile.',
+          },
+          notFound: {
+            title: 'Página não encontrada',
+            description: 'A página que você procura não existe ou mudou de endereço. Consulte o catálogo de cursos da INSECAP, OTEC acreditada pelo SENCE, ou volte ao início.',
+          },
+        },
       },
       meetUs: {
         badge: 'Conheça-nos',
@@ -807,6 +1185,7 @@ export const resources = {
         loadError: 'Não foi possível carregar as notícias no momento.',
         readMore: 'Leia mais',
         seeMore: 'Ver mais notícias',
+        empty: 'Em breve, novas notícias',
       },
       locations: {
         badge: 'Nossas Filiais',
@@ -815,7 +1194,7 @@ export const resources = {
       },
       ourClients: {
         title: 'CONHEÇA NOSSOS CLIENTES',
-        clickHere: 'Clique aqui',
+        cta: 'Conheça nossos clientes',
       },
       catalogModal: {
         intro: 'Explore nosso catálogo de cursos',
@@ -839,12 +1218,59 @@ export const resources = {
         viewCart: 'Ver carrinho',
         backToTop: 'Voltar ao topo',
         closePopup: 'Fechar popup',
+        mainNav: 'Navegação principal',
         close: 'Fechar',
+      },
+      breadcrumb: {
+        label: 'Trilha de navegação',
+        simulators: 'Simuladores',
+      },
+      gallery: {
+        prev: 'Imagem anterior',
+        next: 'Próxima imagem',
+        view: 'Ver imagem {{n}}',
+        photo: '{{name}}, imagem {{n}}',
+      },
+      pagination: {
+        label: 'Paginação',
+        prev: 'Anterior',
+        next: 'Próxima',
+        goTo: 'Ir para a página {{n}}',
+      },
+      combobox: {
+        search: 'Buscar...',
+        empty: 'Nenhum resultado encontrado.',
+        placeholder: 'Selecione...',
+        placeholderMulti: 'Selecione um ou mais...',
+        remove: 'Remover {{item}}',
+      },
+      openOffer: {
+        rolling: 'Cursos abertos',
+        monthFilter: 'Mês da programação',
+        tablist: 'Cursos abertos disponíveis',
+        badge: 'Vagas disponíveis',
+        eyebrow: 'Inscrições abertas',
+        modalityLabel: 'Modalidade',
+        enroll: 'Inscrever-se',
+        cta: 'Inscreva-se no curso',
+        ctaCourse: 'Inscreva-se no curso {{course}}',
+        limited: 'Vagas limitadas',
+        duration: '{{duration}} (horas cronológicas)',
+        posterAlt: 'Cartaz do curso {{course}}',
+        posterAltFull: 'Cartaz do curso {{course}}, {{month}}, modalidade {{modality}}',
+        enrollInDate: 'Inscrever-se em {{course}}, {{date}}',
+        enrollInCity: 'Inscrever-se em {{course}}, {{date}}, unidade {{city}}',
+      },
+      videoHero: {
+        scroll: 'Ir para o conteúdo',
+        offerScroll: 'Inscreva-se no novo curso aberto!',
       },
       sedesMap: {
         physicalBranches: 'Filiais Físicas',
         virtualBranches: 'Filiais Virtuais',
         mapAlt: 'Mapa das filiais da Insecap no Chile',
+        physicalType: 'Unidade presencial',
+        virtualType: 'Unidade virtual',
       },
       featuredCourses: {
         badge: 'Catálogo de Cursos',

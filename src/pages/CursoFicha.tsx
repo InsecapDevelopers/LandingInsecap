@@ -12,32 +12,13 @@ import {
   formatHoras,
   getEstandaresVisibles,
   getHorasPorModalidad,
-  getRangoHoras,
   getRelatedCursos,
   getCursoSeo,
-  type CursoSeo,
+  getCursoSeoMeta,
 } from '@/data/cursos-seo';
 import { COBERTURA_VIRTUAL, sedes } from '@/data/sedes';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { resolveLegacyPath } from '@/lib/legacy-redirects';
-
-const MAX_DESCRIPTION = 155;
-
-/** Recorta en el último espacio antes del límite. */
-const truncate = (text: string, max: number) => {
-  if (text.length <= max) return text;
-  const cut = text.slice(0, max - 1);
-  return `${cut.slice(0, cut.lastIndexOf(' '))}…`;
-};
-
-const buildDescription = (curso: CursoSeo) => {
-  if (curso.respuesta) return truncate(curso.respuesta, MAX_DESCRIPTION);
-  const rango = getRangoHoras(curso.tema);
-  return truncate(
-    `Curso de ${curso.tema.tema} para empresas en Chile: ${curso.tema.modalidades.join(', ').toLowerCase()}${rango ? `, ${rango}` : ''}. Cotiza con INSECAP, OTEC acreditada por SENCE.`,
-    MAX_DESCRIPTION,
-  );
-};
 
 const FichaRow = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <tr className="border-b border-border last:border-0">
@@ -76,7 +57,7 @@ const CursoFicha = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO title={title} description={buildDescription(curso)} url={`/cursos/${curso.slug}`} />
+      <SEO {...getCursoSeoMeta(curso)} url={`/cursos/${curso.slug}`} />
       <Header />
 
       {/* El contenido de datos solo existe en español (decisión 1.3). */}

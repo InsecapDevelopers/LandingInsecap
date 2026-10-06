@@ -30,8 +30,8 @@ const SimulatorBanner = () => {
       cta: 'VIEW SIMULATORS',
     },
     pt: {
-      label: 'TREINAMENTO EM SIMULACAO',
-      title: 'SIMULADORES\nDISPONIVEIS',
+      label: 'TREINAMENTO EM SIMULAÇÃO',
+      title: 'SIMULADORES\nDISPONÍVEIS',
       cta: 'VER SIMULADORES',
     },
   };

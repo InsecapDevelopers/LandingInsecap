@@ -18,6 +18,9 @@
  *   dist/redirects.map              301 de las URLs antiguas (src/lib/legacy-redirects.ts) para
  *                                   `map $uri $legacy_redirect` de nginx.conf. El Dockerfile lo
  *                                   mueve a /etc/nginx/redirects.map (no se publica como archivo).
+ *   dist/_report/urls.csv           URL, robots, title, description y H1 de cada página (entregable
+ *                                   de la Fase 3 para revisar metadatos). No se publica: el
+ *                                   Dockerfile lo borra.
  *
  * Datos: las rutas dinámicas (noticias y fichas B2B) salen de `listDynamicPaths` y cada página
  * precarga sus datos con `prefetchRoute` (mismas queryFn que el cliente, src/lib/queries.ts).
@@ -75,6 +78,33 @@ const buildPage = ({ head, html, htmlAttributes, dehydratedState, locale }) => {
   return page;
 };
 
+/** Texto plano de un fragmento HTML del prerender (sin etiquetas, entidades básicas decodificadas). */
+const plainText = (html) =>
+  html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;|&#39;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const metaContent = (page, name) =>
+  plainText((page.match(new RegExp(`<meta[^>]+name="${name}"[^>]+content="([^"]*)"`, 'i')) || [])[1] ?? '');
+
+/** Fila del reporte urls.csv para una página renderizada. */
+const reportRow = (url, page) => ({
+  url,
+  robots: metaContent(page, 'robots'),
+  title: plainText((page.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] ?? ''),
+  description: metaContent(page, 'description'),
+  h1: plainText((page.match(/<h1[\s>][\s\S]*?<\/h1>/i) || [''])[0]),
+});
+
+const csvCell = (value) => (/[",\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value);
+
 const writeFile = (relativePath, content) => {
   const target = path.join(DIST, relativePath);
   fs.mkdirSync(path.dirname(target), { recursive: true });
@@ -123,13 +153,25 @@ try {
   process.exit(1);
 }
 
+const report = [];
 for (const { url, locale } of urls) {
   try {
-    writeFile(path.join(url.slice(1), 'index.html'), await renderUrl(url, locale));
+    const page = await renderUrl(url, locale);
+    writeFile(path.join(url.slice(1), 'index.html'), page);
+    report.push(reportRow(url, page));
   } catch (error) {
     failures.push(error);
   }
 }
+
+// Reporte de metadatos (Fase 3): una fila por página, ordenado por URL.
+const REPORT_COLUMNS = ['url', 'robots', 'title', 'description', 'h1'];
+writeFile(
+  path.join('_report', 'urls.csv'),
+  `${[REPORT_COLUMNS.join(','), ...report
+    .sort((a, b) => a.url.localeCompare(b.url))
+    .map((row) => REPORT_COLUMNS.map((column) => csvCell(row[column])).join(','))].join('\n')}\n`,
+);
 
 // 404 real: cualquier ruta que no existe cae en <NotFound /> con robots noindex.
 try {
@@ -166,4 +208,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`[prerender] ${urls.length} páginas + 404.html + _shell.html + redirects.map (${redirectsCount} reglas) en ${((Date.now() - started) / 1000).toFixed(1)} s`);
+console.log(`[prerender] ${urls.length} páginas + 404.html + _shell.html + redirects.map (${redirectsCount} reglas) + _report/urls.csv en ${((Date.now() - started) / 1000).toFixed(1)} s`);

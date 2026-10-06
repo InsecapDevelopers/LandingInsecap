@@ -21,11 +21,7 @@ const CursosIndex = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO
-        title="Cursos de capacitación para empresas"
-        description={`Catálogo de ${cursosSeo.length} cursos de capacitación para empresas en Chile, en ${cursoAreas.length} áreas: seguridad, operación de equipos, electricidad y más. INSECAP, OTEC SENCE.`}
-        url="/cursos"
-      />
+      <SEO url="/cursos" seoParams={{ cursos: cursosSeo.length, areas: cursoAreas.length }} />
       <Header />
 
       <main className="pb-16" lang={locale === 'es' ? undefined : 'es'}>

@@ -1,4 +1,12 @@
 // ─── Datos de regiones y sedes de INSECAP ────────────────────────────────────
+// La dirección y el teléfono de las sedes físicas salen de src/data/sedes.ts (NAP único).
+import { getSedeBySlug, type SedeSlug } from '@/data/sedes';
+
+const nap = (slug: SedeSlug) => {
+  const sede = getSedeBySlug(slug);
+  if (!sede) throw new Error(`Sede desconocida: ${slug}`);
+  return sede;
+};
 
 export interface Sede {
   nombre: string;
@@ -16,7 +24,7 @@ export interface Region {
   colorActive: string;
   tipo: 'virtual' | 'fisica' | 'ambas';
   sedes: Sede[];
-  /** Coordenadas del pin en el SVG (solo sedes fisicas) */
+  /** Coordenadas del pin en el SVG (solo sedes físicas) */
   pinX?: number;
   pinY?: number;
 }
@@ -70,8 +78,8 @@ export const regiones: Region[] = [
     colorActive: '#00D4E8',
     tipo: 'ambas',
     sedes: [
-      { nombre: 'Casa Matriz', direccion: 'La Cascada 1513', ciudad: 'Calama', tipo: 'fisica' },
-      { nombre: 'Sede Antofagasta', direccion: 'Copiapó 956', ciudad: 'Antofagasta', tipo: 'fisica' },
+      { nombre: nap('calama').nombre, direccion: nap('calama').direccion, ciudad: 'Calama', tipo: 'fisica' },
+      { nombre: nap('antofagasta').nombre, direccion: nap('antofagasta').direccion, ciudad: 'Antofagasta', tipo: 'fisica' },
     ],
     pinX: 536,
     pinY: 160,
@@ -86,7 +94,7 @@ export const regiones: Region[] = [
     tipo: 'ambas',
     sedes: [
       { nombre: 'Sede Virtual Atacama', direccion: 'Capacitación online', ciudad: 'Copiapó', tipo: 'virtual' },
-      { nombre: 'Sucursal Vallenar', direccion: 'Río del Tránsito 1546, Villa Vista Hermosa', ciudad: 'Vallenar', tipo: 'fisica' },
+      { nombre: nap('vallenar').nombre, direccion: nap('vallenar').direccion, ciudad: 'Vallenar', tipo: 'fisica' },
     ],
     pinX: 516,
     pinY: 262,
@@ -114,7 +122,7 @@ export const regiones: Region[] = [
     colorActive: '#00D4E8',
     tipo: 'ambas',
     sedes: [
-      { nombre: 'Sede Santiago', direccion: 'Valenzuela Castillos 1063', ciudad: 'Santiago', tipo: 'fisica' },
+      { nombre: nap('santiago').nombre, direccion: nap('santiago').direccion, ciudad: 'Santiago', tipo: 'fisica' },
     ],
     pinX: 506,
     pinY: 368.5,
@@ -149,16 +157,6 @@ export const regiones: Region[] = [
   },
 ];
 
-/** Regiones que son sedes virtuales */
-export const sedesVirtuales = regiones.filter(
-  (r) => r.tipo === 'virtual' || r.tipo === 'ambas'
-);
-
-/** Regiones con sede fisica */
-export const sedesFisicas = regiones.filter(
-  (r) => r.tipo === 'fisica' || r.tipo === 'ambas'
-);
-
 // ─── Ubicaciones individuales de sedes ───────────────────────────────────────
 
 export interface SedeLocation {
@@ -177,10 +175,10 @@ export const sedeLocations: SedeLocation[] = [
   // ── Sedes Físicas ──
   {
     id: 'calama',
-    nombre: 'Casa Matriz Calama',
+    nombre: nap('calama').nombre,
     ciudad: 'Calama',
-    direccion: 'La Cascada 1513',
-    telefono: '+56 55 292 6431',
+    direccion: nap('calama').direccion,
+    telefono: nap('calama').telefono,
     tipo: 'fisica',
     regionId: 'antofagasta',
     pinX: 548,
@@ -188,10 +186,10 @@ export const sedeLocations: SedeLocation[] = [
   },
   {
     id: 'antofagasta-city',
-    nombre: 'Sede Antofagasta',
+    nombre: nap('antofagasta').nombre,
     ciudad: 'Antofagasta',
-    direccion: 'Copiapó 956',
-    telefono: '+56 55 294 8575',
+    direccion: nap('antofagasta').direccion,
+    telefono: nap('antofagasta').telefono,
     tipo: 'fisica',
     regionId: 'antofagasta',
     pinX: 525,
@@ -199,10 +197,10 @@ export const sedeLocations: SedeLocation[] = [
   },
   {
     id: 'santiago',
-    nombre: 'Sede Santiago',
+    nombre: nap('santiago').nombre,
     ciudad: 'Santiago',
-    direccion: 'Valenzuela Castillos 1063',
-    telefono: '+56 9 8819 8254',
+    direccion: nap('santiago').direccion,
+    telefono: nap('santiago').telefono,
     tipo: 'fisica',
     regionId: 'metropolitana',
     pinX: 506,
@@ -210,16 +208,18 @@ export const sedeLocations: SedeLocation[] = [
   },
   {
     id: 'vallenar',
-    nombre: 'Sucursal Vallenar',
+    nombre: nap('vallenar').nombre,
     ciudad: 'Vallenar',
-    direccion: 'Río del Tránsito 1546, Villa Vista Hermosa',
-    telefono: '+56 9 9715 7034',
+    direccion: nap('vallenar').direccion,
+    telefono: nap('vallenar').telefono,
     tipo: 'fisica',
     regionId: 'atacama',
     pinX: 516,
     pinY: 262,
   },
   // ── Sedes Virtuales ──
+  // TODO: confirmar con INSECAP el teléfono de las sedes virtuales (+56 9 3596 8585): no está en el
+  // contexto de negocio (sección 4, punto 5).
   {
     id: 'virtual-arica',
     nombre: 'Sede Virtual Arica',

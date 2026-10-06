@@ -1,10 +1,11 @@
 /**
  * Sedes físicas de INSECAP: NAP (nombre, dirección, teléfono) único del sitio (decisiones tarea #8,
- * 1.6 y Fase 8). Fuente: contexto de negocio de la tarea #8. Lo usan /sedes/:sede y, en fases
- * siguientes, Footer, Contacto y el JSON-LD de cada sede (`/es/sedes/<slug>#place`).
+ * 1.6 y Fase 8). Fuente: contexto de negocio de la tarea #8. Lo usan /sedes/:sede, Footer,
+ * ContactCTA, Contacto, NotFound y chile-map; en la Fase 4, el JSON-LD de cada sede (`/es/sedes/<slug>#place`).
  *
  * No inventar datos: lo que falta queda en null con su TODO (sección 4, punto 5).
  */
+import { fitDescription } from '../lib/seo-text';
 
 export type SedeSlug = 'calama' | 'antofagasta' | 'santiago' | 'vallenar';
 
@@ -32,9 +33,8 @@ export const CONTACT_EMAIL = 'contacto@insecap.cl';
 /** Cobertura de los cursos e-learning, según el contexto de negocio. */
 export const COBERTURA_VIRTUAL = 'de Arica a Concepción';
 
-// TODO: confirmar el NAP exacto de cada sede con INSECAP (sección 4, punto 5). En el código hay
-// variantes: chile-map/data.ts dice "Valenzuela Castillos 1063" y chile-map/SedePanel.tsx tiene
-// teléfonos, correos y horarios que no están en el contexto de negocio (Fase 8: NAP único).
+// TODO: confirmar el NAP exacto de cada sede con INSECAP (sección 4, punto 5). Footer, ContactCTA,
+// Contacto, NotFound, chile-map y /sedes/:sede leen de aquí: un cambio se propaga a todo el sitio.
 export const sedes: Sede[] = [
   {
     slug: 'calama',
@@ -97,3 +97,12 @@ export const getSedeBySlug = (slug: string | undefined): Sede | null =>
 /** Búsqueda en Google Maps por dirección (no son coordenadas: esas siguen como TODO). */
 export const getSedeMapsUrl = (sede: Sede): string =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`INSECAP ${sede.direccion}, ${sede.ciudad}, Chile`)}`;
+
+/** Title (keyword, sin marca) y description (140–155) de /sedes/:sede (Fase 3), con el NAP. */
+export const getSedeSeoMeta = (sede: Sede) => ({
+  title: `OTEC en ${sede.ciudad}: cursos y capacitación`,
+  description: fitDescription(
+    `${sede.nombre} de INSECAP en ${sede.direccion}, ${sede.ciudad}. Teléfono ${sede.telefono}. Cursos de seguridad y operación de equipos.`,
+    ['INSECAP, OTEC acreditada por SENCE.', 'OTEC acreditada por SENCE.', 'Cotiza con INSECAP.'],
+  ),
+});

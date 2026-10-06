@@ -23,11 +23,7 @@ const FranquiciaSence = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO
-        title="Franquicia tributaria SENCE"
-        description="Capacitación con franquicia tributaria SENCE en INSECAP, OTEC acreditada por SENCE (Resolución N° 12208) y certificada en NCh 2728:2015."
-        url="/franquicia-sence"
-      />
+      <SEO url="/franquicia-sence" />
       <Header />
 
       <main className="pb-16" lang={locale === 'es' ? undefined : 'es'}>

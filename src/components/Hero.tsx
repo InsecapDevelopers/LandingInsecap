@@ -186,7 +186,7 @@ const Hero = () => {
             <div
               className="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/3] bg-slate-200"
               role="img"
-              aria-label="Instalaciones y actividades de INSECAP"
+              aria-label={t('hero.imagesLabel')}
             >
               {HERO_IMAGES.map((img, idx) => (
                 <motion.div
@@ -211,7 +211,7 @@ const Hero = () => {
               className="absolute -top-5 -left-4 sm:-left-8 flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 backdrop-blur-md shadow-xl border border-white"
             >
               <span className="w-9 h-9 rounded-xl bg-sky-100 flex items-center justify-center">
-                <GraduationCap className="w-5 h-5 text-sky-600" />
+                <GraduationCap className="w-5 h-5 text-sky-600" aria-hidden="true" />
               </span>
               <span className="text-left">
                 <span className="block text-slate-900 font-bold text-sm leading-none">2.3K+</span>
@@ -224,10 +224,10 @@ const Hero = () => {
               className="absolute -bottom-5 right-2 sm:-right-6 flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 backdrop-blur-md shadow-xl border border-white"
             >
               <span className="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center">
-                <Clock className="w-5 h-5 text-indigo-600" />
+                <Clock className="w-5 h-5 text-indigo-600" aria-hidden="true" />
               </span>
               <span className="text-left">
-                <span className="block text-slate-900 font-bold text-sm leading-none">{getYearsOfExperience()} años</span>
+                <span className="block text-slate-900 font-bold text-sm leading-none">{t('hero.years', { count: getYearsOfExperience() })}</span>
                 <span className="block text-slate-500 text-xs mt-1">{t('hero.stats.experience')}</span>
               </span>
             </motion.div>
@@ -235,7 +235,8 @@ const Hero = () => {
             {/* Capín asomado */}
             <img
               src={CAPIN_IMG}
-              alt="Capín — mascota de Insecap"
+              alt=""
+              aria-hidden="true"
               className="absolute -bottom-8 -left-6 sm:-left-14 w-32 sm:w-40 drop-shadow-2xl pointer-events-none"
             />
           </motion.div>

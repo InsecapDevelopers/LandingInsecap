@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import SEO from "@/components/SEO";
 import { ClientTypeSwitch } from "@/components/ClientTypeSwitch";
+import { useTranslation } from "react-i18next";
 import { useLocalizedPath } from "@/hooks/use-localized-path";
 import { coursesForMonth, getUpcomingBatches, matchMonthParam } from "@/lib/openCourses";
 
@@ -13,6 +14,7 @@ const FORM_HREF = "/formulario/cursos-abiertos";
 
 const OpenCoursesCatalog = () => {
   const { localizedPath, locale } = useLocalizedPath();
+  const { t } = useTranslation();
   // Lo ya dictado se descarta solo: en octubre las fechas de septiembre no aparecen.
   const { courses, months } = useMemo(() => getUpcomingBatches(), []);
   // ?mes=octubre abre la página ya filtrada: sirve para enlazar una tanda desde una campaña.
@@ -44,29 +46,21 @@ const OpenCoursesCatalog = () => {
     },
     pt: {
       title: "Cursos Abertos",
-      subtitle: "Inscricao individual",
+      subtitle: "Inscrição individual",
       breadcrumb: "Cursos Abertos",
       intro:
-        "Cursos com datas programadas e vagas disponiveis. Inscreva-se individualmente e certifique suas competencias.",
-      sessions: "Datas disponiveis",
+        "Cursos com datas programadas e vagas disponíveis. Inscreva-se individualmente e certifique suas competências.",
+      sessions: "Datas disponíveis",
       enroll: "Inscrever-se",
-      monthFilter: "Mes da programacao",
+      monthFilter: "Mês da programação",
     },
   }[locale];
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={content.title}
-        description={content.intro}
         url="/cursos-abiertos"
         type="website"
-        keywords={[
-          "cursos abiertos",
-          "capacitación Calama",
-          "cursos con fecha",
-          "INSECAP",
-        ]}
       />
       <Header />
 
@@ -134,13 +128,13 @@ const OpenCoursesCatalog = () => {
                 >
                   <img
                     src={curso.image}
-                    alt={`Afiche del curso ${titulo}, ${mes}, modalidad ${curso.modality}`}
+                    alt={t('openOffer.posterAltFull', { course: titulo, month: mes, modality: curso.modality })}
                     loading={i === 0 ? "eager" : "lazy"}
                     className="aspect-square w-full object-cover"
                   />
 
                   <div className="flex flex-col p-6">
-                    <h3 className="text-lg font-bold text-foreground leading-snug">
+                    <h3 lang={locale === "es" ? undefined : "es"} className="text-lg font-bold text-foreground leading-snug">
                       {titulo}
                     </h3>
 
@@ -172,7 +166,9 @@ const OpenCoursesCatalog = () => {
                         <li key={sesion.id}>
                           <Link
                             to={`${localizedPath(FORM_HREF)}?fecha=${sesion.id}&modalidad=${curso.modalityId}`}
-                            aria-label={`${content.enroll}: ${titulo}, ${sesion.label}${sesion.city ? `, sede ${sesion.city}` : ""}`}
+                            aria-label={sesion.city
+                              ? t("openOffer.enrollInCity", { course: titulo, date: sesion.label, city: sesion.city })
+                              : t("openOffer.enrollInDate", { course: titulo, date: sesion.label })}
                             className="group flex items-center justify-between gap-3 rounded-lg border border-border bg-background px-4 py-3 text-sm font-medium tabular-nums transition-all duration-150 hover:border-insecap-blue hover:text-insecap-blue active:scale-[0.98] motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-insecap-blue"
                           >
                             <span>

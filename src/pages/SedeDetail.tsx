@@ -7,7 +7,7 @@ import SEO from '@/components/SEO';
 import Pendiente from '@/components/Pendiente';
 import NotFound from '@/pages/NotFound';
 import { CURSOS_MAS_DEMANDADOS, cursoAreas, getCursoSeo, type CursoSeo } from '@/data/cursos-seo';
-import { COBERTURA_VIRTUAL, getSedeBySlug, getSedeMapsUrl, sedes } from '@/data/sedes';
+import { COBERTURA_VIRTUAL, getSedeBySlug, getSedeMapsUrl, getSedeSeoMeta, sedes } from '@/data/sedes';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const masDemandados = CURSOS_MAS_DEMANDADOS
@@ -29,11 +29,7 @@ const SedeDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO
-        title={`Capacitación en ${sede.ciudad}`}
-        description={`${sede.nombre} de INSECAP, OTEC acreditada por SENCE: ${sede.direccion}, ${sede.ciudad}. Teléfono ${sede.telefono}. Cursos de seguridad y operación de equipos.`}
-        url={`/sedes/${sede.slug}`}
-      />
+      <SEO {...getSedeSeoMeta(sede)} url={`/sedes/${sede.slug}`} />
       <Header />
 
       <main className="pb-16" lang={locale === 'es' ? undefined : 'es'}>

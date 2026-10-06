@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const PAGE_HERO_IMAGES = [
@@ -20,6 +21,7 @@ const pickForPath = (pathname: string) => {
 
 interface BreadcrumbItem {
   label: string;
+  /** Ruta sin prefijo de idioma; el último elemento (página actual) va sin href. */
   href?: string;
 }
 
@@ -40,6 +42,7 @@ const PageHero = ({
 }: PageHeroProps) => {
   const location = useLocation();
   const { localizedPath } = useLocalizedPath();
+  const { t } = useTranslation();
   const [activeBg, setActiveBg] = useState(backgroundImage ?? pickForPath(location.pathname));
   const [visible, setVisible] = useState(true);
   const isFirstRender = useRef(true);
@@ -73,7 +76,7 @@ const PageHero = ({
       <div className="absolute inset-0 z-0">
         <img 
           src={activeBg}
-          alt="Background"
+          alt=""
           className="w-full h-full object-cover transition-opacity duration-500"
           style={{ opacity: visible ? 1 : 0 }}
         />
@@ -88,20 +91,25 @@ const PageHero = ({
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-in fade-in slide-in-from-left-6 duration-1000">
             {title}
           </h1>
-          <nav className="flex text-sm text-slate-300 gap-2 items-center animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-            <Link to={localizedPath('/')} className="hover:text-blue-400 transition-colors">Inicio</Link>
-            {breadcrumbs.map((item, index) => (
-              <React.Fragment key={index}>
-                <span className="text-slate-500">/</span>
-                {item.href ? (
-                  <Link to={localizedPath(item.href)} className="hover:text-blue-400 transition-colors">
-                    {item.label}
-                  </Link>
-                ) : (
-                  <span className="text-white font-medium">{item.label}</span>
-                )}
-              </React.Fragment>
-            ))}
+          {/* Breadcrumb visible (Fase 3); el BreadcrumbList en JSON-LD llega en la Fase 4. */}
+          <nav aria-label={t('breadcrumb.label')} className="text-sm text-slate-300 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
+            <ol className="flex flex-wrap gap-2 items-center">
+              <li>
+                <Link to={localizedPath('/')} className="hover:text-blue-400 transition-colors">{t('header.nav.home')}</Link>
+              </li>
+              {breadcrumbs.map((item, index) => (
+                <li key={index} className="flex items-center gap-2">
+                  <span className="text-slate-500" aria-hidden="true">/</span>
+                  {item.href ? (
+                    <Link to={localizedPath(item.href)} className="hover:text-blue-400 transition-colors">
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <span className="text-white font-medium" aria-current="page">{item.label}</span>
+                  )}
+                </li>
+              ))}
+            </ol>
           </nav>
         </div>
       </div>

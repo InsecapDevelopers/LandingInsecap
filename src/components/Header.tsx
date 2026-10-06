@@ -135,6 +135,7 @@ const Header = () => {
     <header className="w-full fixed top-0 z-50 transition-all duration-500 ease-in-out">
       {/* Main Navigation */}
       <nav
+        aria-label={t('aria.mainNav')}
         className={`transition-all duration-500 ease-in-out ${isAtTop
           ? 'bg-transparent py-3 px-8 md:px-14 lg:px-16'
           : 'bg-gradient-to-r from-insecap-cyan/85 to-insecap-blue/95 border-b border-white/15 shadow-xl py-1.5 px-8 md:px-14 lg:px-16'
@@ -146,7 +147,7 @@ const Header = () => {
             <div className="text-primary-foreground font-bold text-2xl flex items-center">
               <img
                 src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508"
-                alt="insecap logo"
+                alt="INSECAP"
                 className={`object-contain transition-all duration-500 ease-in-out ${isAtTop ? 'w-60' : 'w-40'
                   }`}
               />
@@ -248,7 +249,7 @@ const Header = () => {
           {/* Access Buttons & Cart */}
           <div className="hidden lg:flex items-center gap-3">
             <LanguageSwitcher />
-            <NavigationMenu>
+            <NavigationMenu aria-label={t('header.access.label')}>
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger

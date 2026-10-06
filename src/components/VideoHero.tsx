@@ -175,8 +175,8 @@ const VideoHero = () => {
         href={isOpenCourseOfferEnabled ? '#curso-abierto' : '#cursos-destacados'}
         aria-label={
           isOpenCourseOfferEnabled
-            ? t('videoHero.offerScroll', 'Click para inscribirte en el nuevo curso')
-            : t('videoHero.scroll', 'Bajar al contenido')
+            ? t('videoHero.offerScroll')
+            : t('videoHero.scroll')
         }
         onClick={(e) => {
           e.preventDefault();
@@ -194,7 +194,7 @@ const VideoHero = () => {
       >
         {isOpenCourseOfferEnabled && (
           <span className="px-4 py-1.5 rounded-full bg-white shadow-sm border border-slate-200 text-insecap-blue text-xs sm:text-sm font-semibold whitespace-nowrap">
-            {t('videoHero.offerScroll', '¡Click para inscribirte en el nuevo curso!')}
+            {t('videoHero.offerScroll')}
           </span>
         )}
         <span className="w-16 h-16 rounded-full bg-white shadow-sm border border-slate-200 flex items-center justify-center text-sky-600 group-hover:bg-sky-50 transition-colors">

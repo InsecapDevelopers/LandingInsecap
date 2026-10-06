@@ -11,6 +11,7 @@
  *   escrito desde datos verificados (contexto de negocio + JSON). Las demás salen con noindex.
  */
 import { getJsonCatalogTopics, type JsonCatalogTopic } from '../lib/catalogData';
+import { fitDescription } from '../lib/seo-text';
 import type { SedeSlug } from './sedes';
 
 /** Fecha de la última revisión de este archivo (se muestra como "Última actualización"). */
@@ -351,3 +352,49 @@ export const getRelatedCursos = (curso: CursoSeo, limit = 3): CursoSeo[] =>
     .filter((candidato) => candidato.slug !== curso.slug)
     .sort((a, b) => Number(b.indexable) - Number(a.indexable))
     .slice(0, limit);
+
+/** Modalidades de los cursos de un área, en minúscula y orden alfabético. */
+export const getModalidadesArea = (cursos: CursoSeo[]): string[] =>
+  Array.from(new Set(cursos.flatMap((curso) => curso.tema.modalidades)))
+    .sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }))
+    .map((modalidad) => modalidad.toLowerCase());
+
+/**
+ * Cierres de la description de fichas y categorías, del más largo al más corto: fitDescription
+ * usa los que caben para quedar en 140–155 (en es también en /en y /pt, porque el contenido de
+ * estas páginas está en español).
+ */
+const CIERRES_DESCRIPTION = [
+  'Cotiza con INSECAP, OTEC acreditada por SENCE y por Codelco.',
+  'Cotiza con INSECAP, OTEC acreditada por SENCE.',
+  'Cotiza con INSECAP, OTEC SENCE.',
+  'Cotiza con INSECAP.',
+  'OTEC SENCE.',
+];
+
+/**
+ * Title (keyword, sin marca) y description (140–155) de una ficha (Fase 3). SEO.tsx agrega
+ * " | INSECAP" al title. Solo con datos del JSON y del contexto de negocio.
+ */
+export const getCursoSeoMeta = (curso: CursoSeo) => {
+  const rango = getRangoHoras(curso.tema);
+  return {
+    title: `Curso de ${curso.tema.tema}`,
+    description: fitDescription(
+      `Curso de ${curso.tema.tema} para empresas en Chile, en modalidad ${listar(curso.tema.modalidades)}${rango ? `, de ${rango}` : ''}.`,
+      CIERRES_DESCRIPTION,
+    ),
+  };
+};
+
+/** Title y description de una categoría (/cursos/categoria/:area). */
+export const getAreaSeoMeta = (area: CursoArea) => {
+  const cursos = getCursosByArea(area.slug);
+  return {
+    title: `Cursos de ${area.nombre}`,
+    description: fitDescription(
+      `${cursos.length} cursos de ${area.nombre} para empresas en Chile, en modalidad ${listarNombres(getModalidadesArea(cursos))}.`,
+      CIERRES_DESCRIPTION,
+    ),
+  };
+};

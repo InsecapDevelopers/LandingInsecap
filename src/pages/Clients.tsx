@@ -58,15 +58,15 @@ const Clients = () => {
     },
     pt: {
       title: 'Nossos Clientes',
-      subtitle: 'Empresas que confiam em nos',
+      subtitle: 'Empresas que confiam em nós',
       breadcrumb: 'Clientes',
-      alliances: 'Aliancas Estrategicas',
-      alliancesText: 'Trabalhamos lado a lado com empresas lideres do setor, oferecendo solucoes de capacitacao personalizadas que impulsionam o desenvolvimento do capital humano.',
+      alliances: 'Alianças Estratégicas',
+      alliancesText: 'Trabalhamos lado a lado com empresas líderes do setor, oferecendo soluções de capacitação personalizadas que impulsionam o desenvolvimento do capital humano.',
       ctaTitle: 'Quer fazer parte dos nossos clientes?',
-      ctaText: 'Junte-se as empresas que ja estao potencializando suas equipes com a Insecap. Fale conosco hoje mesmo para desenharmos um plano sob medida.',
-      loadingLeader: 'Obtendo o lider comercial, aguarde um momento para entrar em contato...',
-      contactLeader: 'Falar com o lider comercial',
-      waMessage: 'Ola, tenho interesse em fazer parte dos clientes da Insecap. Podemos conversar?',
+      ctaText: 'Junte-se às empresas que já estão potencializando suas equipes com a Insecap. Fale conosco hoje mesmo para desenharmos um plano sob medida.',
+      loadingLeader: 'Obtendo o líder comercial, aguarde um momento para entrar em contato...',
+      contactLeader: 'Falar com o líder comercial',
+      waMessage: 'Olá, tenho interesse em fazer parte dos clientes da Insecap. Podemos conversar?',
     },
   }[locale];
 
@@ -80,11 +80,7 @@ const Clients = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
-      <SEO
-        title={content.title}
-        description={content.alliancesText}
-        url="/nuestros-clientes"
-      />
+      <SEO url="/nuestros-clientes" />
 
       <main>
         <PageHero 

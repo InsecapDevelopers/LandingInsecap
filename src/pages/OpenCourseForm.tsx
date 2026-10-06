@@ -39,10 +39,7 @@ const OpenCourseForm = () => {
     <div className="min-h-screen bg-white">
       <Header />
 
-      <SEO
-        title={content.title}
-        url="/formulario/cursos-abiertos"
-      />
+      <SEO url="/formulario/cursos-abiertos" />
 
       <main>
         <PageHero

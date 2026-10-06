@@ -77,3 +77,18 @@ export const stripHtml = (html: string): string =>
   )
     .replace(/\s+/g, ' ')
     .trim();
+
+/**
+ * Agrega `alt` a los <img> de un fragmento HTML que no lo traen (cuerpo de las noticias del TMS).
+ * Los que ya tienen alt (incluso vacío) no se tocan. Puro: el prerender y el cliente producen el
+ * mismo HTML, sin desfase al hidratar.
+ */
+export const withImageAlts = (html: string, altFor: (index: number) => string): string => {
+  let index = 0;
+  return html.replace(/<img\b([^>]*?)(\s*\/?)>/gi, (tag, attrs: string, end: string) => {
+    if (/\salt\s*=/i.test(attrs)) return tag;
+    index += 1;
+    const alt = altFor(index).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    return `<img${attrs} alt="${alt}"${end}>`;
+  });
+};

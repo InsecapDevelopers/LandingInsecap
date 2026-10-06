@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Header from '@/components/Header';
 import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
@@ -44,13 +45,14 @@ const getApiUrl = (endpoint: string) => {
 const apiHeaders: HeadersInit = {};
 
 // --- Subcomponente para los Selects con buscador ---
-const SearchableSelect = ({ label, options, value, onChange, placeholder = "Selecciona..." }: {
+const SearchableSelect = ({ label, options, value, onChange, placeholder }: {
   label: string, 
   options: any[], 
   value: string, 
   onChange: (val: string) => void,
   placeholder?: string
 }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const selectedOption = options.find((opt) => String(opt.id) === String(value));
 
@@ -68,16 +70,16 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder = "Sele
             className="w-full justify-between rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:border-blue-400 h-11 font-normal"
           >
             <span className="truncate">
-              {selectedOption ? formatOptionLabel(selectedOption) : placeholder}
+              {selectedOption ? formatOptionLabel(selectedOption) : (placeholder ?? t('combobox.placeholder'))}
             </span>
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
           <Command>
-            <CommandInput placeholder="Buscar..." />
+            <CommandInput placeholder={t('combobox.search')} />
             <CommandList>
-              <CommandEmpty>No se encontraron resultados.</CommandEmpty>
+              <CommandEmpty>{t('combobox.empty')}</CommandEmpty>
               <CommandGroup>
                 {options.map((opt) => {
                   const displayStr = formatOptionLabel(opt);
@@ -110,13 +112,14 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder = "Sele
   );
 };
 
-const MultiSearchableSelect = ({ label, options, values, onChange, placeholder = "Selecciona uno o más..." }: {
+const MultiSearchableSelect = ({ label, options, values, onChange, placeholder }: {
   label: string,
   options: any[],
   values: string[],
   onChange: (vals: string[]) => void,
   placeholder?: string
 }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const selectedOptions = options.filter((opt) => values.includes(String(opt.id)));
 
@@ -141,7 +144,7 @@ const MultiSearchableSelect = ({ label, options, values, onChange, placeholder =
           >
             <div className="flex min-h-[4.5rem] flex-1 flex-wrap content-start gap-2 pr-3 text-left">
               {selectedOptions.length === 0 ? (
-                <span className="pt-1 text-slate-400">{placeholder}</span>
+                <span className="pt-1 text-slate-400">{placeholder ?? t('combobox.placeholderMulti')}</span>
               ) : (
                 selectedOptions.map((option) => {
                   const optionId = String(option.id);
@@ -153,7 +156,7 @@ const MultiSearchableSelect = ({ label, options, values, onChange, placeholder =
                     >
                       <button
                         type="button"
-                        aria-label={`Quitar ${formatOptionLabel(option)}`}
+                        aria-label={t('combobox.remove', { item: formatOptionLabel(option) })}
                         className="text-slate-400 transition-colors hover:text-slate-700 focus:outline-none focus:text-slate-700"
                         onClick={(event) => {
                           event.preventDefault();
@@ -174,9 +177,9 @@ const MultiSearchableSelect = ({ label, options, values, onChange, placeholder =
         </PopoverTrigger>
         <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
           <Command>
-            <CommandInput placeholder="Buscar..." />
+            <CommandInput placeholder={t('combobox.search')} />
             <CommandList>
-              <CommandEmpty>No se encontraron resultados.</CommandEmpty>
+              <CommandEmpty>{t('combobox.empty')}</CommandEmpty>
               <CommandGroup>
                 {options.map((opt) => {
                   const optionId = String(opt.id);
@@ -652,6 +655,15 @@ const BeRelator = () => {
       cvRequiredDesc: 'Debes adjuntar tu currículum para poder postular.',
       errorTitle: 'No se pudo enviar la postulación',
       errorDesc: 'Ocurrió un problema al enviar tu información. Inténtalo nuevamente.',
+      selectPlaceholder: 'Selecciona...',
+      estadoCivilLabels: { 'Soltero/a': 'Soltero/a', 'Casado/a': 'Casado/a', 'Conviviente civil': 'Conviviente civil', 'Divorciado/a': 'Divorciado/a', 'Viudo/a': 'Viudo/a' },
+      reviewTitle: 'Revisa tu postulación',
+      reviewText: 'Verifica los datos antes de enviar. Una vez enviado no podrás modificarlos.',
+      reviewPersonal: 'Datos personales',
+      cvPreview: 'Vista previa del CV',
+      noCv: 'Sin archivo adjunto',
+      reviewBack: 'Revisar datos',
+      reviewConfirm: 'Confirmar y enviar',
     },
     en: {
       title: 'WORK WITH US',
@@ -704,23 +716,32 @@ const BeRelator = () => {
       cvRequiredDesc: 'You must attach your resume to apply.',
       errorTitle: 'Could not submit application',
       errorDesc: 'There was a problem sending your information. Please try again.',
+      selectPlaceholder: 'Select...',
+      estadoCivilLabels: { 'Soltero/a': 'Single', 'Casado/a': 'Married', 'Conviviente civil': 'Civil union', 'Divorciado/a': 'Divorced', 'Viudo/a': 'Widowed' },
+      reviewTitle: 'Review your application',
+      reviewText: 'Check your details before sending. Once sent, you will not be able to change them.',
+      reviewPersonal: 'Personal details',
+      cvPreview: 'CV preview',
+      noCv: 'No file attached',
+      reviewBack: 'Review details',
+      reviewConfirm: 'Confirm and send',
     },
     pt: {
       title: 'TRABALHE CONOSCO',
-      subtitle: 'Insecap Capacitacao',
+      subtitle: 'Insecap Capacitação',
       breadcrumb: 'TRABALHE CONOSCO',
-      brand: 'Insecap Capacitacao',
-      paragraph1: 'Estamos em busca constante de talentos apaixonados por ensino e capacitacao. Se voce e um instrutor com experiencia e compromisso em compartilhar conhecimento, convidamos voce a fazer parte da nossa equipe dinamica de facilitadores.',
-      paragraph2: 'Para iniciar o processo, pedimos que preencha nosso formulario de contato. Nele voce podera fornecer informacoes sobre sua experiencia, areas de especializacao e como acredita que pode contribuir para a nossa equipe.',
-      formTitle: 'Formulario Trabalhe Conosco',
+      brand: 'Insecap Capacitação',
+      paragraph1: 'Estamos em busca constante de talentos apaixonados pelo ensino e pela capacitação. Se você é um instrutor com experiência e compromisso em compartilhar conhecimento, convidamos você a fazer parte da nossa equipe dinâmica de facilitadores.',
+      paragraph2: 'Para iniciar o processo, pedimos que preencha nosso formulário de contato. Nele você poderá fornecer informações sobre sua experiência, áreas de especialização e como acredita que pode contribuir para a nossa equipe.',
+      formTitle: 'Formulário Trabalhe Conosco',
       labelNombre: 'Nome',
       labelApellidoPaterno: 'Sobrenome',
       labelApellidoMaterno: 'Segundo Sobrenome',
-      labelRut: 'CPF/RUT',
+      labelRut: 'RUT',
       labelCorreo: 'E-mail',
       labelTelefono: 'Telefone',
       labelObservaciones: 'Observações',
-      labelCv: 'Curriculo',
+      labelCv: 'Currículo',
       labelProfesion: 'Profissão',
       labelDisponibilidad: 'Disponibilidade',
       labelIdioma: 'Idiomas',
@@ -736,7 +757,7 @@ const BeRelator = () => {
       placeholderNombre: 'Digite seu nome',
       placeholderApellidoPaterno: 'Sobrenome',
       placeholderApellidoMaterno: 'Segundo sobrenome',
-      placeholderRut: 'CPF/RUT',
+      placeholderRut: '12.345.678-9',
       placeholderCorreo: 'seuemail@exemplo.com',
       placeholderTelefono: '11 9 1234-5678',
       placeholderObservaciones: 'Comentários adicionais sobre sua experiência ou disponibilidade',
@@ -745,7 +766,7 @@ const BeRelator = () => {
       submitBtn: 'Enviar candidatura',
       sending: 'Enviando...',
       successTitle: 'Candidatura enviada',
-      successDesc: 'Recebemos suas informacoes. Entraremos em contato em breve.',
+      successDesc: 'Recebemos suas informações. Entraremos em contato em breve.',
       successMsg: 'Sua candidatura foi enviada com sucesso! Entraremos em contato em breve.',
       sendAnother: 'Enviar outra candidatura',
       invalidEmailTitle: 'E-mail inválido',
@@ -756,6 +777,15 @@ const BeRelator = () => {
       cvRequiredDesc: 'Você deve anexar seu currículo para se candidatar.',
       errorTitle: 'Não foi possível enviar a candidatura',
       errorDesc: 'Ocorreu um problema ao enviar suas informações. Tente novamente.',
+      selectPlaceholder: 'Selecione...',
+      estadoCivilLabels: { 'Soltero/a': 'Solteiro(a)', 'Casado/a': 'Casado(a)', 'Conviviente civil': 'União civil', 'Divorciado/a': 'Divorciado(a)', 'Viudo/a': 'Viúvo(a)' },
+      reviewTitle: 'Revise sua candidatura',
+      reviewText: 'Confira os dados antes de enviar. Depois de enviados, não será possível alterá-los.',
+      reviewPersonal: 'Dados pessoais',
+      cvPreview: 'Pré-visualização do currículo',
+      noCv: 'Nenhum arquivo anexado',
+      reviewBack: 'Revisar dados',
+      reviewConfirm: 'Confirmar e enviar',
     },
   }[locale];
 
@@ -767,14 +797,14 @@ const BeRelator = () => {
       <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-0">
           <DialogHeader className="px-6 pt-6 pb-0">
-            <DialogTitle className="text-xl font-bold text-slate-900">Revisa tu postulación</DialogTitle>
-            <p className="text-sm text-slate-500 mt-1">Verifica los datos antes de enviar. Una vez enviado no podrás modificarlos.</p>
+            <DialogTitle className="text-xl font-bold text-slate-900">{content.reviewTitle}</DialogTitle>
+            <p className="text-sm text-slate-500 mt-1">{content.reviewText}</p>
           </DialogHeader>
 
           <div className="px-6 py-4 space-y-5">
             {/* Datos personales */}
             <div>
-              <p className="text-[11px] font-bold tracking-widest text-slate-400 uppercase mb-3">Datos personales</p>
+              <p className="text-[11px] font-bold tracking-widest text-slate-400 uppercase mb-3">{content.reviewPersonal}</p>
               <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
                 {[
                   [content.labelNombre, formData.nombre],
@@ -786,7 +816,7 @@ const BeRelator = () => {
                   [content.labelCategoria, categorias.find(o => String(o.id) === formData.categoriaId)?.nombre || '—'],
                   [content.labelCiudad, formatOptionLabel(ciudades.find(o => String(o.id) === formData.ciudadId) || {})  || '—'],
                   [content.labelIdioma, selectedIdiomaIds.map(id => idiomas.find(o => String(o.id) === id)?.nombre).filter(Boolean).join(', ') || '—'],
-                  [content.labelEstadoCivil, formData.estadoCivil || '—'],
+                  [content.labelEstadoCivil, (formData.estadoCivil && content.estadoCivilLabels[formData.estadoCivil as keyof typeof content.estadoCivilLabels]) || '—'],
                 ].map(([label, value]) => (
                   <div key={label} className="flex flex-col">
                     <span className="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">{label}</span>
@@ -798,7 +828,7 @@ const BeRelator = () => {
 
             {/* Contacto */}
             <div className="border-t border-slate-100 pt-4">
-              <p className="text-[11px] font-bold tracking-widest text-slate-400 uppercase mb-3">Contacto</p>
+              <p className="text-[11px] font-bold tracking-widest text-slate-400 uppercase mb-3">{content.sectionContacto}</p>
               <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
                 {[
                   [content.labelCorreo, formData.correo],
@@ -833,14 +863,14 @@ const BeRelator = () => {
                   {pdfPreviewUrl && (
                     <iframe
                       src={pdfPreviewUrl}
-                      title="Vista previa del CV"
+                      title={content.cvPreview}
                       className="w-full rounded-xl border border-slate-200"
                       style={{ height: '420px' }}
                     />
                   )}
                 </div>
               ) : (
-                <p className="text-sm text-slate-400 italic">Sin archivo adjunto</p>
+                <p className="text-sm text-slate-400 italic">{content.noCv}</p>
               )}
             </div>
           </div>
@@ -848,7 +878,7 @@ const BeRelator = () => {
           <DialogFooter className="px-6 pb-6 pt-2 flex flex-col sm:flex-row gap-2 border-t border-slate-100">
             <DialogClose asChild>
               <Button variant="outline" className="rounded-xl border-slate-300 text-slate-700 hover:bg-slate-50">
-                Revisar datos
+                {content.reviewBack}
               </Button>
             </DialogClose>
             <Button
@@ -856,17 +886,13 @@ const BeRelator = () => {
               className="rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-semibold shadow-sm"
             >
               <Send className="w-4 h-4 mr-2" />
-              Confirmar y enviar
+              {content.reviewConfirm}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      <SEO
-        title={content.title}
-        description={content.paragraph1}
-        url="/relator-trabaja-con-nosotros"
-      />
+      <SEO url="/relator-trabaja-con-nosotros" />
 
       <main>
         <PageHero
@@ -1000,12 +1026,10 @@ const BeRelator = () => {
                         onChange={(e) => setFormData(prev => ({ ...prev, estadoCivil: e.target.value }))}
                         className="w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:border-blue-400 h-11"
                       >
-                        <option value="">Selecciona...</option>
-                        <option value="Soltero/a">Soltero/a</option>
-                        <option value="Casado/a">Casado/a</option>
-                        <option value="Conviviente civil">Conviviente civil</option>
-                        <option value="Divorciado/a">Divorciado/a</option>
-                        <option value="Viudo/a">Viudo/a</option>
+                        <option value="">{content.selectPlaceholder}</option>
+                        {Object.entries(content.estadoCivilLabels).map(([value, label]) => (
+                          <option key={value} value={value}>{label}</option>
+                        ))}
                       </select>
                     </div>
                     {/* Selectores dinamicos */}

@@ -90,14 +90,14 @@ const PrivacyPolicy = () => {
       },
     },
     pt: {
-      title: 'Condicoes do Servico',
+      title: 'Condições do Serviço',
       subtitle: 'TMS.INSECAP.CL',
-      breadcrumb: 'Politica de Privacidade',
-      app: 'Aplicacao TMS.INSECAP.CL',
-      introTitle: 'Termos e Condicoes de Uso',
-      introText: 'Esta declaracao estabelece os termos e condicoes de uso do sistema TMS.INSECAP.CL, propriedade da INSECAP Capacitacao, em relacao ao tratamento de dados de trabalhadores de empresas externas e ao agendamento de reunioes informativas para coordenacao e acompanhamento de capacitacoes.',
-      acceptance: '7. Aceitacao',
-      acceptanceText: 'O uso do sistema implica a aceitacao plena destas condicoes. Qualquer modificacao sera comunicada pelos canais oficiais da INSECAP Capacitacao.',
+      breadcrumb: 'Política de Privacidade',
+      app: 'Aplicação TMS.INSECAP.CL',
+      introTitle: 'Termos e Condições de Uso',
+      introText: 'Esta declaração estabelece os termos e condições de uso do sistema TMS.INSECAP.CL, propriedade da INSECAP Capacitação, em relação ao tratamento de dados de trabalhadores de empresas externas e ao agendamento de reuniões informativas para a coordenação e o acompanhamento das capacitações.',
+      acceptance: '7. Aceitação',
+      acceptanceText: 'O uso do sistema implica a aceitação plena destas condições. Qualquer modificação será comunicada pelos canais oficiais da INSECAP Capacitação.',
       sectionData: {
         titles: ['1. Objeto do Serviço', '2. Inserção de Dados de Participantes Externos', '3. Finalidade do Tratamento de Dados', '4. Agenda de Reuniões', '5. Responsabilidade do Usuário', '6. Confidencialidade e Segurança'],
         contentTexts: [
@@ -110,7 +110,7 @@ const PrivacyPolicy = () => {
         ],
         items: [
           ['Registrar informações de trabalhadores que serão participantes em processos de capacitação.', 'Agendar reuniões virtuais ou presenciais para informar sobre programas, datas, presença e avaliações dos cursos ministrados.'],
-          ['Declara-se que a empresa que utiliza o sistema possui autorização expressa de seus trabalhadores para compartilhar seus dados pessoais (nome, CPF/RUT, e-mail, telefone, cargo, etc.) com a INSECAP Capacitação, exclusivamente para fins de gestão formativa.', 'A INSECAP não se responsabiliza pela inserção de informações sem consentimento, sendo esta responsabilidade direta da empresa usuária do sistema.', 'Os dados serão tratados conforme a Lei N° 19.628 sobre Proteção da Vida Privada e outras normas aplicáveis no Chile.'],
+          ['Declara-se que a empresa que utiliza o sistema possui autorização expressa de seus trabalhadores para compartilhar seus dados pessoais (nome, RUT, e-mail, telefone, cargo, etc.) com a INSECAP Capacitação, exclusivamente para fins de gestão formativa.', 'A INSECAP não se responsabiliza pela inserção de informações sem consentimento, sendo esta responsabilidade direta da empresa usuária do sistema.', 'Os dados serão tratados conforme a Lei N° 19.628 sobre Proteção da Vida Privada e outras normas aplicáveis no Chile.'],
           ['Coordenar o desenvolvimento das atividades de capacitação.', 'Acompanhar o progresso do participante.', 'Emitir certificados, relatórios e registros.', 'Programar reuniões informativas com os participantes ou representantes de sua empresa.'],
           ['Agendar reuniões com antecedência para informar sobre o processo formativo.', 'Notificar por e-mail ou outros meios os participantes e/ou responsáveis de RH de sua empresa.', 'Realizar acompanhamento posterior às reuniões por meio de registros internos do sistema.'],
           ['A empresa que utilizar a plataforma será responsável pela veracidade e exatidão dos dados inseridos.', 'Qualquer uso indevido, falsificação de informações ou falta de consentimento informado por parte dos participantes será responsabilidade exclusiva do usuário que efetuou o registro.'],
@@ -142,11 +142,7 @@ const PrivacyPolicy = () => {
     <div className="min-h-screen bg-white">
       <Header />
 
-      <SEO
-        title={content.title}
-        description={content.introText}
-        url="/politica-de-privacidad"
-      />
+      <SEO url="/politica-de-privacidad" />
 
       <main>
         <PageHero

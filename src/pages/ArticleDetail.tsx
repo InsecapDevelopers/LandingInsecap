@@ -10,8 +10,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowLeft, Share2, Newspaper, X } from 'lucide-react';
 import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
 import { newsArticleQuery } from '@/lib/queries';
-import { stripHtml } from '@/lib/html';
+import { stripHtml, withImageAlts } from '@/lib/html';
+import { fitDescription, getSeoFillers } from '@/lib/seo-text';
 import { SITE_URL } from '@/lib/locale-routing';
+import { ORG_ID } from '@/lib/jsonld';
 import { toast } from 'sonner';
 import PageHero from '@/components/PageHero';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
@@ -60,17 +62,17 @@ const ArticleDetail = () => {
       language: 'en-US',
     },
     pt: {
-      copied: 'Link copiado para a area de transferencia',
-      notFound: 'Artigo nao encontrado',
-      deleted: 'O artigo que voce procura nao existe ou foi removido',
-      back: 'Voltar para noticias',
-      subtitle: 'Noticia',
+      copied: 'Link copiado para a área de transferência',
+      notFound: 'Artigo não encontrado',
+      deleted: 'O artigo que você procura não existe ou foi removido',
+      back: 'Voltar para notícias',
+      subtitle: 'Notícia',
       share: 'Compartilhar',
-      more: 'Ver mais noticias',
-      news: 'Noticias',
-      home: 'Inicio',
-      articleImage: 'Imagem da noticia',
-      tags: ['capacitacao', 'INSECAP', 'formacao profissional'],
+      more: 'Ver mais notícias',
+      news: 'Notícias',
+      home: 'Início',
+      articleImage: 'Imagem da notícia',
+      tags: ['capacitação', 'INSECAP', 'formação profissional'],
       language: 'pt-BR',
     },
   }[locale];
@@ -144,14 +146,11 @@ const ArticleDetail = () => {
     };
   }, [article]);
 
-  // Helper function to get first 160 chars for description
-  const getMetaDescription = (article: ShopifyArticle): string => {
-    if (article.excerpt) {
-      return article.excerpt.substring(0, 160);
-    }
-    const plainText = stripHtml(article.contentHtml);
-    return plainText.substring(0, 160) + '...';
-  };
+  // Description de 140–155 (Fase 3) desde el texto de la noticia (frases completas); el extracto
+  // solo si no hay cuerpo: suele ser un corte a 160 caracteres del mismo texto. Las noticias están
+  // en español en los tres idiomas: el relleno, si hace falta, también.
+  const getMetaDescription = (article: ShopifyArticle): string =>
+    fitDescription(stripHtml(article.contentHtml) || stripHtml(article.excerpt ?? ''), getSeoFillers('es'));
 
   const handleShare = async () => {
     if (navigator.share && article) {
@@ -235,15 +234,6 @@ const ArticleDetail = () => {
             section: content.news,
             tags: content.tags
           }}
-          keywords={[
-            article.title,
-            'INSECAP',
-            content.tags[0],
-            'OTEC',
-            content.tags[2],
-            content.news,
-            article.authorV2?.name || ''
-          ].filter(Boolean)}
           jsonLd={[
             {
               '@context': 'https://schema.org',
@@ -257,14 +247,7 @@ const ArticleDetail = () => {
                 '@type': 'Person',
                 'name': article.authorV2?.name || 'INSECAP'
               },
-              'publisher': {
-                '@type': 'Organization',
-                'name': 'INSECAP',
-                'logo': {
-                  '@type': 'ImageObject',
-                  'url': 'https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png'
-                }
-              },
+              'publisher': { '@id': ORG_ID },
               'mainEntityOfPage': {
                 '@type': 'WebPage',
                 '@id': `${SITE_URL}${localizedPath(articlePath)}`
@@ -344,7 +327,7 @@ const ArticleDetail = () => {
             <article 
               ref={articleContentRef}
               className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-insecap-cyan prose-strong:text-foreground article-body"
-              dangerouslySetInnerHTML={{ __html: article.contentHtml }}
+              dangerouslySetInnerHTML={{ __html: withImageAlts(article.contentHtml, (n) => `${article.title}: ${content.articleImage.toLowerCase()} ${n}`) }}
             />
           </div>
         </section>

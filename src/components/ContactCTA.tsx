@@ -1,6 +1,7 @@
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import OpenCourseRequestForm from '@/components/OpenCourseRequestForm';
+import { CONTACT_EMAIL, sedes } from '@/data/sedes';
 
 const ContactCTA = () => {
   const { t } = useTranslation();
@@ -27,80 +28,35 @@ const ContactCTA = () => {
               {t('contactCTA.description')}
             </p>
 
-            {/* Contact Info */}
-            <div className="space-y-4">
+            {/* Contact Info: NAP único desde src/data/sedes.ts */}
+            <address className="space-y-4 not-italic">
 
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-secondary" />
+                  <Mail className="w-5 h-5 text-secondary" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground leading-none mb-1">{t('contactCTA.email')}</p>
-                  <a href="mailto:contacto@insecap.cl" className="font-semibold text-foreground hover:text-secondary transition-colors leading-none">contacto@insecap.cl</a>
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-foreground hover:text-secondary transition-colors leading-none">{CONTACT_EMAIL}</a>
                 </div>
               </div>
 
-              {/* Sucursal Calama */}
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-5 h-5 text-secondary" />
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground">{t('contactCTA.branches.calama')}</p>
-                  <p className="text-sm text-muted-foreground">La Cascada 1513</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Phone className="w-3.5 h-3.5 text-secondary" />
-                    <a href="tel:+5552926431" className="text-sm text-muted-foreground hover:text-secondary transition-colors">+55 2 926431</a>
+              {sedes.map((sede) => (
+                <div key={sede.slug} className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-5 h-5 text-secondary" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">{t(`contactCTA.branches.${sede.slug}`)}</p>
+                    <p className="text-sm text-muted-foreground">{sede.direccion}, {sede.ciudad}</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Phone className="w-3.5 h-3.5 text-secondary" aria-hidden="true" />
+                      <a href={`tel:${sede.telefonoE164}`} className="text-sm text-muted-foreground hover:text-secondary transition-colors">{sede.telefono}</a>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Sucursal Antofagasta */}
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-5 h-5 text-secondary" />
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground">{t('contactCTA.branches.antofagasta')}</p>
-                  <p className="text-sm text-muted-foreground">Copiapó 956</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Phone className="w-3.5 h-3.5 text-secondary" />
-                    <a href="tel:+5552948575" className="text-sm text-muted-foreground hover:text-secondary transition-colors">+55 2 948575</a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Sucursal Santiago */}
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-5 h-5 text-secondary" />
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground">{t('contactCTA.branches.santiago')}</p>
-                  <p className="text-sm text-muted-foreground">Valenzuela Castillo 1063, Santiago</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Phone className="w-3.5 h-3.5 text-secondary" />
-                    <a href="tel:+56988198254" className="text-sm text-muted-foreground hover:text-secondary transition-colors">+56 9 8819 8254</a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Sucursal Vallenar */}
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-5 h-5 text-secondary" />
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground">{t('contactCTA.branches.vallenar')}</p>
-                  <p className="text-sm text-muted-foreground">Río del Tránsito 1546</p>
-                  <p className="text-sm text-muted-foreground">Villa Vista Hermosa</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Phone className="w-3.5 h-3.5 text-secondary" />
-                    <a href="tel:+56997157034" className="text-sm text-muted-foreground hover:text-secondary transition-colors">+56 9 9715 7034</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+              ))}
+            </address>
           </div>
 
           {/* Form */}

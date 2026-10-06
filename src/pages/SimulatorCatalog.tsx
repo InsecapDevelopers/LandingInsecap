@@ -24,13 +24,15 @@ const SimulatorCatalog = () => {
       multisimTitle: 'Multisim',
       multisimBrand: 'Simumak',
       multisimDesc: 'MULTISIM es nuestra solución de simulación para maquinaria pesada y vehículos de alto tonelaje. Disponemos de simuladores para camiones mineros de las principales marcas, maquinaria de construcción, montacargas y vehículos 4x4. Con sistemas de dinámica propietaria y visualización en pantallas o VR, es la herramienta idónea para la capacitación de operadores, evaluación de desempeño y práctica de situaciones de riesgo.',
-      multisimCta: 'Ver Modelos',
+      multisimCta: 'Ver modelos Multisim',
+      multisimAlt: 'Simulador Multisim de Simumak para operación de camiones mineros',
       multisimLinks: ['Camiones Minería', 'Maquinaria', 'Monta Carga', 'Manejo 4x4'],
       multisimLinkHandles: ['camiones-mineria', 'maquinaria', 'monta-carga', 'manejo-4x4'],
       extintorSubtitle: 'Simulador de',
       extintorTitle: 'Uso de Extintores',
       extintorDesc: 'Nuestro simulador de extinción de incendios permite a los participantes practicar el uso correcto de extintores en un entorno seguro y controlado. La simulación reproduce escenarios reales de incendio con distintas clases de fuego, desarrollando la destreza y la confianza necesarias para actuar ante emergencias en el lugar de trabajo.',
-      extintorCta: 'Más Información',
+      extintorCta: 'Ver el simulador de extintores',
+      extintorAlt: 'Simulador de uso de extintores de INSECAP',
     },
     en: {
       title: 'Simulators',
@@ -39,13 +41,15 @@ const SimulatorCatalog = () => {
       multisimTitle: 'Multisim',
       multisimBrand: 'Simumak',
       multisimDesc: 'MULTISIM is our simulation solution for heavy machinery and high-tonnage vehicles. We offer simulators for mining trucks from major brands, construction machinery, forklifts and 4x4 vehicles. With proprietary dynamics systems and screen or VR visualization, it is the ideal tool for operator training, performance evaluation and hazard scenario practice.',
-      multisimCta: 'View Models',
-      multisimLinks: ['Mining Trucks', 'Machinery', 'Heavy Load', '4x4 Handling'],
+      multisimCta: 'View Multisim models',
+      multisimAlt: 'Simumak Multisim simulator for mining truck operation',
+      multisimLinks: ['Mining Trucks', 'Machinery', 'Forklifts', '4x4 Driving'],
       multisimLinkHandles: ['camiones-mineria', 'maquinaria', 'monta-carga', 'manejo-4x4'],
       extintorSubtitle: 'Simulator',
       extintorTitle: 'Fire Extinguisher Use',
       extintorDesc: 'Our fire extinguisher simulator allows participants to practice the correct use of extinguishers in a safe, controlled environment. The simulation reproduces real fire scenarios with different fire classes, developing the skill and confidence needed to act in workplace emergencies.',
-      extintorCta: 'More Information',
+      extintorCta: 'View the fire extinguisher simulator',
+      extintorAlt: 'INSECAP fire extinguisher use simulator',
     },
     pt: {
       title: 'Simuladores',
@@ -53,14 +57,16 @@ const SimulatorCatalog = () => {
       multisimSubtitle: 'Simulador de',
       multisimTitle: 'Multisim',
       multisimBrand: 'Simumak',
-      multisimDesc: 'MULTISIM é nossa solução de simulação para maquinária pesada e veículos de alto tonelagem. Dispomos de simuladores para caminhões de mineração das principais marcas, maquinaria de construção, empilhadeiras e veículos 4x4. Com sistemas de dinâmica proprietária e visualização em telas ou VR, é a ferramenta ideal para o treinamento de operadores, avaliação de desempenho e prática de situações de risco.',
-      multisimCta: 'Ver Modelos',
-      multisimLinks: ['Caminhões Mineração', 'Maquinaria', 'Elevação de Carga', 'Manejo 4x4'],
+      multisimDesc: 'MULTISIM é nossa solução de simulação para máquinas pesadas e veículos de alta tonelagem. Dispomos de simuladores para caminhões de mineração das principais marcas, máquinas de construção, empilhadeiras e veículos 4x4. Com sistemas de dinâmica proprietária e visualização em telas ou VR, é a ferramenta ideal para o treinamento de operadores, avaliação de desempenho e prática de situações de risco.',
+      multisimCta: 'Ver modelos Multisim',
+      multisimAlt: 'Simulador Multisim da Simumak para operação de caminhões de mineração',
+      multisimLinks: ['Caminhões de mineração', 'Máquinas pesadas', 'Empilhadeiras', 'Condução 4x4'],
       multisimLinkHandles: ['camiones-mineria', 'maquinaria', 'monta-carga', 'manejo-4x4'],
       extintorSubtitle: 'Simulador de',
       extintorTitle: 'Uso de Extintores',
       extintorDesc: 'Nosso simulador de extinção de incêndios permite que os participantes pratiquem o uso correto de extintores em um ambiente seguro e controlado. A simulação reproduz cenários reais de incêndio com diferentes classes de fogo, desenvolvendo a habilidade e a confiança necessárias para agir em emergências no local de trabalho.',
-      extintorCta: 'Mais Informações',
+      extintorCta: 'Ver o simulador de extintores',
+      extintorAlt: 'Simulador de uso de extintores da INSECAP',
     },
   }[locale];
 
@@ -68,11 +74,7 @@ const SimulatorCatalog = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <SEO
-        title={content.title}
-        description={content.subtitle}
-        url="/simuladores"
-      />
+      <SEO url="/simuladores" />
 
       <main className="pb-16">
         <PageHero
@@ -118,7 +120,7 @@ const SimulatorCatalog = () => {
               <div className="w-full md:w-1/2 h-64 md:h-auto min-h-[320px] overflow-hidden">
                 <img
                   src={MULTISIM_CARD_IMAGE}
-                  alt="Simulador Multisim Simumak"
+                  alt={content.multisimAlt}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -146,7 +148,7 @@ const SimulatorCatalog = () => {
               <div className="relative w-full md:w-1/2 h-64 md:h-auto min-h-[320px] overflow-hidden bg-gradient-to-br from-orange-700 to-red-900">
                 <img
                   src={EXTINTOR_IMAGE}
-                  alt="Simulador de Uso de Extintores"
+                  alt={content.extintorAlt}
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = 'none';
