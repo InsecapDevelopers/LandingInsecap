@@ -19,7 +19,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
   const { localizedPath } = useLocalizedPath();
 
   return (
-    <Link to={localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}>
+    <Link to={localizedPath(`/noticias/${article.handle}`)}>
       <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card h-full flex flex-col">
         <div className="relative h-48 bg-gradient-to-br from-insecap-blue to-insecap-cyan overflow-hidden">
           {article.image ? (

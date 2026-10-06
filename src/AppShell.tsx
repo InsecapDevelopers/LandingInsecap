@@ -14,7 +14,6 @@ import BackToTop from "./components/BackToTop";
 import ScrollToTop from "./components/ScrollToTop";
 // import PromoPopup from "./components/PromoPopup";
 import Index from "./pages/Index";
-import CourseDetail from "./pages/CourseDetail";
 import Blog from "./pages/Blog";
 import ArticleDetail from "./pages/ArticleDetail";
 import AboutUs from "./pages/AboutUs";
@@ -23,10 +22,8 @@ import HonorTeam from "./pages/HonorTeam";
 import QualityPolicy from "./pages/QualityPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Contact from "./pages/Contact";
-import B2bCourseCatalogPage from "./pages/B2bCourseCatalogPage";
 import OpenCoursesCatalog from "./pages/OpenCoursesCatalog";
 import SapSpecialty from "./pages/SapSpecialty";
-import B2bCourseDetailPage from "./pages/B2bCourseDetailPage";
 import SimulatorCatalog from "./pages/SimulatorCatalog";
 import SimulatorModels from "./pages/SimulatorModels";
 import SimulatorExtinguisherDetail from "./pages/SimulatorExtinguisherDetail";
@@ -35,8 +32,15 @@ import OpenCourseForm from "./pages/OpenCourseForm";
 import Clients from "./pages/Clients";
 import NotFound from "./pages/NotFound";
 import ExperienciaYRespaldo from "./pages/Xp";
+import CursosIndex from "./pages/CursosIndex";
+import CursoFicha from "./pages/CursoFicha";
+import CursoCategoria from "./pages/CursoCategoria";
+import SedeDetail from "./pages/SedeDetail";
+import FranquiciaSence from "./pages/FranquiciaSence";
+import PreguntasFrecuentes from "./pages/PreguntasFrecuentes";
 import { buildLocalizedPath, getLocaleFromPath, getLocaleMeta, isAppLanguage } from "./lib/locale-routing";
 import { getRobotsForPath } from "./lib/seo-routes";
+import { resolveLegacyPath } from "./lib/legacy-redirects";
 import { siteJsonLd } from "./lib/jsonld";
 import { useCartStore } from "./stores/cartStore";
 import { fallbackLanguage } from "./lib/translations";
@@ -57,14 +61,6 @@ export const createQueryClient = (options: { server?: boolean } = {}) =>
   });
 
 export const routerFuture = { v7_startTransition: true, v7_relativeSplatPath: true } as const;
-
-/** /cursos (catálogo B2C retirado) → /cursos-abiertos, conservando el prefijo de idioma.
- *  Un `Navigate` relativo caería en la ruta `cursos/:handle` y daría "Curso no encontrado". */
-const CursosRedirect = () => {
-  const { locale } = useParams();
-
-  return <Navigate to={locale ? `/${locale}/cursos-abiertos` : '/cursos-abiertos'} replace />;
-};
 
 /** Meta Pixel en SPA: el snippet de index.html registra solo la primera carga;
  *  cada navegación interna se reporta aquí como un PageView nuevo. */
@@ -131,14 +127,12 @@ const CartRehydrate = () => {
 
 export const routeDefinitions = [
   { path: '', element: <Index /> },
-  { path: 'curso/:handle', element: <CourseDetail /> },
-  { path: 'cursos/:handle', element: <CourseDetail /> },
-  // El catálogo particular (B2C) se retiró: /cursos redirige a los cursos abiertos.
-  { path: 'cursos', element: <CursosRedirect /> },
+  // Índice, categorías y fichas SEO de los 61 temas (Fase 2).
+  { path: 'cursos', element: <CursosIndex /> },
+  { path: 'cursos/categoria/:area', element: <CursoCategoria /> },
+  { path: 'cursos/:slug', element: <CursoFicha /> },
   { path: 'cursos-abiertos', element: <OpenCoursesCatalog /> },
-  { path: 'cursos-empresas', element: <B2bCourseCatalogPage /> },
-  { path: 'especialidades/sap-pm', element: <SapSpecialty /> },
-  { path: 'curso-empresa/:handle', element: <B2bCourseDetailPage /> },
+  { path: 'sap-pm', element: <SapSpecialty /> },
   ...(isSimulatorsEnabled
     ? [
       { path: 'simuladores', element: <SimulatorCatalog /> },
@@ -154,17 +148,30 @@ export const routeDefinitions = [
   { path: 'politica-de-privacidad', element: <PrivacyPolicy /> },
   { path: 'contacto', element: <Contact /> },
   { path: 'formulario/cursos-abiertos', element: <OpenCourseForm /> },
-  { path: 'Experiencia-y-Respaldo', element: <ExperienciaYRespaldo /> },
+  { path: 'acreditaciones', element: <ExperienciaYRespaldo /> },
+  { path: 'sedes/:sede', element: <SedeDetail /> },
+  { path: 'franquicia-sence', element: <FranquiciaSence /> },
+  { path: 'preguntas-frecuentes', element: <PreguntasFrecuentes /> },
   { path: 'relator-trabaja-con-nosotros', element: <BeRelator /> },
   { path: 'noticias', element: <Blog /> },
-  { path: 'noticias/:blogHandle/:articleHandle', element: <ArticleDetail /> },
+  { path: 'noticias/:slug', element: <ArticleDetail /> },
+  // URLs antiguas: en producción las redirige nginx (301, dist/redirects.map) antes de llegar aquí;
+  // estas rutas solo cubren el desarrollo sin nginx y la navegación en el cliente.
+  { path: 'cursos-empresas', element: <LegacyRedirect /> },
+  { path: 'curso-empresa/:handle', element: <LegacyRedirect /> },
+  { path: 'curso/:handle', element: <LegacyRedirect /> },
+  { path: 'especialidades/sap-pm', element: <LegacyRedirect /> },
+  { path: 'Experiencia-y-Respaldo', element: <LegacyRedirect /> },
+  { path: 'noticias/:blogHandle/:articleHandle', element: <LegacyRedirect /> },
 ] as const;
 
-const LegacyRedirect = () => {
+/** Rutas sin idioma (→ /es/…) y URLs antiguas (src/lib/legacy-redirects.ts): al destino final en un salto. */
+function LegacyRedirect() {
   const location = useLocation();
+  const target = resolveLegacyPath(location.pathname) ?? buildLocalizedPath(location.pathname, fallbackLanguage);
 
-  return <Navigate to={`${buildLocalizedPath(location.pathname, fallbackLanguage)}${location.search}${location.hash}`} replace />;
-};
+  return <Navigate to={`${target}${location.search}${location.hash}`} replace />;
+}
 
 /** Mantiene i18n alineado con el idioma de la URL al navegar entre /es, /en y /pt.
  *  En la primera carga ya viene alineado: entry-client y entry-server cambian el idioma antes de renderizar. */

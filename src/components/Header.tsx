@@ -9,7 +9,7 @@ import CartDrawer from './CartDrawer';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { stripLocaleFromPath } from '@/lib/locale-routing';
-import { isB2bCatalogEnabled, isEcommerceEnabled } from '@/lib/featureFlags';
+import { isEcommerceEnabled } from '@/lib/featureFlags';
 import { SAP_HREF } from '@/lib/sapCatalog';
 import {
   NavigationMenu,
@@ -77,7 +77,7 @@ const Header = () => {
     return `${localizedPath('/')}#${href.replace('#', '')}`;
   };
 
-  const defaultCoursesHref = isB2bCatalogEnabled ? '/cursos-empresas' : '/cursos';
+  const defaultCoursesHref = '/cursos';
 
   const navItems: NavItem[] = [
     { id: 'home', labelKey: 'header.nav.home', href: '/', isLink: true },
@@ -99,7 +99,7 @@ const Header = () => {
         { id: 'about-home', labelKey: 'header.nav.about', href: '/nosotros', isLink: true },
         { id: 'team', labelKey: 'header.nav.team', href: '/nuestro-equipo', isLink: true },
         { id: 'culture', labelKey: 'header.nav.culture', href: '/equipo-honor', isLink: true },
-        { id: 'experience', labelKey: 'header.nav.experience', href: '/Experiencia-y-Respaldo', isLink: true },
+        { id: 'experience', labelKey: 'header.nav.experience', href: '/acreditaciones', isLink: true },
         { id: 'quality', labelKey: 'header.nav.quality', href: '/politica-calidad', isLink: true },
         { id: 'contact', labelKey: 'header.nav.contact', href: '#contacto', isAnchor: true },
       ]

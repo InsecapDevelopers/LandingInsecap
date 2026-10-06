@@ -1,7 +1,7 @@
 // ponytail: catálogo estático de la especialidad SAP PM (Insecap Minerals). Son 9 cursos
 // fijos; pasar a la API del TMS si la especialidad empieza a cambiar seguido.
 //
-// Fuente única del banner de la home (SapMineralsBanner) y de la landing /especialidades/sap-pm.
+// Fuente única del banner de la home (SapMineralsBanner) y de la landing /sap-pm.
 
 type Localized = { es: string; en: string; pt: string };
 
@@ -189,7 +189,7 @@ export const SAP_ROLE_ROUTES: { id: string; label: Localized; courses: string[] 
 
 export const SAP_TOTAL_HOURS = SAP_COURSES.reduce((sum, c) => sum + c.hours, 0);
 
-export const SAP_HREF = '/especialidades/sap-pm';
+export const SAP_HREF = '/sap-pm';
 
 export const SAP_LOGO = 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/saplogo-svg-e9c51a68.webp';
 

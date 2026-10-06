@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const OUT = fileURLToPath(new URL('.', import.meta.url)); // esta misma carpeta
 const B = 'https://insecap.cl/es';
-const curso = (h) => `${B}/curso-empresa/curso-${h}`;
+const curso = (h) => `${B}/cursos/${h}`;
 
 // [campaña, grupo, url, titulo1, path2, keywords[]]
 const G = [
@@ -22,11 +22,11 @@ const G = [
     'curso rigger codelco', 'curso izaje codelco', 'curso rigger mineria', 'curso izaje minera escondida', 'curso rigger bhp',
     'curso cargas suspendidas codelco']],
   // ponytail: no hay ficha propia de riesgos críticos; aterriza en el catálogo. Crear ficha si el grupo convierte.
-  ['Estandares Mineros', 'Riesgos Criticos', `${B}/cursos-empresas`, 'Curso Riesgos Críticos', 'criticos', [
+  ['Estandares Mineros', 'Riesgos Criticos', `${B}/cursos`, 'Curso Riesgos Críticos', 'criticos', [
     'curso riesgos criticos', 'capacitacion riesgos criticos', 'curso riesgos criticos mineria', 'curso riesgos criticos codelco',
     'curso controles criticos', 'curso verificacion de controles criticos', 'curso riesgos criticos bhp',
     'curso riesgos criticos antofagasta minerals', 'curso riesgos de fatalidad', 'curso estandares de control de fatalidades']],
-  ['Estandares Mineros', 'Estandares - General', `${B}/cursos-empresas`, 'Cursos Estándar Codelco', 'mineria', [
+  ['Estandares Mineros', 'Estandares - General', `${B}/cursos`, 'Cursos Estándar Codelco', 'mineria', [
     'cursos estandar codelco', 'cursos ecf codelco', 'cursos acreditacion codelco', 'cursos para contratistas codelco',
     'cursos contratistas minera escondida', 'cursos acreditacion minera', 'capacitacion contratistas mineria',
     'cursos antofagasta minerals contratistas', 'cursos collahuasi contratistas', 'cursos bhp spence contratistas']],
@@ -61,7 +61,7 @@ const G = [
     'curso puente grua', 'curso operador puente grua', 'curso grua puente', 'certificacion operador puente grua']],
   ['Operacion de Equipos', 'CAEX', curso('operacion-de-camion-de-extraccion-y-especial'), 'Curso Operador CAEX', 'caex', [
     'curso operador caex', 'curso caex', 'curso camion de extraccion', 'curso operador camion minero']],
-  ['Operacion de Equipos', 'Maquinaria Pesada', `${B}/cursos-empresas`, 'Cursos Maquinaria Pesada', 'equipos', [
+  ['Operacion de Equipos', 'Maquinaria Pesada', `${B}/cursos`, 'Cursos Maquinaria Pesada', 'equipos', [
     'curso operador maquinaria pesada', 'curso retroexcavadora', 'curso operador retroexcavadora', 'curso cargador frontal',
     'curso operador cargador frontal', 'curso motoniveladora', 'curso bulldozer']],
   ['Operacion de Equipos', 'Plataforma Elevadora', curso('operacion-de-plataforma-elevadora-tijera-boom'), 'Curso Plataforma Elevadora', 'equipos', [
@@ -81,17 +81,17 @@ const G = [
     'curso mantenimiento mecanico', 'curso lubricacion industrial', 'curso termografia', 'curso bombas y compresores',
     'curso mantenimiento industrial sence']],
 
-  ['Local Norte', 'OTEC Calama', `${B}/cursos-empresas`, 'OTEC en Calama', 'calama', [
+  ['Local Norte', 'OTEC Calama', `${B}/cursos`, 'OTEC en Calama', 'calama', [
     'otec calama', 'otec en calama', 'cursos sence calama', 'capacitacion calama', 'cursos de capacitacion calama']],
-  ['Local Norte', 'OTEC Antofagasta', `${B}/cursos-empresas`, 'OTEC en Antofagasta', 'antofagasta', [
+  ['Local Norte', 'OTEC Antofagasta', `${B}/cursos`, 'OTEC en Antofagasta', 'antofagasta', [
     'otec antofagasta', 'otec en antofagasta', 'cursos sence antofagasta', 'capacitacion empresas antofagasta']],
-  ['Local Norte', 'OTEC Atacama', `${B}/cursos-empresas`, 'OTEC en Vallenar', 'vallenar', [
+  ['Local Norte', 'OTEC Atacama', `${B}/cursos`, 'OTEC en Vallenar', 'vallenar', [
     'otec vallenar', 'cursos vallenar', 'cursos sence vallenar', 'otec atacama', 'capacitacion vallenar']],
   ['Local Norte', 'Cursos Abiertos Calama', `${B}/cursos-abiertos`, 'Cursos con Fecha en Calama', 'calama', [
     'curso trabajo en altura calama', 'curso espacios confinados calama', 'curso sustancias peligrosas calama',
     'curso manejo de sustancias peligrosas', 'curso guardia de seguridad calama', 'curso os10 calama']],
 
-  ['General OTEC', 'OTEC Empresas', `${B}/cursos-empresas`, 'OTEC para Empresas', 'empresas', [
+  ['General OTEC', 'OTEC Empresas', `${B}/cursos`, 'OTEC para Empresas', 'empresas', [
     'otec capacitacion empresas', 'cursos sence para empresas', 'capacitacion empresas sence',
     'cursos franquicia tributaria sence', 'otec mineria', 'cursos de capacitacion para empresas']],
 
@@ -101,7 +101,7 @@ const G = [
 
 
 // Campaña 2: especialidad SAP PM. Todo aterriza en su landing, que ya trae el formulario.
-const SAP = `${B}/especialidades/sap-pm`;
+const SAP = `${B}/sap-pm`;
 const SAP_G = [
   ['SAP PM', 'SAP PM General', SAP, 'Especialidad SAP S/4HANA PM', 'especialidad', [
     'curso sap pm', 'capacitacion sap pm', 'curso sap s4hana pm', 'curso sap modulo pm', 'curso sap mantenimiento',

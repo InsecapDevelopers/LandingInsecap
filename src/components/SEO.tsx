@@ -63,8 +63,9 @@ const SEO = ({
   // idiomas en que la misma ruta también se indexa. Páginas de datos en /es: es-CL + x-default;
   // en /en y /pt (noindex) no llevan hreflang.
   const seoRoute = findSeoRoute(location.pathname);
-  const hreflangLocales = seoRoute && isSeoRouteIndexable(seoRoute, currentLocale)
-    ? supportedLanguages.filter((language) => isSeoRouteIndexable(seoRoute, language))
+  const hreflangLocales = seoRoute && isSeoRouteIndexable(seoRoute, currentLocale, location.pathname)
+    ? supportedLanguages.filter((language) =>
+      isSeoRouteIndexable(seoRoute, language, buildLocalizedPath(pathWithoutLocale, language)))
     : [];
   const alternateLinks = hreflangLocales.map((language) => {
     const meta = getLocaleMeta(language);

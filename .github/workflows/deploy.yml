@@ -5,7 +5,7 @@ on:
     branches: [main]
   # El TMS Plus lo dispara al publicar u ocultar una noticia (Tarea #8, decisión 1.6).
   workflow_dispatch:
-  # Rebuild diario (05:00/06:00 en Chile): refresca noticias, cursos B2B y el filtro
+  # Rebuild diario (05:00/06:00 en Chile): refresca noticias, el mapa de 301 de los ea-* y el filtro
   # de fechas de cursos abiertos, que se resuelven en el build (prerender).
   schedule:
     - cron: '0 9 * * *'

@@ -12,6 +12,7 @@
  */
 import { matchPath } from 'react-router-dom';
 
+import { isCursoSeoIndexable } from '../data/cursos-seo';
 import { isSimulatorsEnabled } from './featureFlags';
 import { getLocaleFromPath, stripLocaleFromPath } from './locale-routing';
 import { supportedLanguages, type AppLanguage } from './translations';
@@ -31,6 +32,11 @@ export interface SeoRoute {
    * Las rutas con parámetros se prerenderizan con las rutas que entregue `listDynamicPaths`.
    */
   prerender: boolean;
+  /**
+   * Indexabilidad por URL concreta en rutas con parámetros (p. ej. fichas sin párrafo de
+   * respuesta real, riesgo 13). Se suma a `indexable`.
+   */
+  isIndexablePath?: (params: Record<string, string | undefined>) => boolean;
 }
 
 /**
@@ -50,12 +56,13 @@ const institucional = (path: string): SeoRoute => ({
   prerender: true,
 });
 
-const datos = (path: string, prerender = true): SeoRoute => ({
+const datos = (path: string, prerender = true, extra: Partial<SeoRoute> = {}): SeoRoute => ({
   path,
   kind: 'datos',
   translated: ES_ONLY,
   indexable: true,
   prerender,
+  ...extra,
 });
 
 export const seoRoutes: SeoRoute[] = [
@@ -63,8 +70,8 @@ export const seoRoutes: SeoRoute[] = [
   institucional('nosotros'),
   institucional('nuestro-equipo'),
   institucional('equipo-honor'),
-  institucional('Experiencia-y-Respaldo'),
-  institucional('especialidades/sap-pm'),
+  institucional('acreditaciones'),
+  institucional('sap-pm'),
   ...(isSimulatorsEnabled
     ? [
       institucional('simuladores'),
@@ -79,13 +86,19 @@ export const seoRoutes: SeoRoute[] = [
   institucional('politica-de-privacidad'),
   institucional('cursos-abiertos'),
 
-  datos('cursos-empresas'),
-  datos('curso-empresa/:handle'),
+  // Fase 2: índice, categorías y fichas de los 61 temas (src/data/cursos-seo.ts). En /cursos/:slug
+  // solo se indexan las fichas con párrafo de respuesta real.
+  // Las URLs antiguas (cursos-empresas, curso-empresa/…, curso/…, Experiencia-y-Respaldo,
+  // especialidades/sap-pm, noticias/<blog>/<slug>) son 301 de nginx: src/lib/legacy-redirects.ts.
+  datos('cursos'),
+  datos('cursos/categoria/:area'),
+  datos('cursos/:slug', true, { isIndexablePath: ({ slug }) => isCursoSeoIndexable(slug) }),
+  datos('sedes/:sede'),
+  // TODO: indexable cuando INSECAP valide el contenido (sección 4, punto 6).
+  datos('franquicia-sence', true, { indexable: false }),
+  datos('preguntas-frecuentes'),
   datos('noticias'),
-  datos('noticias/:blogHandle/:articleHandle'),
-  // Productos `ea-*` del ecommerce apagado: render en el cliente desde el shell (Fase 2 los redirige).
-  datos('curso/:handle', false),
-  datos('cursos/:handle', false),
+  datos('noticias/:slug'),
 
   {
     path: 'formulario/cursos-abiertos',
@@ -98,25 +111,46 @@ export const seoRoutes: SeoRoute[] = [
 
 export const isDynamicSeoRoute = (route: SeoRoute) => route.path.includes(':');
 
-/** Busca la entrada de la tabla para un pathname con prefijo de idioma (`/es/nosotros`). */
-export const findSeoRoute = (pathname: string): SeoRoute | undefined => {
+/**
+ * Busca la entrada de la tabla para un pathname con prefijo de idioma (`/es/nosotros`).
+ * Las rutas estáticas ganan a las con parámetros (`cursos/categoria/:area` antes que `cursos/:slug`).
+ */
+export const matchSeoRoute = (pathname: string) => {
   if (!getLocaleFromPath(pathname)) {
     return undefined;
   }
 
   const path = stripLocaleFromPath(pathname);
-  return seoRoutes.find((route) => matchPath({ path: `/${route.path}`, end: true }, path));
+  for (const route of [...seoRoutes].sort((a, b) => Number(isDynamicSeoRoute(a)) - Number(isDynamicSeoRoute(b)))) {
+    const match = matchPath({ path: `/${route.path}`, end: true }, path);
+    if (match) return { route, params: match.params };
+  }
+  return undefined;
 };
 
-export const isSeoRouteIndexable = (route: SeoRoute, locale: AppLanguage): boolean =>
-  route.indexable && route.translated[locale] && (locale !== 'pt' || PT_INDEXABLE);
+export const findSeoRoute = (pathname: string): SeoRoute | undefined => matchSeoRoute(pathname)?.route;
+
+/**
+ * Si la ruta se indexa en un idioma. Con `pathname`, aplica además `isIndexablePath` de la URL
+ * concreta (fichas de cursos).
+ */
+export const isSeoRouteIndexable = (route: SeoRoute, locale: AppLanguage, pathname?: string): boolean => {
+  if (!route.indexable || !route.translated[locale] || (locale === 'pt' && !PT_INDEXABLE)) {
+    return false;
+  }
+  if (!route.isIndexablePath) {
+    return true;
+  }
+  const params = pathname ? matchSeoRoute(pathname)?.params : undefined;
+  return params ? route.isIndexablePath(params) : false;
+};
 
 /** Valor de `<meta name="robots">` para un pathname. Rutas fuera de la tabla (404): noindex. */
 export const getRobotsForPath = (pathname: string): string => {
   const locale = getLocaleFromPath(pathname);
   const route = findSeoRoute(pathname);
 
-  if (!locale || !route || !isSeoRouteIndexable(route, locale)) {
+  if (!locale || !route || !isSeoRouteIndexable(route, locale, pathname)) {
     return 'noindex, follow';
   }
 

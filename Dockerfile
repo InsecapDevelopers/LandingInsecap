@@ -43,10 +43,11 @@ ENV VITE_TMS_API_URL=$VITE_TMS_API_URL \
     VITE_URL_PLAYSTORE=$VITE_URL_PLAYSTORE
 
 # BUILD_ID cambia en cada ejecución de CI (github.run_id): invalida la caché de la
-# capa del build para que el cron diario vuelva a pedir noticias y cursos B2B a sus
+# capa del build para que el cron diario vuelva a pedir noticias y productos de Shopify a sus
 # APIs en vez de reutilizar el dist/ de una ejecución anterior (cache type=gha).
 ARG BUILD_ID=local
-RUN echo "BUILD_ID=${BUILD_ID}" && npm run build
+RUN echo "BUILD_ID=${BUILD_ID}" && npm run build \
+    && mkdir -p /app/nginx && mv dist/redirects.map /app/nginx/redirects.map
 
 # ---------- Stage 2: serve ----------
 FROM nginx:1.27-alpine AS runtime
@@ -54,6 +55,8 @@ FROM nginx:1.27-alpine AS runtime
 # nginx: 404 real, 301 a /es, shell noindex y cabeceras (Tarea #8, decisión 1.2)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY snippets/security-headers.conf /etc/nginx/snippets/security-headers.conf
+# 301 de las URLs antiguas (generado en el build; fuera de la raíz pública)
+COPY --from=build /app/nginx/redirects.map /etc/nginx/redirects.map
 
 # Static assets
 COPY --from=build /app/dist /usr/share/nginx/html

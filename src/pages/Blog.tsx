@@ -20,7 +20,7 @@ const ArticleCard = ({ article }: { article: ShopifyArticle }) => {
   const { localizedPath } = useLocalizedPath();
 
   return (
-    <Link to={localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}>
+    <Link to={localizedPath(`/noticias/${article.handle}`)}>
       <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card h-full flex flex-col">
         <div className="relative h-48 bg-gradient-to-br from-insecap-blue to-insecap-cyan overflow-hidden">
           {article.image ? (
@@ -183,7 +183,7 @@ const Blog = () => {
                 'url': 'https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png'
               }
             },
-            'url': `${SITE_URL}${localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}`
+            'url': `${SITE_URL}${localizedPath(`/noticias/${article.handle}`)}`
           }))
         }}
       />

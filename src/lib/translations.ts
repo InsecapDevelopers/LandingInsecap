@@ -107,6 +107,9 @@ export const resources = {
         siteMap: {
           home: 'Inicio',
           courses: 'Cursos',
+          accreditations: 'Acreditaciones',
+          sence: 'Franquicia SENCE',
+          faq: 'Preguntas frecuentes',
           about: 'Nosotros',
           contact: 'Contacto',
         },
@@ -401,6 +404,9 @@ export const resources = {
         siteMap: {
           home: 'Home',
           courses: 'Courses',
+          accreditations: 'Accreditations',
+          sence: 'SENCE tax incentive',
+          faq: 'FAQ',
           about: 'About us',
           contact: 'Contact',
         },
@@ -695,6 +701,9 @@ export const resources = {
         siteMap: {
           home: 'Início',
           courses: 'Cursos',
+          accreditations: 'Acreditações',
+          sence: 'Franquia SENCE',
+          faq: 'Perguntas frequentes',
           about: 'Sobre nós',
           contact: 'Contato',
         },

@@ -17,9 +17,9 @@ import type { HelmetServerState } from "react-helmet-async";
 import { AppShell, createQueryClient, routerFuture } from "./AppShell";
 import i18n from "./lib/i18n";
 import { getLocaleFromPath, stripLocaleFromPath } from "./lib/locale-routing";
-import { isB2bCatalogEnabled } from "./lib/featureFlags";
+import { storefrontApiRequest } from "./lib/shopify";
+import { getLegacyRedirects, toNginxMap, type EaProductArea } from "./lib/legacy-redirects";
 import {
-  b2bTopicsQuery,
   NEWS_PER_PAGE,
   NEWS_SLIDER_COUNT,
   newsAllQuery,
@@ -35,6 +35,8 @@ import {
   type SeoRoute,
 } from "./lib/seo-routes";
 import { fallbackLanguage, type AppLanguage } from "./lib/translations";
+import { cursoAreas, cursosSeo, slugify } from "./data/cursos-seo";
+import { sedes } from "./data/sedes";
 
 export { createQueryClient, seoLocales, seoRoutes, isSeoRouteIndexable, buildSeoRouteUrl, isDynamicSeoRoute };
 
@@ -53,8 +55,9 @@ export interface RenderResult {
  * Guardas del build (decisión 1.6): si Shopify o el TMS Plus fallan o devuelven menos datos de lo
  * esperable, el build falla y en producción sigue la imagen anterior.
  */
-export const MIN_B2B_TOPICS = 50;
 export const MIN_NEWS = 1;
+/** Productos `ea-*` para el mapa de 301 (hoy 142). Menos de esto indica una consulta rota. */
+export const MIN_EA_PRODUCTS = 1;
 
 /**
  * Caché del build: cada dato remoto se pide una sola vez aunque lo usen varias páginas e idiomas.
@@ -92,29 +95,65 @@ const loadAllNews = async () => {
   return articles;
 };
 
-const loadB2bTopics = async () => {
-  const topics = await buildCache.fetchQuery(b2bTopicsQuery());
-  if (topics.length < MIN_B2B_TOPICS) {
-    throw new Error(`[guarda] Shopify devolvió ${topics.length} temas B2B (mínimo ${MIN_B2B_TOPICS}).`);
+const EA_PRODUCTS_QUERY = `
+  query EaProducts($after: String) {
+    products(first: 250, after: $after) {
+      pageInfo { hasNextPage endCursor }
+      edges { node { handle tags } }
+    }
   }
-  return topics;
-};
+`;
 
 /**
- * Rutas concretas de una ruta con parámetros: una por noticia y una por ficha B2B, en cada idioma
+ * Handles `ea-*` de Shopify (ecommerce apagado) con el área del catálogo según su tag
+ * (SEGURIDAD Y PREVENCIÓN DE RIESGOS → seguridad-y-prevencion-de-riesgos…). PRE-CONTRATO,
+ * RECERTIFICACIONES y los productos sin tag de área quedan en null (→ /cursos).
+ * TODO: tabla `ea-*` → tema para redirigir a la ficha exacta (sección 4, punto 4).
+ */
+const loadEaProducts = async (): Promise<EaProductArea[]> => {
+  const areaSlugs = new Set(cursoAreas.map((area) => area.slug));
+  const products: EaProductArea[] = [];
+  let after: string | null = null;
+
+  do {
+    const { data } = await storefrontApiRequest(EA_PRODUCTS_QUERY, { after });
+    for (const { node } of data.products.edges as Array<{ node: { handle: string; tags: string[] } }>) {
+      if (!node.handle.startsWith("ea-")) continue;
+      const areaSlug = node.tags.map(slugify).find((slug) => areaSlugs.has(slug)) ?? null;
+      products.push({ handle: node.handle, areaSlug });
+    }
+    after = data.products.pageInfo.hasNextPage ? data.products.pageInfo.endCursor : null;
+  } while (after);
+
+  if (products.length < MIN_EA_PRODUCTS) {
+    throw new Error(`[guarda] Shopify devolvió ${products.length} productos ea-* (mínimo ${MIN_EA_PRODUCTS}).`);
+  }
+  return products.sort((a, b) => a.handle.localeCompare(b.handle));
+};
+
+/** Contenido de dist/redirects.map (nginx). Lanza si falla Shopify: el build se detiene. */
+export async function buildRedirectsMap(): Promise<{ map: string; count: number }> {
+  const redirects = getLegacyRedirects(await loadEaProducts());
+  return { map: toNginxMap(redirects), count: redirects.length };
+}
+
+/**
+ * Rutas concretas de una ruta con parámetros: una por noticia, ficha, categoría y sede, en cada idioma
  * (en /en y /pt salen con noindex según seo-routes). Lanza si falla una guarda o una petición.
  */
 export async function listDynamicPaths(route: SeoRoute, locale: AppLanguage): Promise<string[]> {
   switch (route.path) {
-    case "noticias/:blogHandle/:articleHandle": {
+    case "noticias/:slug": {
       const articles = await loadAllNews();
-      return articles.map((article) => `/${locale}/noticias/${article.blog.handle}/${article.handle}`);
+      return articles.map((article) => `/${locale}/noticias/${article.handle}`);
     }
-    case "curso-empresa/:handle": {
-      if (!isB2bCatalogEnabled) return [];
-      const topics = await loadB2bTopics();
-      return topics.map((topic) => `/${locale}/curso-empresa/${topic.handle}`);
-    }
+    // Datos locales (src/data): fichas, categorías y sedes.
+    case "cursos/:slug":
+      return cursosSeo.map((curso) => `/${locale}/cursos/${curso.slug}`);
+    case "cursos/categoria/:area":
+      return cursoAreas.map((area) => `/${locale}/cursos/categoria/${area.slug}`);
+    case "sedes/:sede":
+      return sedes.map((sede) => `/${locale}/sedes/${sede.slug}`);
     default:
       throw new Error(`[prerender] Ruta dinámica sin listDynamicPaths: ${route.path}`);
   }
@@ -138,15 +177,9 @@ export async function prefetchRoute(url: string, queryClient: QueryClient): Prom
     return;
   }
 
-  const article = match("/noticias/:blogHandle/:articleHandle");
+  const article = match("/noticias/:slug");
   if (article) {
-    await prefetchShared(queryClient, newsArticleQuery(article.params.articleHandle ?? ""));
-    return;
-  }
-
-  if (isB2bCatalogEnabled && (match("/cursos-empresas") || match("/curso-empresa/:handle"))) {
-    await loadB2bTopics();
-    await prefetchShared(queryClient, b2bTopicsQuery());
+    await prefetchShared(queryClient, newsArticleQuery(article.params.slug ?? ""));
   }
 }
 
@@ -168,7 +201,10 @@ export async function render(url: string, queryClient: QueryClient = createQuery
         callback();
       },
       final(callback) {
-        resolve(Buffer.concat(chunks).toString("utf8"));
+        // React 18.3 deja un byte NUL de más cuando un carácter multibyte (p. ej. "¿") cae en el
+        // borde de su búfer de 2048 bytes: el texto queda intacto, pero grep trata el HTML como
+        // binario. Un NUL nunca es válido en HTML, así que se quita.
+        resolve(Buffer.concat(chunks).toString("utf8").split("\u0000").join(""));
         callback();
       },
     });

@@ -73,7 +73,10 @@ interface ProductNode {
 
 const LegacyCourseDetail = () => {
   const { localizedPath, locale } = useLocalizedPath();
-  const { handle } = useParams<{ handle: string }>();
+  // Sin ruta desde la Fase 2: /curso/:handle y /cursos/ea-* son 301 (src/lib/legacy-redirects.ts).
+  // TODO: Fase 6, borrar junto con los demás componentes huérfanos del ecommerce.
+  const { handle: handleParam, slug } = useParams<{ handle: string; slug: string }>();
+  const handle = handleParam ?? slug;
   const [product, setProduct] = useState<ProductNode | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);

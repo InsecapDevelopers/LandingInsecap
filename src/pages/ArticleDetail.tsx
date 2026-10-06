@@ -18,11 +18,14 @@ import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const ArticleDetail = () => {
   const { localizedPath, locale } = useLocalizedPath();
-  const { blogHandle, articleHandle } = useParams<{ blogHandle: string; articleHandle: string }>();
+  // /noticias/:slug. La URL antigua /noticias/<blog>/<slug> es un 301 (src/lib/legacy-redirects.ts).
+  const { slug } = useParams<{ slug: string }>();
+  const handle = slug ?? '';
+  const articlePath = `/noticias/${handle}`;
   // En el build llega prerenderizada (window.__RQ__). null: no existe o está oculta.
   const { data: article = null, isPending: isLoading } = useQuery({
-    ...newsArticleQuery(articleHandle ?? ''),
-    enabled: Boolean(blogHandle && articleHandle),
+    ...newsArticleQuery(handle),
+    enabled: Boolean(handle),
   });
   const [selectedImage, setSelectedImage] = useState<{ url: string; alt: string } | null>(null);
   const articleContentRef = useRef<HTMLDivElement>(null);
@@ -223,7 +226,7 @@ const ArticleDetail = () => {
           description={getMetaDescription(article)}
           image={article.image?.url}
           imageAlt={article.image?.altText || article.title}
-          url={`/noticias/${blogHandle}/${articleHandle}`}
+          url={articlePath}
           type="article"
           article={{
             publishedTime: article.publishedAt,
@@ -264,7 +267,7 @@ const ArticleDetail = () => {
               },
               'mainEntityOfPage': {
                 '@type': 'WebPage',
-                '@id': `${SITE_URL}${localizedPath(`/noticias/${blogHandle}/${articleHandle}`)}`
+                '@id': `${SITE_URL}${localizedPath(articlePath)}`
               },
               'articleSection': content.news,
               'inLanguage': content.language
@@ -289,7 +292,7 @@ const ArticleDetail = () => {
                   '@type': 'ListItem',
                   'position': 3,
                   'name': article.title,
-                  'item': `${SITE_URL}${localizedPath(`/noticias/${blogHandle}/${articleHandle}`)}`
+                  'item': `${SITE_URL}${localizedPath(articlePath)}`
                 }
               ]
             }

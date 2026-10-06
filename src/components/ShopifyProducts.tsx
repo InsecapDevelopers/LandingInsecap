@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { getJsonCatalogByHandle, type JsonCatalogTopic } from "@/lib/catalogData";
+import { slugify } from "@/data/cursos-seo";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -27,16 +28,8 @@ const FEATURED_TOPIC_HANDLES = [
   'primeros-auxilios',
 ];
 
-const slugify = (value: string): string =>
-  value
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-
-/** Handle de la ficha B2B en Shopify: `curso-` + tema en slug (coincide en los 61 temas). */
-const toB2bHandle = (topic: JsonCatalogTopic): string => `curso-${slugify(topic.tema)}`;
+/** Slug de la ficha /cursos/:slug: el handle B2B de Shopify sin `curso-` (tema en slug, coincide en los 61 temas). */
+const toCursoSlug = (topic: JsonCatalogTopic): string => slugify(topic.tema);
 
 const featuredTopics: JsonCatalogTopic[] = Array.from(new Set(FEATURED_TOPIC_HANDLES))
   .map((handle) => getJsonCatalogByHandle(handle))
@@ -47,7 +40,7 @@ const FeaturedTopicCard = ({ topic }: { topic: JsonCatalogTopic }) => {
   const { localizedPath } = useLocalizedPath();
 
   return (
-    <Link to={localizedPath(`/curso-empresa/${toB2bHandle(topic)}`)} className="block h-full">
+    <Link to={localizedPath(`/cursos/${toCursoSlug(topic)}`)} className="block h-full">
       <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card h-full flex flex-col">
         <div className="relative h-32 bg-gradient-to-br from-insecap-blue to-insecap-cyan overflow-hidden">
           <div className="w-full h-full flex items-center justify-center">
@@ -117,7 +110,7 @@ export const ShopifyProducts = ({ hideHeader = false }: { hideHeader?: boolean }
 
         {!hideHeader && (
           <div className="text-center mt-12">
-            <Link to={localizedPath('/cursos-empresas')}>
+            <Link to={localizedPath('/cursos')}>
               <Button size="lg" variant="outline" className="border-insecap-blue text-insecap-blue hover:bg-insecap-blue hover:text-white">
                 {t('shopify.viewAll')}
                 <ChevronRight className="ml-2 h-5 w-5" />

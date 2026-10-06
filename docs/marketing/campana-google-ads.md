@@ -81,8 +81,8 @@ Presupuesto separado para que SAP, de ticket más alto, no compita por presupues
 
 | Campaña | Landing | Grupos | Keywords | % presupuesto sugerido |
 |---|---|---|---|---|
-| `INS \| Search \| Web` | fichas de `/curso-empresa/…`, `/cursos-empresas`, `/cursos-abiertos` | 25 | 90 | 80 % |
-| `INS \| Search \| SAP PM` | `/especialidades/sap-pm` | 3 | 6 | 20 % |
+| `INS \| Search \| Web` | fichas de `/cursos/…`, `/cursos`, `/cursos-abiertos` | 25 | 90 | 80 % |
+| `INS \| Search \| SAP PM` | `/sap-pm` | 3 | 6 | 20 % |
 
 Grupos de la campaña Web (el prefijo es el tema, para leer los informes agrupados):
 
@@ -126,7 +126,7 @@ Configuración común:
   puede rechazarlo y, sobre todo, INSECAP debe estar efectivamente habilitada para impartir ese
   estándar. Confirmar con el área comercial cuáles están vigentes.
 - **Riesgos críticos**: el catálogo no tiene una ficha con ese nombre, así que el grupo aterriza
-  en `/cursos-empresas`. Si INSECAP dicta un curso de riesgos/controles críticos, crear su ficha
+  en `/cursos`. Si INSECAP dicta un curso de riesgos/controles críticos, crear su ficha
   y apuntar ahí el grupo; si el grupo convierte, también.
 - **Marca SAP en el texto**: la landing ya aclara que Insecap no está afiliado a SAP SE. Google
   permite usar marcas de software en anuncios de formación, pero si SAP tiene una restricción

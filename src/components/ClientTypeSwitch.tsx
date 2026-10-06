@@ -50,7 +50,7 @@ export const ClientTypeSwitch = ({ activeMode }: ClientTypeSwitchProps) => {
             <span className="text-sm text-muted-foreground">{messages.clientTypeLabel}:</span>
             {/* En móvil las tres pestañas no caben en una fila: se apilan */}
             <div className="flex w-full flex-col gap-1 rounded-2xl border border-border bg-muted/70 p-1 sm:flex-row sm:rounded-full md:w-auto">
-              <Link to={localizedPath('/cursos-empresas')} className="flex flex-1 md:flex-none">
+              <Link to={localizedPath('/cursos')} className="flex flex-1 md:flex-none">
                 <Button
                   variant={isEmpresa ? 'default' : 'ghost'}
                   disabled={isEmpresa}

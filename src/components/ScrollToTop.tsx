@@ -5,7 +5,7 @@ const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    // Enlaces con ancla (ej. /especialidades/sap-pm#cotizar) llegan a su sección, no al tope.
+    // Enlaces con ancla (ej. /sap-pm#cotizar) llegan a su sección, no al tope.
     const target = hash ? document.getElementById(hash.slice(1)) : null;
     if (target) {
       target.scrollIntoView();

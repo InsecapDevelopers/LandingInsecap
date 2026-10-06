@@ -26,7 +26,7 @@ const TikTokIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-/** showContact=false: páginas con su propio formulario (ej. /especialidades/sap-pm) no repiten el general. */
+/** showContact=false: páginas con su propio formulario (ej. /sap-pm) no repiten el general. */
 const Footer = ({ showContact = true }: { showContact?: boolean }) => {
   const [bgIndex, setBgIndex] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -124,16 +124,20 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // TODO: Fase 8: NAP único desde src/data/sedes.ts.
   const locations = [
-    { name: t('footer.phones.antofagasta'), address: "Copiapó 956, Antofagasta", phone: "55 294 8575" },
-    { name: t('footer.phones.calama'), address: "La Cascada 1513, Calama", phone: "55 292 6431" },
-    { name: t('footer.phones.santiago'), address: "Valenzuela Castillo 1063, Santiago", phone: "+56 9 8819 8254" },
-    { name: t('footer.phones.vallenar'), address: "Río del Tránsito 1546, Villa Vista Hermosa, Vallenar", phone: "+56 9 9715 7034" },
+    { name: t('footer.phones.antofagasta'), address: "Copiapó 956, Antofagasta", phone: "55 294 8575", href: "/sedes/antofagasta" },
+    { name: t('footer.phones.calama'), address: "La Cascada 1513, Calama", phone: "55 292 6431", href: "/sedes/calama" },
+    { name: t('footer.phones.santiago'), address: "Valenzuela Castillo 1063, Santiago", phone: "+56 9 8819 8254", href: "/sedes/santiago" },
+    { name: t('footer.phones.vallenar'), address: "Río del Tránsito 1546, Villa Vista Hermosa, Vallenar", phone: "+56 9 9715 7034", href: "/sedes/vallenar" },
   ];
 
   const siteMap = [
     { label: t('footer.siteMap.home'), href: "/" },
     { label: t('footer.siteMap.courses'), href: "/cursos" },
+    { label: t('footer.siteMap.accreditations'), href: "/acreditaciones" },
+    { label: t('footer.siteMap.sence'), href: "/franquicia-sence" },
+    { label: t('footer.siteMap.faq'), href: "/preguntas-frecuentes" },
     { label: t('footer.siteMap.about'), href: "/nosotros" },
     { label: t('footer.siteMap.contact'), href: "/#contacto" },
   ];
@@ -228,7 +232,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
                 <div key={loc.name} className="flex items-start gap-2.5">
                   <MapPin className="w-4 h-4 text-insecap-cyan flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-semibold text-white text-sm">{loc.name}</p>
+                    <Link to={localizedPath(loc.href)} className="font-semibold text-white text-sm hover:underline">{loc.name}</Link>
                     <p className="text-white/70 text-sm mt-0.5">{loc.address}</p>
                   </div>
                 </div>

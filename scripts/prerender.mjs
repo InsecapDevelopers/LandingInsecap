@@ -15,13 +15,16 @@
  *   dist/404.html                   página de error (nginx: error_page 404)
  *   dist/_shell.html                shell vacío con noindex para rutas dinámicas fuera del build
  *   dist/index.html                 se reemplaza por el mismo shell (no queda la plantilla cruda)
+ *   dist/redirects.map              301 de las URLs antiguas (src/lib/legacy-redirects.ts) para
+ *                                   `map $uri $legacy_redirect` de nginx.conf. El Dockerfile lo
+ *                                   mueve a /etc/nginx/redirects.map (no se publica como archivo).
  *
  * Datos: las rutas dinámicas (noticias y fichas B2B) salen de `listDynamicPaths` y cada página
  * precarga sus datos con `prefetchRoute` (mismas queryFn que el cliente, src/lib/queries.ts).
  * El estado de react-query viaja en window.__RQ__ con `<` escapado.
  *
- * Falla (exit 1) si alguna ruta lanza un error de render, si falla una petición a Shopify o al
- * TMS Plus, o si no se cumplen las guardas (mínimo de temas B2B y de noticias, entry-server.tsx).
+ * Falla (exit 1) si alguna ruta lanza un error de render, si falla una petición a Shopify (productos
+ * `ea-*` del mapa de 301) o al TMS Plus, o si no se cumplen las guardas (mínimo de temas B2B y de noticias, entry-server.tsx).
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -135,6 +138,16 @@ try {
   failures.push(error);
 }
 
+// 301 de las URLs antiguas en un solo salto (Fase 2). Sin el mapa, nginx no arranca: falla el build.
+let redirectsCount = 0;
+try {
+  const { map, count } = await ssr.buildRedirectsMap();
+  writeFile('redirects.map', map);
+  redirectsCount = count;
+} catch (error) {
+  failures.push(new Error(`redirects.map: ${(error && error.message) || error}`));
+}
+
 // Shell para rutas dinámicas que no estaban en el build (noticia nueva, URL de Ads a un ea-*):
 // 200 + noindex, render en el cliente.
 const shell = buildPage({
@@ -153,4 +166,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`[prerender] ${urls.length} páginas + 404.html + _shell.html en ${((Date.now() - started) / 1000).toFixed(1)} s`);
+console.log(`[prerender] ${urls.length} páginas + 404.html + _shell.html + redirects.map (${redirectsCount} reglas) en ${((Date.now() - started) / 1000).toFixed(1)} s`);

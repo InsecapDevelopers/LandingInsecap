@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // O 'next/link' si usas Next.js
-import { Home, LogIn, Phone } from 'lucide-react';
+import { Home, Phone } from 'lucide-react';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const NotFound: React.FC = () => {
@@ -11,21 +11,18 @@ const NotFound: React.FC = () => {
       title: 'Ups! Pagina No Encontrada',
       description: 'Lo sentimos, la pagina que estas buscando no existe o ha sido movida a una nueva ubicacion.',
       home: 'Ir al Inicio',
-      login: 'Iniciar Sesion',
       support: 'Si crees que esto es un error, contacta con soporte:',
     },
     en: {
       title: 'Oops! Page Not Found',
       description: 'Sorry, the page you are looking for does not exist or has been moved to a new location.',
       home: 'Go Home',
-      login: 'Sign In',
       support: 'If you believe this is an error, contact support:',
     },
     pt: {
       title: 'Ops! Pagina Nao Encontrada',
       description: 'Desculpe, a pagina que voce procura nao existe ou foi movida para um novo endereco.',
       home: 'Ir para o Inicio',
-      login: 'Entrar',
       support: 'Se voce acredita que isso e um erro, entre em contato com o suporte:',
     },
   }[locale];
@@ -60,14 +57,6 @@ const NotFound: React.FC = () => {
           >
             <Home className="w-5 h-5" />
             {content.home}
-          </Link>
-          
-          <Link
-            to={localizedPath('/login')}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-blue-600 font-semibold py-3 px-8 rounded-lg shadow-lg border-2 border-blue-500 transform transition-all hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <LogIn className="w-5 h-5" />
-            {content.login}
           </Link>
         </div>
 

@@ -179,7 +179,7 @@ const NewsSlider: React.FC = () => {
         <div className="grid lg:grid-cols-5 gap-6">
           <div className="lg:col-span-3">
             {featuredArticle && (
-              <Link to={localizedPath(`/noticias/${featuredArticle.blog.handle}/${featuredArticle.handle}`)} className="group block h-full">
+              <Link to={localizedPath(`/noticias/${featuredArticle.handle}`)} className="group block h-full">
                 <div className="relative bg-white rounded-2xl overflow-hidden shadow-md border border-gray-200 hover:shadow-xl transition-all duration-300 h-full transform-gpu group-hover:-translate-y-1 group-hover:scale-[1.01]">
                   <div className="relative overflow-hidden bg-white">
                     {featuredArticle.image ? (
@@ -231,7 +231,7 @@ const NewsSlider: React.FC = () => {
             {secondaryArticles.map((article) => (
               <Link
                 key={article.id}
-                to={localizedPath(`/noticias/${article.blog.handle}/${article.handle}`)}
+                to={localizedPath(`/noticias/${article.handle}`)}
                 className="group block"
               >
                 <div className="relative flex items-center gap-4 rounded-xl overflow-hidden border border-insecap-cyan/60 hover:border-insecap-cyan hover:shadow-xl transition-all duration-300 p-4 isolate transform-gpu group-hover:scale-[1.015] group-hover:-translate-y-0.5">

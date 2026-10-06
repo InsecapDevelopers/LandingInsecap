@@ -196,7 +196,7 @@ const ExperienciaYRespaldo = () => {
       <SEO
         title={content.title}
         description={content.certText}
-        url="/Experiencia-y-Respaldo"
+        url="/acreditaciones"
         type="website"
         keywords={[
           'experiencia INSECAP',

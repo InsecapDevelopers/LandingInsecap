@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
-# Aceptación de la Fase 1 (Tarea #8): lo que ven los bots en el HTML inicial,
-# sin ejecutar JS, más las reglas de nginx (404 real, 301 con query, caché, cabeceras).
+# Aceptación de las Fases 1 y 2 (Tarea #8): lo que ven los bots en el HTML inicial,
+# sin ejecutar JS, más las reglas de nginx (404 real, 301 con query, caché, cabeceras)
+# y las URLs en español con los 301 de las URLs antiguas en un solo salto.
 #
 # Uso:
 #   scripts/check-bots.sh                      # contra el contenedor local (B=http://localhost:8080)
 #   B=https://insecap.cl scripts/check-bots.sh # contra producción
+#
+# REDIRECTS_MAP (por defecto dist/redirects.map, si existe): de ahí sale un ea-* real para probar
+# su 301 a la categoría y se corre `check-dist.mjs --no-redirect-chains`. Sin el archivo
+# (p. ej. en CI, donde el dist/ está dentro de la imagen) esas dos revisiones se omiten.
 #
 # Revisión de hidratación (scripts/check-hydration.mjs, Chrome headless por CDP):
 #   HYDRATION=required  falla si no hay Chrome (CI).
@@ -20,6 +25,7 @@ B="${B%/}"
 UAS="${UAS:-GPTBot ClaudeBot PerplexityBot OAI-SearchBot Googlebot bingbot}"
 HYDRATION="${HYDRATION:-auto}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REDIRECTS_MAP="${REDIRECTS_MAP:-$SCRIPT_DIR/../dist/redirects.map}"
 
 fails=0
 ok() { printf 'OK    %s\n' "$*"; }
@@ -92,15 +98,15 @@ for pair in es:es-CL en:en pt:pt; do
 done
 
 # 6. Fichas y noticias en el HTML inicial.
-h=$(curl -s -A GPTBot "$B/es/curso-empresa/curso-trabajo-en-altura")
+h=$(curl -s -A GPTBot "$B/es/cursos/trabajo-en-altura")
 n=$(printf '%s' "$h" | count '<h1')
-check "GPTBot ficha curso-trabajo-en-altura h1=$n" test "$n" -eq 1
+check "GPTBot ficha /es/cursos/trabajo-en-altura h1=$n" test "$n" -eq 1
 n=$(curl -s -A GPTBot "$B/es/noticias" | count 'href="/es/noticias/')
 check "GPTBot /es/noticias enlaces a noticias=$n (>=10)" test "$n" -ge 10
 
 # 7. Ruta dinámica que no estaba en el build: shell 200 con noindex.
-c=$(status "$B/es/noticias/noticias/no-existe-en-el-build")
-h=$(curl -s "$B/es/noticias/noticias/no-existe-en-el-build")
+c=$(status "$B/es/noticias/no-existe-en-el-build")
+h=$(curl -s "$B/es/noticias/no-existe-en-el-build")
 check "noticia fuera del build → 200 ($c)" test "$c" = 200
 check "noticia fuera del build → noindex" grep -qi 'name="robots" content="noindex' <<<"$h"
 
@@ -122,7 +128,64 @@ for url in "$B/es" "$B$asset" "$B/es/noexiste" "$B/healthz"; do
   check "cabeceras de seguridad en ${url#"$B"} ($n/3)" test "$n" -eq 3
 done
 
-# 9. Consola del navegador sin warnings de hidratación en /es, /en y /pt.
+# 9. Fase 2: URLs en español. Páginas nuevas 200 con un H1 en /es; las de datos, 200 + noindex en /en y /pt.
+for p in cursos cursos/trabajo-en-altura cursos/categoria/operacion-de-equipos sedes/calama franquicia-sence \
+  acreditaciones sap-pm preguntas-frecuentes simuladores nosotros; do
+  c=$(status -A GPTBot "$B/es/$p")
+  n=$(curl -s -A GPTBot "$B/es/$p" | count '<h1')
+  check "GPTBot /es/$p → $c h1=$n" test "$c" = 200 -a "$n" -eq 1
+done
+for l in en pt; do
+  for p in cursos cursos/trabajo-en-altura cursos/categoria/operacion-de-equipos sedes/calama \
+    franquicia-sence preguntas-frecuentes; do
+    c=$(status -A GPTBot "$B/$l/$p")
+    robots=$(curl -s -A GPTBot "$B/$l/$p" | grep -o 'name="robots" content="[^"]*"' | head -1)
+    check "GPTBot /$l/$p → $c $robots" \
+      test "$c" = 200 -a -n "$(grep -i 'noindex' <<<"$robots")"
+  done
+done
+robots=$(curl -s "$B/es/cursos/trabajo-en-altura" | grep -o 'name="robots" content="[^"]*"' | head -1)
+check "/es/cursos/trabajo-en-altura indexable ($robots)" test -n "$robots" -a -z "$(grep -i 'noindex' <<<"$robots")"
+n=$(curl -s "$B/es/cursos/trabajo-en-altura" | count 'Última actualización')
+check "/es/cursos/trabajo-en-altura 'Última actualización'=$n" test "$n" -eq 1
+c=$(status "$B/es/cursos/no-existe"); check "/es/cursos/no-existe → 404 ($c)" test "$c" = 404
+
+# 10. 301 de las URLs antiguas: un solo salto (el destino responde 200), con prefijo y conservando la query.
+redirect_ok() { # redirect_ok <ruta antigua> <Location esperada>
+  local from="$1" want="$2" c loc final
+  c=$(status "$B$from"); loc=$(header location "$B$from")
+  final=$(status "$B$loc")
+  check "$from → $c $loc ($final)" test "$c" = 301 -a "$loc" = "$want" -a "$final" = 200
+}
+redirect_ok /es/curso-empresa/curso-trabajo-en-altura /es/cursos/trabajo-en-altura
+redirect_ok /es/noticias/noticias/insecap-otec-validada-por-codelco /es/noticias/insecap-otec-validada-por-codelco
+redirect_ok "/es/Experiencia-y-Respaldo?utm_source=x" "/es/acreditaciones?utm_source=x"
+redirect_ok /en/experiencia-y-respaldo /en/acreditaciones
+redirect_ok "/es/cursos-empresas?gclid=T" "/es/cursos?gclid=T"
+redirect_ok /pt/cursos-empresas/ /pt/cursos
+redirect_ok /es/especialidades/sap-pm /es/sap-pm
+redirect_ok /es/curso/ea-no-existe-en-shopify /es/cursos
+redirect_ok /es/curso-empresa/curso-no-existe /es/cursos
+# Sin prefijo de idioma: al destino final en un salto (no /es/cursos-empresas → /es/cursos).
+redirect_ok /cursos-empresas /es/cursos
+redirect_ok "/curso-empresa/curso-trabajo-en-altura?utm_source=x" "/es/cursos/trabajo-en-altura?utm_source=x"
+redirect_ok /Experiencia-y-Respaldo /es/acreditaciones
+redirect_ok /cursos /es/cursos
+if [ -f "$REDIRECTS_MAP" ]; then
+  ea=$(grep -o '^"/es/curso/ea-[^"/]*" "[^"]*"' "$REDIRECTS_MAP" | head -1)
+  if [ -n "$ea" ]; then
+    from=$(cut -d'"' -f2 <<<"$ea"); want=$(cut -d'"' -f4 <<<"$ea")
+    redirect_ok "$from" "$want"
+  else
+    ko "redirects.map sin productos ea-*"
+  fi
+  if node "$SCRIPT_DIR/check-dist.mjs" --no-redirect-chains; then ok "check-dist --no-redirect-chains"
+  else ko "check-dist --no-redirect-chains"; fi
+else
+  echo "SKIP  ea-* real y check-dist --no-redirect-chains (no está $REDIRECTS_MAP)"
+fi
+
+# 11. Consola del navegador sin warnings de hidratación en /es, /en y /pt.
 if [ "$HYDRATION" = skip ]; then
   echo "SKIP  hidratación (HYDRATION=skip)"
 else
