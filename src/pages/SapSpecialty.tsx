@@ -3,9 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import {
   ArrowRight,
   BarChart3,
-  CalendarDays,
   ChevronRight,
-  ClipboardList,
   Clock,
   FileText,
   LineChart,
@@ -17,7 +15,6 @@ import {
   Settings2,
   ShieldCheck,
   Users,
-  Wrench,
   X,
 } from 'lucide-react';
 import Header from '@/components/Header';
@@ -27,7 +24,8 @@ import { ClientTypeSwitch } from '@/components/ClientTypeSwitch';
 import OpenCourseRequestForm from '@/components/OpenCourseRequestForm';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { SAP_COURSES, SAP_HREF, SAP_LOGO, SAP_ROLE_ROUTES, SAP_TOTAL_HOURS } from '@/lib/sapCatalog';
+import SapEntorno from '@/components/SapEntorno';
+import { SAP_COURSES, SAP_ENV_SHOTS, SAP_HREF, SAP_LOGO, SAP_ROLE_ROUTES, SAP_TOTAL_HOURS } from '@/lib/sapCatalog';
 
 // Paleta propia de esta página (no toca los tokens globales del sitio).
 // navy #101D42 · cobalto #284FD8 · cian #08B8EC (solo sobre fondo oscuro) · claro #F5F8FC
@@ -42,9 +40,6 @@ const btnPrimary = 'group inline-flex min-h-[48px] items-center justify-center g
 
 const NEED_ICONS = [Settings2, Users, BarChart3];
 const STEP_ICONS = [Search, FileText, Monitor, LineChart];
-const MOCK_NAV_ICONS = [Wrench, ClipboardList, CalendarDays, Settings2, FileText, BarChart3];
-const MOCK_TILE_ICONS = [Settings2, CalendarDays, ClipboardList, BarChart3];
-const MOCK_STATUS_DOT = ['bg-sky-400', 'bg-indigo-400', 'bg-amber-400', 'bg-emerald-500'];
 
 const SapSpecialty = () => {
   const { localizedPath, locale } = useLocalizedPath();
@@ -74,20 +69,7 @@ const SapSpecialty = () => {
         { value: `${SAP_TOTAL_HOURS} h`, label: 'de ruta completa' },
         { value: String(SAP_ROLE_ROUTES.length), label: 'rutas por rol' },
       ],
-      mock: {
-        label: 'Vista ilustrativa',
-        safe: 'Práctica sin tocar tu sistema productivo',
-        nav: ['Mantenimiento', 'Órdenes de trabajo', 'Planificación', 'Equipos', 'Notificaciones', 'Reportes'],
-        title: 'Órdenes de mantenimiento',
-        cols: ['N.º orden', 'Descripción', 'Estado'],
-        rows: [
-          ['Revisión bomba centrífuga', 'En proceso'],
-          ['Mantenimiento preventivo', 'Planificada'],
-          ['Inspección de equipo', 'Liberada'],
-          ['Cambio de componentes', 'Completada'],
-        ],
-        tiles: ['Equipos y ubicaciones', 'Planes de mantenimiento', 'Órdenes de trabajo', 'Historial y análisis'],
-      },
+      mock: { label: 'Ubicaciones técnicas', safe: 'Práctica sin tocar tu sistema productivo' },
       needEyebrow: 'El problema que resolvemos',
       needTitle: 'Tu empresa ya tiene SAP. ¿Tu equipo lo usa igual en todas las áreas?',
       needs: [
@@ -100,7 +82,7 @@ const SapSpecialty = () => {
       steps: [
         { title: 'Diagnóstico', text: 'Revisamos con tus jefaturas cómo se registra hoy el trabajo y dónde se pierde información.' },
         { title: 'Diseño a medida', text: 'Elegimos cursos, horas y casos según tus procesos, roles y nomenclatura.' },
-        { title: 'Formación práctica', text: 'Tu equipo recorre el ciclo completo en SAP Insecap Mineral, paso a paso y con un relator.' },
+        { title: 'Formación práctica', text: 'Tu equipo recorre el ciclo completo en SAP Insecap Minerals, paso a paso y con un relator.' },
         { title: 'Evaluación y reporte', text: 'Medimos lo aprendido por participante y te entregamos un informe para decidir los siguientes pasos.' },
       ],
       catalogEyebrow: 'Especialidad SAP S/4HANA · Módulo PM',
@@ -121,7 +103,7 @@ const SapSpecialty = () => {
       faqEyebrow: 'Preguntas frecuentes',
       faqTitle: 'Lo que suelen preguntarnos',
       faqs: [
-        { q: '¿La práctica se hace en nuestro SAP?', a: 'No. Se hace en SAP Insecap Mineral, nuestro entorno propio. Tu sistema productivo no se toca.' },
+        { q: '¿La práctica se hace en nuestro SAP?', a: 'No. Se hace en SAP Insecap Minerals, nuestro entorno propio. Tu sistema productivo no se toca.' },
         { q: '¿Hay que tomar los 9 cursos?', a: `No. Puedes armar un programa con los cursos que necesites o tomar la ruta completa de ${SAP_TOTAL_HOURS} h.` },
         { q: '¿En qué se diferencia del curso abierto de SAP PM?', a: 'El curso abierto es una inscripción individual con fecha fija. La especialidad es un programa para tu equipo, diseñado tras un diagnóstico y con los cursos que elijas.' },
         { q: '¿Se puede usar la franquicia tributaria SENCE?', a: 'Consúltanos. Lo revisamos según el curso, la modalidad y tu empresa.' },
@@ -152,20 +134,7 @@ const SapSpecialty = () => {
         { value: `${SAP_TOTAL_HOURS} h`, label: 'full path' },
         { value: String(SAP_ROLE_ROUTES.length), label: 'role-based paths' },
       ],
-      mock: {
-        label: 'Illustrative view',
-        safe: 'Practice without touching your production system',
-        nav: ['Maintenance', 'Work orders', 'Planning', 'Equipment', 'Notifications', 'Reports'],
-        title: 'Maintenance orders',
-        cols: ['Order no.', 'Description', 'Status'],
-        rows: [
-          ['Centrifugal pump check', 'In progress'],
-          ['Preventive maintenance', 'Planned'],
-          ['Equipment inspection', 'Released'],
-          ['Component replacement', 'Completed'],
-        ],
-        tiles: ['Equipment and locations', 'Maintenance plans', 'Work orders', 'History and analysis'],
-      },
+      mock: { label: 'Functional locations', safe: 'Practice without touching your production system' },
       needEyebrow: 'The problem we solve',
       needTitle: 'Your company already runs SAP. Does your team use it the same way in every area?',
       needs: [
@@ -178,7 +147,7 @@ const SapSpecialty = () => {
       steps: [
         { title: 'Diagnosis', text: 'We review with your leads how work is recorded today and where information is lost.' },
         { title: 'Tailored design', text: 'We pick courses, hours and cases based on your processes, roles and naming.' },
-        { title: 'Hands-on training', text: 'Your team walks the full cycle in SAP Insecap Mineral, step by step, with an instructor.' },
+        { title: 'Hands-on training', text: 'Your team walks the full cycle in SAP Insecap Minerals, step by step, with an instructor.' },
         { title: 'Assessment and report', text: 'We measure each participant’s learning and deliver a report to plan next steps.' },
       ],
       catalogEyebrow: 'SAP S/4HANA PM Module Specialization',
@@ -199,7 +168,7 @@ const SapSpecialty = () => {
       faqEyebrow: 'FAQ',
       faqTitle: 'What people usually ask us',
       faqs: [
-        { q: 'Is practice done on our SAP?', a: 'No. It is done on SAP Insecap Mineral, our own environment. Your production system is never touched.' },
+        { q: 'Is practice done on our SAP?', a: 'No. It is done on SAP Insecap Minerals, our own environment. Your production system is never touched.' },
         { q: 'Do we have to take all 9 courses?', a: `No. You can build a program with the courses you need or take the full ${SAP_TOTAL_HOURS} h path.` },
         { q: 'How is it different from the open SAP PM course?', a: 'The open course is individual enrollment on a fixed date. The specialization is a program for your team, designed after a diagnosis with the courses you choose.' },
         { q: 'Can we use SENCE tax benefits?', a: 'Ask us. We review it by course, modality and company.' },
@@ -230,20 +199,7 @@ const SapSpecialty = () => {
         { value: `${SAP_TOTAL_HOURS} h`, label: 'de trilha completa' },
         { value: String(SAP_ROLE_ROUTES.length), label: 'trilhas por função' },
       ],
-      mock: {
-        label: 'Vista ilustrativa',
-        safe: 'Prática sem tocar seu sistema produtivo',
-        nav: ['Manutenção', 'Ordens de trabalho', 'Planejamento', 'Equipamentos', 'Notas', 'Relatórios'],
-        title: 'Ordens de manutenção',
-        cols: ['N.º ordem', 'Descrição', 'Status'],
-        rows: [
-          ['Revisão bomba centrífuga', 'Em andamento'],
-          ['Manutenção preventiva', 'Planejada'],
-          ['Inspeção de equipamento', 'Liberada'],
-          ['Troca de componentes', 'Concluída'],
-        ],
-        tiles: ['Equipamentos e locais', 'Planos de manutenção', 'Ordens de trabalho', 'Histórico e análise'],
-      },
+      mock: { label: 'Locais de instalação', safe: 'Prática sem tocar seu sistema produtivo' },
       needEyebrow: 'O problema que resolvemos',
       needTitle: 'Sua empresa já tem SAP. Sua equipe o usa igual em todas as áreas?',
       needs: [
@@ -256,7 +212,7 @@ const SapSpecialty = () => {
       steps: [
         { title: 'Diagnóstico', text: 'Revisamos com suas lideranças como o trabalho é registrado hoje e onde a informação se perde.' },
         { title: 'Desenho sob medida', text: 'Escolhemos cursos, horas e casos conforme seus processos, funções e nomenclatura.' },
-        { title: 'Formação prática', text: 'Sua equipe percorre o ciclo completo no SAP Insecap Mineral, passo a passo e com um instrutor.' },
+        { title: 'Formação prática', text: 'Sua equipe percorre o ciclo completo no SAP Insecap Minerals, passo a passo e com um instrutor.' },
         { title: 'Avaliação e relatório', text: 'Medimos o aprendizado de cada participante e entregamos um relatório para decidir os próximos passos.' },
       ],
       catalogEyebrow: 'Especialização SAP S/4HANA · Módulo PM',
@@ -277,7 +233,7 @@ const SapSpecialty = () => {
       faqEyebrow: 'Perguntas frequentes',
       faqTitle: 'O que costumam nos perguntar',
       faqs: [
-        { q: 'A prática é feita no nosso SAP?', a: 'Não. É feita no SAP Insecap Mineral, nosso ambiente próprio. Seu sistema produtivo não é tocado.' },
+        { q: 'A prática é feita no nosso SAP?', a: 'Não. É feita no SAP Insecap Minerals, nosso ambiente próprio. Seu sistema produtivo não é tocado.' },
         { q: 'É preciso fazer os 9 cursos?', a: `Não. Você pode montar um programa com os cursos que precisa ou fazer a trilha completa de ${SAP_TOTAL_HOURS} h.` },
         { q: 'Qual a diferença para o curso aberto de SAP PM?', a: 'O curso aberto é uma inscrição individual com data fixa. A especialização é um programa para sua equipe, desenhado após um diagnóstico e com os cursos que você escolher.' },
         { q: 'É possível usar a franquia tributária SENCE?', a: 'Consulte-nos. Avaliamos conforme o curso, a modalidade e sua empresa.' },
@@ -364,65 +320,21 @@ const SapSpecialty = () => {
               </dl>
             </div>
 
-            {/* ponytail: interfaz ilustrativa hecha en HTML; reemplazar por captura real de SAP Insecap Mineral cuando exista */}
-            <figure className="relative" aria-label={c.mock.label}>
+            <figure className="relative">
               <div className="overflow-hidden rounded-2xl border border-white/15 bg-[#0B1533] shadow-2xl shadow-black/30">
                 <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5">
-                  <span className="text-xs font-semibold tracking-wide text-white/85">SAP Insecap Mineral</span>
+                  <span className="text-xs font-semibold tracking-wide text-white/85">SAP Insecap Minerals</span>
                   <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-xs text-white/70">{c.mock.label}</span>
                 </div>
-                <div className="grid sm:grid-cols-[11rem_1fr]">
-                  <ul className="hidden flex-col gap-1 border-r border-white/10 p-3 sm:flex" aria-hidden="true">
-                    {c.mock.nav.map((item, i) => {
-                      const Icon = MOCK_NAV_ICONS[i];
-                      return (
-                        <li
-                          key={item}
-                          className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-xs ${i === 0 ? 'bg-[#284FD8] text-white' : 'text-white/65'}`}
-                        >
-                          <Icon className="h-3.5 w-3.5 shrink-0" />
-                          <span className="leading-tight">{item}</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <div className="bg-white p-4 text-[#101D42]">
-                    <p className="text-sm font-bold">{c.mock.title}</p>
-                    <table className="mt-3 w-full text-left text-xs">
-                      <thead>
-                        <tr className="border-b border-slate-200 text-slate-500">
-                          {c.mock.cols.map((col) => (
-                            <th key={col} scope="col" className="pb-2 pr-2 font-semibold">{col}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {c.mock.rows.map(([desc, status], i) => (
-                          <tr key={desc} className="border-b border-slate-100 last:border-0">
-                            <td className="py-2 pr-2 tabular-nums text-slate-500">40012{34 + i}</td>
-                            <td className="py-2 pr-2">{desc}</td>
-                            <td className="py-2">
-                              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
-                                <span className={`h-2 w-2 rounded-full ${MOCK_STATUS_DOT[i]}`} aria-hidden="true" />
-                                {status}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    <ul className="mt-4 grid grid-cols-2 gap-2" aria-hidden="true">
-                      {c.mock.tiles.map((tile, i) => {
-                        const Icon = MOCK_TILE_ICONS[i];
-                        return (
-                          <li key={tile} className="rounded-xl border border-slate-200 bg-[#F5F8FC] p-2.5">
-                            <Icon className="h-4 w-4 text-[#284FD8]" />
-                            <span className="mt-1.5 block text-xs font-medium leading-tight">{tile}</span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
+                {/* Ampliada a la tabla (código + denominación): a tamaño completo no se lee en el hero */}
+                <div className="aspect-[4/3] overflow-hidden bg-white">
+                  <img
+                    src={SAP_ENV_SHOTS[0].src}
+                    alt={SAP_ENV_SHOTS[0].alt[locale]}
+                    width={SAP_ENV_SHOTS[0].w}
+                    height={SAP_ENV_SHOTS[0].h}
+                    className="h-auto w-[160%] max-w-none"
+                  />
                 </div>
               </div>
               <figcaption className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold text-white lg:absolute lg:-bottom-5 lg:left-6 lg:mt-0 lg:border-[#08B8EC]/50 lg:bg-[#101D42]">
@@ -494,6 +406,13 @@ const SapSpecialty = () => {
             </ol>
           </div>
         </section>
+
+        {/* 3b. ENTORNO SAP INSECAP MINERALS — capturas reales (compartido con el home) */}
+        <div className="bg-[#F5F8FC] py-16 md:py-20">
+          <div className={wrap}>
+            <SapEntorno />
+          </div>
+        </div>
 
         {/* 4. SELECCIÓN DE CURSOS — sección principal */}
         <section id="catalogo" className="scroll-mt-20 bg-white py-16 md:py-20">

@@ -192,3 +192,24 @@ export const SAP_TOTAL_HOURS = SAP_COURSES.reduce((sum, c) => sum + c.hours, 0);
 export const SAP_HREF = '/especialidades/sap-pm';
 
 export const SAP_LOGO = 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/saplogo-svg-e9c51a68.webp';
+
+const ENV_CDN = 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias';
+
+/**
+ * Capturas reales del entorno SAP Insecap Minerals. La primera va en grande (y en el hero de la landing).
+ * zoom: las miniaturas muestran la esquina superior izquierda ampliada (el resto de la pantalla es fondo vacío).
+ */
+export const SAP_ENV_SHOTS = [
+  {
+    src: `${ENV_CDN}/sap2-23d39a46.jpeg`, w: 1519, h: 904, zoom: 1.6,
+    alt: { es: 'Ubicaciones técnicas de una faena minera', en: 'Functional locations of a mining site', pt: 'Locais de instalação de uma operação mineira' },
+  },
+  {
+    src: `${ENV_CDN}/sap3-a2c823e9.jpeg`, w: 1600, h: 855, zoom: 2.2,
+    alt: { es: 'Acceso al entorno', en: 'Environment login', pt: 'Acesso ao ambiente' },
+  },
+  {
+    src: `${ENV_CDN}/sap-c238453d.jpeg`, w: 1514, h: 903, zoom: 1.6,
+    alt: { es: 'Menú SAP Easy Access', en: 'SAP Easy Access menu', pt: 'Menu SAP Easy Access' },
+  },
+];

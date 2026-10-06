@@ -149,7 +149,7 @@ export default function CapinBubble() {
   };
 
   return (
-    <div className="capin-root fixed bottom-6 [&_p]:text-left right-6 z-[60] flex flex-col items-end print:hidden sm:bottom-8 sm:right-8">
+    <div className="capin-root fixed bottom-6 [&_p]:text-left right-6 z-50 flex flex-col items-end print:hidden sm:bottom-8 sm:right-8">
       {abierto ? (
         <ChatCapin t={t} onCerrar={cerrar} />
       ) : (

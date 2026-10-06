@@ -3,6 +3,8 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, ArrowUpRight, MapPin, Pickaxe, ShieldCheck } from 'lucide-react';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { SAP_COURSES, SAP_HREF, SAP_LOGO, SAP_ROLE_ROUTES, SAP_TOTAL_HOURS } from '@/lib/sapCatalog';
+import SapEntorno from '@/components/SapEntorno';
+import { StarsBackground } from '@/components/animate-ui/components/backgrounds/stars';
 
 const hoursOf = (ids: string[]) =>
   SAP_COURSES.filter((c) => ids.includes(c.id)).reduce((sum, c) => sum + c.hours, 0);
@@ -24,7 +26,7 @@ const SapMineralsBanner = () => {
       kicker: 'Especialidad SAP S/4HANA · Módulo PM',
       title: 'Ya tienes SAP PM.',
       titleHighlight: 'Falta que tu equipo lo domine.',
-      body: 'Formamos a tu equipo de mantenimiento sobre los procesos de tu faena, del aviso al análisis, con práctica en nuestra plataforma propia SAP Insecap Mineral.',
+      body: 'Formamos a tu equipo de mantenimiento sobre los procesos de tu faena, del aviso al análisis, con práctica en nuestra plataforma propia SAP Insecap Minerals.',
       ctaPrimary: 'Conoce la especialidad',
       ctaSecondary: 'Agenda un diagnóstico',
       trust: ['Práctica sin tocar tu sistema productivo', 'Calama · Antofagasta · Online en vivo'],
@@ -46,7 +48,7 @@ const SapMineralsBanner = () => {
       kicker: 'SAP S/4HANA PM Module Specialization',
       title: 'You already have SAP PM.',
       titleHighlight: 'Now your team needs to master it.',
-      body: 'We train your maintenance team on your site’s own processes, from notification to analysis, with hands-on practice on our own SAP Insecap Mineral platform.',
+      body: 'We train your maintenance team on your site’s own processes, from notification to analysis, with hands-on practice on our own SAP Insecap Minerals platform.',
       ctaPrimary: 'Explore the specialization',
       ctaSecondary: 'Book a diagnosis',
       trust: ['Practice without touching your production system', 'Calama · Antofagasta · Live online'],
@@ -68,7 +70,7 @@ const SapMineralsBanner = () => {
       kicker: 'Especialização SAP S/4HANA · Módulo PM',
       title: 'Você já tem SAP PM.',
       titleHighlight: 'Falta sua equipe dominá-lo.',
-      body: 'Formamos sua equipe de manutenção sobre os processos da sua operação, da nota à análise, com prática na nossa plataforma própria SAP Insecap Mineral.',
+      body: 'Formamos sua equipe de manutenção sobre os processos da sua operação, da nota à análise, com prática na nossa plataforma própria SAP Insecap Minerals.',
       ctaPrimary: 'Conheça a especialização',
       ctaSecondary: 'Agende um diagnóstico',
       trust: ['Prática sem tocar seu sistema produtivo', 'Calama · Antofagasta · Online ao vivo'],
@@ -93,22 +95,24 @@ const SapMineralsBanner = () => {
   ];
 
   return (
-    <section aria-labelledby="sap-banner-title" className="relative z-20 pb-16 pt-4">
+    <section aria-labelledby="sap-banner-title" className="relative z-20 pb-16 pt-4 [&_p]:text-left">
       <div className="container mx-auto px-8 md:px-14 lg:px-16">
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#0D1C3F] via-[#1B2A6B] to-insecap-blue shadow-2xl"
+          className="rounded-[2rem] shadow-2xl"
         >
-          {/* Fondo: blobs + retícula de puntos, mismo lenguaje que el resto de la home */}
-          <div aria-hidden="true" className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-sky-400/25 blur-3xl" />
-          <div aria-hidden="true" className="pointer-events-none absolute -bottom-40 left-1/4 h-96 w-96 rounded-full bg-indigo-400/20 blur-3xl" />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:radial-gradient(white_1px,transparent_1px)] [background-size:22px_22px]"
-          />
+          {/* Una sola superficie: mensaje + rutas, entorno con capturas y ciclo, sobre un cielo de estrellas que sigue al puntero */}
+          <StarsBackground
+            starColor="rgba(186, 230, 253, 0.85)"
+            factor={0.03}
+            pointerEvents={false}
+            className="rounded-[2rem] bg-gradient-to-br from-[#0D1C3F] via-[#1B2A6B] to-insecap-blue"
+          >
+          {/* Halo cian arriba a la derecha: da profundidad sin competir con las estrellas */}
+          <div aria-hidden="true" className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-sky-400/20 blur-3xl" />
 
           <div className="relative grid gap-12 px-6 py-12 sm:px-10 md:py-16 lg:grid-cols-[1.25fr_1fr] lg:gap-14 lg:px-14 lg:py-20">
             {/* Mensaje */}
@@ -212,6 +216,11 @@ const SapMineralsBanner = () => {
             </div>
           </div>
 
+          {/* Entorno SAP Insecap Minerals: la prueba concreta de lo "a medida" */}
+          <div className="relative px-6 pb-12 sm:px-10 md:pb-16 lg:px-14 lg:pb-20">
+            <SapEntorno embedded />
+          </div>
+
           {/* Ciclo del trabajo: muestra el alcance de la especialidad de un vistazo */}
           <div className="relative border-t border-white/10 bg-[#0D1C3F]/40 px-6 py-6 sm:px-10 lg:px-14">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-300">{content.cycleTitle}</p>
@@ -226,6 +235,7 @@ const SapMineralsBanner = () => {
               ))}
             </ol>
           </div>
+          </StarsBackground>
         </motion.div>
       </div>
     </section>
