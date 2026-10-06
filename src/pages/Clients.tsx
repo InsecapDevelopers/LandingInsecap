@@ -8,6 +8,7 @@ import { clientLogos } from '@/data/clients';
 import { Marquee } from "@/components/ui/marquee";
 import { getLiderComercial, LiderComercial } from '@/lib/tmsApi';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { shopifyImage, shopifyImageForHeight } from '@/lib/images';
 
 const slideInLeft = {
   hidden: { opacity: 0, x: -80 },
@@ -109,8 +110,12 @@ const Clients = () => {
                     className="bg-white p-6 md:p-8 mx-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center group min-w-[200px] h-[120px]"
                   >
                     <img
-                      src={logo.src}
+                      src={shopifyImageForHeight(logo.src, logo.width, logo.height, 80)}
                       alt={logo.alt}
+                      width={logo.width}
+                      height={logo.height}
+                      loading="lazy"
+                      decoding="async"
                       className="max-h-16 md:max-h-20 w-auto object-contain transition-all duration-500"
                     />
                   </div>
@@ -125,8 +130,12 @@ const Clients = () => {
                     className="bg-white p-6 md:p-8 mx-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center group min-w-[200px] h-[120px]"
                   >
                     <img
-                      src={logo.src}
+                      src={shopifyImageForHeight(logo.src, logo.width, logo.height, 80)}
                       alt={logo.alt}
+                      width={logo.width}
+                      height={logo.height}
+                      loading="lazy"
+                      decoding="async"
                       className="max-h-16 md:max-h-20 w-auto object-contain transition-all duration-500"
                     />
                   </div>
@@ -142,7 +151,7 @@ const Clients = () => {
 
         <section
           className="relative py-20 overflow-hidden"
-          style={{ backgroundImage: 'url(\'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/E-Sala-6-Image-2024-08-05-at-13.13.42-2.jpg?v=1769004992\')', backgroundSize: 'cover', backgroundPosition: 'center' }}
+          style={{ backgroundImage: `url('${shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/E-Sala-6-Image-2024-08-05-at-13.13.42-2.jpg?v=1769004992', 1280)}')`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
           <div className="absolute inset-0 bg-blue-800 bg-opacity-75 backdrop-blur-sm" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-blue-900 opacity-40" />

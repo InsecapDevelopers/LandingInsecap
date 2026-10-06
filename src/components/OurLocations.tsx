@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
-import ChileSedesMap from './chile-map/ChileSedesMap';
+
+// El mapa de Chile (~150 KB de trazados SVG) va en su propio chunk (Fase 6). El prerender lo deja en
+// el HTML; en el cliente hidrata cuando llega el chunk.
+const ChileSedesMap = lazy(() => import('./chile-map/ChileSedesMap'));
 
 const OurLocations: React.FC = () => {
   const { t } = useTranslation();
@@ -30,7 +33,9 @@ const OurLocations: React.FC = () => {
 
         {/* Mapa interactivo de Chile */}
         <div className="mx-auto">
-          <ChileSedesMap />
+          <Suspense fallback={null}>
+            <ChileSedesMap />
+          </Suspense>
         </div>
       </div>
     </section>

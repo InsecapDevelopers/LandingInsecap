@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import confetti from 'canvas-confetti';
 import { Trophy } from 'lucide-react';
 import Header from '@/components/Header';
 import SEO from '@/components/SEO';
@@ -10,6 +9,7 @@ import {
   getPodioInsecoins, PodioInsecoinsItem,
 } from '@/lib/tmsApi';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { shopifyImage } from '@/lib/images';
 
 const medalEmoji = ['🥇', '🥈', '🥉'];
 
@@ -52,8 +52,12 @@ const PodioMensual = ({ items }: { items: PodioInsecoinsItem[] }) => {
               <span className="text-2xl mb-1">{medalEmoji[item.puesto - 1]}</span>
               {item.foto ? (
                 <img
-                  src={item.foto}
+                  src={shopifyImage(item.foto, 160)}
                   alt={item.nombre}
+                  width={80}
+                  height={80}
+                  loading="lazy"
+                  decoding="async"
                   className={`w-16 h-16 md:w-20 md:h-20 rounded-full object-cover ${cfg.ringColor} shadow-md`}
                 />
               ) : (
@@ -72,7 +76,7 @@ const PodioMensual = ({ items }: { items: PodioInsecoinsItem[] }) => {
               <div className={`${cfg.topColor} h-4`} />
               {/* Cuerpo */}
               <div className={`${cfg.bodyColor} flex-1 h-full flex items-center justify-center`}>
-                <span className={`text-3xl md:text-4xl font-black ${cfg.textColor} opacity-30 select-none`}>
+                <span className={`text-3xl md:text-4xl font-bold ${cfg.textColor} opacity-30 select-none`}>
                   {item.puesto}
                 </span>
               </div>
@@ -84,7 +88,10 @@ const PodioMensual = ({ items }: { items: PodioInsecoinsItem[] }) => {
   );
 };
 
-const shootStars = () => {
+// canvas-confetti solo se descarga cuando hay que celebrar (import dinámico, Fase 6).
+const loadConfetti = () => import('canvas-confetti').then((module) => module.default);
+
+const shootStars = () => void loadConfetti().then((confetti) => {
   const defaults = {
     spread: 360,
     ticks: 60,
@@ -100,13 +107,13 @@ const shootStars = () => {
   setTimeout(shoot, 0);
   setTimeout(shoot, 120);
   setTimeout(shoot, 250);
-};
+});
 
-const shootCelebration = () => {
+const shootCelebration = () => void loadConfetti().then((confetti) => {
   confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 }, colors: ['#3b82f6', '#06b6d4', '#8b5cf6', '#f59e0b', '#10b981'] });
   setTimeout(() => confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#f59e0b', '#fbbf24', '#fde68a'] }), 200);
   setTimeout(() => confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#3b82f6', '#06b6d4', '#8b5cf6'] }), 200);
-};
+});
 
 // Iframe responsivo: siempre en el DOM para que ResizeObserver obtenga el ancho real
 const IframeFama = ({ src, title, onLoaded, loaded }: { src: string; title: string; onLoaded: () => void; loaded: boolean }) => {

@@ -1,17 +1,19 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { shopifyImage } from '@/lib/images';
 
+// width/height intrínsecos (reservan la proporción). El ISO de Shopify (963 px) se pide a 240 px, ~2x de su render.
 const topLogos = [
-  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498', alt: 'SENCE' },
-  { src: '/logos/SELLO_2728.svg', alt: 'NCh2728' },
-  { src: '/logos/CCS.png', alt: 'Cámara de Comercio de Santiago' },
-  { src: '/logos/SICEP.png', alt: 'SICEP' },
+  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498', alt: 'SENCE', width: 308, height: 132 },
+  { src: '/logos/SELLO_2728.svg', alt: 'NCh2728', width: 261, height: 235 },
+  { src: '/logos/CCS.png', alt: 'Cámara de Comercio de Santiago', width: 438, height: 124 },
+  { src: '/logos/SICEP.png', alt: 'SICEP', width: 416, height: 179 },
 ];
 
 const bottomLogos = [
-  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', alt: 'ISO 9001' },
-  { src: '/logos/Sello Acreditado Codelco Color.png', alt: 'OTEC Acreditada por Codelco' },
-  { src: '/logos/Sello CCM Color.png', alt: 'Consejo de Competencias Mineras' },
+  { src: shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', 240), alt: 'ISO 9001', width: 963, height: 865 },
+  { src: '/logos/Sello Acreditado Codelco Color.png', alt: 'OTEC Acreditada por Codelco', width: 290, height: 300 },
+  { src: '/logos/Sello CCM Color.png', alt: 'Consejo de Competencias Mineras', width: 313, height: 167 },
 ];
 
 const AccreditationsStrip = () => {
@@ -35,6 +37,9 @@ const AccreditationsStrip = () => {
                 key={logo.alt}
                 src={logo.src}
                 alt={logo.alt}
+                width={logo.width}
+                height={logo.height}
+                decoding="async"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 + i * 0.15, ease: 'easeOut' }}
@@ -50,6 +55,9 @@ const AccreditationsStrip = () => {
                 key={logo.alt}
                 src={logo.src}
                 alt={logo.alt}
+                width={logo.width}
+                height={logo.height}
+                decoding="async"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 + (topLogos.length + i) * 0.15, ease: 'easeOut' }}

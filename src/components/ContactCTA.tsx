@@ -1,7 +1,11 @@
 import { Phone, Mail, MapPin } from 'lucide-react';
+import { lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
-import OpenCourseRequestForm from '@/components/OpenCourseRequestForm';
 import { CONTACT_EMAIL, sedes } from '@/data/sedes';
+
+// El formulario va al pie de todas las páginas: en su propio chunk (Fase 6), fuera de la carga inicial.
+// El prerender lo deja en el HTML; en el cliente hidrata cuando llega el chunk.
+const OpenCourseRequestForm = lazy(() => import('@/components/OpenCourseRequestForm'));
 
 const ContactCTA = () => {
   const { t } = useTranslation();
@@ -64,7 +68,9 @@ const ContactCTA = () => {
             <div className="container mx-auto px-8 md:px-14 lg:px-16 text-center">
               <h4 className="font-bold text-2xl mb-8 text-secondary">{t('contactCTA.stayInTouch')}</h4>
               <div className="max-w-xl mx-auto rounded-2xl shadow-2xl bg-white p-8 text-left">
-                <OpenCourseRequestForm />
+                <Suspense fallback={null}>
+                  <OpenCourseRequestForm />
+                </Suspense>
               </div>
             </div>
           </div>

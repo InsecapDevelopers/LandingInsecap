@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { Button } from '@/components/ui/button';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { shopifyImage } from '@/lib/images';
 
 const CAEX_BANNER = 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/banner_caex.png?v=1776263507';
 const MULTISIM_CARD_IMAGE = 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_5510.jpg?v=1776281179';
@@ -119,8 +120,10 @@ const SimulatorCatalog = () => {
               </div>
               <div className="w-full md:w-1/2 h-64 md:h-auto min-h-[320px] overflow-hidden">
                 <img
-                  src={MULTISIM_CARD_IMAGE}
+                  src={shopifyImage(MULTISIM_CARD_IMAGE, 828)}
                   alt={content.multisimAlt}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -147,8 +150,10 @@ const SimulatorCatalog = () => {
               </div>
               <div className="relative w-full md:w-1/2 h-64 md:h-auto min-h-[320px] overflow-hidden bg-gradient-to-br from-orange-700 to-red-900">
                 <img
-                  src={EXTINTOR_IMAGE}
+                  src={shopifyImage(EXTINTOR_IMAGE, 828)}
                   alt={content.extintorAlt}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = 'none';

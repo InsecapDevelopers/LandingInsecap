@@ -106,6 +106,7 @@ const SapEntorno = ({ embedded = false }: { embedded?: boolean }) => {
                 width={shot.w}
                 height={shot.h}
                 loading="lazy"
+                decoding="async"
                 draggable={false}
                 className="h-auto max-w-none transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transform-none"
                 style={{ width: `${shot.zoom * 100}%`, transformOrigin: 'top left' }}

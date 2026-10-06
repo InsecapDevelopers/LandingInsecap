@@ -188,6 +188,7 @@ const NewsSlider: React.FC = () => {
                         alt={featuredArticle.image.altText || featuredArticle.title}
                         className="block w-full h-auto transition-transform duration-500 transform-gpu group-hover:scale-[1.03]"
                         loading="lazy"
+                        decoding="async"
                       />
                     ) : null}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
@@ -243,6 +244,7 @@ const NewsSlider: React.FC = () => {
                         aria-hidden="true"
                         className="absolute inset-0 w-full h-full object-cover blur-sm scale-105 opacity-45 transition-transform duration-500 group-hover:scale-110"
                         loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-insecap-blue to-insecap-cyan opacity-70" />
@@ -258,6 +260,7 @@ const NewsSlider: React.FC = () => {
                         alt={article.image.altText || article.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
+                        decoding="async"
                       />
                     ) : null}
                   </div>

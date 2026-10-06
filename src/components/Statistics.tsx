@@ -51,7 +51,7 @@ export function StatsSection() {
               <div className="mb-4">
                 {stat.icon}
               </div>
-              <div className="flex items-baseline text-4xl md:text-5xl font-extrabold text-white mb-2 tabular-nums">
+              <div className="flex items-baseline text-4xl md:text-5xl font-bold text-white mb-2 tabular-nums">
                 <NumberTicker
                   value={stat.value}
                   className="text-white"

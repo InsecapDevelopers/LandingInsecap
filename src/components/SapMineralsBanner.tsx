@@ -128,7 +128,7 @@ const SapMineralsBanner = () => {
 
               <h2
                 id="sap-banner-title"
-                className="mt-6 text-[clamp(2rem,5vw,3.5rem)] font-extrabold leading-[1.08] tracking-tight text-white"
+                className="mt-6 text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.08] tracking-tight text-white"
               >
                 {content.title}{' '}
                 <span className="bg-gradient-to-r from-sky-300 to-cyan-300 bg-clip-text text-transparent">
@@ -168,7 +168,7 @@ const SapMineralsBanner = () => {
                 {content.stats.map((stat) => (
                   <div key={stat.label} className="flex flex-col-reverse justify-end">
                     <dt className="mt-1 text-xs leading-snug text-white/70 sm:text-sm">{stat.label}</dt>
-                    <dd className="whitespace-nowrap text-2xl font-extrabold tabular-nums text-white sm:text-3xl md:text-4xl">{stat.value}</dd>
+                    <dd className="whitespace-nowrap text-2xl font-bold tabular-nums text-white sm:text-3xl md:text-4xl">{stat.value}</dd>
                   </div>
                 ))}
               </dl>

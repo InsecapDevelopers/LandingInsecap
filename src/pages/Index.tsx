@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import Header from '@/components/Header';
 import SEO from '@/components/SEO';
 import VideoHero from '@/components/VideoHero';
@@ -10,7 +11,6 @@ import Footer from '@/components/Footer';
 import MeetUs from '@/components/MeetUs';
 import Catalog from '@/components/Catalog';
 import OurClients from '@/components/OurClients';
-import DuaSection from '@/components/DuaSection';
 import NumberTickerDemo from '@/components/Statistics';
 import NewsSlider from '@/components/NewsSlider';
 import InnovationSection from '@/components/InnovationSection';
@@ -19,6 +19,10 @@ import OpenCourseOffer from '@/components/OpenCourseOffer';
 import WaveDivider from '@/components/WaveDivider';
 import SapMineralsBanner from '@/components/SapMineralsBanner';
 import { isOpenCourseOfferEnabled, isSimulatorsEnabled } from '@/lib/featureFlags';
+
+// Swiper (DuaSection) va en su propio chunk, fuera de la carga inicial (Fase 6). El prerender lo
+// incluye completo en el HTML; en el cliente esa sección hidrata cuando llega el chunk.
+const DuaSection = lazy(() => import('@/components/DuaSection'));
 
 const Index = () => {
   return (
@@ -48,7 +52,9 @@ const Index = () => {
         <OurClients />
         <InnovationSection />
         <NumberTickerDemo />
-        <DuaSection />
+        <Suspense fallback={null}>
+          <DuaSection />
+        </Suspense>
         <ShopifyProducts />
       </main>
       <Footer />

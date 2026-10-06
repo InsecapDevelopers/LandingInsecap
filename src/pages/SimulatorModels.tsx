@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { SIMULATORS, SIMULATOR_CATEGORIES, type Simulator } from '@/lib/simulatorData';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { responsiveImage, shopifyImage } from '@/lib/images';
 
 const CAEX_BANNER = 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/banner_caex.png?v=1776263507';
 const STORE_GALLERY_IMAGES = [
@@ -95,7 +96,7 @@ const GalleryPanel = memo(({ content, localizedPath }: GalleryPanelProps) => {
       <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 md:p-6">
         <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white">
           <img
-            src={STORE_GALLERY_IMAGES[activeImageIndex]}
+            {...responsiveImage(STORE_GALLERY_IMAGES[activeImageIndex], [640, 960, 1280], '(min-width: 1024px) 50vw, 100vw', 960)}
             alt={t('gallery.photo', { name: content.productName, n: activeImageIndex + 1 })}
             className="h-[320px] w-full object-cover md:h-[480px]"
             decoding="async"
@@ -132,7 +133,7 @@ const GalleryPanel = memo(({ content, localizedPath }: GalleryPanelProps) => {
               aria-label={t('gallery.view', { n: index + 1 })}
             >
               <img
-                src={imageUrl}
+                src={shopifyImage(imageUrl, 160)}
                 alt=""
                 className="h-16 w-16 object-cover md:h-20 md:w-20"
                 loading="lazy"
@@ -193,7 +194,7 @@ const SimulatorCard = memo(({ simulator }: SimulatorCardProps) => (
     <div className="relative h-48 bg-gradient-to-br from-slate-800 to-slate-900 overflow-hidden">
       {simulator.image ? (
         <img
-          src={simulator.image}
+          src={shopifyImage(simulator.image, 640)}
           alt={simulator.name}
           className="w-full h-full object-cover"
           loading="lazy"

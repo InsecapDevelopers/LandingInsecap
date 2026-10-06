@@ -8,7 +8,6 @@
  */
 import { queryOptions } from '@tanstack/react-query';
 
-import { fetchB2bCatalogTopics } from './b2bCatalogData';
 import { fetchAllNews, fetchNews, fetchNewsBySlug } from './newsData';
 
 /** Noticias por página en /noticias (Blog). */
@@ -20,7 +19,6 @@ export const queryKeys = {
   newsList: (page: number, perPage: number) => ['news', 'list', page, perPage] as const,
   newsAll: () => ['news', 'all'] as const,
   newsArticle: (slug: string) => ['news', 'article', slug] as const,
-  b2bTopics: () => ['b2b', 'topics'] as const,
 };
 
 export const newsListQuery = (page: number, perPage: number) =>
@@ -41,11 +39,4 @@ export const newsArticleQuery = (slug: string) =>
   queryOptions({
     queryKey: queryKeys.newsArticle(slug),
     queryFn: () => fetchNewsBySlug(slug),
-  });
-
-/** Catálogo B2B completo: lo usan el catálogo (/cursos-empresas) y cada ficha (/curso-empresa/:handle). */
-export const b2bTopicsQuery = () =>
-  queryOptions({
-    queryKey: queryKeys.b2bTopics(),
-    queryFn: fetchB2bCatalogTopics,
   });

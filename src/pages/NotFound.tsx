@@ -4,6 +4,7 @@ import { Home, Mail, Phone } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { CONTACT_EMAIL, sedes } from '@/data/sedes';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { shopifyImage } from '@/lib/images';
 
 /** Teléfono de la casa matriz (NAP único de src/data/sedes.ts). */
 const casaMatriz = sedes.find((sede) => sede.casaMatriz) ?? sedes[0];
@@ -43,9 +44,11 @@ const NotFound: React.FC = () => {
         
         {/* Imagen Capin - Usando la URL de Shopify para evitar problemas de exportación */}
         <div className="mb-8 flex justify-center">
-          <img 
-            src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Capin-19.png?v=1769112910" 
+          <img
+            src={shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Capin-19.png?v=1769112910', 512)}
             alt={content.imageAlt}
+            width={3980}
+            height={3301}
             className="w-64 h-64 object-contain animate-bounce"
           />
         </div>

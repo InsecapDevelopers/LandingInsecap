@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import CartDrawer from './CartDrawer';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { shopifyImage } from '@/lib/images';
 import { stripLocaleFromPath } from '@/lib/locale-routing';
 import { isEcommerceEnabled } from '@/lib/featureFlags';
 import { SAP_HREF } from '@/lib/sapCatalog';
@@ -145,10 +146,13 @@ const Header = () => {
           {/* Logo */}
           <Link to={localizedPath('/')} className="flex items-center gap-2" onClick={handleLogoClick}>
             <div className="text-primary-foreground font-bold text-2xl flex items-center">
+              {/* 2327×728 en origen; se pide a 480 px (2x del w-60). TODO: logo SVG oficial (sección 4, punto 10). */}
               <img
-                src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508"
+                src={shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508', 480)}
                 alt="INSECAP"
-                className={`object-contain transition-all duration-500 ease-in-out ${isAtTop ? 'w-60' : 'w-40'
+                width={2327}
+                height={728}
+                className={`h-auto object-contain transition-all duration-500 ease-in-out ${isAtTop ? 'w-60' : 'w-40'
                   }`}
               />
             </div>

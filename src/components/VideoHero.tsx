@@ -6,12 +6,33 @@ import { DiaTextReveal } from '@/components/ui/dia-text-reveal';
 import { isOpenCourseOfferEnabled } from '@/lib/featureFlags';
 import { useTranslation } from 'react-i18next';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
+import { HIGH_PRIORITY, localImage } from '@/lib/images';
 
 // ponytail: pega aquí la URL del .mp4 (Shopify CDN o /public). Vacío => solo poster.
 const VIDEO_SRC = 'https://cdn.shopify.com/videos/c/o/v/24efdc373f8f4f5c8ebebbce1ecdb1e7.mp4';
-const POSTER =  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cascada-fachada-y-letrero-scaled.jpg?v=1776094124'
 // ponytail: el CDN sirve tanto .mp4 como .webp animado; el tag correcto depende de la extensión.
 const IS_VIDEO = /\.(mp4|webm|mov|m4v)(\?|$)/i.test(VIDEO_SRC);
+
+/* Poster = imagen LCP de la home (Fase 6): WebP local en public/images/hero (fachada de Calama,
+   recomprimida desde Shopify Cascada-fachada-y-letrero-scaled.jpg con `cwebp -q 60 -m 6 -resize
+   <ancho> 0`), con fetchpriority=high y el preload que inyecta scripts/prerender.mjs. Mismo origen:
+   no abre una conexión a cdn.shopify.com antes del LCP. Cubre una caja de 120% del alto de pantalla
+   (object-cover). En vertical el ancho real sería ~165vh; se pide 70vh a propósito: va bajo capas
+   oscuras y en un móvil 412×823 @1,75x basta el de 1080 px (~45 KB; con 75vh el redondeo pedía 1280). */
+const POSTER_WIDTH = 4262;
+const POSTER_HEIGHT = 3118;
+const POSTER_IMG = localImage(
+  '/images/hero/sede-calama-fachada-18c9b2b0',
+  [640, 828, 1080, 1280, 1600, 1920],
+  '(max-aspect-ratio: 1/1) 70vh, 100vw',
+);
+const MEDIA_FILTER = { filter: 'contrast(1.08) saturate(1.18) brightness(1.02)' };
+
+/** El mp4 (~3–12 MB) o el .webp animado: solo en escritorio, sin Save-Data ni reduced-motion. */
+const canPlayHeroVideo = () => {
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  return window.matchMedia('(min-width: 1024px)').matches && !connection?.saveData;
+};
 
 type HeroPhrase = {
   h1: string;
@@ -25,6 +46,12 @@ const VideoHero = () => {
   const { t, i18n } = useTranslation();
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
+
+  // El video se monta después de hidratar (el HTML prerenderizado solo trae el poster).
+  const [playVideo, setPlayVideo] = useState(false);
+  useEffect(() => {
+    setPlayVideo(Boolean(VIDEO_SRC) && !reduceMotion && canPlayHeroVideo());
+  }, [reduceMotion]);
 
   // Frase de valor: "Capacitación que fortalece tu operación" + rotatorio "Preparando tu equipo para…"
   const heroPhrase = useMemo(() => {
@@ -56,27 +83,29 @@ const VideoHero = () => {
     >
       {/* ── Media de fondo (video o poster) ── */}
       <motion.div style={{ y: reduceMotion ? 0 : mediaY }} className="absolute inset-0 -top-[10%] h-[120%]">
-        {IS_VIDEO ? (
+        <img
+          {...POSTER_IMG}
+          {...HIGH_PRIORITY}
+          alt=""
+          width={POSTER_WIDTH}
+          height={POSTER_HEIGHT}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={MEDIA_FILTER}
+        />
+        {playVideo && (IS_VIDEO ? (
           <video
-            className="w-full h-full object-cover"
-            style={{ filter: 'contrast(1.08) saturate(1.18) brightness(1.02)' }}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={MEDIA_FILTER}
             src={VIDEO_SRC}
-            poster={POSTER}
-            autoPlay={!reduceMotion}
+            autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
             aria-hidden="true"
           />
         ) : (
-          <img
-            src={VIDEO_SRC || POSTER}
-            alt=""
-            className="w-full h-full object-cover"
-            fetchPriority="high"
-          />
-        )}
+          <img src={VIDEO_SRC} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        ))}
       </motion.div>
 
       {/* ── Capas de color: oscuro arriba, se aclara hacia el empalme ── */}
@@ -94,7 +123,7 @@ const VideoHero = () => {
           initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
-          className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
+          className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
         >
           {h1Head}
           <br />
@@ -119,7 +148,7 @@ const VideoHero = () => {
               textColor="#38bdf8"
               duration={1.8}
               delay={0.4}
-              className="whitespace-nowrap font-extrabold"
+              className="whitespace-nowrap font-bold"
             />
           )}
         </motion.h1>

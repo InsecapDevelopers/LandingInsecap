@@ -4,7 +4,7 @@ import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { Mail, Phone, MapPin } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
@@ -13,7 +13,6 @@ import { CONTACT_EMAIL, sedes } from '@/data/sedes';
 const Contact = () => {
   const { locale, localizedPath } = useLocalizedPath();
   const { t } = useTranslation();
-  const { toast } = useToast();
 
   const content = {
     es: {
@@ -56,10 +55,7 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast({
-      title: content.toastTitle,
-      description: content.toastDescription,
-    });
+    toast.success(content.toastTitle, { description: content.toastDescription });
   };
 
   return (
@@ -87,6 +83,8 @@ const Contact = () => {
               <img 
                 src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/nosotros_cedes.svg?v=1769433643" 
                 alt={content.mapAlt} 
+                loading="lazy"
+                decoding="async"
                 className="w-full h-auto"
               />
             </div>

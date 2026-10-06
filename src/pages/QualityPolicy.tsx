@@ -7,6 +7,7 @@ import PageHero from '@/components/PageHero';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 import { ShineBorder } from '@/components/ui/shine-border';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { responsiveImage } from '@/lib/images';
 
 /**
  * Hook de parallax correcto.
@@ -191,9 +192,13 @@ const QualityPolicy = () => {
           {/* Imagen de fondo con parallax */}
           <div ref={bannerParallax.wrapRef} className="absolute inset-0 pointer-events-none" style={{ top: '-15%', bottom: '-15%' }}>
             <img
-              src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Quienes-Somos-Collage-01-2400x1356.jpg?v=1776094555"
+              {...responsiveImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Quienes-Somos-Collage-01-2400x1356.jpg?v=1776094555', [640, 1080, 1600], '100vw', 1080)}
               alt=""
               aria-hidden="true"
+              width={1919}
+              height={1565}
+              loading="lazy"
+              decoding="async"
               style={{ transform: `translateY(${bannerParallax.offset}px)`, willChange: 'transform' }}
               className="w-full h-full object-cover"
             />
@@ -263,7 +268,7 @@ const QualityPolicy = () => {
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-indigo-400/10 rounded-full blur-xl -ml-6 -mb-6 pointer-events-none" />
                 {/* Línea superior decorativa */}
                 <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-blue-300/50 to-transparent" />
-                <h3 className="text-2xl font-extrabold mb-7 text-white tracking-tight relative z-10">
+                <h3 className="text-2xl font-bold mb-7 text-white tracking-tight relative z-10">
                   {content.objectivesTitle}
                 </h3>
                 <ul className="space-y-5 relative z-10">

@@ -2,10 +2,8 @@
  * Árbol de la app común al cliente y al servidor (prerender).
  * El router lo pone cada entrada: BrowserRouter en entry-client, StaticRouter en entry-server.
  */
-import { useEffect, useRef } from 'react';
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Suspense, useEffect, useRef } from 'react';
+import { Toaster } from "@/components/ui/sonner";
 import { HydrationBoundary, QueryClient, QueryClientProvider, type DehydratedState } from "@tanstack/react-query";
 import { Routes, Route, Navigate, Outlet, useLocation, useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -14,30 +12,7 @@ import BackToTop from "./components/BackToTop";
 import ScrollToTop from "./components/ScrollToTop";
 // import PromoPopup from "./components/PromoPopup";
 import Index from "./pages/Index";
-import Blog from "./pages/Blog";
-import ArticleDetail from "./pages/ArticleDetail";
-import AboutUs from "./pages/AboutUs";
-import OurTeam from "./pages/OurTeam";
-import HonorTeam from "./pages/HonorTeam";
-import QualityPolicy from "./pages/QualityPolicy";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import Contact from "./pages/Contact";
-import OpenCoursesCatalog from "./pages/OpenCoursesCatalog";
-import SapSpecialty from "./pages/SapSpecialty";
-import SimulatorCatalog from "./pages/SimulatorCatalog";
-import SimulatorModels from "./pages/SimulatorModels";
-import SimulatorExtinguisherDetail from "./pages/SimulatorExtinguisherDetail";
-import BeRelator from "./pages/BeRelator";
-import OpenCourseForm from "./pages/OpenCourseForm";
-import Clients from "./pages/Clients";
 import NotFound from "./pages/NotFound";
-import ExperienciaYRespaldo from "./pages/Xp";
-import CursosIndex from "./pages/CursosIndex";
-import CursoFicha from "./pages/CursoFicha";
-import CursoCategoria from "./pages/CursoCategoria";
-import SedeDetail from "./pages/SedeDetail";
-import FranquiciaSence from "./pages/FranquiciaSence";
-import PreguntasFrecuentes from "./pages/PreguntasFrecuentes";
 import { buildLocalizedPath, getLocaleFromPath, getLocaleMeta, isAppLanguage } from "./lib/locale-routing";
 import SEO from "./components/SEO";
 import { resolveLegacyPath } from "./lib/legacy-redirects";
@@ -47,6 +22,33 @@ import { fallbackLanguage } from "./lib/translations";
 import { isCapinChatEnabled, isSimulatorsEnabled } from "./lib/featureFlags";
 import CapinBubble from "./components/capin/CapinBubble";
 import { trackAttribution } from "./lib/attribution";
+import { lazyPage } from "./lib/lazy-page";
+
+// Páginas: cada una en su propio chunk (Fase 6). Index va en el bundle principal porque es la
+// entrada más visitada y su LCP no debe esperar otra descarga.
+const Blog = lazyPage(() => import("./pages/Blog"));
+const ArticleDetail = lazyPage(() => import("./pages/ArticleDetail"));
+const AboutUs = lazyPage(() => import("./pages/AboutUs"));
+const OurTeam = lazyPage(() => import("./pages/OurTeam"));
+const HonorTeam = lazyPage(() => import("./pages/HonorTeam"));
+const QualityPolicy = lazyPage(() => import("./pages/QualityPolicy"));
+const PrivacyPolicy = lazyPage(() => import("./pages/PrivacyPolicy"));
+const Contact = lazyPage(() => import("./pages/Contact"));
+const OpenCoursesCatalog = lazyPage(() => import("./pages/OpenCoursesCatalog"));
+const SapSpecialty = lazyPage(() => import("./pages/SapSpecialty"));
+const SimulatorCatalog = lazyPage(() => import("./pages/SimulatorCatalog"));
+const SimulatorModels = lazyPage(() => import("./pages/SimulatorModels"));
+const SimulatorExtinguisherDetail = lazyPage(() => import("./pages/SimulatorExtinguisherDetail"));
+const BeRelator = lazyPage(() => import("./pages/BeRelator"));
+const OpenCourseForm = lazyPage(() => import("./pages/OpenCourseForm"));
+const Clients = lazyPage(() => import("./pages/Clients"));
+const ExperienciaYRespaldo = lazyPage(() => import("./pages/Xp"));
+const CursosIndex = lazyPage(() => import("./pages/CursosIndex"));
+const CursoFicha = lazyPage(() => import("./pages/CursoFicha"));
+const CursoCategoria = lazyPage(() => import("./pages/CursoCategoria"));
+const SedeDetail = lazyPage(() => import("./pages/SedeDetail"));
+const FranquiciaSence = lazyPage(() => import("./pages/FranquiciaSence"));
+const PreguntasFrecuentes = lazyPage(() => import("./pages/PreguntasFrecuentes"));
 
 /** Un QueryClient por render en el servidor y uno por sesión en el cliente.
  *  staleTime alto: los datos llegan prerenderizados en window.__RQ__ y no deben volver a pedirse al hidratar. */
@@ -187,27 +189,31 @@ const LocaleRouteSync = () => {
   return <Outlet />;
 };
 
+/** El <Suspense> cubre las páginas lazy: en la navegación (startTransition del router) React
+ *  mantiene la página anterior mientras baja el chunk, así que el fallback no llega a verse. */
 export const AppRoutes = () => (
-  <Routes>
-    {routeDefinitions.map((routeDefinition) => (
-      <Route
-        key={`legacy-${routeDefinition.path || 'home'}`}
-        path={routeDefinition.path || '/'}
-        element={<LegacyRedirect />}
-      />
-    ))}
-    <Route path=":locale" element={<LocaleRouteSync />}>
+  <Suspense fallback={null}>
+    <Routes>
       {routeDefinitions.map((routeDefinition) => (
         <Route
-          key={`localized-${routeDefinition.path || 'home'}`}
-          index={routeDefinition.path === ''}
-          path={routeDefinition.path || undefined}
-          element={routeDefinition.element}
+          key={`legacy-${routeDefinition.path || 'home'}`}
+          path={routeDefinition.path || '/'}
+          element={<LegacyRedirect />}
         />
       ))}
-    </Route>
-    <Route path="*" element={<NotFound />} />
-  </Routes>
+      <Route path=":locale" element={<LocaleRouteSync />}>
+        {routeDefinitions.map((routeDefinition) => (
+          <Route
+            key={`localized-${routeDefinition.path || 'home'}`}
+            index={routeDefinition.path === ''}
+            path={routeDefinition.path || undefined}
+            element={routeDefinition.element}
+          />
+        ))}
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </Suspense>
 );
 
 interface AppShellProps {
@@ -223,19 +229,16 @@ export const AppShell = ({ queryClient, helmetContext, dehydratedState }: AppShe
   <HelmetProvider context={helmetContext}>
     <QueryClientProvider client={queryClient}>
       <HydrationBoundary state={dehydratedState}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BackToTop />
-          <ScrollToTop />
-          <MetaPixelPageView />
-          <AttributionTracker />
-          <RouteMeta />
-          <CartRehydrate />
-          {isCapinChatEnabled && <CapinBubble />}
-          {/*<PromoPopup />*/}
-          <AppRoutes />
-        </TooltipProvider>
+        <Toaster />
+        <BackToTop />
+        <ScrollToTop />
+        <MetaPixelPageView />
+        <AttributionTracker />
+        <RouteMeta />
+        <CartRehydrate />
+        {isCapinChatEnabled && <CapinBubble />}
+        {/*<PromoPopup />*/}
+        <AppRoutes />
       </HydrationBoundary>
     </QueryClientProvider>
   </HelmetProvider>

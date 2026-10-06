@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { responsiveImage } from '@/lib/images';
 
 const MeetUs: React.FC = () => {
   const { t } = useTranslation();
@@ -17,6 +18,8 @@ const MeetUs: React.FC = () => {
           <img
             src={imageSrc}
             alt={t('meetUs.imageAlt')}
+            width={1919}
+            height={1565}
             className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
           />
         </div>
@@ -32,8 +35,12 @@ const MeetUs: React.FC = () => {
               onClick={() => setLightboxOpen(true)}
             >
               <img
-                src={imageSrc}
+                {...responsiveImage(imageSrc, [640, 960, 1280], '(min-width: 1024px) 50vw, calc(100vw - 4rem)', 960)}
                 alt={t('meetUs.imageAlt')}
+                width={1919}
+                height={1565}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-auto rounded-lg shadow-lg hover:shadow-xl transition-shadow"
               />
             </div>

@@ -10,6 +10,7 @@ import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-anim
 import { Meteors } from '@/components/ui/meteors';
 import { getYearsOfExperience } from '@/lib/insecapUtils';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { responsiveImage, shopifyImage } from '@/lib/images';
 // 1. IMPORTANTE: Importar el plugin de Autoplay
 import Autoplay from "embla-carousel-autoplay";
 
@@ -64,6 +65,10 @@ const calamaImages = [
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Simulador-Cabina-173107-7.jpg?v=1773424088",
   "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Soldadura-1009177.jpg?v=1773424089",
 ];
+
+// Carruseles de sede: tarjetas 4:3 de hasta max-w-xl (576 px). Fotos de Shopify al ancho de render.
+const galleryImage = (src: string) =>
+  responsiveImage(src, [640, 960, 1280], '(min-width: 640px) 576px, calc(100vw - 4rem)', 960);
 
 // ─── Lightbox compartido para todas las sedes ────────────────────────────────
 const ExpandIcon = () => (
@@ -136,7 +141,7 @@ const SedeGallery = ({ images, label, labels, index, setIndex, onClose }: SedeGa
 
           <img
             key={index}
-            src={images[index]}
+            src={shopifyImage(images[index], 1920)}
             alt={labels.photoAlt(label, index + 1)}
             className="max-h-full max-w-full object-contain rounded-2xl shadow-2xl"
             style={{ maxHeight: '100%', maxWidth: '100%' }}
@@ -168,7 +173,7 @@ const SedeGallery = ({ images, label, labels, index, setIndex, onClose }: SedeGa
             aria-label={labels.thumb(i + 1)}
             className={`shrink-0 w-14 h-full rounded-lg overflow-hidden border-2 transition-all ${i === index ? 'border-white opacity-100' : 'border-transparent opacity-40 hover:opacity-75'}`}
           >
-            <img src={src} alt="" className="w-full h-full object-cover" />
+            <img src={shopifyImage(src, 160)} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
           </button>
         ))}
       </div>
@@ -450,7 +455,7 @@ const AboutUs = () => {
                     {antofagastaImages.map((src, index) => (
                       <CarouselItem key={index}>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-lg">
-                          <img src={src} alt={content.gallery.photoAlt('Antofagasta', index + 1)} className="w-full h-full object-cover" />
+                          <img {...galleryImage(src)} alt={content.gallery.photoAlt('Antofagasta', index + 1)} width={1600} height={1200} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                       </CarouselItem>
                     ))}
@@ -488,7 +493,7 @@ const AboutUs = () => {
                     {calamaImages.map((src, index) => (
                       <CarouselItem key={index}>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-lg">
-                          <img src={src} alt={content.gallery.photoAlt('Calama', index + 1)} className="w-full h-full object-cover" />
+                          <img {...galleryImage(src)} alt={content.gallery.photoAlt('Calama', index + 1)} width={1600} height={1200} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                       </CarouselItem>
                     ))}
@@ -604,7 +609,7 @@ const AboutUs = () => {
                     {santiagoImages.map((src, index) => (
                       <CarouselItem key={index}>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-lg">
-                          <img src={src} alt={content.gallery.photoAlt('Santiago', index + 1)} className="w-full h-full object-cover" />
+                          <img {...galleryImage(src)} alt={content.gallery.photoAlt('Santiago', index + 1)} width={1600} height={1200} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                       </CarouselItem>
                     ))}
@@ -671,9 +676,13 @@ const AboutUs = () => {
                 </div>
                 <div className="flex justify-center">
                   <img
-                    src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_20190903_133957-scaled-ppg1u2wov3lkg6zm0s3v1xtbjxpl8ub1vtrbj8miio.jpg?v=1776094514"
+                    src={shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_20190903_133957-scaled-ppg1u2wov3lkg6zm0s3v1xtbjxpl8ub1vtrbj8miio.jpg?v=1776094514', 900)}
                     alt={content.virtualImage}
-                    className="rounded-2xl shadow-2xl max-w-md w-full"
+                    width={900}
+                    height={600}
+                    loading="lazy"
+                    decoding="async"
+                    className="rounded-2xl shadow-2xl max-w-md w-full h-auto"
                   />
                 </div>
               </div>

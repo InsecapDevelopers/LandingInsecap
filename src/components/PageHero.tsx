@@ -4,12 +4,18 @@ import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { buildBreadcrumbJsonLd, serializeJsonLd } from '@/lib/jsonld';
+import { HIGH_PRIORITY, localImage, responsiveImage } from '@/lib/images';
 
-const PAGE_HERO_IMAGES = [
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2026-03-05_at_10.58.32_2.jpg?v=1772742132',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2026-03-05_at_10.58.32_1.jpg?v=1772742132',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2026-03-05_at_10.58.32.jpg?v=1772742131',
-];
+/** Fotos por defecto (Fase 6): WebP locales en public/images/hero, con sus anchos disponibles. Se
+ *  recomprimieron desde Shopify (WhatsApp_Image_2026-03-05_at_10.58.32_2/_1/sin sufijo, mismo orden)
+ *  con `cwebp -q 60 -m 6 -resize <ancho> 0`: servirlas desde el mismo origen evita la conexión a
+ *  cdn.shopify.com antes de la imagen LCP. La original de sala-clases-0 mide 960 px. */
+const PAGE_HERO_IMAGES: Record<string, readonly number[]> = {
+  '/images/hero/sala-clases-2-3e8e2693': [640, 828, 1080, 1280, 1600],
+  '/images/hero/sala-clases-1-27b50271': [640, 828, 1080, 1280, 1600],
+  '/images/hero/sala-clases-0-0a49725b': [640, 828, 960],
+};
+const PAGE_HERO_BASES = Object.keys(PAGE_HERO_IMAGES);
 
 /** Imagen fija por ruta (hash del pathname): el HTML prerenderizado y la hidratación eligen la
  *  misma, y cada página conserva su fondo entre visitas. */
@@ -18,7 +24,19 @@ const pickForPath = (pathname: string) => {
   for (let i = 0; i < pathname.length; i++) {
     hash = (hash * 31 + pathname.charCodeAt(i)) >>> 0;
   }
-  return PAGE_HERO_IMAGES[hash % PAGE_HERO_IMAGES.length];
+  return PAGE_HERO_BASES[hash % PAGE_HERO_BASES.length];
+};
+
+/** Fondo a todo el ancho y 450 px de alto (object-cover): imagen LCP de las páginas internas, con
+ *  fetchpriority=high y el preload que inyecta scripts/prerender.mjs. Va bajo una capa al 60 % con
+ *  backdrop-blur, así que basta el ancho de pantalla (sizes 100vw) aunque en móvil el recorte cover
+ *  de una foto 3:2 mida ~675 px. `image` es una foto local de PAGE_HERO_IMAGES o, si la página pasa
+ *  `backgroundImage` (simuladores), una URL de Shopify. */
+const heroBackground = (image: string) => {
+  const localWidths = PAGE_HERO_IMAGES[image];
+  return localWidths
+    ? localImage(image, localWidths, '100vw')
+    : responsiveImage(image, [640, 828, 1080, 1280, 1600, 1920], '100vw', 1280);
 };
 
 interface BreadcrumbItem {
@@ -87,9 +105,12 @@ const PageHero = ({
         <script type="application/ld+json">{serializeJsonLd(breadcrumbJsonLd)}</script>
       </Helmet>
       <div className="absolute inset-0 z-0">
-        <img 
-          src={activeBg}
+        <img
+          {...heroBackground(activeBg)}
+          {...HIGH_PRIORITY}
           alt=""
+          width={1600}
+          height={1066}
           className="w-full h-full object-cover transition-opacity duration-500"
           style={{ opacity: visible ? 1 : 0 }}
         />

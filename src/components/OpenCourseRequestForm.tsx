@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { formatRut } from '@/lib/insecapUtils';
 import { getSessionsWithoutCalendar } from '@/lib/openCourses';
@@ -86,7 +86,6 @@ const OpenCourseRequestForm = ({
   cursoInteres,
 }: OpenCourseRequestFormProps) => {
   const { locale, localizedPath } = useLocalizedPath();
-  const { toast } = useToast();
 
   const buildInitialFormState = () => ({
     nombre: '',
@@ -340,9 +339,7 @@ const OpenCourseRequestForm = ({
       if (!res.ok || !result?.success) {
         // El backend manda la lista de campos inválidos en `errors`; se muestran en vez del mensaje genérico
         const errors: string[] = Array.isArray(result?.errors) ? result.errors : [];
-        toast({
-          variant: 'destructive',
-          title: content.errorTitle,
+        toast.error(content.errorTitle, {
           description: errors.length ? errors.join(' ') : result?.message || content.errorDesc,
         });
         return;
@@ -363,7 +360,7 @@ const OpenCourseRequestForm = ({
       setSubmitted(true);
       onSuccess?.();
     } catch {
-      toast({ variant: 'destructive', title: content.errorTitle, description: content.errorDesc });
+      toast.error(content.errorTitle, { description: content.errorDesc });
     } finally {
       setIsSubmitting(false);
     }

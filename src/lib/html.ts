@@ -92,3 +92,14 @@ export const withImageAlts = (html: string, altFor: (index: number) => string): 
     return `<img${attrs} alt="${alt}"${end}>`;
   });
 };
+
+/**
+ * Agrega `loading="lazy"` y `decoding="async"` a los <img> de un fragmento HTML que no los traen
+ * (cuerpo de las noticias: va debajo de la foto principal). Puro, igual que withImageAlts.
+ */
+export const withLazyImages = (html: string): string =>
+  html.replace(/<img\b([^>]*?)(\s*\/?)>/gi, (tag, attrs: string, end: string) => {
+    const lazy = /\sloading\s*=/i.test(attrs) ? '' : ' loading="lazy"';
+    const decoding = /\sdecoding\s*=/i.test(attrs) ? '' : ' decoding="async"';
+    return lazy || decoding ? `<img${attrs}${lazy}${decoding}${end}>` : tag;
+  });

@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--app-preload-->
+    <!-- Logo, fotos y la imagen LCP (VideoHero/PageHero) vienen del CDN de Shopify -->
+    <link rel="preconnect" href="https://cdn.shopify.com" />
 
     <!-- Splash de marca: solo en la primera visita, fuera de React y sin bloquear el HTML prerenderizado.
          No se muestra a bots, navegadores automatizados, reduced-motion ni Save-Data; dura como máximo 1,2 s.
@@ -33,48 +36,55 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="theme-color" content="#485CC7" />
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MPJBBMF');</script>
-    <!-- End Google Tag Manager -->
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-817100949"></script>
+    <!-- Terceros (GTM, gtag AW, Meta Pixel y Clarity), diferidos (Fase 6, decisión de terceros):
+         las colas (dataLayer, gtag, fbq) existen desde el inicio, así que los eventos tempranos y el
+         PageView inicial de Meta se encolan y salen cuando carga cada script. Los <script> externos se
+         insertan con requestIdleCallback (timeout 2 s) tras el load, o en la primera interacción, lo que
+         ocurra primero; GTM, cuando termina el gtag AW. Clarity lo carga entry-client con import() en el mismo momento (window.__on3p).
+         Si cambia este script, recalcular su hash para el CSP (Fase 7). -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      (function(w,d){
+        w.dataLayer=w.dataLayer||[];
+        w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+        w.gtag=function(){w.dataLayer.push(arguments);};
+        w.gtag('js',new Date());
+        // TODO: quitar el gtag AW-817100949 cuando marketing confirme que ya está dentro de GTM-MPJBBMF (sección 4, punto 12).
+        w.gtag('config','AW-817100949');
+        if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments);};
+          if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+        w.fbq('init','3241702786017146');
+        // PageView inicial: va en la cola y sale al cargar fbevents.js. Las navegaciones internas las
+        // reporta MetaPixelPageView (AppShell), que omite el primer render para no duplicarlo.
+        w.fbq('track','PageView');
 
-      gtag('config', 'AW-817100949');
+        var done=false,cbs=[];
+        w.__on3p=function(fn){done?fn():cbs.push(fn);};
+        function add(src,cb){var j=d.createElement('script');j.async=true;j.src=src;if(cb){j.onload=j.onerror=cb;}d.head.appendChild(j);}
+        var evs=['pointerdown','keydown','touchstart','scroll'];
+        function load(){
+          if(done)return;done=true;
+          evs.forEach(function(e){w.removeEventListener(e,load,true);});
+          // GTM va después del gtag AW: si GTM-MPJBBMF también trae AW-817100949 y su etiqueta corre
+          // antes de que termine el gtag directo, baja otra copia (~160 KB, medido con LHCI). Con el AW
+          // ya cargado, GTM lo reutiliza. onerror también sigue, para que un bloqueo no deje sin GTM.
+          add('https://www.googletagmanager.com/gtag/js?id=AW-817100949',function(){
+            add('https://www.googletagmanager.com/gtm.js?id=GTM-MPJBBMF');
+          });
+          add('https://connect.facebook.net/en_US/fbevents.js');
+          while(cbs.length)cbs.shift()();
+        }
+        evs.forEach(function(e){w.addEventListener(e,load,{capture:true,passive:true});});
+        function idle(){w.requestIdleCallback?w.requestIdleCallback(load,{timeout:2000}):setTimeout(load,2000);}
+        d.readyState==='complete'?idle():w.addEventListener('load',idle);
+      })(window,document);
     </script>
-
-    <!-- Meta Pixel Code -->
-    <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '3241702786017146');
-      fbq('track', 'PageView');
-    </script>
-    <!-- End Meta Pixel Code -->
 
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/isotipos/Insecap_Logo-09.png" />
-    
-    <!-- Montserrat font from Google Fonts as fallback -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Montserrat va autoalojada en src/index.css (sin Google Fonts); el preload de 400 y 700 lo
+         agrega scripts/prerender.mjs en el marcador app-preload. -->
 </head>
 
   <body>

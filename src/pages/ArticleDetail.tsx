@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowLeft, Share2, Newspaper, X } from 'lucide-react';
 import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
 import { newsArticleQuery } from '@/lib/queries';
-import { stripHtml, withImageAlts } from '@/lib/html';
+import { stripHtml, withImageAlts, withLazyImages } from '@/lib/html';
 import { fitDescription, getSeoFillers } from '@/lib/seo-text';
 import { buildNewsArticleJsonLd, toSantiagoIso } from '@/lib/jsonld';
 import { toast } from 'sonner';
@@ -268,6 +268,7 @@ const ArticleDetail = () => {
                 <img
                   src={article.image.url}
                   alt={article.image.altText || article.title}
+                  decoding="async"
                   className="w-full h-auto transition-all duration-300 hover:scale-[1.02] hover:opacity-90"
                 />
               </div>
@@ -276,7 +277,7 @@ const ArticleDetail = () => {
             <article 
               ref={articleContentRef}
               className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-insecap-cyan prose-strong:text-foreground article-body"
-              dangerouslySetInnerHTML={{ __html: withImageAlts(article.contentHtml, (n) => `${article.title}: ${content.articleImage.toLowerCase()} ${n}`) }}
+              dangerouslySetInnerHTML={{ __html: withLazyImages(withImageAlts(article.contentHtml, (n) => `${article.title}: ${content.articleImage.toLowerCase()} ${n}`)) }}
             />
           </div>
         </section>

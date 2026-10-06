@@ -29,7 +29,8 @@ import { SAP_COURSES, SAP_ENV_SHOTS, SAP_HREF, SAP_LOGO, SAP_ROLE_ROUTES, SAP_TO
 
 // Paleta propia de esta página (no toca los tokens globales del sitio).
 // navy #101D42 · cobalto #284FD8 · cian #08B8EC (solo sobre fondo oscuro) · claro #F5F8FC
-const FORM_BG = 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/sap-footer-5338a92a.png';
+// Fondo del formulario: WebP de 1600 px en public/ (el PNG de origen, 2171×724, pesaba 1,9 MB).
+const FORM_BG = '/images/sap/sap-footer-5338a92a-1600.webp';
 
 const wrap = 'mx-auto w-full max-w-[1200px] px-5 sm:px-8';
 const eyebrow = 'text-xs font-semibold uppercase tracking-[0.2em]';
@@ -279,7 +280,7 @@ const SapSpecialty = () => {
                 </span>
               </div>
               <p className={`${eyebrow} mt-5 text-white/75`}>{c.eyebrow}</p>
-              <h1 className="mt-3 text-[clamp(2.3rem,6vw,3.9rem)] font-extrabold leading-[1.05] tracking-tight">
+              <h1 className="mt-3 text-[clamp(2.3rem,6vw,3.9rem)] font-bold leading-[1.05] tracking-tight">
                 {c.h1}
                 <span className="block text-[#08B8EC]">{c.h1Highlight}</span>
               </h1>
@@ -302,7 +303,7 @@ const SapSpecialty = () => {
                 {c.stats.map((stat) => (
                   <div key={stat.label} className="flex flex-col-reverse justify-end px-4 first:pl-0">
                     <dt className="mt-1 text-xs leading-snug text-white/70">{stat.label}</dt>
-                    <dd className="whitespace-nowrap text-2xl font-extrabold tabular-nums sm:text-3xl">{stat.value}</dd>
+                    <dd className="whitespace-nowrap text-2xl font-bold tabular-nums sm:text-3xl">{stat.value}</dd>
                   </div>
                 ))}
               </dl>
@@ -511,11 +512,11 @@ const SapSpecialty = () => {
                 <h3 id="tu-programa-title" className="text-lg font-bold">{c.programTitle}</h3>
                 <div className="mt-4 flex gap-8" aria-live="polite">
                   <div>
-                    <span className="block text-4xl font-extrabold tabular-nums">{chosen.length}</span>
+                    <span className="block text-4xl font-bold tabular-nums">{chosen.length}</span>
                     <span className="text-xs text-white/70">{c.courses}</span>
                   </div>
                   <div>
-                    <span className="block text-4xl font-extrabold tabular-nums">{chosenHours}</span>
+                    <span className="block text-4xl font-bold tabular-nums">{chosenHours}</span>
                     <span className="text-xs text-white/70">{c.hours}</span>
                   </div>
                 </div>
@@ -586,7 +587,7 @@ const SapSpecialty = () => {
           <div aria-hidden="true" className="absolute inset-0 bg-[#101D42]/70 lg:bg-transparent lg:bg-gradient-to-r lg:from-[#101D42]/55 lg:via-[#101D42]/45 lg:to-[#101D42]/85" />
           <div className={`${wrap} relative grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-14`}>
             <div>
-              <h2 className="text-[clamp(1.9rem,4.5vw,3rem)] font-extrabold leading-tight tracking-tight">{c.closingTitle}</h2>
+              <h2 className="text-[clamp(1.9rem,4.5vw,3rem)] font-bold leading-tight tracking-tight">{c.closingTitle}</h2>
               <p className="mt-4 max-w-md text-lg leading-relaxed text-white/85">{c.closingLead}</p>
               <div className="mt-8 max-w-md rounded-2xl border border-white/20 bg-[#101D42]/60 p-5 backdrop-blur-sm">
                 <p className={`${eyebrow} text-[#08B8EC]`}>{c.formProgram}</p>

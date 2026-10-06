@@ -7,6 +7,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { responsiveImage } from '@/lib/images';
 
 const DuaSection: React.FC = () => {
   const { t } = useTranslation();
@@ -44,12 +45,15 @@ const DuaSection: React.FC = () => {
             >
               {images.map((url, index) => (
                 <SwiperSlide key={index}>
-                  <img 
-                    src={url} 
-                  alt={`${t('dua.imageAlt')} ${index + 1}`} 
+                  <img
+                    {...responsiveImage(url, [640, 960, 1280], '(min-width: 1024px) 60vw, calc(100vw - 4rem)', 960)}
+                    alt={`${t('dua.imageAlt')} ${index + 1}`}
                     /* Usamos w-full y h-auto para que la imagen mantenga su proporción original */
+                    width={2560}
+                    height={2294}
                     className="w-full h-auto block select-none"
                     loading="lazy"
+                    decoding="async"
                   />
                 </SwiperSlide>
               ))}
@@ -62,7 +66,7 @@ const DuaSection: React.FC = () => {
               <span className="text-blue-600 font-bold tracking-wider uppercase text-sm">
                 {t('dua.badge')}
               </span>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-tight">
+              <h2 className="text-4xl md:text-5xl font-bold text-blue-950 leading-tight">
                 {t('dua.title')} <span className="text-blue-600">{t('dua.titleHighlight')}</span> {t('dua.titleSuffix')}
               </h2>
               <div className="w-24 h-2 bg-gradient-to-r from-blue-600 to-indigo-400 rounded-full"></div>

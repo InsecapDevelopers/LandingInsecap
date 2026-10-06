@@ -4,6 +4,16 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { useTranslation } from 'react-i18next';
+import { responsiveImage } from '@/lib/images';
+
+// banner_caex.png (4062×1056, 7,8 MB en origen) bajo un degradado oscuro: <img> lazy de Shopify en
+// WebP al ancho de render. En móvil el recorte cover es mucho más ancho que la pantalla (150vw).
+const SIMULATOR_BG = responsiveImage(
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/banner_caex.png?v=1776263507',
+  [828, 1280, 1920],
+  '(max-width: 1024px) 150vw, 100vw',
+  1280,
+);
 
 const slideInLeft = {
   hidden: { opacity: 0, x: -80 },
@@ -41,13 +51,22 @@ const SimulatorBanner = () => {
 
   return (
     <section
-      className="relative bg-cover bg-center bg-no-repeat py-24 md:py-32 lg:py-40 overflow-hidden"
-      style={{
-        backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(15, 23, 42, 0.8)), url('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/banner_caex.png?v=1776263507')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
+      className="relative py-24 md:py-32 lg:py-40 overflow-hidden"
     >
+      <img
+        {...SIMULATOR_BG}
+        alt=""
+        width={4062}
+        height={1056}
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(15, 23, 42, 0.8))' }}
+        aria-hidden="true"
+      />
       {/* Content */}
       <div className="relative z-10 container mx-auto px-8 md:px-14 lg:px-16">
         <div className="max-w-2xl">

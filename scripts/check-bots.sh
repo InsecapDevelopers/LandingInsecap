@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Aceptación de las Fases 1 a 5 (Tarea #8): lo que ven los bots en el HTML inicial,
+# Aceptación de las Fases 1 a 5 y de imágenes y fuentes de la Fase 6 (Tarea #8): lo que ven los bots en el HTML inicial,
 # sin ejecutar JS, más las reglas de nginx (404 real, 301 con query, caché, cabeceras),
 # las URLs en español con los 301 de las URLs antiguas en un solo salto, y robots.txt,
 # sitemaps y llms.txt (cada <loc> del sitemap responde 200 contra $B).
@@ -333,7 +333,38 @@ for u in $(curl -s "$B/llms.txt" | grep -o "]($SITE/[^)]*)" | sed 's/^](//; s/)$
 done
 check "enlaces de llms.txt que no responden 200: $bad de $total" test "$total" -gt 0 -a "$bad" -eq 0
 
-# 12. Consola del navegador sin warnings de hidratación en /es, /en y /pt.
+# 12. Fase 6, imágenes y fuentes en /es, /en y /pt: preload de Montserrat 700 (woff2 autoalojada,
+# caché immutable), sin Google Fonts e imagen LCP del VideoHero con fetchpriority=high + preload.
+for l in es en pt; do
+  h=$(curl -s "$B/$l")
+  font=$(grep -o 'href="/assets/montserrat-latin-700-normal-[^"]*\.woff2"' <<<"$h" | head -1 | cut -d'"' -f2)
+  check "/$l preload de Montserrat 700 (${font:-ninguno})" test -n "$font"
+  n=$(count 'fonts.googleapis.com' <<<"$h");                 check "/$l sin Google Fonts ($n)" test "$n" -eq 0
+  n=$(count '<link rel="preload" as="image"' <<<"$h");       check "/$l preload de la imagen LCP ($n)" test "$n" -eq 1
+  n=$(count 'fetchpriority="high"' <<<"$h");                 check "/$l fetchpriority=high ($n: preload + <img>)" test "$n" -eq 2
+done
+if [ -n "${font:-}" ]; then
+  cc=$(header cache-control "$B$font")
+  check "Montserrat woff2 con caché immutable ($cc)" test "${cc#*immutable}" != "$cc"
+fi
+
+# 12b. Fase 6, JS y terceros en /es, /en y /pt: el bundle va con el loader diferido (no como
+# <script type="module" src>) y GTM, gtag, Meta Pixel y Clarity no van como <script src> en el HTML.
+# El JS de la app sale gzip desde nginx (gzip_comp_level 6).
+for l in es en pt; do
+  h=$(curl -s "$B/$l")
+  js=$(grep -o "s.src='/assets/index-[A-Za-z0-9_-]*\.js'" <<<"$h" | head -1 | cut -d"'" -f2)
+  check "/$l bundle con loader diferido (${js:-ninguno})" test -n "$js"
+  n=$(count '<script type="module"' <<<"$h");               check "/$l sin <script type=module> en el HTML ($n)" test "$n" -eq 0
+  n=$(count '<script[^>]*src="https://\(www.googletagmanager.com\|connect.facebook.net\|www.clarity.ms\)' <<<"$h")
+  check "/$l terceros sin <script src> ($n)" test "$n" -eq 0
+done
+if [ -n "${js:-}" ]; then
+  ce=$(curl -s -o /dev/null -D - -H 'Accept-Encoding: gzip' "$B$js" | tr -d '\r' | awk -F': ' 'tolower($1)=="content-encoding"{print $2}')
+  check "bundle de la app con gzip (${ce:-sin compresión})" test "$ce" = gzip
+fi
+
+# 13. Consola del navegador sin warnings de hidratación en /es, /en y /pt.
 if [ "$HYDRATION" = skip ]; then
   echo "SKIP  hidratación (HYDRATION=skip)"
 else

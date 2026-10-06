@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import ContactCTA from './ContactCTA';
 import { CONTACT_EMAIL, sedes } from '@/data/sedes';
+import { shopifyImage } from '@/lib/images';
 
 const HERO_BACKGROUNDS = [
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_111938161.png?v=1772461187',
@@ -12,7 +13,8 @@ const HERO_BACKGROUNDS = [
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede-Antofagasta-web.jpg?v=1773345628',
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112057871.png?v=1772461266',
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GHorquilla3675_web.jpg?v=1773345899'
-];
+// Fondo fijo (background-attachment: fixed) bajo un degradado azul al 75–90 %: 1280 px en WebP basta.
+].map((url) => shopifyImage(url, 1280));
 
 // Componentes de iconos personalizados
 const XIcon = ({ className }: { className?: string }) => (
@@ -30,16 +32,31 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 /** showContact=false: páginas con su propio formulario (ej. /sap-pm) no repiten el general. */
 const Footer = ({ showContact = true }: { showContact?: boolean }) => {
   const [bgIndex, setBgIndex] = useState(0);
+  // El fondo (y su rotación cada 5 s) solo cuando la franja se acerca al viewport: un
+  // background-image CSS se descarga apenas se pinta el footer, aunque esté al final de la página.
+  const [bgVisible, setBgVisible] = useState(false);
+  const stripRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { t } = useTranslation();
   const { localizedPath } = useLocalizedPath();
 
   useEffect(() => {
+    const strip = stripRef.current;
+    if (!strip) return;
+    const observer = new IntersectionObserver(([entry]) => setBgVisible(entry.isIntersecting), {
+      rootMargin: '300px 0px',
+    });
+    observer.observe(strip);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!bgVisible) return;
     const interval = setInterval(() => {
       setBgIndex((prev) => (prev + 1) % HERO_BACKGROUNDS.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [bgVisible]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -149,9 +166,10 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
 
       {/* ── Hero strip "Creciendo Juntos" con parallax ── */}
       <div
+        ref={stripRef}
         className="relative overflow-hidden"
         style={{
-          backgroundImage: `url('${HERO_BACKGROUNDS[bgIndex]}')`,
+          backgroundImage: bgVisible ? `url('${HERO_BACKGROUNDS[bgIndex]}')` : undefined,
           backgroundAttachment: 'fixed',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -169,7 +187,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
             {/* Headline */}
             <div className="lg:max-w-lg">
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-extrabold italic text-white leading-tight tracking-tight">
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold italic text-white leading-tight tracking-tight">
                 &quot; {t('footer.growthTitleLine1')}
                 <br />
                 {t('footer.growthTitleLine2')} &quot;
@@ -196,7 +214,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
           {/* Logo & Social */}
           <div className="col-span-2 lg:col-span-1">
             <Link to={localizedPath('/')} className="inline-flex mb-6" onClick={handleLogoClick}>
-              <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508" alt="INSECAP" className="w-48" />
+              <img src={shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508', 384)} alt="INSECAP" width={2327} height={728} loading="lazy" decoding="async" className="w-48 h-auto" />
             </Link>
             <div className="flex items-center gap-3 mt-4">
               <a href="https://instagram.com/insecapcapacitacion" aria-label={t('footer.social', { network: 'Instagram' })} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">

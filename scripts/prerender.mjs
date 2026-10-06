@@ -6,8 +6,8 @@
  *   node scripts/prerender.mjs
  *
  * Entrada:
- *   dist/index.html                 plantilla del build de cliente (marcadores <!--app-head-->,
- *                                   <!--app-html--> y <!--splash-tagline-->)
+ *   dist/index.html                 plantilla del build de cliente (marcadores <!--app-preload-->,
+ *                                   <!--app-head-->, <!--app-html--> y <!--splash-tagline-->)
  *   dist-ssr/entry-server.js        build SSR de src/entry-server.tsx
  *
  * Salida:
@@ -32,6 +32,10 @@
  * precarga sus datos con `prefetchRoute` (mismas queryFn que el cliente, src/lib/queries.ts).
  * El estado de react-query viaja en window.__RQ__ con `<` escapado.
  *
+ * Preload (Fase 6): en <!--app-preload-->, justo después de charset y viewport, Montserrat latin
+ * 400 y 700 (woff2 con hash en dist/assets) y la imagen LCP de la página: el primer <img> con
+ * fetchpriority="high" del HTML renderizado (VideoHero, PageHero), con su mismo srcset y sizes.
+ *
  * JSON-LD (Fase 4): el <head> de cada página trae un solo <script type="application/ld+json"> con
  * @graph (global #org/#website + nodos de la página + BreadcrumbList), que arma `render` en
  * src/entry-server.tsx con mergeJsonLdScripts (src/lib/jsonld.ts).
@@ -49,15 +53,35 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
 const SSR_ENTRY = path.join(ROOT, 'dist-ssr', 'entry-server.js');
 
+const PRELOAD_MARK = '<!--app-preload-->';
 const HEAD_MARK = '<!--app-head-->';
 const HTML_MARK = '<!--app-html-->';
 const TAGLINE_MARK = '<!--splash-tagline-->';
 const ROOT_DIV = `<div id="root">${HTML_MARK}</div>`;
 
 const templatePath = path.join(DIST, 'index.html');
-const template = fs.readFileSync(templatePath, 'utf8');
+/**
+ * Fase 6: el bundle de la app (el <script type="module"> que inserta Vite) no hace falta para la
+ * primera pintura, porque el HTML llega completo. Se pide recién después del primer contentful paint
+ * (PerformanceObserver de `paint`; sin soporte, después del primer frame con requestAnimationFrame),
+ * con un tope de 3 s por si no hay pintura (pestaña en segundo plano). Así no le quita ancho de banda
+ * al CSS, a las fuentes ni a la imagen LCP, e hidrata apenas termina de bajar. Con el <script> en el
+ * HTML, Lighthouse lo contaba dentro del LCP: en /es el LCP simulado bajaba de 3,6 s a 2,2 s sin él.
+ * Este script inline entra al CSP (hash) en la Fase 7; su texto cambia con el hash del bundle.
+ * El shell (_shell.html, sin HTML que pintar) conserva el <script type="module"> directo: ahí el
+ * primer contentful paint lo hace el propio JS.
+ */
+const ENTRY_SCRIPT = /<script type="module" crossorigin src="(\/assets\/index-[\w-]+\.js)"><\/script>/;
+const rawTemplate = fs.readFileSync(templatePath, 'utf8');
+const [entryTag, entrySrc] = rawTemplate.match(ENTRY_SCRIPT) ?? [];
+if (!entrySrc) {
+  console.error('[prerender] La plantilla dist/index.html no tiene el <script type="module"> de la app');
+  process.exit(1);
+}
+const deferredEntry = `<script>(function(){var d=0,P=window.PerformanceObserver;function go(){if(d)return;d=1;var s=document.createElement('script');s.type='module';s.crossOrigin='';s.src='${entrySrc}';document.head.appendChild(s)}if(P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf('paint')>=0){new P(function(l,o){if(l.getEntriesByName('first-contentful-paint').length){o.disconnect();setTimeout(go)}}).observe({type:'paint',buffered:true});setTimeout(go,3000)}else requestAnimationFrame(function(){setTimeout(go)})})()</script>`;
+const template = rawTemplate.replace(ENTRY_SCRIPT, () => deferredEntry);
 
-for (const mark of [HEAD_MARK, ROOT_DIV, TAGLINE_MARK]) {
+for (const mark of [PRELOAD_MARK, HEAD_MARK, ROOT_DIV, TAGLINE_MARK]) {
   if (!template.includes(mark)) {
     console.error(`[prerender] La plantilla dist/index.html no tiene ${mark}`);
     process.exit(1);
@@ -65,6 +89,30 @@ for (const mark of [HEAD_MARK, ROOT_DIV, TAGLINE_MARK]) {
 }
 
 const ssr = await import(pathToFileURL(SSR_ENTRY).href);
+
+/** Preload de Montserrat latin 400 y 700 (src/index.css): el texto de la primera vista. */
+const assetFiles = fs.readdirSync(path.join(DIST, 'assets'));
+const fontPreloads = ['400', '700'].map((weight) => {
+  const file = assetFiles.find((name) => new RegExp(`^montserrat-latin-${weight}-normal-[\\w-]+\\.woff2$`).test(name));
+  if (!file) {
+    console.error(`[prerender] No está dist/assets/montserrat-latin-${weight}-normal-*.woff2 (src/index.css)`);
+    process.exit(1);
+  }
+  return `<link rel="preload" href="/assets/${file}" as="font" type="font/woff2" crossorigin />`;
+}).join('\n    ');
+
+/** Preload de la imagen LCP: el primer <img fetchpriority="high"> del HTML, con su srcset/sizes. */
+const lcpImagePreload = (html) => {
+  const img = html.match(/<img\b[^>]*\bfetchpriority="high"[^>]*>/)?.[0];
+  if (!img) return '';
+  // Sin distinguir mayúsculas: React escribe `srcSet` en el HTML del servidor.
+  const attr = (name) => img.match(new RegExp(`\\s${name}="([^"]*)"`, 'i'))?.[1];
+  const src = attr('src');
+  if (!src) return '';
+  const srcset = attr('srcset');
+  const sizes = attr('sizes');
+  return `<link rel="preload" as="image" href="${src}"${srcset ? ` imagesrcset="${srcset}"` : ''}${sizes ? ` imagesizes="${sizes}"` : ''} fetchpriority="high" />`;
+};
 
 /** JSON seguro dentro de <script>: sin `<` (evita </script> y <!--) ni separadores de línea de JS. */
 const serializeState = (state) =>
@@ -78,7 +126,9 @@ const buildPage = ({ head, html, htmlAttributes, dehydratedState, locale }) => {
     ? `<script>window.__RQ__=${serializeState(dehydratedState)}</script>`
     : '';
 
-  let page = template
+  const preload = [fontPreloads, lcpImagePreload(html)].filter(Boolean).join('\n    ');
+  let page = (html ? template : template.replace(deferredEntry, () => entryTag))
+    .replace(PRELOAD_MARK, () => preload)
     .replace(HEAD_MARK, () => head)
     .replace(ROOT_DIV, () => `<div id="root">${html}</div>${rqScript}`)
     .replace(TAGLINE_MARK, () => ssr.getSplashTagline(locale));

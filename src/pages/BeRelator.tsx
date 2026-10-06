@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { Upload, Send, Loader2, CheckCircle2, Check, ChevronsUpDown, X, FileText } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -219,7 +219,6 @@ const MultiSearchableSelect = ({ label, options, values, onChange, placeholder }
 
 const BeRelator = () => {
   const { locale } = useLocalizedPath();
-  const { toast } = useToast();
   const heading = useScrollAnimation({ triggerOnce: true });
   const formRef = useScrollAnimation({ triggerOnce: true });
 
@@ -486,22 +485,22 @@ const BeRelator = () => {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(formData.correo)) {
-      toast({ variant: "destructive", title: content.invalidEmailTitle, description: content.invalidEmailDesc });
+      toast.error(content.invalidEmailTitle, { description: content.invalidEmailDesc });
       return;
     }
 
     if (!cvFile) {
-      toast({ variant: "destructive", title: content.invalidFileTitle, description: content.cvRequiredDesc });
+      toast.error(content.invalidFileTitle, { description: content.cvRequiredDesc });
       return;
     }
 
     const fileName = cvFile.name.toLowerCase();
     if (!['.pdf', '.doc', '.docx'].some((ext) => fileName.endsWith(ext))) {
-      toast({ variant: "destructive", title: content.invalidFileTitle, description: content.invalidFileDesc });
+      toast.error(content.invalidFileTitle, { description: content.invalidFileDesc });
       return;
     }
     if (cvFile.size > 25 * 1024 * 1024) {
-      toast({ variant: "destructive", title: content.invalidFileTitle, description: content.fileTooLargeDesc });
+      toast.error(content.invalidFileTitle, { description: content.fileTooLargeDesc });
       return;
     }
 
@@ -577,26 +576,26 @@ const BeRelator = () => {
           statusText: response.statusText,
           result,
         });
-        toast({ variant: "destructive", title: content.errorTitle, description: result?.message || content.errorDesc });
+        toast.error(content.errorTitle, { description: result?.message || content.errorDesc });
         return;
       }
 
       if (result?.error) {
         console.error('[BeRelator.doSubmit] ✗ Backend retornó error:', result);
-        toast({ variant: "destructive", title: content.errorTitle, description: result?.message || content.errorDesc });
+        toast.error(content.errorTitle, { description: result?.message || content.errorDesc });
         return;
       }
 
       console.log('[BeRelator.doSubmit] ✓ Postulación enviada exitosamente');
       setSubmitted(true);
-      toast({ title: content.successTitle, description: result?.message || content.successDesc });
+      toast.success(content.successTitle, { description: result?.message || content.successDesc });
     } catch (err) {
       console.error("[BeRelator.doSubmit] ✗ Exception al hacer fetch:", {
         error: err instanceof Error ? err.message : String(err),
         stack: err instanceof Error ? err.stack : undefined,
         timestamp: new Date().toISOString(),
       });
-      toast({ variant: "destructive", title: content.errorTitle, description: content.errorDesc });
+      toast.error(content.errorTitle, { description: content.errorDesc });
     } finally {
       setIsSubmitting(false);
       console.log('[BeRelator.doSubmit] Submit completado');

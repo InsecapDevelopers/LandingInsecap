@@ -57,6 +57,17 @@
  *   - llms.txt con H1, blockquote y las secciones Cursos/Sedes/Información/Optional; cada enlace
  *     a insecap.cl es una página indexable del build. llms-full.txt con H1 y solo URLs indexables
  *   - sin .well-known/ai-catalog.json (debe dar 404)
+ * Imágenes y fuentes (Fase 6, Core Web Vitals):
+ *   - ninguna imagen o video de dist/ pasa de 200 KB (recomprimir a WebP/AVIF al tamaño de render)
+ *   - Montserrat: solo woff2 en dist/assets, 8 archivos o menos (latin + latin-ext, 400–700)
+ *   - cada página precarga la fuente (scripts/prerender.mjs) y no carga Google Fonts
+ * JavaScript y terceros (Fase 6, etapa 2):
+ *   - sin fallbacks de Suspense en el HTML (<!--$?-->, <!--$!-->, <template id="B:…">): las páginas
+ *     con React.lazy deben salir completas (onAllReady en src/entry-server.tsx)
+ *   - el bundle de la app no va como <script type="module" src> (bloquearía el LCP en Lighthouse):
+ *     lo inserta el loader de prerender.mjs después del primer paint
+ *   - GTM, gtag, Meta Pixel y Clarity no van como <script src> en el HTML (los inserta el cargador
+ *     diferido de index.html)
  * Redirecciones (dist/redirects.map, Fase 2):
  *   - cada línea es `"origen" "destino";` (exacta) o `"~^…" "destino";` (regex)
  *   - sin cadenas: ningún destino es a su vez un origen
@@ -123,6 +134,12 @@ const walk = (dir) =>
     if (entry.isDirectory()) return walk(full);
     return entry.name === 'index.html' ? [full] : [];
   });
+
+// El shell no trae HTML que pintar: carga el bundle directo, sin esperar el primer paint (Fase 6).
+if (!ONLY_REDIRECTS && fs.existsSync(path.join(DIST, '_shell.html'))
+  && !/<script type="module" crossorigin src="\/assets\/index-[\w-]+\.js"><\/script>/.test(fs.readFileSync(path.join(DIST, '_shell.html'), 'utf8'))) {
+  fail('_shell.html', 'sin <script type="module"> directo (el shell se renderiza en el cliente)');
+}
 
 const checkNoindex = (relative) => {
   const file = path.join(DIST, relative);
@@ -604,6 +621,37 @@ if (!ONLY_REDIRECTS) {
   if (fs.existsSync(path.join(DIST, '.well-known', 'ai-catalog.json'))) {
     fail('.well-known/ai-catalog.json', 'no debe existir: sin recursos ARD reales, debe responder 404 (Fase 5)');
   }
+
+  // Fase 6: peso de imágenes y fuentes.
+  const MAX_MEDIA_KB = 200;
+  const allFiles = (dir) =>
+    fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
+      entry.isDirectory() ? allFiles(path.join(dir, entry.name)) : [path.join(dir, entry.name)]);
+  for (const file of allFiles(DIST)) {
+    if (!/\.(jpe?g|png|webp|avif|gif|svg|mp4|webm)$/i.test(file)) continue;
+    const kb = Math.round(fs.statSync(file).size / 1024);
+    if (kb > MAX_MEDIA_KB) {
+      fail(path.relative(DIST, file), `pesa ${kb} KB (máximo ${MAX_MEDIA_KB}): recomprimir a WebP/AVIF al tamaño de render`);
+    }
+  }
+  const fontFiles = fs.readdirSync(path.join(DIST, 'assets')).filter((name) => /\.(woff2?|ttf|otf|eot)$/i.test(name));
+  const woff2 = fontFiles.filter((name) => name.endsWith('.woff2'));
+  if (woff2.length > 8) fail('assets', `${woff2.length} woff2 (máximo 8: Montserrat latin + latin-ext, 400–700)`);
+  for (const name of fontFiles.filter((item) => !item.endsWith('.woff2'))) fail(`assets/${name}`, 'fuente que no es woff2');
+  for (const file of htmlFiles) {
+    const html = fs.readFileSync(file, 'utf8');
+    const relative = path.relative(DIST, file);
+    if (/fonts\.(googleapis|gstatic)\.com/.test(html)) fail(relative, 'carga Google Fonts (Montserrat va autoalojada)');
+    if (!/<link rel="preload" href="\/assets\/montserrat-latin-700-normal-[^"]+\.woff2" as="font"/.test(html)) {
+      fail(relative, 'sin preload de Montserrat 700');
+    }
+    if (/<!--\$[?!]-->|<template id="B:/.test(html)) fail(relative, 'fallback de Suspense en el HTML (React.lazy sin resolver en el prerender)');
+    if (/<script[^>]*type="module"[^>]*\ssrc=/.test(html)) fail(relative, '<script type="module" src> en el HTML (el bundle va con el loader diferido de prerender.mjs)');
+    if (!/s\.src='\/assets\/index-[\w-]+\.js'/.test(html)) fail(relative, 'sin el loader diferido del bundle de la app');
+    if (/<script[^>]*\ssrc="https:\/\/(www\.googletagmanager\.com|connect\.facebook\.net|www\.clarity\.ms)/.test(html)) {
+      fail(relative, 'tercero como <script src> en el HTML (va diferido, index.html)');
+    }
+  }
 }
 
 if (failures.length > 0) {
@@ -615,4 +663,4 @@ if (failures.length > 0) {
 const redirectsSummary = `redirects.map: ${redirects.length} entradas, ${chains} cadenas; enlaces internos sin 301`;
 console.log(ONLY_REDIRECTS
   ? `[check-dist] OK: ${redirectsSummary} (${htmlFiles.length} páginas)`
-  : `[check-dist] OK: ${pages.length} páginas, 404.html y _shell.html; ${redirectsSummary}; robots.txt, sitemaps y llms.txt`);
+  : `[check-dist] OK: ${pages.length} páginas, 404.html y _shell.html; ${redirectsSummary}; robots.txt, sitemaps y llms.txt; imágenes ≤200 KB, Montserrat woff2 con preload, sin fallbacks de Suspense y JS/terceros diferidos`);

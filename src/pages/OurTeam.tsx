@@ -8,6 +8,7 @@ import PageHero from '@/components/PageHero';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
 import { Meteors } from '@/components/ui/meteors';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { shopifyImage } from '@/lib/images';
 
 // Tipos
 interface TeamMember {
@@ -353,7 +354,7 @@ const MemberCard = ({ member, delay = 0, contactLabel }: { member: TeamMember; d
       <div className="relative w-full aspect-[3/3.4] overflow-hidden bg-gradient-to-br from-slate-100 to-blue-50">
         <Avatar className="w-full h-full rounded-none">
           <AvatarImage
-            src={member.photo}
+            src={member.photo && shopifyImage(member.photo, 480)}
             alt={member.name}
             className="object-cover object-top w-full h-full transition-transform duration-500 group-hover:scale-110"
           />

@@ -59,6 +59,10 @@ export default defineConfig(({ command, mode }) => {
     ssr: {
       noExternal: ['react-helmet-async'],
     },
+    // Fase 6: ES2020 (sin transpilar a sintaxis vieja). Es el mismo piso que exigen los módulos ES.
+    build: {
+      target: 'es2020',
+    },
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

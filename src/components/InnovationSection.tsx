@@ -86,7 +86,7 @@ function SlideAutoservicio() {
           <Users className="w-3.5 h-3.5" />
           {t('innovation.autoservicio.badge')}
         </span>
-        <h3 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-[1.1] mb-3">
+        <h3 className="text-4xl md:text-5xl font-bold text-blue-950 leading-[1.1] mb-3">
           {t('innovation.autoservicio.title')}
         </h3>
         <p className="text-insecap-blue font-semibold text-sm mb-4">{t('innovation.autoservicio.subtitle')}</p>
@@ -154,7 +154,7 @@ function SlideRelatores() {
             {t('innovation.relatores.badge')}
           </span>
         </div>
-        <h3 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-[1.1] mb-6">
+        <h3 className="text-4xl md:text-5xl font-bold text-blue-950 leading-[1.1] mb-6">
           {t('innovation.relatores.title')}<br />
           <span className="text-insecap-blue">{t('innovation.relatores.titleHighlight')}</span><br />
           {t('innovation.relatores.titleSuffix')}
@@ -186,7 +186,7 @@ function SlideRelatores() {
           <div className="absolute -inset-6 rounded-[3rem] bg-blue-300/30 blur-3xl" />
           <div className="phone-float relative">
             <PhoneMockup>
-              <img src="/mockups/RelatoresYA.png" alt="RelatoresYA app" className="w-full h-full object-cover object-top" />
+              <img src="/mockups/RelatoresYA.webp" alt="RelatoresYA app" width={343} height={688} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
             </PhoneMockup>
             <div className="glow-ring absolute -bottom-3 left-1/2 w-[70%] h-4 bg-blue-300/60 blur-xl rounded-full" />
           </div>
@@ -247,7 +247,7 @@ export default function InnovationSection() {
           <span className="inline-block px-4 py-1.5 rounded-full bg-insecap-blue/10 text-insecap-blue text-sm font-semibold tracking-wide uppercase mb-4">
             {t('innovation.sectionBadge')}
           </span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-blue-950 mb-4">{t('innovation.sectionTitle')}</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-blue-950 mb-4">{t('innovation.sectionTitle')}</h2>
           <p className="text-lg text-gray-500 max-w-2xl mx-auto">
             {t('innovation.sectionDescription')}
           </p>

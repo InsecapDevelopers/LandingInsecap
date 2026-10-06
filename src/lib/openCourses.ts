@@ -18,6 +18,7 @@ export interface OpenCourseSession {
 export interface OpenCourseBatch {
   /** Etiqueta de la tanda, tal como se muestra ("Octubre 2026"). */
   month: string;
+  /** Afiche sin ancho ni extensión: se sirve con localImage (src/lib/images.ts). */
   image: string;
   sessions: OpenCourseSession[];
 }
@@ -48,7 +49,10 @@ export interface OpenCourse {
   batches: OpenCourseBatch[];
 }
 
-const IMG = 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/';
+// Afiches recomprimidos en public/ (Fase 6): `<base>-640.webp` y `<base>-1080.webp`. Los originales
+// (JPEG de 0,4–2 MB) están en storageisecap.sfo2.digitaloceanspaces.com/noticias/<base>.jpeg.
+// Afiche nuevo: `cwebp -q 80 -resize 640 0 afiche.jpg -o <base>-640.webp` y lo mismo con 1080.
+const IMG = '/images/cursos-abiertos/';
 const CALAMA = 'Calama · La Cascada 1513';
 
 export const OPEN_COURSES: OpenCourse[] = [
@@ -65,7 +69,7 @@ export const OPEN_COURSES: OpenCourse[] = [
     batches: [
       {
         month: 'Septiembre 2026',
-        image: `${IMG}fd2e0110-4a81-4300-96b6-7182af43300a.jpeg`,
+        image: `${IMG}fd2e0110-4a81-4300-96b6-7182af43300a`,
         sessions: [
           { id: '-10', date: '2026-09-01', label: '01-09-2026' },
           { id: '-11', date: '2026-09-08', label: '08-09-2026' },
@@ -74,7 +78,7 @@ export const OPEN_COURSES: OpenCourse[] = [
       },
       {
         month: 'Octubre 2026',
-        image: `${IMG}altura-fisica-presencial-calama-octubre-051216ec.jpeg`,
+        image: `${IMG}altura-fisica-presencial-calama-octubre-051216ec`,
         sessions: [
           { id: '-20', date: '2026-10-06', label: '06-10-2026' },
           { id: '-21', date: '2026-10-15', label: '15-10-2026' },
@@ -96,7 +100,7 @@ export const OPEN_COURSES: OpenCourse[] = [
     batches: [
       {
         month: 'Septiembre 2026',
-        image: `${IMG}eca834f1-d559-4c72-9b1d-49e8539cb04c.jpeg`,
+        image: `${IMG}eca834f1-d559-4c72-9b1d-49e8539cb04c`,
         sessions: [
           { id: '-13', date: '2026-09-03', label: '03-09-2026' },
           { id: '-14', date: '2026-09-10', label: '10-09-2026' },
@@ -118,7 +122,7 @@ export const OPEN_COURSES: OpenCourse[] = [
     batches: [
       {
         month: 'Septiembre 2026',
-        image: `${IMG}27bda1db-b09b-4276-8435-a3b2b2989bf8.jpeg`,
+        image: `${IMG}27bda1db-b09b-4276-8435-a3b2b2989bf8`,
         sessions: [
           { id: '-16', date: '2026-09-04', label: '04-09-2026' },
           { id: '-17', date: '2026-09-11', label: '11-09-2026' },
@@ -127,7 +131,7 @@ export const OPEN_COURSES: OpenCourse[] = [
       },
       {
         month: 'Octubre 2026',
-        image: `${IMG}confinados-calama-octubre-38a30e69.jpeg`,
+        image: `${IMG}confinados-calama-octubre-38a30e69`,
         sessions: [
           { id: '-23', date: '2026-10-08', label: '08-10-2026' },
           { id: '-24', date: '2026-10-20', label: '20-10-2026' },
@@ -149,7 +153,7 @@ export const OPEN_COURSES: OpenCourse[] = [
     batches: [
       {
         month: 'Octubre 2026',
-        image: `${IMG}sustancias-peligrosas-calama-62d4c6f9.jpeg`,
+        image: `${IMG}sustancias-peligrosas-calama-62d4c6f9`,
         sessions: [
           { id: '-29', date: '2026-10-13', label: '13-10-2026' },
           { id: '-30', date: '2026-10-22', label: '22-10-2026' },
@@ -174,7 +178,7 @@ export const OPEN_COURSES: OpenCourse[] = [
     batches: [
       {
         month: 'Octubre 2026',
-        image: `${IMG}sap-s4-hana-modulo-pm-jpg-76db2b0c.jpeg`,
+        image: `${IMG}sap-s4-hana-modulo-pm-jpg-76db2b0c`,
         sessions: [{ id: '-26', date: '2026-10-01', label: '01-10-2026' }],
       },
     ],
@@ -200,7 +204,7 @@ export const OPEN_COURSES: OpenCourse[] = [
     batches: [
       {
         month: 'Octubre 2026',
-        image: `${IMG}formacion-guardia-seguridad-edit-octubre-jpg-88c7c408.jpeg`,
+        image: `${IMG}formacion-guardia-seguridad-edit-octubre-jpg-88c7c408`,
         // Una fecha por sede: el postulante elige dónde la cursa al inscribirse.
         sessions: [
           { id: '-27', date: '2026-10-01', label: '01-10-2026', city: 'Calama' },

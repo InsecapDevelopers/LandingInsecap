@@ -9,6 +9,7 @@ import { ClientTypeSwitch } from "@/components/ClientTypeSwitch";
 import { useTranslation } from "react-i18next";
 import { useLocalizedPath } from "@/hooks/use-localized-path";
 import { coursesForMonth, getUpcomingBatches, matchMonthParam } from "@/lib/openCourses";
+import { localImage } from "@/lib/images";
 
 const FORM_HREF = "/formulario/cursos-abiertos";
 
@@ -110,7 +111,7 @@ const OpenCoursesCatalog = () => {
               </div>
             ) : (
               <div className="mt-10 mb-10 text-center">
-                <h2 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight text-insecap-blue">
+                <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight text-insecap-blue">
                   {mes}
                 </h2>
                 <div className="mx-auto mt-3 h-1.5 w-20 rounded-full bg-gradient-to-r from-blue-600 to-indigo-400" />
@@ -127,9 +128,12 @@ const OpenCoursesCatalog = () => {
                   className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
                 >
                   <img
-                    src={curso.image}
+                    {...localImage(curso.image, [640, 1080], "(min-width: 1024px) 400px, (min-width: 768px) 50vw, calc(100vw - 4rem)")}
                     alt={t('openOffer.posterAltFull', { course: titulo, month: mes, modality: curso.modality })}
+                    width={1080}
+                    height={1080}
                     loading={i === 0 ? "eager" : "lazy"}
+                    decoding="async"
                     className="aspect-square w-full object-cover"
                   />
 

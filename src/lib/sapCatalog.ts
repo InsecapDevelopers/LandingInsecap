@@ -193,7 +193,9 @@ export const SAP_HREF = '/sap-pm';
 
 export const SAP_LOGO = 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/saplogo-svg-e9c51a68.webp';
 
-const ENV_CDN = 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias';
+// Capturas recomprimidas a WebP en public/ (Fase 6; los JPEG de origen pesaban hasta 414 KB y están en
+// storageisecap.sfo2.digitaloceanspaces.com/noticias/<nombre>.jpeg). Mismo tamaño: el zoom las amplía.
+const ENV_CDN = '/images/sap';
 
 /**
  * Capturas reales del entorno SAP Insecap Minerals. La primera va en grande (y en el hero de la landing).
@@ -201,15 +203,15 @@ const ENV_CDN = 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias';
  */
 export const SAP_ENV_SHOTS = [
   {
-    src: `${ENV_CDN}/sap2-23d39a46.jpeg`, w: 1519, h: 904, zoom: 1.6,
+    src: `${ENV_CDN}/sap2-23d39a46.webp`, w: 1519, h: 904, zoom: 1.6,
     alt: { es: 'Ubicaciones técnicas en el entorno de práctica', en: 'Functional locations in the practice environment', pt: 'Locais de instalação no ambiente de prática' },
   },
   {
-    src: `${ENV_CDN}/sap3-a2c823e9.jpeg`, w: 1600, h: 855, zoom: 2.2,
+    src: `${ENV_CDN}/sap3-a2c823e9.webp`, w: 1600, h: 855, zoom: 2.2,
     alt: { es: 'Acceso al entorno', en: 'Environment login', pt: 'Acesso ao ambiente' },
   },
   {
-    src: `${ENV_CDN}/sap-c238453d.jpeg`, w: 1514, h: 903, zoom: 1.6,
+    src: `${ENV_CDN}/sap-c238453d.webp`, w: 1514, h: 903, zoom: 1.6,
     alt: { es: 'Menú SAP Easy Access', en: 'SAP Easy Access menu', pt: 'Menu SAP Easy Access' },
   },
 ];

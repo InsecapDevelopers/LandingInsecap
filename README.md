@@ -38,7 +38,6 @@ npm run dev
 | `npm run build:dev`          | Build con `mode=development`                           |
 | `npm run preview`            | Sirve el build localmente                              |
 | `npm run lint`               | Linter (ESLint)                                        |
-| `npm run catalog:b2b:build`  | Regenera `src/data/b2bCatalog.json` desde el script    |
 
 ### Variables de entorno
 
@@ -58,14 +57,13 @@ Crea un archivo `.env.local` en la raíz si necesitas sobreescribir valores. Las
 ```
 src/
   components/     Componentes UI y secciones (Header, Hero, Catalog, ...)
-  pages/          Rutas (Index, AboutUs, CourseDetail, Blog, ...)
+  pages/          Rutas (Index, AboutUs, CursoFicha, Blog, ...); todas salvo Index con React.lazy
   lib/            Utilidades, i18n, datos del catálogo, integraciones
-  hooks/          Custom hooks (useMobile, useScrollAnimation, ...)
+  hooks/          Custom hooks (useLocalizedPath, useScrollAnimation, ...)
   stores/         Estado global con Zustand (cartStore)
-  data/           Datasets estáticos (b2bCatalog.json, clients)
-  assets/         Imágenes y logos
-public/           Activos servidos tal cual (robots.txt, isotipos, mockups)
-scripts/          Scripts de build (build-b2b-catalog.mjs)
+  data/           Datasets estáticos (cursos-seo, sedes, clients)
+public/           Activos servidos tal cual (isotipos, mockups, images/ en WebP recomprimido)
+scripts/          Prerender, contratos del build (check-dist, check-bots) y ETL
 ```
 
 ## Docker

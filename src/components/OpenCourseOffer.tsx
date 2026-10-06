@@ -13,6 +13,7 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel';
 import { coursesForMonth, getUpcomingBatches, matchMonthParam } from '@/lib/openCourses';
+import { localImage } from '@/lib/images';
 
 const OFFER_HREF = '/formulario/cursos-abiertos';
 
@@ -91,7 +92,7 @@ const OpenCourseOffer = () => {
     >
       {/* ── Rolling text ── */}
       <div
-        className="text-center text-[clamp(1.8rem,6vw,4rem)] font-extrabold uppercase tracking-tight text-insecap-blue mb-12 md:mb-16 px-4"
+        className="text-center text-[clamp(1.8rem,6vw,4rem)] font-bold uppercase tracking-tight text-insecap-blue mb-12 md:mb-16 px-4"
         style={{ perspective: '500px' }}
         aria-label={text}
       >
@@ -179,11 +180,15 @@ const OpenCourseOffer = () => {
                     className="w-full lg:w-1/2"
                   >
                     <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
+                      {/* Bajo el pliegue (después del VideoHero): todas lazy. */}
                       <img
-                        src={offer.image}
+                        {...localImage(offer.image, [640, 1080], '(min-width: 1024px) 600px, calc(100vw - 4rem)')}
                         alt={t('openOffer.posterAlt', { course: `${offer.title} ${offer.titleHighlight}` })}
+                        width={1080}
+                        height={1080}
                         className="absolute inset-0 w-full h-full object-cover"
-                        loading={slide === 0 ? 'eager' : 'lazy'}
+                        loading="lazy"
+                        decoding="async"
                       />
                       <span className="absolute top-6 left-6 px-4 py-1.5 rounded-full bg-insecap-cyan text-white text-xs font-bold uppercase tracking-wider">
                         {t('openOffer.badge')}
@@ -196,7 +201,7 @@ const OpenCourseOffer = () => {
                     <span className="text-blue-600 font-bold tracking-wider uppercase text-sm">
                       {t('openOffer.eyebrow')}
                     </span>
-                    <h2 lang={locale === 'es' ? undefined : 'es'} className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-tight">
+                    <h2 lang={locale === 'es' ? undefined : 'es'} className="text-4xl md:text-5xl font-bold text-blue-950 leading-tight">
                       {offer.title} <span className="text-blue-600">{offer.titleHighlight}</span>
                     </h2>
                     <div className="w-24 h-2 bg-gradient-to-r from-blue-600 to-indigo-400 rounded-full" />

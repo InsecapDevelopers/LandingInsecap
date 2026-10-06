@@ -2,6 +2,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { AnimatedCatalogModal } from './CatalogModal';
+import { responsiveImage } from '@/lib/images';
+
+// Fondo bajo una capa azul al 70 % con desenfoque: basta un ancho moderado. <img> lazy en vez de
+// background-image (un fondo CSS se descarga aunque la sección esté lejos del viewport).
+const CATALOG_BG = responsiveImage(
+  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/E-Sala-6-Image-2024-08-05-at-13.13.42-2.jpg?v=1769004992',
+  [640, 960, 1280],
+  '100vw',
+  960,
+);
 
 const slideInLeft = {
   hidden: { opacity: 0, x: -80 },
@@ -16,11 +26,17 @@ const Catalog: React.FC = () => {
   const { t } = useTranslation();
   return (
     <section
-      className="w-full h-[400px] md:h-[500px] bg-cover bg-center relative flex items-center backdrop-blur-sm"
-      style={{
-        backgroundImage: `url('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/E-Sala-6-Image-2024-08-05-at-13.13.42-2.jpg?v=1769004992')`,
-      }}
+      className="w-full h-[400px] md:h-[500px] relative flex items-center backdrop-blur-sm"
     >
+      <img
+        {...CATALOG_BG}
+        alt=""
+        width={1600}
+        height={1204}
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
       {/* Overlay */}
       <div className="absolute inset-0 bg-blue-800 bg-opacity-70 backdrop-blur-sm"></div>
 

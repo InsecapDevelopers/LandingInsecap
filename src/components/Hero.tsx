@@ -5,22 +5,33 @@ import { useTranslation } from 'react-i18next';
 import { WordRotate } from '@/components/ui/word-rotate';
 import { getYearsOfExperience } from '@/lib/insecapUtils';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
+import { localImage } from '@/lib/images';
 
-const CAPIN_IMG = '/CapinMov.webp';
+// Capín estático (Fase 6): el .webp animado pesaba 5,9 MB. 320 px = 2x del ancho de render (w-40).
+const CAPIN_IMG = '/images/capin/capin-saludo-320.webp';
 
+/* Fotos de la tarjeta (Fase 6): WebP locales en public/images/hero, en el mismo orden que las
+   originales de Shopify (imagen_2026-03-02_111938161.png, Cascada-fachada-y-letrero-scaled.jpg,
+   Sede-Antofagasta-web.jpg, imagen_2026-03-02_112057871…112454997.png, GHorquilla3675_web.jpg).
+   Eran fotos sin transparencia guardadas como PNG (~90 KB a 640 px); con
+   `cwebp -q 70 -m 6 -resize <ancho> 0` quedan en 16–48 KB y no abren otra conexión cerca del LCP. */
 const HERO_IMAGES = [
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_111938161.png?v=1772461187',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cascada-fachada-y-letrero-scaled.jpg?v=1776094124',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede-Antofagasta-web.jpg?v=1773345628',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112057871.png?v=1772461266',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112143481.png?v=1772461310',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112230765.png?v=1772461356',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112259390.png?v=1772461385',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112344017.png?v=1772461433',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112418054.png?v=1772461465',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112454997.png?v=1772461500',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GHorquilla3675_web.jpg?v=1773345899',
+  '/images/hero/imagen-2026-03-02-111938161-d2a62cc4',
+  '/images/hero/cascada-fachada-y-letrero-af634769',
+  '/images/hero/sede-antofagasta-web-8c8ce7d7',
+  '/images/hero/imagen-2026-03-02-112057871-c08175ba',
+  '/images/hero/imagen-2026-03-02-112143481-47a0ef80',
+  '/images/hero/imagen-2026-03-02-112230765-f2386630',
+  '/images/hero/imagen-2026-03-02-112259390-0b0732a8',
+  '/images/hero/imagen-2026-03-02-112344017-92a40906',
+  '/images/hero/imagen-2026-03-02-112418054-5e222aa3',
+  '/images/hero/imagen-2026-03-02-112454997-5e9258e1',
+  '/images/hero/ghorquilla3675-web-4525052d',
 ];
+
+/* Tarjeta 4:3 de hasta 560 px (bajo el pliegue): srcset con el ancho de render. */
+const HERO_IMAGE_SIZES = '(min-width: 640px) 560px, calc(100vw - 4rem)';
+const heroImage = (base: string) => localImage(base, [400, 640, 828, 1120], HERO_IMAGE_SIZES);
 
 /* ——— animation helpers ——— */
 const fadeUp = {
@@ -51,9 +62,25 @@ const Hero = () => {
   }, [i18n.resolvedLanguage, t]);
 
   // carrusel con fade en la tarjeta de imagen
-  const [currentImg, setCurrentImg] = useState(0);
+  // prevImg: la que sale; queda montada debajo durante el fundido (null antes del primer cambio).
+  // preloadNext: la siguiente no se monta en la carga (Fase 6, presupuesto de peso <1,5 MB): el primer
+  // tick solo la precarga y el cambio llega en el segundo; desde ahí siempre hay una precargada.
+  const [{ currentImg, prevImg, preloadNext }, setSlides] = useState<{
+    currentImg: number;
+    prevImg: number | null;
+    preloadNext: boolean;
+  }>({
+    currentImg: 0,
+    prevImg: null,
+    preloadNext: false,
+  });
   useEffect(() => {
-    const timer = setInterval(() => setCurrentImg((p) => (p + 1) % HERO_IMAGES.length), 5000);
+    const timer = setInterval(
+      () => setSlides((s) => (s.preloadNext
+        ? { currentImg: (s.currentImg + 1) % HERO_IMAGES.length, prevImg: s.currentImg, preloadNext: true }
+        : { ...s, preloadNext: true })),
+      5000,
+    );
     return () => clearInterval(timer);
   }, []);
 
@@ -114,7 +141,7 @@ const Hero = () => {
               initial={false}
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
-              className="text-[clamp(1.9rem,6.5vw,3rem)] font-extrabold text-slate-900 leading-[1.15] tracking-tight mb-6"
+              className="text-[clamp(1.9rem,6.5vw,3rem)] font-bold text-slate-900 leading-[1.15] tracking-tight mb-6"
             >
               {rotatePhrase.prefix}
               {/* línea reservada: la palabra rota sin mover el resto del layout */}
@@ -184,24 +211,39 @@ const Hero = () => {
               aria-hidden="true"
             />
             <div
-              className="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/3] bg-slate-200"
+              className="relative isolate rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/3] bg-slate-200"
               role="img"
               aria-label={t('hero.imagesLabel')}
             >
-              {HERO_IMAGES.map((img, idx) => (
-                <motion.div
-                  key={img}
-                  initial={false}
-                  animate={{
-                    opacity: currentImg === idx ? 1 : 0,
-                    scale: currentImg === idx ? 1 : 1.05,
-                  }}
-                  transition={{ duration: 1.4, ease: 'easeInOut' }}
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url('${img}')` }}
-                />
-              ))}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent" aria-hidden="true" />
+              {/* Solo se montan la anterior (queda debajo mientras la actual hace el fundido), la
+                  actual y la siguiente (precargada con opacity 0), no las 11. `isolate` encierra sus
+                  z-index para que no tapen los chips ni a Capín. */}
+              {HERO_IMAGES.map((img, idx) => {
+                const isCurrent = idx === currentImg;
+                const isNext = preloadNext && idx === (currentImg + 1) % HERO_IMAGES.length;
+                const isPrev = idx === prevImg;
+                if (!isCurrent && !isNext && !isPrev) return null;
+                return (
+                  <motion.img
+                    key={img}
+                    {...heroImage(img)}
+                    alt=""
+                    width={1600}
+                    height={1200}
+                    loading="lazy"
+                    decoding="async"
+                    initial={false}
+                    animate={{
+                      opacity: isNext ? 0 : 1,
+                      scale: isCurrent ? 1 : 1.05,
+                    }}
+                    transition={{ duration: 1.4, ease: 'easeInOut' }}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ zIndex: isCurrent ? 2 : isPrev ? 1 : 0 }}
+                  />
+                );
+              })}
+              <div className="absolute inset-0 z-[3] bg-gradient-to-t from-slate-900/30 to-transparent" aria-hidden="true" />
             </div>
 
             {/* chips de stats */}
@@ -237,7 +279,11 @@ const Hero = () => {
               src={CAPIN_IMG}
               alt=""
               aria-hidden="true"
-              className="absolute -bottom-8 -left-6 sm:-left-14 w-32 sm:w-40 drop-shadow-2xl pointer-events-none"
+              width={320}
+              height={569}
+              loading="lazy"
+              decoding="async"
+              className="absolute -bottom-8 -left-6 sm:-left-14 w-32 sm:w-40 h-auto drop-shadow-2xl pointer-events-none"
             />
           </motion.div>
         </div>

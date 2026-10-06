@@ -33,6 +33,7 @@ import Autoplay from 'embla-carousel-autoplay';
 import { ShineBorder } from '@/components/ui/shine-border';
 import { WarpBackground } from '@/components/ui/warp-background';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { shopifyImage } from '@/lib/images';
 
 const ExperienciaYRespaldo = () => {
   const { locale } = useLocalizedPath();
@@ -162,7 +163,7 @@ const ExperienciaYRespaldo = () => {
   const certVisuals = [
     { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498', logoAlt: 'SENCE', iconType: 'logo' as const, badgeColor: 'blue' as const },
     { logo: '/logos/SELLO_2728.svg', logoAlt: 'NCh 2728:2015', iconType: 'logo' as const, badgeColor: 'green' as const },
-    { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', logoAlt: 'ISO 9001:2015', iconType: 'logo' as const, badgeColor: 'green' as const },
+    { logo: shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', 240), logoAlt: 'ISO 9001:2015', iconType: 'logo' as const, badgeColor: 'green' as const },
     { logo: '/logos/CCS.png', logoAlt: 'CCS', iconType: 'logo' as const, badgeColor: 'blue' as const },
     { logo: '/logos/SICEP.png', logoAlt: 'SICEP', iconType: 'logo' as const, badgeColor: 'blue' as const },
     { logo: '/logos/Sello Acreditado Codelco Color.png', logoAlt: 'Codelco', iconType: 'logo' as const, badgeColor: 'green' as const },
@@ -289,7 +290,7 @@ const ExperienciaYRespaldo = () => {
                               <Calendar className="w-3.5 h-3.5 text-blue-200" />
                             </div>
                           </div>
-                          <div className="text-4xl font-extrabold text-white tabular-nums leading-none mb-1">
+                          <div className="text-4xl font-bold text-white tabular-nums leading-none mb-1">
                             {yearsCount}
                             <span className="text-blue-300 text-2xl">+</span>
                           </div>
@@ -303,7 +304,7 @@ const ExperienciaYRespaldo = () => {
                               <Building2 className="w-3.5 h-3.5 text-indigo-200" />
                             </div>
                           </div>
-                          <div className="text-4xl font-extrabold text-white tabular-nums leading-none mb-1">
+                          <div className="text-4xl font-bold text-white tabular-nums leading-none mb-1">
                             +{clientsCount.toLocaleString('es-CL')}
                           </div>
                           <div className="text-blue-200 text-xs font-medium uppercase tracking-wider mt-2">{content.clients}</div>
@@ -331,7 +332,7 @@ const ExperienciaYRespaldo = () => {
                 <div className="flex flex-wrap items-center justify-center gap-10">
                   <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498" alt="SENCE" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                   <img src="/logos/SELLO_2728.svg" alt="NCh 2728:2015" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
-                  <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585" alt="ISO 9001:2015" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  <img src={shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', 240)} loading="lazy" decoding="async" alt="ISO 9001:2015" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                   <img src="/logos/CCS.png" alt="Cámara de Comercio de Santiago (CCS)" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                   <img src="/logos/SICEP.png" alt="SICEP" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                 </div>
@@ -387,6 +388,8 @@ const ExperienciaYRespaldo = () => {
                         <img
                           src={cert.logo}
                           alt={cert.logoAlt}
+                          loading="lazy"
+                          decoding="async"
                           className="h-20 w-auto object-contain"
                         />
                       </div>
