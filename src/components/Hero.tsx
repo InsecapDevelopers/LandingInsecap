@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, GraduationCap, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getRespuestaHome } from '@/data/respuestas';
+import type { AppLanguage } from '@/lib/translations';
 import { WordRotate } from '@/components/ui/word-rotate';
 import { getYearsOfExperience } from '@/lib/insecapUtils';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
@@ -161,9 +163,11 @@ const Hero = () => {
               initial={false}
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
+              data-respuesta="home"
               className="text-slate-600 text-base sm:text-lg leading-relaxed mb-9"
             >
-              {heroPhrase.h2}
+              {/* Párrafo de respuesta (Fase 8): qué es INSECAP en 40–60 palabras, con entidades explícitas. */}
+              {getRespuestaHome((i18n.resolvedLanguage ?? 'es') as AppLanguage)}
             </motion.p>
 
             <motion.div
