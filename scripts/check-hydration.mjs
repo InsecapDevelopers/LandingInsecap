@@ -58,24 +58,30 @@ const chrome = spawn(
     `--user-data-dir=${profile}`,
     '--no-first-run',
     '--no-default-browser-check',
-    ...(process.env.CI ? ['--no-sandbox'] : []),
+    // En CI (runner ubuntu): sin sandbox ni /dev/shm chico, que hacen que Chrome no arranque.
+    ...(process.env.CI ? ['--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu'] : []),
     'about:blank',
   ],
-  { stdio: 'ignore' },
+  { stdio: ['ignore', 'ignore', 'pipe'] },
 );
+let chromeStderr = '';
+chrome.stderr.on('data', (chunk) => {
+  chromeStderr = (chromeStderr + chunk).slice(-2000);
+});
 
 let exitCode = 1;
 try {
   // Chrome escribe el puerto elegido en DevToolsActivePort.
   let port;
-  for (let i = 0; i < 100 && !port; i++) {
+  // Hasta 30 s: el primer arranque en un runner frío puede tardar más de 10 s.
+  for (let i = 0; i < 300 && !port; i++) {
     try {
       port = readFileSync(join(profile, 'DevToolsActivePort'), 'utf8').split('\n')[0];
     } catch {
       await sleep(100);
     }
   }
-  if (!port) throw new Error('Chrome no abrió el puerto de depuración');
+  if (!port) throw new Error(`Chrome no abrió el puerto de depuración\n${chromeStderr}`);
 
   const targets = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
   const page = targets.find((target) => target.type === 'page');
