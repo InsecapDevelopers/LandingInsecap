@@ -115,6 +115,21 @@ jobs:
         if: failure()
         run: docker logs web || true
 
+      # Sitemaps del build probado, para que el job deploy calcule qué URLs cambiaron (IndexNow, Fase 9).
+      # IndexNow nunca bloquea el deploy: estos pasos y los del job deploy son continue-on-error.
+      - name: Sitemaps del build (IndexNow)
+        continue-on-error: true
+        run: node scripts/indexnow.mjs snapshot http://localhost:8080 indexnow-new
+
+      - name: Upload sitemaps
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: indexnow-sitemaps
+          path: indexnow-new/
+          retention-days: 7
+          if-no-files-found: warn
+
       - name: Push
         env:
           TAGS: ${{ steps.meta.outputs.tags }}
@@ -130,6 +145,27 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
+      # IndexNow (Fase 9, scripts/indexnow.mjs): necesita el script y public/<clave>.txt.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download sitemaps
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: indexnow-sitemaps
+          path: indexnow-new
+
+      # Antes del deploy: el sitemap que está publicado hoy (base de la comparación por <lastmod>).
+      - name: Sitemaps publicados (IndexNow)
+        continue-on-error: true
+        run: node scripts/indexnow.mjs snapshot https://insecap.cl indexnow-old
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -144,3 +180,11 @@ jobs:
             docker compose pull
             docker compose up -d --remove-orphans
             docker image prune -f
+
+      # Avisa a IndexNow (Bing, Yandex…) las URLs nuevas, retiradas o con <lastmod> distinto.
+      # Tolerante a fallos: si IndexNow o la comparación fallan, el deploy sigue en verde.
+      # El log debe mostrar "IndexNow 200" o "IndexNow 202".
+      - name: IndexNow
+        continue-on-error: true
+        timeout-minutes: 5
+        run: node scripts/indexnow.mjs submit indexnow-new indexnow-old

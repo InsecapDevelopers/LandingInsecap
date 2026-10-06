@@ -30,3 +30,6 @@ dist-ssr
 !.env.example
 news-export/
 b2b-export/
+
+# Lighthouse CI (Fase 9): reportes locales de `npx @lhci/cli autorun`
+.lighthouseci

@@ -1,0 +1,105 @@
+name: Lighthouse
+
+# Lighthouse CI móvil (Fase 9, tarea #8; presupuestos en lighthouserc.json): /es, /en, /pt, una
+# ficha y /es/noticias contra la misma imagen Docker que se despliega, 3 corridas por URL (mediana).
+# Presupuestos: LCP ≤ 2.500 ms, peso total ≤ 1,5 MB, accesibilidad ≥ 95 y SEO ≥ 95.
+# Cómo leer el resultado: docs/seo-medicion.md.
+on:
+  pull_request:
+    branches: [main, dev]
+  workflow_dispatch:
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Mismos build-args que deploy.yml: se mide lo que se publicaría.
+      - name: Build (load)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          push: false
+          tags: insecap-landing:lhci
+          cache-from: type=gha
+          build-args: |
+            BUILD_ID=${{ github.run_id }}-${{ github.run_attempt }}
+            VITE_TMS_API_URL=${{ vars.VITE_TMS_API_URL }}
+            VITE_TMS_PLUS_API_URL=${{ vars.VITE_TMS_PLUS_API_URL }}
+            VITE_ECOMMERCE_ENABLED=${{ vars.VITE_ECOMMERCE_ENABLED }}
+            VITE_LECTURA_JSON=${{ vars.VITE_LECTURA_JSON }}
+            VITE_B2B_CATALOG_ENABLED=${{ vars.VITE_B2B_CATALOG_ENABLED }}
+            VITE_B2B_SHOPIFY_QUERY=${{ vars.VITE_B2B_SHOPIFY_QUERY }}
+            VITE_SIMULATORS_ENABLED=${{ vars.VITE_SIMULATORS_ENABLED }}
+            VITE_OPEN_COURSE_OFFER=${{ vars.VITE_OPEN_COURSE_OFFER }}
+            VITE_URL_APPSTORE=${{ vars.VITE_URL_APPSTORE }}
+            VITE_URL_PLAYSTORE=${{ vars.VITE_URL_PLAYSTORE }}
+
+      - name: Start container
+        run: |
+          docker run -d --name web -p 8080:80 \
+            --read-only --tmpfs /var/cache/nginx --tmpfs /var/run --tmpfs /tmp \
+            insecap-landing:lhci
+          for _ in $(seq 1 30); do
+            curl -sf http://localhost:8080/healthz >/dev/null && exit 0
+            sleep 1
+          done
+          echo "El contenedor no respondió /healthz"; docker logs web; exit 1
+
+      # @lhci/cli por npx (no está en package.json). Usa el Chrome que trae ubuntu-latest.
+      # TODO(2026-10-20): modo aviso durante 2 semanas. Desde esa fecha, quitar continue-on-error
+      # para que un presupuesto incumplido haga fallar el job (y el PR).
+      - name: Lighthouse CI (autorun)
+        continue-on-error: true
+        run: npx --yes @lhci/cli@0.15 autorun --config=lighthouserc.json
+
+      # Tabla en el resumen del job: mediana de las 3 corridas por URL.
+      - name: Summary
+        if: always()
+        run: |
+          node --input-type=module <<'EOF' >> "$GITHUB_STEP_SUMMARY" || true
+          import fs from 'node:fs';
+          const dir = '.lighthouseci/reports';
+          if (!fs.existsSync(`${dir}/manifest.json`)) { console.log('Sin reportes de Lighthouse.'); process.exit(0); }
+          const runs = JSON.parse(fs.readFileSync(`${dir}/manifest.json`, 'utf8')).filter((r) => r.isRepresentativeRun);
+          const pct = (v) => (v == null ? '–' : Math.round(v * 100));
+          const mark = (ok) => (ok ? '' : ' (fuera)');
+          console.log('## Lighthouse móvil (corrida representativa)\n');
+          console.log('| URL | Rendimiento | Accesibilidad | SEO | LCP (ms) | Peso (KB) |');
+          console.log('|---|---|---|---|---|---|');
+          for (const r of runs) {
+            const lhr = JSON.parse(fs.readFileSync(r.jsonPath, 'utf8'));
+            const lcp = Math.round(lhr.audits['largest-contentful-paint'].numericValue);
+            const kb = Math.round(lhr.audits['total-byte-weight'].numericValue / 1000);
+            const s = r.summary;
+            console.log(`| ${new URL(r.url).pathname} | ${pct(s.performance)} | ${pct(s.accessibility)}${mark(s.accessibility >= 0.95)} | ${pct(s.seo)}${mark(s.seo >= 0.95)} | ${lcp}${mark(lcp <= 2500)} | ${kb}${mark(kb <= 1500)} |`);
+          }
+          console.log('\nPresupuestos: LCP ≤ 2.500 ms, peso ≤ 1.500 KB, accesibilidad y SEO ≥ 95. Reportes HTML en el artefacto lighthouse.');
+          EOF
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: .lighthouseci/
+          retention-days: 14
+          if-no-files-found: ignore

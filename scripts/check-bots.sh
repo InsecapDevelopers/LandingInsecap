@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Aceptación de las Fases 1 a 5, de imágenes y fuentes de la Fase 6 y de las cabeceras de la Fase 7 (Tarea #8): lo que ven los bots en el HTML inicial,
+# Aceptación de las Fases 1 a 5, de imágenes y fuentes de la Fase 6 y de las cabeceras de la Fase 7 y de la clave de IndexNow de la Fase 9 (Tarea #8): lo que ven los bots en el HTML inicial,
 # sin ejecutar JS, más las reglas de nginx (404 real, 301 con query, caché, cabeceras),
 # las URLs en español con los 301 de las URLs antiguas en un solo salto, y robots.txt,
 # sitemaps y llms.txt (cada <loc> del sitemap responde 200 contra $B).
@@ -310,6 +310,13 @@ for f in llms.txt llms-full.txt; do
   check "/$f → $c, H1 \"${first:0:50}\"" test "$c" = "200 text/plain; charset=utf-8" -a "${first:0:2}" = "# "
 done
 c=$(status "$B/.well-known/ai-catalog.json"); check "/.well-known/ai-catalog.json → 404 ($c)" test "$c" = 404
+# Fase 9: la clave de IndexNow (public/<32 hex>.txt) se sirve en la raíz y devuelve la clave.
+for f in "$SCRIPT_DIR"/../public/*.txt; do
+  k=$(basename "$f" .txt)
+  [[ "$k" =~ ^[0-9a-f]{32}$ ]] || continue
+  body=$(curl -s "$B/$k.txt" | tr -d '\r\n')
+  check "/$k.txt (IndexNow) devuelve la clave" test "$body" = "$k"
+done
 for ua in $AI_BOTS; do
   c=$(status -A "$ua" "$B/es"); check "$ua /es → $c" test "$c" = 200
 done
