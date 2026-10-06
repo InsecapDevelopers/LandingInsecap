@@ -137,7 +137,7 @@ Reglas de contraste (WCAG AA, 4,5:1 para texto normal):
 
 Degradados documentados:
 
-- **Header al hacer scroll** (`Header.tsx:140`): `bg-gradient-to-r from-insecap-cyan/85 to-insecap-blue/95` con texto del menú encima. El extremo cian está pendiente de medición en la Fase 7; si no llega a AA, el degradado empieza en cyan-ink.
+- **Header al hacer scroll y menú móvil** (`Header.tsx`): `from-insecap-cyan-ink to-insecap-blue/95` con texto del menú encima. Medido en la Fase 7: el inicio anterior, `insecap-cyan/85` sobre blanco, daba 2,11:1 con blanco (1,95 con el `white/90` del menú); con cyan-ink sólido da 5,20 (4,53 con `white/90`) y el extremo índigo da 5,21.
 - **Footer** (`--gradient-footer`, 135°): `#0095B2 → #3547B1 → #233076`. El tramo inicial `#0095B2` con blanco da 3,53:1, apto solo para texto grande (≥24px, o ≥18,66px en negrita); el texto normal se apoya en los tramos índigo.
 - **Overlays oscuros**: sobre video/fotos se usa `blue-950` con gradiente negro→azul (45–70% de opacidad); el texto encima es claro y la palabra clave puede ir en gradiente cian, solo porque el fondo es oscuro.
 - **Fondos decorativos**: blobs radiales desenfocados (sky-400 e indigo-400 a 25–40% de opacidad) y retícula de puntos slate al 35%. Nunca llevan texto.
@@ -145,12 +145,10 @@ Degradados documentados:
 
 **theme-color:** `#485CC7`, en `index.html` y en el manifest si se crea (reemplaza al azul actual, que no pertenece a la paleta).
 
+**Retirado del código en la Fase 7:** el naranjo de `--shadow-cta` (ahora índigo) y de `.dark --accent` (ahora cian con texto en tinta), `--gradient-hero` y el CTA sky, que pasó a índigo en Hero, Header, Oferta de Cursos Abiertos y el banner SAP. `--secondary-foreground` y `--accent-foreground` pasan a tinta, porque son texto sobre cian.
+
 **Pendiente de retirar del código** (por fase, no son parte del sistema):
 
-- el naranjo de `--shadow-cta` (`index.css:66`) y el de `.dark --accent` (`index.css:98`);
-- `--gradient-hero` (negro→gris, sin uso de marca);
-- el CTA sky `#0EA5E9 → #38BDF8` (`bg-sky-500`) con texto blanco en `Hero.tsx:152-153` y `Header.tsx:255`/`:412`, que pasa a índigo;
-- `src/components/ui/Navigation.tsx`, código muerto que apunta a un `/images/logo.png` inexistente;
 - cualquier referencia a los colores del TMS: el sitio público usa solo esta paleta.
 
 ## 3. Typography

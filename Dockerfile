@@ -50,6 +50,7 @@ ENV VITE_TMS_API_URL=$VITE_TMS_API_URL \
 ARG BUILD_ID=local
 RUN echo "BUILD_ID=${BUILD_ID}" && npm run build \
     && mkdir -p /app/nginx && mv dist/redirects.map /app/nginx/redirects.map \
+    && mv dist/csp.conf /app/nginx/csp.conf \
     && rm -rf dist/_report
 
 # ---------- Stage 2: serve ----------
@@ -60,6 +61,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY snippets/security-headers.conf /etc/nginx/snippets/security-headers.conf
 # 301 de las URLs antiguas (generado en el build; fuera de la raíz pública)
 COPY --from=build /app/nginx/redirects.map /etc/nginx/redirects.map
+# CSP Report-Only con los hashes de los scripts inline de este build (Fase 7)
+COPY --from=build /app/nginx/csp.conf /etc/nginx/snippets/csp.conf
 
 # Static assets
 COPY --from=build /app/dist /usr/share/nginx/html

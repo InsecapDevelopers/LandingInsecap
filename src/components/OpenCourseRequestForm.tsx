@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { Send, Loader2, CheckCircle2, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -102,6 +102,8 @@ const OpenCourseRequestForm = ({
     cursoInteres: cursoInteres ?? '',
   });
 
+  // Ids estables entre el prerender y la hidratación para asociar cada <label> con su control.
+  const fid = useId();
   const [formData, setFormData] = useState(buildInitialFormState);
   const [ciudades, setCiudades] = useState<Ciudad[]>([]);
   const [cursos, setCursos] = useState<CursoParticular[]>([]);
@@ -385,8 +387,9 @@ const OpenCourseRequestForm = ({
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="space-y-1.5">
-        <label className={labelClass}>{content.labelNombre}</label>
+        <label htmlFor={`${fid}-nombre`} className={labelClass}>{content.labelNombre}</label>
         <Input
+          id={`${fid}-nombre`}
           name="nombre"
           value={formData.nombre}
           onChange={handleChange}
@@ -397,9 +400,10 @@ const OpenCourseRequestForm = ({
 
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <label className={labelClass}>{content.labelEmail}</label>
+          <label htmlFor={`${fid}-email`} className={labelClass}>{content.labelEmail}</label>
           <Input
             type="email"
+            id={`${fid}-email`}
             name="email"
             value={formData.email}
             onChange={handleChange}
@@ -408,9 +412,10 @@ const OpenCourseRequestForm = ({
           />
         </div>
         <div className="space-y-1.5">
-          <label className={labelClass}>{content.labelTelefono}</label>
+          <label htmlFor={`${fid}-telefono`} className={labelClass}>{content.labelTelefono}</label>
           <Input
             type="tel"
+            id={`${fid}-telefono`}
             name="telefono"
             value={formData.telefono}
             onChange={handleChange}
@@ -422,8 +427,9 @@ const OpenCourseRequestForm = ({
 
       <div className="grid sm:grid-cols-2 gap-4 items-end">
         <div className="space-y-1.5">
-          <label className={labelClass}>{content.labelRut}</label>
+          <label htmlFor={`${fid}-rut`} className={labelClass}>{content.labelRut}</label>
           <Input
+            id={`${fid}-rut`}
             name="rut"
             value={formData.rut}
             onChange={handleChange}
@@ -447,8 +453,9 @@ const OpenCourseRequestForm = ({
       {/* La ciudad define la sede: en online no aporta y obligaba a elegir una cualquiera. */}
       {pideCiudad && (
       <div className="space-y-1.5">
-        <label className={labelClass}>{content.labelCiudad}</label>
+        <label htmlFor={`${fid}-ciudad`} className={labelClass}>{content.labelCiudad}</label>
         <select
+          id={`${fid}-ciudad`}
           name="ciudadId"
           value={formData.ciudadId}
           onChange={(e) => setFormData((prev) => ({ ...prev, ciudadId: e.target.value }))}
@@ -470,8 +477,8 @@ const OpenCourseRequestForm = ({
 
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <label className={labelClass}>{content.labelTipoContactado}</label>
-          <div className="flex gap-3 h-11 items-center">
+          <span id={`${fid}-TipoContactado`} className={labelClass}>{content.labelTipoContactado}</span>
+          <div role="radiogroup" aria-labelledby={`${fid}-TipoContactado`} className="flex gap-3 h-11 items-center">
             {(['1', '2'] as const).map((value) => (
               <label
                 key={value}
@@ -493,8 +500,8 @@ const OpenCourseRequestForm = ({
           </div>
         </div>
         <div className="space-y-1.5">
-          <label className={labelClass}>{content.labelModalidad}</label>
-          <div className="flex gap-3 h-11 items-center">
+          <span id={`${fid}-Modalidad`} className={labelClass}>{content.labelModalidad}</span>
+          <div role="radiogroup" aria-labelledby={`${fid}-Modalidad`} className="flex gap-3 h-11 items-center">
             {(['1', '2'] as const).map((value) => (
               <label
                 key={value}
@@ -519,8 +526,9 @@ const OpenCourseRequestForm = ({
 
       {showCursoSelect ? (
         <div className="space-y-1.5">
-          <label className={labelClass}>{content.labelCurso}</label>
+          <label htmlFor={`${fid}-curso`} className={labelClass}>{content.labelCurso}</label>
           <select
+            id={`${fid}-curso`}
             name="idCalendarizacionAbierta"
             value={formData.idCalendarizacionAbierta}
             onChange={(e) => setFormData((prev) => ({ ...prev, idCalendarizacionAbierta: e.target.value }))}
@@ -567,6 +575,7 @@ const OpenCourseRequestForm = ({
           )}
           {cursoNoListadoSelected && (
             <Input
+              aria-label={content.labelCursoInteres}
               name="cursoInteres"
               value={formData.cursoInteres}
               onChange={handleChange}
@@ -579,8 +588,9 @@ const OpenCourseRequestForm = ({
       ) : (
         formData.tipoContactado === '2' && (
           <div className="space-y-1.5">
-            <label className={labelClass}>{content.labelCursoInteres}</label>
+            <label htmlFor={`${fid}-cursoInteres`} className={labelClass}>{content.labelCursoInteres}</label>
             <Input
+              id={`${fid}-cursoInteres`}
               name="cursoInteres"
               value={formData.cursoInteres}
               onChange={handleChange}
@@ -593,8 +603,9 @@ const OpenCourseRequestForm = ({
       )}
 
       <div className="space-y-1.5">
-        <label className={labelClass}>{content.labelMensaje}</label>
+        <label htmlFor={`${fid}-mensaje`} className={labelClass}>{content.labelMensaje}</label>
         <Textarea
+          id={`${fid}-mensaje`}
           name="mensaje"
           value={formData.mensaje}
           onChange={handleChange}

@@ -80,7 +80,9 @@
     /* #485CC7 */
     --insecap-blue-light: 231 60% 65%;
     --insecap-cyan: 190 100% 44%;
-    /* #00B8DE */
+    /* #00B8DE: superficies, bordes, íconos y degradados. Nunca con texto blanco (2,36:1). */
+    --insecap-cyan-ink: 190 100% 28%;
+    /* #00778F: texto cian sobre claro y fondo cian con texto blanco (5,20 / 4,98 / 4,76). */
     --insecap-orange: 190 100% 44%;
     /* Replaced with cyan */
     --insecap-orange-light: 190 100% 50%;
@@ -100,13 +102,15 @@
     --primary-foreground: 0 0% 100%;
 
     --secondary: 190 100% 44%;
-    --secondary-foreground: 0 0% 100%;
+    /* Tinta sobre cian (7,10:1): el blanco sobre #00B8DE no llega a AA. */
+    --secondary-foreground: 222 65% 15%;
 
     --accent: 190 100% 44%;
-    --accent-foreground: 0 0% 100%;
+    --accent-foreground: 222 65% 15%;
 
     --muted: 210 20% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted-foreground: 215 16% 45%;
+    /* #607085: 4,84 sobre el fondo y 4,63 sobre muted (47% fallaba sobre #F9FAFB). */
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -118,7 +122,6 @@
     --radius: 0.5rem;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 0%) 0%, hsl(0 0% 20%) 100%);
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 20% 98%) 100%);
     --gradient-cta: linear-gradient(135deg, hsl(190 100% 44%) 0%, hsl(190 100% 55%) 100%);
     --gradient-footer: linear-gradient(135deg, hsl(190 100% 35%) 0%, hsl(231 54% 45%) 50%, hsl(231 54% 30%) 100%);
@@ -126,7 +129,7 @@
     /* Shadows */
     --shadow-card: 0 4px 20px -4px hsl(231 54% 53% / 0.1);
     --shadow-hover: 0 8px 30px -4px hsl(222 65% 28% / 0.15);
-    --shadow-cta: 0 4px 14px -2px hsl(24 95% 53% / 0.4);
+    --shadow-cta: 0 4px 14px -2px hsl(231 54% 53% / 0.4);
 
     /* Sidebar tokens */
     --sidebar-background: 0 0% 98%;
@@ -158,8 +161,8 @@
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 24 95% 53%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 190 100% 44%;
+    --accent-foreground: 222 65% 15%;
 
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
@@ -189,6 +192,23 @@
 @layer base {
   * {
     @apply border-border;
+  }
+
+  /* Foco visible (Fase 7, WCAG 2.4.7): anillo índigo en todo lo enfocable con teclado. Los
+     componentes que definen su propio focus-visible:ring lo reemplazan con outline-none. Sobre
+     fondos oscuros (header, menú móvil, footer) el contenedor lleva data-focus-light y el anillo
+     pasa a blanco. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  [data-focus-light] :focus-visible {
+    outline-color: #fff;
+  }
+
+  [data-focus-light] [data-focus-dark] :focus-visible {
+    outline-color: hsl(var(--ring));
   }
 
   html {
@@ -258,10 +278,6 @@
 }
 
 @layer utilities {
-  .gradient-hero {
-    background: var(--gradient-hero);
-  }
-
   .gradient-cta {
     background: var(--gradient-cta);
   }

@@ -14,7 +14,7 @@
  *   - al menos un <a href="/…"> interno
  *   - exactamente un <script type="application/ld+json"> (ver JSON-LD, Fase 4)
  *   - sin fallbacks de render en cliente (<!--$!-->) que dejaría un error de SSR
- *   - window.__RQ__ sin `<` crudo
+ *   - #__RQ__ (bloque type="application/json") sin `<` crudo
  * Además: más de 800 palabras visibles en /es, y 404.html y _shell.html con noindex.
  *
  * Metadatos (Fase 3), en todas las páginas:
@@ -68,6 +68,11 @@
  *     lo inserta el loader de prerender.mjs después del primer paint
  *   - GTM, gtag, Meta Pixel y Clarity no van como <script src> en el HTML (los inserta el cargador
  *     diferido de index.html)
+ * Seguridad (Fase 7, scripts/csp.mjs):
+ *   - dist/csp.conf existe y trae el hash sha256 de cada <script> inline ejecutable de todas las
+ *     páginas, 404.html y _shell.html (si no, el CSP reportaría o, en enforce, bloquearía el script)
+ *   - sin manejadores de eventos en atributos (onclick="…") ni enlaces javascript:, que el CSP
+ *     sin 'unsafe-inline' tampoco permite
  * Redirecciones (dist/redirects.map, Fase 2):
  *   - cada línea es `"origen" "destino";` (exacta) o `"~^…" "destino";` (regex)
  *   - sin cadenas: ningún destino es a su vez un origen
@@ -78,6 +83,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+import { inlineScripts, scriptHash } from './csp.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
@@ -348,8 +355,8 @@ for (const { file, locale } of ONLY_REDIRECTS ? [] : pages) {
     else if (!ariaLabel && GENERIC_LINK_TEXT.test(text)) fail(relative, `enlace con texto genérico "${text}": ${href}`);
   }
 
-  const rq = html.match(/<script>window\.__RQ__=([\s\S]*?)<\/script>/);
-  if (rq && rq[1].includes('<')) fail(relative, 'window.__RQ__ con "<" sin escapar');
+  const rq = html.match(/<script type="application\/json" id="__RQ__">([\s\S]*?)<\/script>/);
+  if (rq && rq[1].includes('<')) fail(relative, '#__RQ__ con "<" sin escapar');
 
   if (relative === path.join('es', 'index.html')) {
     const words = visibleWords(html);
@@ -652,6 +659,23 @@ if (!ONLY_REDIRECTS) {
       fail(relative, 'tercero como <script src> en el HTML (va diferido, index.html)');
     }
   }
+
+  // Fase 7: cada script inline tiene su hash en el CSP; sin handlers en atributos ni javascript:.
+  const cspFile = path.join(DIST, 'csp.conf');
+  const csp = fs.existsSync(cspFile) ? fs.readFileSync(cspFile, 'utf8') : '';
+  if (!csp) fail('csp.conf', 'no existe (lo genera scripts/prerender.mjs)');
+  else if (!/^add_header Content-Security-Policy-Report-Only "[^"]+" always;$/m.test(csp)) fail('csp.conf', 'sin add_header Content-Security-Policy-Report-Only');
+  for (const file of [...htmlFiles, path.join(DIST, '_shell.html')].filter((item) => fs.existsSync(item))) {
+    const html = fs.readFileSync(file, 'utf8');
+    const relative = path.relative(DIST, file);
+    for (const body of inlineScripts(html)) {
+      const hash = scriptHash(body);
+      if (csp && !csp.includes(hash)) fail(relative, `script inline sin su hash en csp.conf (${hash}): ${body.trim().slice(0, 60)}…`);
+    }
+    const handler = html.match(/<[a-z][^>]*\son[a-z]+="[^"]*"/i);
+    if (handler) fail(relative, `manejador de eventos en un atributo (CSP): ${handler[0].slice(0, 80)}`);
+    if (/href="javascript:/i.test(html)) fail(relative, 'enlace javascript: (CSP)');
+  }
 }
 
 if (failures.length > 0) {
@@ -663,4 +687,4 @@ if (failures.length > 0) {
 const redirectsSummary = `redirects.map: ${redirects.length} entradas, ${chains} cadenas; enlaces internos sin 301`;
 console.log(ONLY_REDIRECTS
   ? `[check-dist] OK: ${redirectsSummary} (${htmlFiles.length} páginas)`
-  : `[check-dist] OK: ${pages.length} páginas, 404.html y _shell.html; ${redirectsSummary}; robots.txt, sitemaps y llms.txt; imágenes ≤200 KB, Montserrat woff2 con preload, sin fallbacks de Suspense y JS/terceros diferidos`);
+  : `[check-dist] OK: ${pages.length} páginas, 404.html y _shell.html; ${redirectsSummary}; robots.txt, sitemaps y llms.txt; imágenes ≤200 KB, Montserrat woff2 con preload, sin fallbacks de Suspense y JS/terceros diferidos; scripts inline con hash en csp.conf`);

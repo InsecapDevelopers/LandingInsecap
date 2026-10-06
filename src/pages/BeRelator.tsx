@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useId } from 'react';
 import { useTranslation } from 'react-i18next';
 import Header from '@/components/Header';
 import SEO from '@/components/SEO';
@@ -55,21 +55,24 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder }: {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const selectedOption = options.find((opt) => String(opt.id) === String(value));
+  const id = useId();
 
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+      <label id={`${id}-label`} htmlFor={id} className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
         {label}
       </label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+            id={id}
             variant="outline"
             role="combobox"
             aria-expanded={open}
+            aria-labelledby={`${id}-label ${id}-value`}
             className="w-full justify-between rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:border-blue-400 h-11 font-normal"
           >
-            <span className="truncate">
+            <span id={`${id}-value`} className="truncate">
               {selectedOption ? formatOptionLabel(selectedOption) : (placeholder ?? t('combobox.placeholder'))}
             </span>
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -77,7 +80,7 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder }: {
         </PopoverTrigger>
         <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
           <Command>
-            <CommandInput placeholder={t('combobox.search')} />
+            <CommandInput placeholder={t('combobox.search')} aria-label={t('combobox.search')} />
             <CommandList>
               <CommandEmpty>{t('combobox.empty')}</CommandEmpty>
               <CommandGroup>
@@ -122,10 +125,11 @@ const MultiSearchableSelect = ({ label, options, values, onChange, placeholder }
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const selectedOptions = options.filter((opt) => values.includes(String(opt.id)));
+  const id = useId();
 
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+      <label id={`${id}-label`} className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
         {label}
       </label>
       <Popover open={open} onOpenChange={setOpen}>
@@ -133,6 +137,7 @@ const MultiSearchableSelect = ({ label, options, values, onChange, placeholder }
           <div
             role="combobox"
             aria-expanded={open}
+            aria-labelledby={`${id}-label`}
             tabIndex={0}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
@@ -144,7 +149,7 @@ const MultiSearchableSelect = ({ label, options, values, onChange, placeholder }
           >
             <div className="flex min-h-[4.5rem] flex-1 flex-wrap content-start gap-2 pr-3 text-left">
               {selectedOptions.length === 0 ? (
-                <span className="pt-1 text-slate-400">{placeholder ?? t('combobox.placeholderMulti')}</span>
+                <span className="pt-1 text-slate-500">{placeholder ?? t('combobox.placeholderMulti')}</span>
               ) : (
                 selectedOptions.map((option) => {
                   const optionId = String(option.id);
@@ -157,7 +162,7 @@ const MultiSearchableSelect = ({ label, options, values, onChange, placeholder }
                       <button
                         type="button"
                         aria-label={t('combobox.remove', { item: formatOptionLabel(option) })}
-                        className="text-slate-400 transition-colors hover:text-slate-700 focus:outline-none focus:text-slate-700"
+                        className="text-slate-500 transition-colors hover:text-slate-700 focus-visible:text-slate-700"
                         onClick={(event) => {
                           event.preventDefault();
                           event.stopPropagation();
@@ -177,7 +182,7 @@ const MultiSearchableSelect = ({ label, options, values, onChange, placeholder }
         </PopoverTrigger>
         <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
           <Command>
-            <CommandInput placeholder={t('combobox.search')} />
+            <CommandInput placeholder={t('combobox.search')} aria-label={t('combobox.search')} />
             <CommandList>
               <CommandEmpty>{t('combobox.empty')}</CommandEmpty>
               <CommandGroup>
@@ -222,6 +227,8 @@ const BeRelator = () => {
   const heading = useScrollAnimation({ triggerOnce: true });
   const formRef = useScrollAnimation({ triggerOnce: true });
 
+  // Ids estables entre el prerender y la hidratación para asociar cada <label> con su control.
+  const fid = useId();
   const [formData, setFormData] = useState({
     nombre: '',
     apellidoPaterno: '',
@@ -803,7 +810,7 @@ const BeRelator = () => {
           <div className="px-6 py-4 space-y-5">
             {/* Datos personales */}
             <div>
-              <p className="text-[11px] font-bold tracking-widest text-slate-400 uppercase mb-3">{content.reviewPersonal}</p>
+              <p className="text-[11px] font-bold tracking-widest text-slate-500 uppercase mb-3">{content.reviewPersonal}</p>
               <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
                 {[
                   [content.labelNombre, formData.nombre],
@@ -818,7 +825,7 @@ const BeRelator = () => {
                   [content.labelEstadoCivil, (formData.estadoCivil && content.estadoCivilLabels[formData.estadoCivil as keyof typeof content.estadoCivilLabels]) || '—'],
                 ].map(([label, value]) => (
                   <div key={label} className="flex flex-col">
-                    <span className="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">{label}</span>
+                    <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide">{label}</span>
                     <span className="text-slate-800 font-medium">{value || '—'}</span>
                   </div>
                 ))}
@@ -827,20 +834,20 @@ const BeRelator = () => {
 
             {/* Contacto */}
             <div className="border-t border-slate-100 pt-4">
-              <p className="text-[11px] font-bold tracking-widest text-slate-400 uppercase mb-3">{content.sectionContacto}</p>
+              <p className="text-[11px] font-bold tracking-widest text-slate-500 uppercase mb-3">{content.sectionContacto}</p>
               <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
                 {[
                   [content.labelCorreo, formData.correo],
                   [content.labelTelefono, `${formData.telefonoPrefix} ${formData.telefono}`.trim()],
                 ].map(([label, value]) => (
                   <div key={label} className="flex flex-col">
-                    <span className="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">{label}</span>
+                    <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide">{label}</span>
                     <span className="text-slate-800 font-medium">{value || '—'}</span>
                   </div>
                 ))}
                 {formData.observaciones.trim() && (
                   <div className="col-span-2 flex flex-col">
-                    <span className="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">{content.labelObservaciones}</span>
+                    <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide">{content.labelObservaciones}</span>
                     <span className="text-slate-800 font-medium whitespace-pre-line">{formData.observaciones.trim()}</span>
                   </div>
                 )}
@@ -849,14 +856,14 @@ const BeRelator = () => {
 
             {/* CV */}
             <div className="border-t border-slate-100 pt-4">
-              <p className="text-[11px] font-bold tracking-widest text-slate-400 uppercase mb-3">{content.labelCv}</p>
+              <p className="text-[11px] font-bold tracking-widest text-slate-500 uppercase mb-3">{content.labelCv}</p>
               {cvFile ? (
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
                     <FileText className="w-5 h-5 text-blue-500 shrink-0" />
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-slate-800 truncate">{cvFile.name}</p>
-                      <p className="text-xs text-slate-400">{(cvFile.size / 1024).toFixed(0)} KB</p>
+                      <p className="text-xs text-slate-500">{(cvFile.size / 1024).toFixed(0)} KB</p>
                     </div>
                   </div>
                   {pdfPreviewUrl && (
@@ -869,7 +876,7 @@ const BeRelator = () => {
                   )}
                 </div>
               ) : (
-                <p className="text-sm text-slate-400 italic">{content.noCv}</p>
+                <p className="text-sm text-slate-500 italic">{content.noCv}</p>
               )}
             </div>
           </div>
@@ -906,7 +913,7 @@ const BeRelator = () => {
 
               {/* Cabecera del formulario */}
               <div className="mb-8">
-                <p className="text-xs font-semibold tracking-widest text-cyan-500 uppercase mb-2">
+                <p className="text-xs font-semibold tracking-widest text-insecap-cyan-ink uppercase mb-2">
                   {content.formTag}
                 </p>
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
@@ -957,10 +964,11 @@ const BeRelator = () => {
 
                     {/* Nombre */}
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                      <label htmlFor={`${fid}-nombre`} className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
                         {content.labelNombre}
                       </label>
                       <Input
+                        id={`${fid}-nombre`}
                         name="nombre"
                         value={formData.nombre}
                         onChange={handleChange}
@@ -973,10 +981,11 @@ const BeRelator = () => {
                     {/* Apellidos */}
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                        <label htmlFor={`${fid}-apellidoPaterno`} className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
                           {content.labelApellidoPaterno}
                         </label>
                         <Input
+                          id={`${fid}-apellidoPaterno`}
                           name="apellidoPaterno"
                           value={formData.apellidoPaterno}
                           onChange={handleChange}
@@ -986,10 +995,11 @@ const BeRelator = () => {
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                        <label htmlFor={`${fid}-apellidoMaterno`} className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
                           {content.labelApellidoMaterno}
                         </label>
                         <Input
+                          id={`${fid}-apellidoMaterno`}
                           name="apellidoMaterno"
                           value={formData.apellidoMaterno}
                           onChange={handleChange}
@@ -1002,10 +1012,11 @@ const BeRelator = () => {
 
                     {/* RUT */}
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                      <label htmlFor={`${fid}-rut`} className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
                         {content.labelRut}
                       </label>
                       <Input
+                        id={`${fid}-rut`}
                         name="rut"
                         value={formData.rut}
                         onChange={handleChange}
@@ -1016,10 +1027,11 @@ const BeRelator = () => {
                     </div>
                     {/* Estado Civil */}
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                      <label htmlFor={`${fid}-estadoCivil`} className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
                         {content.labelEstadoCivil}
                       </label>
                       <select
+                        id={`${fid}-estadoCivil`}
                         name="estadoCivil"
                         value={formData.estadoCivil}
                         onChange={(e) => setFormData(prev => ({ ...prev, estadoCivil: e.target.value }))}
@@ -1081,11 +1093,12 @@ const BeRelator = () => {
 
                     {/* Correo */}
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                      <label htmlFor={`${fid}-correo`} className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
                         {content.labelCorreo}
                       </label>
                       <Input
                         type="email"
+                        id={`${fid}-correo`}
                         name="correo"
                         value={formData.correo}
                         onChange={handleChange}
@@ -1097,12 +1110,13 @@ const BeRelator = () => {
 
                     {/* Teléfono */}
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                      <label id={`${fid}-telefono-label`} htmlFor={`${fid}-telefono`} className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
                         {content.labelTelefono}
                       </label>
                       <div className="flex gap-2">
                         <select
                           name="telefonoPrefix"
+                          aria-labelledby={`${fid}-telefono-label`}
                           value={formData.telefonoPrefix}
                           onChange={(e) => setFormData(prev => ({ ...prev, telefonoPrefix: e.target.value }))}
                           className="shrink-0 w-28 rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:border-blue-400 h-11"
@@ -1116,6 +1130,7 @@ const BeRelator = () => {
                         </select>
                         <Input
                           type="tel"
+                          id={`${fid}-telefono`}
                           name="telefono"
                           value={formData.telefono}
                           onChange={handleChange}
@@ -1127,10 +1142,11 @@ const BeRelator = () => {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                      <label htmlFor={`${fid}-observaciones`} className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
                         {content.labelObservaciones}
                       </label>
                       <Textarea
+                        id={`${fid}-observaciones`}
                         name="observaciones"
                         value={formData.observaciones}
                         onChange={(e) => setFormData(prev => ({ ...prev, observaciones: e.target.value }))}
@@ -1150,10 +1166,11 @@ const BeRelator = () => {
 
                     {/* CV */}
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                      <label htmlFor={`${fid}-cv`} className="block text-xs font-semibold tracking-widest text-slate-500 uppercase">
                         {content.labelCv} <span className="text-red-500">*</span>
                       </label>
                       <button
+                        id={`${fid}-cv`}
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
                         className="w-full flex items-center gap-4 px-4 py-4 rounded-xl border border-dashed border-slate-300 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition-colors text-left"
@@ -1163,7 +1180,7 @@ const BeRelator = () => {
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-slate-700">{content.cvButton}</p>
-                          <p className="text-xs text-slate-400 mt-0.5">
+                          <p className="text-xs text-slate-500 mt-0.5">
                             {cvFile ? cvFile.name : content.cvNone}
                           </p>
                         </div>
@@ -1173,6 +1190,8 @@ const BeRelator = () => {
                         type="file"
                         accept=".pdf,.doc,.docx"
                         className="hidden"
+                        tabIndex={-1}
+                        aria-hidden="true"
                         onChange={handleFileChange}
                       />
                     </div>

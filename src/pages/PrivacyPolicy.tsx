@@ -161,7 +161,7 @@ const PrivacyPolicy = () => {
                 introSection.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
             >
-              <p className="text-blue-300 text-sm font-semibold uppercase tracking-widest mb-4">{content.app}</p>
+              <p className="text-blue-100 text-sm font-semibold uppercase tracking-widest mb-4">{content.app}</p>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
                 {content.introTitle}
               </h2>

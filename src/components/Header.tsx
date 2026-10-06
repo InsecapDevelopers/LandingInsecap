@@ -136,10 +136,11 @@ const Header = () => {
     <header className="w-full fixed top-0 z-50 transition-all duration-500 ease-in-out">
       {/* Main Navigation */}
       <nav
+        data-focus-light
         aria-label={t('aria.mainNav')}
         className={`transition-all duration-500 ease-in-out ${isAtTop
           ? 'bg-transparent py-3 px-8 md:px-14 lg:px-16'
-          : 'bg-gradient-to-r from-insecap-cyan/85 to-insecap-blue/95 border-b border-white/15 shadow-xl py-1.5 px-8 md:px-14 lg:px-16'
+          : 'bg-gradient-to-r from-insecap-cyan-ink to-insecap-blue/95 border-b border-white/15 shadow-xl py-1.5 px-8 md:px-14 lg:px-16'
           }`}
       >
         <div className="container mx-auto flex justify-between items-center">
@@ -166,6 +167,14 @@ const Header = () => {
                 className="relative"
                 onMouseEnter={() => setActiveDropdown(item.id)}
                 onMouseLeave={() => setActiveDropdown(null)}
+                // Teclado: el submenú se abre al enfocar el ítem, se cierra al salir con Tab y con Escape.
+                onFocus={() => setActiveDropdown(item.id)}
+                onBlur={(e) => {
+                  if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setActiveDropdown(null);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') setActiveDropdown(null);
+                }}
               >
                 {pillId === item.id && (
                   <motion.span
@@ -186,7 +195,7 @@ const Header = () => {
                     className={desktopLinkClass(item)}
                   >
                     {t(item.labelKey)}
-                    {item.dropdown && <ChevronDown className="w-4 h-4" />}
+                    {item.dropdown && <ChevronDown className="w-4 h-4" aria-hidden="true" />}
                   </Link>
                 ) : item.isAnchor ? (
                   <a
@@ -203,13 +212,18 @@ const Header = () => {
                     {t(item.labelKey)}
                   </a>
                 ) : (
-                  <span className={`${desktopLinkClass(item)} cursor-pointer`}>
+                  <button
+                    type="button"
+                    aria-expanded={item.dropdown ? activeDropdown === item.id : undefined}
+                    onClick={() => setActiveDropdown(activeDropdown === item.id ? null : item.id)}
+                    className={`${desktopLinkClass(item)} cursor-pointer`}
+                  >
                     {t(item.labelKey)}
-                    {item.dropdown && <ChevronDown className="w-4 h-4" />}
-                  </span>
+                    {item.dropdown && <ChevronDown className="w-4 h-4" aria-hidden="true" />}
+                  </button>
                 )}
                 {item.dropdown && activeDropdown === item.id && (
-                  <div className="absolute top-full left-0 bg-card rounded-md shadow-card-hover py-2 min-w-[200px] animate-fade-in">
+                  <div data-focus-dark className="absolute top-full left-0 bg-card rounded-md shadow-card-hover py-2 min-w-[200px] animate-fade-in">
                     {item.dropdown.map((subItem) => (
                       subItem.isLink ? (
                         <Link
@@ -257,12 +271,12 @@ const Header = () => {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
-                    className={`bg-sky-500 text-white hover:bg-sky-400 hover:text-white focus:bg-sky-400 focus:text-white data-[state=open]:bg-sky-400 data-[state=open]:text-white transition-all duration-500 border-none ${isAtTop ? 'h-9 px-4 text-sm' : 'h-8 px-3 text-xs'}`}
+                    className={`bg-insecap-blue text-white hover:bg-[#3547B1] hover:text-white focus:bg-[#3547B1] focus:text-white focus-visible:ring-2 focus-visible:ring-white data-[state=open]:bg-[#3547B1] data-[state=open]:text-white transition-all duration-500 border-none ${isAtTop ? 'h-9 px-4 text-sm' : 'h-8 px-3 text-xs'}`}
                   >
                     {t('header.access.label')}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="flex flex-col w-[200px] p-2 bg-popover rounded-md shadow-md gap-1">
+                    <ul data-focus-dark className="flex flex-col w-[200px] p-2 bg-popover rounded-md shadow-md gap-1">
                       <li>
                         <NavigationMenuLink asChild>
                           <a
@@ -297,16 +311,20 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden text-primary-foreground"
+            type="button"
+            className="lg:hidden text-primary-foreground rounded-md p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? t('aria.closeMenu') : t('aria.openMenu')}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMenuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
           </button>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-gradient-to-br from-insecap-cyan/85 to-insecap-blue/95 border border-white/15 mt-3 rounded-lg p-4 animate-fade-in max-h-[80vh] overflow-y-auto">
+          <div id="mobile-menu" className="lg:hidden bg-gradient-to-br from-insecap-cyan-ink to-insecap-blue/95 border border-white/15 mt-3 rounded-lg p-4 animate-fade-in max-h-[80vh] overflow-y-auto">
             {navItems.map((item) => (
               <div key={item.id} className="border-b border-primary-foreground/10 last:border-0">
                 <div className="flex items-center justify-between">
@@ -342,6 +360,8 @@ const Header = () => {
                     </a>
                   ) : (
                     <button
+                      type="button"
+                      aria-expanded={item.dropdown ? activeDropdown === item.id : undefined}
                       aria-current={isActiveItem(item) ? 'page' : undefined}
                       className={`block w-full text-left ${isActiveItem(item)
                         ? 'my-1.5 rounded-lg bg-white/25 px-3 py-2 font-semibold text-white'
@@ -354,10 +374,13 @@ const Header = () => {
                   )}
                   {item.dropdown && (
                     <button
+                      type="button"
                       onClick={() => setActiveDropdown(activeDropdown === item.id ? null : item.id)}
-                      className="p-3 text-primary-foreground/90"
+                      aria-label={t(item.labelKey)}
+                      aria-expanded={activeDropdown === item.id}
+                      className="p-3 text-primary-foreground/90 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                     >
-                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === item.id ? 'rotate-180' : ''}`} />
+                      <ChevronDown aria-hidden="true" className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === item.id ? 'rotate-180' : ''}`} />
                     </button>
                   )}
                 </div>
@@ -369,7 +392,7 @@ const Header = () => {
                         <Link
                           key={subItem.id}
                           to={localizedPath(subItem.href)}
-                          className="block py-2 text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                          className="block py-2 text-sm text-primary-foreground/90 hover:text-primary-foreground transition-colors"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           {t(subItem.labelKey)}
@@ -386,7 +409,7 @@ const Header = () => {
                             }
                             setIsMenuOpen(false);
                           }}
-                          className="block py-2 text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors cursor-pointer"
+                          className="block py-2 text-sm text-primary-foreground/90 hover:text-primary-foreground transition-colors cursor-pointer"
                         >
                           {t(subItem.labelKey)}
                         </a>
@@ -394,7 +417,7 @@ const Header = () => {
                         <a
                           key={subItem.id}
                           href={subItem.href}
-                          className="block py-2 text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors cursor-pointer"
+                          className="block py-2 text-sm text-primary-foreground/90 hover:text-primary-foreground transition-colors cursor-pointer"
                         >
                           {t(subItem.labelKey)}
                         </a>
@@ -408,16 +431,16 @@ const Header = () => {
               <LanguageSwitcher className="border-primary-foreground/20 bg-primary-foreground/10" />
             </div>
             <div className="flex gap-3 mt-4">
-              <a href="https://tms.insecap.cl" target="_blank" rel="noopener noreferrer" className="flex-1">
-                <Button className="w-full bg-transparent border border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 text-sm">
+              <Button asChild className="flex-1 bg-transparent border border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 text-sm">
+                <a href="https://tms.insecap.cl" target="_blank" rel="noopener noreferrer">
                   {t('header.access.clients')}
-                </Button>
-              </a>
-              <a href="https://portal.insecap.cl" target="_blank" rel="noopener noreferrer" className="flex-1">
-                <Button className="w-full bg-sky-500 text-white hover:bg-sky-400 text-sm">
+                </a>
+              </Button>
+              <Button asChild className="flex-1 bg-insecap-blue text-white hover:bg-[#3547B1] text-sm">
+                <a href="https://portal.insecap.cl" target="_blank" rel="noopener noreferrer">
                   {t('header.access.students')}
-                </Button>
-              </a>
+                </a>
+              </Button>
             </div>
           </div>
         )}

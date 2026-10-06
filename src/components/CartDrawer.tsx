@@ -64,7 +64,7 @@ export const CartDrawer = () => {
         >
           <ShoppingCart className="h-5 w-5" />
           {totalItems > 0 && (
-            <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-insecap-cyan border-0">
+            <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-insecap-cyan-ink border-0">
               {totalItems}
             </Badge>
           )}
@@ -124,7 +124,7 @@ export const CartDrawer = () => {
                           <p className="text-sm text-muted-foreground mt-1">
                             {item.product.node.productType || t('cart.courseOnline')}
                           </p>
-                          <p className="font-semibold text-insecap-cyan mt-1">
+                          <p className="font-semibold text-insecap-cyan-ink mt-1">
                             {formatPrice(item.price.amount, item.price.currencyCode)}
                           </p>
                         </div>
@@ -176,7 +176,7 @@ export const CartDrawer = () => {
                 {/* Total */}
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-semibold">{t('cart.total')}</span>
-                  <span className="text-2xl font-bold text-insecap-cyan">
+                  <span className="text-2xl font-bold text-insecap-cyan-ink">
                     {formatPrice(totalPrice.toString(), "CLP")}
                   </span>
                 </div>
@@ -184,7 +184,7 @@ export const CartDrawer = () => {
                 {/* Botón de checkout */}
                 <Button
                   onClick={handleCheckout}
-                  className="w-full bg-insecap-cyan hover:bg-insecap-cyan/90 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-insecap-cyan-ink hover:bg-insecap-cyan-ink/90 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   size="lg"
                   disabled={!canCheckout}
                 >

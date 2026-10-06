@@ -368,7 +368,7 @@ const AboutUs = () => {
                     <div className={`${mod.iconBg} p-4 rounded-2xl mb-5 shadow-lg`}>
                       {mod.icon}
                     </div>
-                    <h4 className="font-bold text-blue-950 text-xl mb-3">{mod.title}</h4>
+                    <h3 className="font-bold text-blue-950 text-xl mb-3">{mod.title}</h3>
                     <p className="text-gray-500 text-sm leading-relaxed">{mod.desc}</p>
                     <span className={`mt-5 inline-block text-xs font-medium px-3 py-1 rounded-full ${mod.badge}`}>
                       {content.availableMode}

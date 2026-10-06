@@ -95,7 +95,7 @@ const SimulatorCatalog = () => {
                 <h2 className="text-3xl font-bold text-gray-900 mb-3">
                   {content.multisimSubtitle}{' '}
                   <span className="text-insecap-blue">{content.multisimTitle}</span>
-                  <span className="text-gray-400 text-lg font-normal ml-2">· {content.multisimBrand}</span>
+                  <span className="text-gray-500 text-lg font-normal ml-2">· {content.multisimBrand}</span>
                 </h2>
                 <p className="text-gray-600 leading-relaxed mb-6">{content.multisimDesc}</p>
                 <div className="flex flex-col gap-1 mb-6">

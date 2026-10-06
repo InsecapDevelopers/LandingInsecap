@@ -96,7 +96,7 @@ const SapEntorno = ({ embedded = false }: { embedded?: boolean }) => {
           <button
             type="button"
             onClick={() => setOpen(i)}
-            aria-label={`${alt}: ${t.open}`}
+            aria-label={i === 0 ? `${t.real}. ${alt}: ${t.open}` : `${alt}: ${t.open}`}
             className={`group relative block w-full cursor-zoom-in overflow-hidden rounded-2xl text-left shadow-[0_18px_40px_-16px_rgba(5,12,40,0.55)] ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${embedded ? 'ring-white/15' : 'ring-slate-200'} ${ink.ring}`}
           >
             <div className="aspect-[16/9] overflow-hidden bg-white">
@@ -196,7 +196,7 @@ const SapEntorno = ({ embedded = false }: { embedded?: boolean }) => {
             {points}
           </div>
           <div className="mt-12">{carousel}</div>
-          <p className="mt-6 flex items-center gap-2 text-sm text-slate-500">
+          <p className="mt-6 flex items-center gap-2 text-sm text-slate-600">
             <ShieldCheck className="h-4 w-4 shrink-0 text-[#284FD8]" aria-hidden="true" />
             {t.note}
           </p>

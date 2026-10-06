@@ -18,6 +18,9 @@
  *   dist/redirects.map              301 de las URLs antiguas (src/lib/legacy-redirects.ts) para
  *                                   `map $uri $legacy_redirect` de nginx.conf. El Dockerfile lo
  *                                   mueve a /etc/nginx/redirects.map (no se publica como archivo).
+ *   dist/csp.conf                   Content-Security-Policy-Report-Only (Fase 7, scripts/csp.mjs) con
+ *                                   los hashes sha256 de todos los scripts inline del build. El
+ *                                   Dockerfile lo copia a /etc/nginx/snippets/csp.conf (no se publica).
  *   dist/_report/urls.csv           URL, robots, title, description y H1 de cada página (entregable
  *                                   de la Fase 3 para revisar metadatos). No se publica: el
  *                                   Dockerfile lo borra.
@@ -30,7 +33,8 @@
  *
  * Datos: las rutas dinámicas (noticias y fichas B2B) salen de `listDynamicPaths` y cada página
  * precarga sus datos con `prefetchRoute` (mismas queryFn que el cliente, src/lib/queries.ts).
- * El estado de react-query viaja en window.__RQ__ con `<` escapado.
+ * El estado de react-query viaja en <script type="application/json" id="__RQ__"> con `<` escapado:
+ * es un bloque de datos (no se ejecuta), así que no necesita hash en el CSP aunque cambie por página.
  *
  * Preload (Fase 6): en <!--app-preload-->, justo después de charset y viewport, Montserrat latin
  * 400 y 700 (woff2 con hash en dist/assets) y la imagen LCP de la página: el primer <img> con
@@ -47,6 +51,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
+import { loadEnv } from 'vite';
+
+import { buildCspConf, inlineScripts, scriptHash } from './csp.mjs';
 import { loadSourceLastmods } from './source-lastmod.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -67,7 +74,7 @@ const templatePath = path.join(DIST, 'index.html');
  * con un tope de 3 s por si no hay pintura (pestaña en segundo plano). Así no le quita ancho de banda
  * al CSS, a las fuentes ni a la imagen LCP, e hidrata apenas termina de bajar. Con el <script> en el
  * HTML, Lighthouse lo contaba dentro del LCP: en /es el LCP simulado bajaba de 3,6 s a 2,2 s sin él.
- * Este script inline entra al CSP (hash) en la Fase 7; su texto cambia con el hash del bundle.
+ * Este script inline entra al CSP por su hash (dist/csp.conf); su texto cambia con el hash del bundle.
  * El shell (_shell.html, sin HTML que pintar) conserva el <script type="module"> directo: ahí el
  * primer contentful paint lo hace el propio JS.
  */
@@ -114,16 +121,19 @@ const lcpImagePreload = (html) => {
   return `<link rel="preload" as="image" href="${src}"${srcset ? ` imagesrcset="${srcset}"` : ''}${sizes ? ` imagesizes="${sizes}"` : ''} fetchpriority="high" />`;
 };
 
-/** JSON seguro dentro de <script>: sin `<` (evita </script> y <!--) ni separadores de línea de JS. */
+/** JSON seguro dentro de <script>: sin `<` (evita </script> y <!--) ni separadores de línea. */
 const serializeState = (state) =>
   JSON.stringify(state)
     .replace(/</g, '\\u003c')
     .replace(/\u2028/g, '\\u2028')
     .replace(/\u2029/g, '\\u2029');
 
+/** Hashes sha256 de los scripts inline de todas las páginas escritas (CSP, Fase 7). */
+const cspHashes = new Set();
+
 const buildPage = ({ head, html, htmlAttributes, dehydratedState, locale }) => {
   const rqScript = dehydratedState && dehydratedState.queries.length > 0
-    ? `<script>window.__RQ__=${serializeState(dehydratedState)}</script>`
+    ? `<script type="application/json" id="__RQ__">${serializeState(dehydratedState)}</script>`
     : '';
 
   const preload = [fontPreloads, lcpImagePreload(html)].filter(Boolean).join('\n    ');
@@ -137,6 +147,7 @@ const buildPage = ({ head, html, htmlAttributes, dehydratedState, locale }) => {
     page = page.replace(/<html[^>]*>/, () => `<html ${htmlAttributes}>`);
   }
 
+  for (const body of inlineScripts(page)) cspHashes.add(scriptHash(body));
   return page;
 };
 
@@ -290,10 +301,15 @@ const shell = buildPage({
 writeFile('_shell.html', shell);
 fs.writeFileSync(templatePath, shell);
 
+// CSP (Fase 7): un solo juego de hashes para todo el sitio. Hoy son 3 (splash, terceros y el loader
+// del bundle) más el <script type="module"> del shell, que es externo y no suma. Si aparecen más,
+// es que algún componente escribe un <script> inline por página: conviene revisarlo.
+writeFile('csp.conf', buildCspConf(cspHashes, loadEnv('production', ROOT, 'VITE_')));
+
 if (failures.length > 0) {
   for (const error of failures) console.error(`[prerender] ${error.message}`);
   console.error(`[prerender] ${failures.length} ruta(s) con error.`);
   process.exit(1);
 }
 
-console.log(`[prerender] ${urls.length} páginas + 404.html + _shell.html + redirects.map (${redirectsCount} reglas) + _report/urls.csv${crawlerSummary} en ${((Date.now() - started) / 1000).toFixed(1)} s`);
+console.log(`[prerender] ${urls.length} páginas + 404.html + _shell.html + redirects.map (${redirectsCount} reglas) + csp.conf (${cspHashes.size} hashes) + _report/urls.csv${crawlerSummary} en ${((Date.now() - started) / 1000).toFixed(1)} s`);

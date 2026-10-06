@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowLeft, Share2, Newspaper, X } from 'lucide-react';
 import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
 import { newsArticleQuery } from '@/lib/queries';
-import { stripHtml, withImageAlts, withLazyImages } from '@/lib/html';
+import { stripHtml, withHeadingLevels, withImageAlts, withLazyImages } from '@/lib/html';
 import { fitDescription, getSeoFillers } from '@/lib/seo-text';
 import { buildNewsArticleJsonLd, toSantiagoIso } from '@/lib/jsonld';
 import { toast } from 'sonner';
@@ -23,7 +23,7 @@ const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const handle = slug ?? '';
   const articlePath = `/noticias/${handle}`;
-  // En el build llega prerenderizada (window.__RQ__). null: no existe o está oculta.
+  // En el build llega prerenderizada (#__RQ__). null: no existe o está oculta.
   const { data: article = null, isPending: isLoading } = useQuery({
     ...newsArticleQuery(handle),
     enabled: Boolean(handle),
@@ -198,7 +198,7 @@ const ArticleDetail = () => {
               {content.deleted}
             </p>
             <Link to={localizedPath('/noticias')}>
-              <Button className="bg-insecap-cyan hover:bg-insecap-cyan/90">
+              <Button className="bg-insecap-cyan-ink hover:bg-insecap-cyan-ink/90">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 {content.back}
               </Button>
@@ -276,8 +276,8 @@ const ArticleDetail = () => {
             
             <article 
               ref={articleContentRef}
-              className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-insecap-cyan prose-strong:text-foreground article-body"
-              dangerouslySetInnerHTML={{ __html: withLazyImages(withImageAlts(article.contentHtml, (n) => `${article.title}: ${content.articleImage.toLowerCase()} ${n}`)) }}
+              className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-insecap-cyan-ink prose-strong:text-foreground article-body"
+              dangerouslySetInnerHTML={{ __html: withHeadingLevels(withLazyImages(withImageAlts(article.contentHtml, (n) => `${article.title}: ${content.articleImage.toLowerCase()} ${n}`))) }}
             />
           </div>
         </section>
@@ -307,7 +307,7 @@ const ArticleDetail = () => {
         <section className="py-8 border-t border-border">
           <div className="container mx-auto px-8 md:px-14 lg:px-16 max-w-4xl">
             <Link to={localizedPath('/noticias')}>
-              <Button variant="outline" className="border-insecap-cyan text-insecap-cyan hover:bg-insecap-cyan hover:text-white">
+              <Button variant="outline" className="border-insecap-cyan text-insecap-cyan-ink hover:bg-insecap-cyan-ink hover:text-white">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 {content.more}
               </Button>

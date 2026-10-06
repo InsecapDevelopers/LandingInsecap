@@ -3,7 +3,7 @@
  *
  * Los componentes llaman `useQuery(xxxQuery(...))` y src/entry-server.tsx precarga las mismas
  * opciones antes de renderizar cada ruta. Como la queryKey es la misma, el estado viaja en
- * `window.__RQ__` y el cliente hidrata sin volver a pedir los datos.
+ * `#__RQ__` y el cliente hidrata sin volver a pedir los datos.
  * Una ruta nueva con datos remotos se agrega aquí y en `prefetchRoute` (entry-server.tsx).
  */
 import { queryOptions } from '@tanstack/react-query';

@@ -22,7 +22,7 @@ const OurLocations: React.FC = () => {
           <h2 className="text-3xl md:text-5xl font-bold text-blue-950 mb-3">
             {t('locations.title')}
           </h2>
-          <p className="hidden md:flex items-center justify-center gap-1.5 text-sm text-gray-400 mb-4">
+          <p className="hidden md:flex items-center justify-center gap-1.5 text-sm text-gray-500 mb-4">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             {t('locations.mapHint')}
           </p>

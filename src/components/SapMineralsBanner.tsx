@@ -140,10 +140,10 @@ const SapMineralsBanner = () => {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   to={landing}
-                  className="group inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-gradient-to-r from-sky-500 to-sky-400 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 transition-all duration-150 hover:scale-[1.04] hover:shadow-sky-500/50 active:scale-95 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0D1C3F]"
+                  className="group inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-insecap-blue px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-insecap-blue/30 transition-all duration-150 hover:scale-[1.04] hover:bg-[#3547B1] hover:shadow-insecap-blue/50 active:scale-95 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0D1C3F]"
                 >
                   {content.ctaPrimary}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                 </Link>
                 <Link
                   to={`${landing}#cotizar`}

@@ -40,16 +40,16 @@ const ArticleCard = ({ article }: { article: ShopifyArticle }) => {
             </div>
           )}
           <div className="absolute top-3 left-3">
-            <Badge className="bg-insecap-cyan text-white border-0">
+            <Badge className="bg-insecap-cyan-ink text-white border-0">
               {t('blog.newsBadge')}
             </Badge>
           </div>
         </div>
 
         <CardContent className="p-5 flex-1 flex flex-col">
-          <h3 className="font-bold text-foreground mb-2 line-clamp-2 group-hover:text-insecap-cyan transition-colors">
+          <h2 className="font-bold text-foreground mb-2 line-clamp-2 group-hover:text-insecap-cyan-ink transition-colors">
             {article.title}
-          </h3>
+          </h2>
 
           {article.excerpt && (
             <p className="text-sm text-muted-foreground mb-3 line-clamp-3 flex-1">
@@ -65,7 +65,7 @@ const ArticleCard = ({ article }: { article: ShopifyArticle }) => {
           </div>
 
           <div className="flex items-center justify-end pt-4 border-t border-border">
-            <span className="text-insecap-cyan font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+            <span className="text-insecap-cyan-ink font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
               {t('blog.readMore')} <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </span>
           </div>
@@ -95,7 +95,7 @@ const Blog = () => {
   const { localizedPath, locale } = useLocalizedPath();
   const [currentPage, setCurrentPage] = useState(1);
   const gridRef = useRef<HTMLElement>(null);
-  // La página 1 llega prerenderizada (window.__RQ__); cada cambio de página es un request nuevo.
+  // La página 1 llega prerenderizada (#__RQ__); cada cambio de página es un request nuevo.
   const { data, isPending: isLoading, isError } = useQuery(newsListQuery(currentPage, ARTICLES_PER_PAGE));
   const allArticles = data?.articles ?? [];
   const total = data?.total ?? 0;

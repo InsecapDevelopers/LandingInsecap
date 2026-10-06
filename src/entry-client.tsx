@@ -11,8 +11,6 @@ import "./index.css";
 
 declare global {
   interface Window {
-    /** Estado de react-query que deja el prerender (scripts/prerender.mjs). */
-    __RQ__?: DehydratedState;
     /** Cargador diferido de terceros (index.html): ejecuta `fn` cuando se insertan GTM y Meta Pixel. */
     __on3p?: (fn: () => void) => void;
   }
@@ -57,8 +55,13 @@ function preloadRoute(pathname: string): Promise<unknown> {
 
 const container = document.getElementById("root")!;
 const queryClient = createQueryClient();
-const dehydratedState = window.__RQ__;
-delete window.__RQ__;
+// Estado de react-query que deja el prerender (scripts/prerender.mjs) como bloque de datos
+// <script type="application/json" id="__RQ__">: no se ejecuta, así que no necesita hash en el CSP.
+const rqScript = document.getElementById("__RQ__");
+const dehydratedState = rqScript?.textContent
+  ? (JSON.parse(rqScript.textContent) as DehydratedState)
+  : undefined;
+rqScript?.remove();
 
 const app = (
   <BrowserRouter future={routerFuture}>

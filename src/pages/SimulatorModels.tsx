@@ -309,15 +309,19 @@ const ModelsCatalogSectionInner = ({
           </div>
 
           {totalPages > 1 && (
-            <div className="mt-6 flex justify-center gap-2">
+            <div className="mt-6 flex justify-center gap-0.5">
               {Array.from({ length: totalPages }).map((_, i) => (
                 <button
                   key={i}
                   type="button"
                   onClick={() => setPage(i)}
-                  className={`h-2 rounded-full transition-all ${i === page ? 'w-6 bg-insecap-blue' : 'w-2 bg-slate-300 hover:bg-slate-400'}`}
+                  className="group grid h-6 min-w-6 place-items-center rounded-full"
                   aria-label={t('pagination.goTo', { n: i + 1 })}
-                />
+                  aria-current={i === page ? 'page' : undefined}
+                >
+                  {/* Punto visible de 8 px dentro de un área táctil de 24 px (WCAG 2.5.8). */}
+                  <span aria-hidden="true" className={`block h-2 rounded-full transition-all ${i === page ? 'w-6 bg-insecap-blue' : 'w-2 bg-slate-300 group-hover:bg-slate-400'}`} />
+                </button>
               ))}
             </div>
           )}

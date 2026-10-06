@@ -103,3 +103,17 @@ export const withLazyImages = (html: string): string =>
     const decoding = /\sdecoding\s*=/i.test(attrs) ? '' : ' decoding="async"';
     return lazy || decoding ? `<img${attrs}${lazy}${decoding}${end}>` : tag;
   });
+
+/**
+ * Ajusta los encabezados de un fragmento HTML (cuerpo de las noticias del TMS) para que el más alto
+ * quede en <h2>, bajo el <h1> de la página, sin saltos de nivel al inicio (WCAG 1.3.1, Lighthouse
+ * heading-order). Corre todos los niveles por igual y los limita a h2–h6. Puro, igual que withImageAlts.
+ */
+export const withHeadingLevels = (html: string, top = 2): string => {
+  const levels = [...html.matchAll(/<h([1-6])\b/gi)].map((m) => Number(m[1]));
+  if (levels.length === 0) return html;
+  const shift = top - Math.min(...levels);
+  if (shift === 0) return html;
+  const clamp = (n: number) => Math.min(6, Math.max(top, n + shift));
+  return html.replace(/<(\/?)h([1-6])\b/gi, (_tag, slash: string, n: string) => `<${slash}h${clamp(Number(n))}`);
+};

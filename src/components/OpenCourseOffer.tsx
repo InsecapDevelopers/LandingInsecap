@@ -125,10 +125,10 @@ const OpenCourseOffer = () => {
                 setMes(m);
                 setCurrent(0);
               }}
-              className={`px-5 py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider border-2 transition-all duration-150 active:scale-95 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 ${
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider border-2 transition-all duration-150 active:scale-95 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-insecap-blue focus-visible:ring-offset-2 ${
                 mes === m
-                  ? 'border-sky-500 bg-sky-500 text-white shadow-lg shadow-sky-500/30'
-                  : 'border-slate-300 bg-transparent text-slate-600 hover:border-sky-400 hover:text-sky-600'
+                  ? 'border-insecap-blue bg-insecap-blue text-white shadow-lg shadow-insecap-blue/30'
+                  : 'border-slate-300 bg-transparent text-slate-600 hover:border-insecap-blue hover:text-insecap-blue'
               }`}
             >
               {m}
@@ -190,7 +190,7 @@ const OpenCourseOffer = () => {
                         loading="lazy"
                         decoding="async"
                       />
-                      <span className="absolute top-6 left-6 px-4 py-1.5 rounded-full bg-insecap-cyan text-white text-xs font-bold uppercase tracking-wider">
+                      <span className="absolute top-6 left-6 px-4 py-1.5 rounded-full bg-insecap-cyan-ink text-white text-xs font-bold uppercase tracking-wider">
                         {t('openOffer.badge')}
                       </span>
                     </div>
@@ -274,8 +274,7 @@ const OpenCourseOffer = () => {
                     <div className="mt-4">
                       <Link
                         to={`${localizedPath(OFFER_HREF)}?fecha=${offer.sessions[0].id}&modalidad=${offer.modalityId}`}
-                        className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-white shadow-lg shadow-sky-500/30 transition-transform duration-100 ease-out hover:scale-105 active:scale-90 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
-                        style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #38BDF8 100%)' }}
+                        className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-white bg-insecap-blue hover:bg-[#3547B1] shadow-lg shadow-insecap-blue/30 transition-transform duration-100 ease-out hover:scale-105 active:scale-90 motion-reduce:transform-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-insecap-blue focus-visible:ring-offset-2"
                         aria-label={t('openOffer.ctaCourse', { course: `${offer.title} ${offer.titleHighlight}` })}
                       >
                         {t('openOffer.cta')}

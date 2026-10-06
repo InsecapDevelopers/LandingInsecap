@@ -139,7 +139,8 @@ function MotionCarousel({
                 key={index}
                 type="button"
                 onClick={() => onDotClick(index)}
-                aria-label={slides[index]?.label}
+                // El texto visible (n/total) va al inicio del nombre accesible (WCAG 2.5.3).
+                aria-label={`${index + 1}/${scrollSnaps.length}: ${slides[index]?.label ?? ''}`}
                 aria-current={selected}
                 layout={!reduceMotion}
                 initial={false}

@@ -22,7 +22,7 @@ const ContactCTA = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left Content */}
           <div>
-            <span className="text-secondary font-medium text-sm uppercase tracking-wider">
+            <span className="text-insecap-cyan-ink font-medium text-sm uppercase tracking-wider">
               {t('contactCTA.badge')}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-6">
@@ -41,7 +41,7 @@ const ContactCTA = () => {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground leading-none mb-1">{t('contactCTA.email')}</p>
-                  <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-foreground hover:text-secondary transition-colors leading-none">{CONTACT_EMAIL}</a>
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-foreground hover:text-insecap-cyan-ink transition-colors leading-none">{CONTACT_EMAIL}</a>
                 </div>
               </div>
 
@@ -55,7 +55,7 @@ const ContactCTA = () => {
                     <p className="text-sm text-muted-foreground">{sede.direccion}, {sede.ciudad}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <Phone className="w-3.5 h-3.5 text-secondary" aria-hidden="true" />
-                      <a href={`tel:${sede.telefonoE164}`} className="text-sm text-muted-foreground hover:text-secondary transition-colors">{sede.telefono}</a>
+                      <a href={`tel:${sede.telefonoE164}`} className="text-sm text-muted-foreground hover:text-insecap-cyan-ink transition-colors">{sede.telefono}</a>
                     </div>
                   </div>
                 </div>
@@ -66,7 +66,7 @@ const ContactCTA = () => {
           {/* Form */}
           <div className="w-full bg-white/5 py-12 border-b border-primary-foreground/10">
             <div className="container mx-auto px-8 md:px-14 lg:px-16 text-center">
-              <h4 className="font-bold text-2xl mb-8 text-secondary">{t('contactCTA.stayInTouch')}</h4>
+              <h3 className="font-bold text-2xl mb-8 text-insecap-cyan-ink">{t('contactCTA.stayInTouch')}</h3>
               <div className="max-w-xl mx-auto rounded-2xl shadow-2xl bg-white p-8 text-left">
                 <Suspense fallback={null}>
                   <OpenCourseRequestForm />

@@ -49,7 +49,7 @@ const MeetUs: React.FC = () => {
           {/* Columna Derecha - Contenido de Texto */}
           <div className="flex flex-col gap-6 order-1 lg:order-2">
             {/* Subtítulo */}
-            <p className="text-blue-500 text-sm font-semibold uppercase tracking-wide">
+            <p className="text-blue-600 text-sm font-semibold uppercase tracking-wide">
               {t('meetUs.badge')}
             </p>
 

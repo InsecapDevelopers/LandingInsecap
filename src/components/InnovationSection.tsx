@@ -285,21 +285,23 @@ export default function InnovationSection() {
           </div>
 
           <div className="flex items-center justify-between mt-6 px-1">
-            <button onClick={prev}
+            <button type="button" onClick={prev}
               className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-slate-200 text-slate-600 text-sm font-medium hover:border-insecap-blue/50 hover:text-insecap-blue hover:shadow-sm transition-all duration-200 group">
-              <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+              <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" aria-hidden="true" />
               {t('innovation.navPrev')}
             </button>
             <div className="flex gap-2">
               {slidesConfig.map((_, i) => (
-                <button key={i} onClick={() => setActive(i)}
+                <button key={i} type="button" onClick={() => setActive(i)}
+                  aria-label={t('aria.goToSlide', { n: i + 1 })}
+                  aria-current={i === active ? 'true' : undefined}
                   className={`rounded-full transition-all duration-300 ${i === active ? 'w-6 h-2.5 bg-insecap-blue' : 'w-2.5 h-2.5 bg-slate-300 hover:bg-slate-400'}`} />
               ))}
             </div>
-            <button onClick={next}
+            <button type="button" onClick={next}
               className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-insecap-blue text-white text-sm font-medium hover:bg-insecap-blue/90 hover:shadow-md transition-all duration-200 group">
               {t('innovation.navNext')}
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
             </button>
           </div>
         </div>

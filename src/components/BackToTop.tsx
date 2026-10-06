@@ -48,7 +48,7 @@ export default function BackToTop() {
               <Button
                 onClick={() => setDrawerOpen(true)}
                 size="icon"
-                className="rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-insecap-cyan hover:bg-insecap-cyan/90 text-white w-12 h-12 relative"
+                className="rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-insecap-cyan-ink hover:bg-insecap-cyan-ink/90 text-white w-12 h-12 relative"
                 aria-label={t('aria.viewCart')}
               >
                 <ShoppingCart className="h-5 w-5" />

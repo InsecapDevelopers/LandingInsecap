@@ -128,7 +128,7 @@ const Hero = () => {
               initial={false}
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
-              className="inline-flex items-center gap-2.5 mb-5 text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-insecap-cyan"
+              className="inline-flex items-center gap-2.5 mb-5 text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-insecap-cyan-ink"
             >
               <span className="w-8 h-1 rounded-full bg-gradient-to-r from-sky-500 to-cyan-400" aria-hidden="true" />
               {t('hero.eyebrow')}
@@ -150,7 +150,7 @@ const Hero = () => {
                   as="span"
                   words={rotatePhrase.words}
                   duration={2500}
-                  className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-cyan-400 inline-block whitespace-nowrap max-w-full"
+                  className="text-insecap-cyan-ink inline-block whitespace-nowrap max-w-full"
                 />
               </span>
             </motion.h2>
@@ -179,18 +179,17 @@ const Hero = () => {
                 onClick={(e) => { e.preventDefault(); scrollTo('cursos-destacados'); }}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-white shadow-lg shadow-sky-500/30 transition-shadow hover:shadow-xl hover:shadow-sky-500/40"
-                style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #38BDF8 100%)' }}
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-white bg-insecap-blue hover:bg-[#3547B1] shadow-lg shadow-insecap-blue/30 transition-[background-color,box-shadow] hover:shadow-xl hover:shadow-insecap-blue/40"
               >
                 {t('hero.ctaCourses')}
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </motion.a>
               <motion.a
                 href="#contacto"
                 onClick={(e) => { e.preventDefault(); scrollTo('contacto'); }}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-slate-700 border-2 border-slate-300 hover:border-sky-500 hover:text-sky-600 transition-colors bg-white/70 backdrop-blur-sm"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-slate-700 border-2 border-slate-300 hover:border-insecap-cyan-ink hover:text-insecap-cyan-ink transition-colors bg-white/70 backdrop-blur-sm"
               >
                 {t('hero.ctaContact')}
               </motion.a>

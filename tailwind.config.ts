@@ -54,6 +54,7 @@ export default {
           blue: "hsl(var(--insecap-blue))",
           "blue-light": "hsl(var(--insecap-blue-light))",
           cyan: "hsl(var(--insecap-cyan))",
+          "cyan-ink": "hsl(var(--insecap-cyan-ink))",
           orange: "hsl(var(--insecap-orange))",
           "orange-light": "hsl(var(--insecap-orange-light))",
         },

@@ -50,7 +50,7 @@ const Accreditations = () => {
         {/* Accreditations */}
         <div className="bg-primary rounded-2xl p-8 md:p-12">
           <div className="text-center mb-10">
-            <span className="text-secondary font-medium text-sm uppercase tracking-wider">
+            <span className="text-insecap-cyan-ink font-medium text-sm uppercase tracking-wider">
               {t('accreditations.badge')}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mt-2">

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Aceptación de las Fases 1 a 5 y de imágenes y fuentes de la Fase 6 (Tarea #8): lo que ven los bots en el HTML inicial,
+# Aceptación de las Fases 1 a 5, de imágenes y fuentes de la Fase 6 y de las cabeceras de la Fase 7 (Tarea #8): lo que ven los bots en el HTML inicial,
 # sin ejecutar JS, más las reglas de nginx (404 real, 301 con query, caché, cabeceras),
 # las URLs en español con los 301 de las URLs antiguas en un solo salto, y robots.txt,
 # sitemaps y llms.txt (cada <loc> del sitemap responde 200 contra $B).
@@ -12,7 +12,8 @@
 # su 301 a la categoría y se corre `check-dist.mjs --no-redirect-chains`. Sin el archivo
 # (p. ej. en CI, donde el dist/ está dentro de la imagen) esas dos revisiones se omiten.
 #
-# Revisión de hidratación (scripts/check-hydration.mjs, Chrome headless por CDP):
+# Revisión de hidratación y CSP (scripts/check-hydration.mjs con CSP=1, Chrome headless por CDP)
+# en /es, /en, /pt y contacto: sin warnings de hidratación ni violaciones del CSP Report-Only.
 #   HYDRATION=required  falla si no hay Chrome (CI).
 #   HYDRATION=skip      no la corre.
 #   (por defecto)       la corre si encuentra Chrome; si no, la omite con aviso.
@@ -364,15 +365,57 @@ if [ -n "${js:-}" ]; then
   check "bundle de la app con gzip (${ce:-sin compresión})" test "$ce" = gzip
 fi
 
-# 13. Consola del navegador sin warnings de hidratación en /es, /en y /pt.
+# 12c. Fase 7, cabeceras de seguridad en HTML (/es, /en, /pt), assets, 404, sitemap, robots y
+# /healthz: nosniff, X-Frame-Options, Referrer-Policy, COOP same-origin, Permissions-Policy,
+# HSTS sin preload ni includeSubDomains, CSP enforce con solo frame-ancestors 'self' y CSP
+# Report-Only con report-uri. Criterio del registro: `curl -sI $B/es | grep -ci …` >= 6.
+SEC_RE='content-security-policy\|strict-transport\|x-content-type\|referrer-policy\|cross-origin-opener\|permissions-policy'
+for p in /es /en /pt /es/contacto "$asset" /es/noexiste /sitemap-index.xml /robots.txt /healthz; do
+  n=$(curl -sI "$B$p" | grep -ci "^\($SEC_RE\)")
+  check "Fase 7 cabeceras de seguridad en $p ($n >= 6)" test "$n" -ge 6
+done
+h=$(curl -s -o /dev/null -D - "$B/es" | tr -d '\r')
+v=$(grep -i '^x-content-type-options:' <<<"$h" | cut -d' ' -f2-);   check "X-Content-Type-Options: $v" test "$v" = nosniff
+v=$(grep -i '^x-frame-options:' <<<"$h" | cut -d' ' -f2-);          check "X-Frame-Options: $v" test "$v" = SAMEORIGIN
+v=$(grep -i '^referrer-policy:' <<<"$h" | cut -d' ' -f2-);          check "Referrer-Policy: $v" test "$v" = strict-origin-when-cross-origin
+v=$(grep -i '^cross-origin-opener-policy:' <<<"$h" | cut -d' ' -f2-); check "Cross-Origin-Opener-Policy: $v" test "$v" = same-origin
+v=$(grep -i '^permissions-policy:' <<<"$h" | cut -d' ' -f2-)
+check "Permissions-Policy: $v" grep -q 'camera=()' <<<"$v"
+v=$(grep -i '^strict-transport-security:' <<<"$h" | cut -d' ' -f2-)
+n=$(grep -ci '^strict-transport-security:' <<<"$h")
+check "HSTS: $v (una sola cabecera, sin preload ni includeSubDomains)" \
+  test "$n" -eq 1 -a "$v" = "max-age=31536000"
+v=$(grep -i '^content-security-policy:' <<<"$h" | cut -d' ' -f2-)
+check "Content-Security-Policy (enforce): $v" test "$v" = "frame-ancestors 'self'"
+csp=$(grep -i '^content-security-policy-report-only:' <<<"$h" | cut -d' ' -f2-)
+check "CSP Report-Only con report-uri /csp-report" grep -q 'report-uri /csp-report' <<<"$csp"
+# Cada script inline de /es, /en, /pt y del 404 tiene su hash en la política (scripts/csp.mjs).
+if [ -f "$SCRIPT_DIR/csp.mjs" ]; then
+  for p in /es /en /pt /es/noexiste; do
+    r=$(curl -s "$B$p" | CSP_HEADER="$csp" node --input-type=module -e '
+      import fs from "node:fs";
+      const { inlineScripts, scriptHash } = await import(process.argv[1]);
+      const hashes = inlineScripts(fs.readFileSync(0, "utf8")).map(scriptHash);
+      const missing = hashes.filter((h) => !process.env.CSP_HEADER.includes(h));
+      console.log(hashes.length && !missing.length ? `OK ${hashes.length}` : `faltan ${missing.length} de ${hashes.length}`);
+    ' "$SCRIPT_DIR/csp.mjs")
+    check "$p scripts inline con hash en el CSP ($r)" test "${r%% *}" = OK
+  done
+fi
+c=$(status -X POST -H 'Content-Type: application/csp-report' --data '{"csp-report":{"document-uri":"check-bots"}}' "$B/csp-report")
+check "POST /csp-report → 204 ($c)" test "$c" = 204
+
+# 13. Consola del navegador sin warnings de hidratación ni violaciones del CSP (Report-Only, Fase 7)
+# en /es, /en, /pt y contacto. Con CSP=1, check-hydration carga los terceros (GTM, gtag, Meta Pixel
+# y Clarity) y espera sus peticiones.
 if [ "$HYDRATION" = skip ]; then
-  echo "SKIP  hidratación (HYDRATION=skip)"
+  echo "SKIP  hidratación y CSP (HYDRATION=skip)"
 else
-  node "$SCRIPT_DIR/check-hydration.mjs" "$B/es" "$B/en" "$B/pt"
+  CSP=1 node "$SCRIPT_DIR/check-hydration.mjs" "$B/es" "$B/en" "$B/pt" "$B/es/contacto" "$B/en/contacto" "$B/pt/contacto"
   rc=$?
-  if [ "$rc" -eq 0 ]; then ok "hidratación sin warnings en /es /en /pt"
-  elif [ "$rc" -eq 2 ] && [ "$HYDRATION" != required ]; then echo "SKIP  hidratación (no se encontró Chrome; define CHROME_BIN)"
-  else ko "hidratación (código $rc)"
+  if [ "$rc" -eq 0 ]; then ok "hidratación sin warnings y CSP sin violaciones en /es /en /pt y contacto"
+  elif [ "$rc" -eq 2 ] && [ "$HYDRATION" != required ]; then echo "SKIP  hidratación y CSP (no se encontró Chrome; define CHROME_BIN)"
+  else ko "hidratación o CSP (código $rc)"
   fi
 fi
 

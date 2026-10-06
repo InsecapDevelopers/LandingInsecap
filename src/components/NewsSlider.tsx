@@ -16,7 +16,7 @@ import { useLocalizedPath } from '@/hooks/use-localized-path';
 const NewsSlider: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { localizedPath } = useLocalizedPath();
-  // En el build llega prerenderizado (window.__RQ__); en el cliente solo se pide si no vino.
+  // En el build llega prerenderizado (#__RQ__); en el cliente solo se pide si no vino.
   const { data, isPending: loading, isError } = useQuery(newsListQuery(1, NEWS_SLIDER_COUNT));
   const articles = data?.articles ?? [];
   const error = isError ? t('news.loadError') : null;
@@ -157,7 +157,7 @@ const NewsSlider: React.FC = () => {
       {/* Encabezado de sección (banner) */}
       <div className="relative z-10 container mx-auto px-8 md:px-16 lg:px-20 pt-14 md:pt-16 pb-10 md:pb-12 min-h-[220px] md:min-h-[300px] flex items-center animate-in fade-in slide-in-from-bottom-4 duration-700">
         <div>
-          <span className="text-xs md:text-sm font-bold uppercase tracking-[0.25em] text-insecap-cyan mb-2 block">
+          <span className="text-xs md:text-sm font-bold uppercase tracking-[0.25em] text-insecap-cyan-ink mb-2 block">
             {t('blog.sectionBadge')}
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-insecap-blue leading-tight">
@@ -166,7 +166,7 @@ const NewsSlider: React.FC = () => {
           <div className="h-1 w-16 bg-insecap-cyan rounded-full mt-3 md:mt-4" />
           <Link
             to={localizedPath('/noticias')}
-            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-insecap-blue hover:text-insecap-cyan transition-colors group mt-4 md:mt-5"
+            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-insecap-blue hover:text-insecap-cyan-ink transition-colors group mt-4 md:mt-5"
           >
             {t('news.seeMore')}
             <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
@@ -197,7 +197,7 @@ const NewsSlider: React.FC = () => {
                     </span>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-insecap-blue leading-snug mb-3 group-hover:text-insecap-cyan transition-colors line-clamp-2">
+                    <h3 className="text-xl font-bold text-insecap-blue leading-snug mb-3 group-hover:text-insecap-cyan-ink transition-colors line-clamp-2">
                       {featuredArticle.title}
                     </h3>
                     <p className="text-gray-500 text-sm leading-relaxed mb-4 line-clamp-2">
@@ -206,7 +206,7 @@ const NewsSlider: React.FC = () => {
                         : truncateText(stripHtml(featuredArticle.contentHtml), 140)}
                     </p>
                     <div className="flex items-center justify-between gap-3">
-                      <div className="flex items-center gap-4 text-xs text-gray-400 flex-wrap">
+                      <div className="flex items-center gap-4 text-xs text-gray-500 flex-wrap">
                         <span className="flex items-center gap-1.5">
                           <Calendar size={12} />
                           {formatDate(featuredArticle.updatedAt ?? featuredArticle.publishedAt)}
@@ -218,7 +218,7 @@ const NewsSlider: React.FC = () => {
                           </span>
                         )}
                       </div>
-                      <span className="text-sm font-medium text-insecap-cyan flex items-center gap-1 group-hover:gap-2 transition-all">
+                      <span className="text-sm font-medium text-insecap-cyan-ink flex items-center gap-1 group-hover:gap-2 transition-all">
                         {t('news.readMore')} <ArrowRight size={14} />
                       </span>
                     </div>

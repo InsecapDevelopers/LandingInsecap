@@ -3,6 +3,11 @@
 //
 //   node scripts/check-hydration.mjs http://localhost:8080/es http://localhost:8080/en
 //
+// Con CSP=1 (Fase 7) además falla si la página dispara violaciones del Content-Security-Policy
+// (también las de Report-Only, evento securitypolicyviolation) y lista los orígenes que pidió.
+// En ese modo simula un scroll para que carguen GTM, gtag, Meta Pixel y Clarity, y espera
+// CSP_WAIT ms (8000 por defecto) a que terminen sus peticiones.
+//
 // Requiere Node >= 22 (WebSocket global) y Chrome/Chromium (CHROME_BIN o rutas habituales).
 // Códigos de salida: 0 OK · 1 hidratación con problemas o error · 2 sin Chrome/WebSocket.
 import { spawn, execFileSync } from 'node:child_process';
@@ -14,6 +19,8 @@ const urls = process.argv.slice(2);
 const WAIT_MS = Number(process.env.HYDRATION_WAIT || 3000);
 // entry-client reporta onRecoverableError como console.warn('[hydrate]', …);
 // en producción React además usa los errores minificados 418/423/425.
+const CSP = process.env.CSP === '1';
+const CSP_WAIT_MS = Number(process.env.CSP_WAIT || 8000);
 const HYDRATION_RE = /\[hydrate\]|hydrat|Minified React error #(418|419|421|422|423|425)\b/i;
 
 const findChrome = () => {
@@ -82,6 +89,7 @@ try {
   const pending = new Map();
   const listeners = new Set();
   let messages = [];
+  let origins = new Set();
   ws.onmessage = (event) => {
     const msg = JSON.parse(event.data);
     if (msg.id && pending.has(msg.id)) {
@@ -90,6 +98,14 @@ try {
       return;
     }
     for (const listener of listeners) listener(msg);
+    if (msg.method === 'Network.requestWillBeSent') {
+      try {
+        const { origin } = new URL(msg.params.request.url);
+        if (origin !== 'null') origins.add(origin);
+      } catch {
+        // data:, blob: y similares no tienen origen útil
+      }
+    }
     if (msg.method === 'Runtime.consoleAPICalled' && ['warning', 'error'].includes(msg.params.type)) {
       const text = msg.params.args.map((arg) => arg.value ?? arg.description ?? '').join(' ');
       messages.push(`[console.${msg.params.type}] ${text}`);
@@ -124,14 +140,30 @@ try {
   await send('Runtime.enable');
   await send('Log.enable');
   await send('Page.enable');
+  if (CSP) {
+    await send('Network.enable');
+    // Corre antes que los scripts de la página y no está sujeto al CSP (lo inyecta CDP).
+    await send('Page.addScriptToEvaluateOnNewDocument', {
+      source: `window.__csp=[];addEventListener('securitypolicyviolation',function(e){window.__csp.push(e.disposition+' '+e.effectiveDirective+' '+(e.blockedURI||'?')+' '+(e.sourceFile||'')+(e.lineNumber?':'+e.lineNumber:''))},true);`,
+    });
+  }
 
   let problems = 0;
   for (const url of urls) {
     messages = [];
+    origins = new Set();
     const loaded = waitFor('Page.loadEventFired', 30000);
     await send('Page.navigate', { url });
     if (!(await loaded)) messages.push('[check] no terminó de cargar en 30 s');
     await sleep(WAIT_MS);
+    let violations = [];
+    if (CSP) {
+      // La primera interacción carga los terceros (index.html); luego se espera a que terminen.
+      await send('Runtime.evaluate', { expression: 'window.dispatchEvent(new Event("scroll"))' });
+      await sleep(CSP_WAIT_MS);
+      const { result: csp } = await send('Runtime.evaluate', { expression: 'JSON.stringify(window.__csp||[])', returnByValue: true });
+      violations = [...new Set(JSON.parse(csp.value))];
+    }
 
     const { result } = await send('Runtime.evaluate', {
       expression: 'JSON.stringify({h1: document.querySelectorAll("h1").length, root: document.getElementById("root")?.children.length ?? 0, lang: document.documentElement.lang})',
@@ -140,8 +172,10 @@ try {
     const state = JSON.parse(result.value);
     const hydration = messages.filter((text) => HYDRATION_RE.test(text));
     const broken = state.h1 !== 1 || state.root === 0;
-    const verdict = hydration.length === 0 && !broken ? 'OK   ' : 'FALLA';
-    console.log(`${verdict} ${url} h1=${state.h1} root=${state.root} lang=${state.lang}`);
+    const verdict = hydration.length === 0 && !broken && violations.length === 0 ? 'OK   ' : 'FALLA';
+    console.log(`${verdict} ${url} h1=${state.h1} root=${state.root} lang=${state.lang}${CSP ? ` csp=${violations.length}` : ''}`);
+    for (const text of violations) console.log(`        !! [csp] ${text.slice(0, 300)}`);
+    if (CSP) console.log(`           orígenes: ${[...origins].sort().join(' ')}`);
     for (const text of messages) console.log(`        ${HYDRATION_RE.test(text) ? '!!' : '  '} ${text.slice(0, 300)}`);
     if (verdict !== 'OK   ') problems++;
   }

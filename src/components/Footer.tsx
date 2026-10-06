@@ -167,6 +167,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
       {/* ── Hero strip "Creciendo Juntos" con parallax ── */}
       <div
         ref={stripRef}
+        data-focus-light
         className="relative overflow-hidden"
         style={{
           backgroundImage: bgVisible ? `url('${HERO_BACKGROUNDS[bgIndex]}')` : undefined,
@@ -200,7 +201,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
               </p>
               <button
                 onClick={scrollToContact}
-                className="inline-flex items-center gap-2 bg-insecap-cyan hover:bg-insecap-cyan/90 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-insecap-cyan/30 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 bg-insecap-cyan-ink hover:bg-insecap-cyan-ink/90 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-insecap-cyan/30 hover:-translate-y-0.5"
               >
                 {t('footer.growthCta')}
               </button>
@@ -208,7 +209,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto px-8 md:px-14 lg:px-16 py-12 lg:py-16">
+      <div className="container mx-auto px-8 md:px-14 lg:px-16 py-12 lg:py-16" data-focus-light>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10">
 
           {/* Logo & Social */}
@@ -237,7 +238,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
 
           {/* Ubicaciones */}
           <div className="col-span-2 lg:col-span-1">
-            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">{t('footer.locations')}</h4>
+            <h3 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">{t('footer.locations')}</h3>
             <ul className="space-y-5">
               {sedes.map((sede) => (
                 <li key={sede.slug} className="flex items-start gap-2.5">
@@ -253,7 +254,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
 
           {/* Contáctanos */}
           <div>
-            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">{t('footer.contact')}</h4>
+            <h3 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">{t('footer.contact')}</h3>
             <address className="space-y-4 not-italic">
               {sedes.map((sede) => (
                 <div key={sede.slug}>
@@ -276,7 +277,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
 
           {/* Mapa Web */}
           <div>
-            <h4 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">{t('footer.webMap')}</h4>
+            <h3 className="font-bold text-lg text-white mb-5 uppercase tracking-widest">{t('footer.webMap')}</h3>
             <ul className="space-y-3">
               {siteMap.map((item) => {
                 const isAnchor = item.href.includes('#');

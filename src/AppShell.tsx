@@ -51,7 +51,7 @@ const FranquiciaSence = lazyPage(() => import("./pages/FranquiciaSence"));
 const PreguntasFrecuentes = lazyPage(() => import("./pages/PreguntasFrecuentes"));
 
 /** Un QueryClient por render en el servidor y uno por sesión en el cliente.
- *  staleTime alto: los datos llegan prerenderizados en window.__RQ__ y no deben volver a pedirse al hidratar. */
+ *  staleTime alto: los datos llegan prerenderizados en #__RQ__ y no deben volver a pedirse al hidratar. */
 export const createQueryClient = (options: { server?: boolean } = {}) =>
   new QueryClient({
     defaultOptions: {
@@ -220,7 +220,7 @@ interface AppShellProps {
   queryClient: QueryClient;
   /** Solo en el servidor: react-helmet-async deja aquí los tags del <head>. */
   helmetContext?: Record<string, unknown>;
-  /** Solo en el cliente: estado de react-query prerenderizado (window.__RQ__). */
+  /** Solo en el cliente: estado de react-query prerenderizado (#__RQ__). */
   dehydratedState?: DehydratedState;
 }
 

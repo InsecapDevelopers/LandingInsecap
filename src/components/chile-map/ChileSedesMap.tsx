@@ -40,6 +40,8 @@ const ChileSedesMap: React.FC = () => {
       <div className="hidden md:flex flex-col items-center gap-2 mb-2">
         <div className="flex justify-center gap-3">
         <button
+          type="button"
+          aria-pressed={mode === 'presenciales'}
           onClick={() => setMode('presenciales')}
           className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 border-2 cursor-pointer ${
             mode === 'presenciales'
@@ -47,18 +49,20 @@ const ChileSedesMap: React.FC = () => {
               : 'bg-white/60 text-gray-500 border-gray-200 hover:border-[#485CC7]/30 hover:text-[#3C4F97]'
           }`}
         >
-          <Building2 className="w-4 h-4" />
+          <Building2 className="w-4 h-4" aria-hidden="true" />
           {t('sedesMap.physicalBranches')}
         </button>
         <button
+          type="button"
+          aria-pressed={mode === 'virtuales'}
           onClick={() => setMode('virtuales')}
           className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 border-2 cursor-pointer ${
             mode === 'virtuales'
-              ? 'bg-gradient-to-r from-[#23B7C7] to-[#00D4E8] text-white border-[#23B7C7] shadow-lg shadow-cyan-500/25'
-              : 'bg-white/60 text-gray-500 border-gray-200 hover:border-[#23B7C7]/30 hover:text-[#23B7C7]'
+              ? 'bg-insecap-cyan-ink text-white border-insecap-cyan-ink shadow-lg shadow-cyan-500/25'
+              : 'bg-white/60 text-gray-500 border-gray-200 hover:border-insecap-cyan-ink/30 hover:text-insecap-cyan-ink'
           }`}
         >
-          <Globe className="w-4 h-4" />
+          <Globe className="w-4 h-4" aria-hidden="true" />
           {t('sedesMap.virtualBranches')}
           </button>
         </div>

@@ -328,7 +328,7 @@ const ExperienciaYRespaldo = () => {
                   logosSection.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
                 }`}
               >
-                <p className="text-center text-slate-400 text-xs font-semibold uppercase tracking-widest mb-8">{content.backedBy}</p>
+                <p className="text-center text-slate-500 text-xs font-semibold uppercase tracking-widest mb-8">{content.backedBy}</p>
                 <div className="flex flex-wrap items-center justify-center gap-10">
                   <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498" alt="SENCE" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                   <img src="/logos/SELLO_2728.svg" alt="NCh 2728:2015" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
@@ -428,7 +428,7 @@ const ExperienciaYRespaldo = () => {
                   : 'opacity-0 translate-y-8'
                   }`}
               >
-                <span className="text-secondary font-semibold uppercase tracking-wider text-sm mb-4 block">
+                <span className="text-insecap-cyan-ink font-semibold uppercase tracking-wider text-sm mb-4 block">
                   {content.strengthsTag}
                 </span>
                 <h2 className="text-3xl md:text-4xl font-bold text-blue-950 mb-6">

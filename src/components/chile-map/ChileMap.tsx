@@ -1,4 +1,5 @@
 import React, { useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import MapPin from './MapPin';
 import { regiones, regionPaths, regionesDecorativas, sedeLocations, COLORS } from './data';
 
@@ -16,6 +17,7 @@ const ChileMap: React.FC<ChileMapProps> = ({
   hoveredSede,
   onSedeHover,
 }) => {
+  const { t } = useTranslation();
   const svgRef = useRef<SVGSVGElement>(null);
   const filteredSedes = useMemo(
     () => sedeLocations.filter((s) => s.tipo === (mode === 'presenciales' ? 'fisica' : 'virtual')),
@@ -41,6 +43,8 @@ const ChileMap: React.FC<ChileMapProps> = ({
         viewBox="-70 230 1140 560"
         className="w-full h-auto drop-shadow-2xl min-h-[420px] md:min-h-[520px]"
         xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label={t('sedesMap.mapAlt')}
       >
         {/* Glow filter definition */}
         <defs>
