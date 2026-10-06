@@ -497,6 +497,8 @@ for (const [selfUrl, page] of indexablePages) {
 
 if (!ONLY_REDIRECTS) {
   checkNoindex('404.html');
+  checkNoindex('404-en.html');
+  checkNoindex('404-pt.html');
   const shell = checkNoindex('_shell.html');
   if (shell && !shell.includes('<div id="root"></div>')) fail('_shell.html', '#root no está vacío');
 }
@@ -553,7 +555,7 @@ for (const rule of redirects) {
 }
 
 // Enlaces internos: deben ir directo a una página del build (sin pasar por un 301).
-const htmlFiles = [...pages.map(({ file }) => file), path.join(DIST, '404.html')].filter((file) => fs.existsSync(file));
+const htmlFiles = [...pages.map(({ file }) => file), path.join(DIST, '404.html'), path.join(DIST, '404-en.html'), path.join(DIST, '404-pt.html')].filter((file) => fs.existsSync(file));
 const badLinks = new Map();
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, 'utf8');

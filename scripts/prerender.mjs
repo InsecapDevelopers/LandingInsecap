@@ -275,6 +275,10 @@ rendered.length = 0;
 // 404 real: cualquier ruta que no existe cae en <NotFound /> con robots noindex.
 try {
   writeFile('404.html', await renderUrl('/es/__404__', 'es'));
+  // Una 404 por idioma: el cliente hidrata con el locale de la URL, así que /en/x necesita la 404 en inglés.
+  for (const locale of ['en', 'pt']) {
+    writeFile(`404-${locale}.html`, await renderUrl(`/${locale}/__404__`, locale));
+  }
 } catch (error) {
   failures.push(error);
 }

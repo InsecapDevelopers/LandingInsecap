@@ -73,6 +73,10 @@ c=$(status "$B/fr/nosotros");  check "/fr/nosotros → 404 ($c)" test "$c" = 404
 c=$(status "$B/llms-no-existe.txt"); check "/llms-no-existe.txt → 404 sin redirigir ($c)" test "$c" = 404
 h=$(curl -s "$B/es/noexiste")
 check "el 404 trae noindex" grep -qi 'name="robots" content="noindex' <<<"$h"
+for l in en pt; do
+  c=$(status "$B/$l/noexiste"); check "/$l/noexiste → 404 ($c)" test "$c" = 404
+  h=$(curl -s "$B/$l/noexiste"); check "el 404 de /$l viene en su idioma" grep -q "<html[^>]*lang=\"$l\"" <<<"$h"
+done
 
 # 3. 301 de la home y de rutas sin idioma, conservando la query. Location relativa (sin :80).
 c=$(status "$B/?gclid=T"); loc=$(header location "$B/?gclid=T")
