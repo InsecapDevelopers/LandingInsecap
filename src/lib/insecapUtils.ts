@@ -3,8 +3,8 @@
  * Centraliza constantes y cálculos relacionados con la identidad de la empresa.
  */
 
-/** Año de fundación de INSECAP. Confirmar con el equipo si cambia. */
-export const FOUNDING_YEAR = 1991;
+/** Año de fundación de INSECAP (confirmado: 2009). */
+export const FOUNDING_YEAR = 2009;
 
 /**
  * Año de inicio operacional de INSECAP para el conteo de "años de experiencia".

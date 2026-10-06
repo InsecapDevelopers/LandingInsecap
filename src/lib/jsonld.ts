@@ -20,6 +20,7 @@ import { SITE_URL } from './locale-routing';
 import type { ShopifyArticle } from './shopify';
 import type { CursoSeo, Faq } from '../data/cursos-seo';
 import { CONTACT_EMAIL, getCasaMatriz, type Sede } from '../data/sedes';
+import { FOUNDING_YEAR } from './insecapUtils';
 
 export const ORG_ID = `${SITE_URL}/#org`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
@@ -52,9 +53,7 @@ const organization: JsonLdNode = {
   alternateName: 'INSECAP',
   url: `${SITE_URL}/es`,
   logo: { '@type': 'ImageObject', ...LOGO },
-  // TODO: confirmar el año de fundación. El contexto de negocio dice "OTEC chilena desde 2009" y
-  // src/lib/insecapUtils.ts usa FOUNDING_YEAR = 1991; se publica 2009 hasta que INSECAP lo confirme.
-  foundingDate: '2009',
+  foundingDate: String(FOUNDING_YEAR),
   description: ORG_DESCRIPTION,
   // NAP único (Fase 8): la casa matriz de src/data/sedes.ts.
   email: CONTACT_EMAIL,
@@ -100,13 +99,12 @@ const organization: JsonLdNode = {
     { '@type': 'Organization', name: 'Cámara de Comercio de Santiago (CCS)' },
     { '@type': 'Organization', name: 'SICEP' },
   ],
-  // Solo perfiles confirmados en el contexto de negocio.
-  // TODO: agregar LinkedIn, Facebook y TikTok cuando INSECAP confirme las URL oficiales
-  // (el Footer enlaza facebook.com/insecap y linkedin.com/company/insecap sin verificar, y TikTok
-  // sin perfil). TODO: confirmar que x.com/insecap es la cuenta oficial (sección 4, punto 9).
+  // Los mismos perfiles que enlaza el Footer (INSECAP no usa X).
   sameAs: [
     'https://www.instagram.com/insecapcapacitacion/',
-    'https://x.com/insecap',
+    'https://www.facebook.com/insecap',
+    'https://www.linkedin.com/company/insecap',
+    'https://www.tiktok.com/@insecap',
   ],
 };
 

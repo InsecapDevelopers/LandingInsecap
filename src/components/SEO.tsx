@@ -11,7 +11,6 @@ import {
   getSeoFillers,
   getSeoImageAlt,
   getSeoPageText,
-  TWITTER_SITE,
 } from '@/lib/seo-text';
 import { fallbackLanguage, supportedLanguages } from '@/lib/translations';
 import { serializeJsonLd, toJsonLdGraph, type JsonLdNode } from '@/lib/jsonld';
@@ -165,7 +164,6 @@ const SEO = ({
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content={TWITTER_SITE} />
       <meta name="twitter:title" content={finalTitle} />
       <meta name="twitter:description" content={finalDescription} />
       <meta name="twitter:image" content={finalImage} />

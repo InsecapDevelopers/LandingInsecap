@@ -4,9 +4,8 @@
  * es, en y pt; las cifras 2025 con su fecha visible, y las listas comparables (acreditaciones y
  * modalidades) de la tabla "INSECAP en datos".
  *
- * Solo datos del contexto de negocio de la tarea #8 y de src/data/sedes.ts (NAP único). No se
- * menciona el año de fundación: el contexto dice 2009 y src/lib/insecapUtils.ts dice 1991
- * (TODO en src/lib/jsonld.ts). scripts/check-dist.mjs cuenta las palabras de cada párrafo
+ * Solo datos del contexto de negocio de la tarea #8 y de src/data/sedes.ts (NAP único).
+ * scripts/check-dist.mjs cuenta las palabras de cada párrafo
  * (atributo data-respuesta).
  */
 import type { AppLanguage } from '../lib/translations';

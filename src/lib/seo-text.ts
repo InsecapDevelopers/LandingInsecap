@@ -24,9 +24,6 @@ export const DEFAULT_OG_IMAGE = {
   type: 'image/png',
 };
 
-// TODO: confirmar que @insecap es la cuenta oficial de INSECAP en X (sección 4, punto 9).
-export const TWITTER_SITE = '@insecap';
-
 const TITLE_SEPARATOR = ' | ';
 
 /** Palabras que no deben quedar al final de un texto recortado (es, en, pt). */

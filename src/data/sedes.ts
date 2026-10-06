@@ -33,7 +33,7 @@ export const CONTACT_EMAIL = 'contacto@insecap.cl';
 /** Cobertura de los cursos e-learning, según el contexto de negocio. */
 export const COBERTURA_VIRTUAL = 'de Arica a Concepción';
 
-// TODO: confirmar el NAP exacto de cada sede con INSECAP (sección 4, punto 5). Footer, ContactCTA,
+// NAP confirmado por INSECAP (el mismo del Footer y Nosotros). Footer, ContactCTA,
 // Contacto, NotFound, chile-map, /sedes/:sede, el JSON-LD (#org y #place), las descriptions de
 // contacto (SEO.tsx), los párrafos de respuesta (respuestas.ts), openCourses y Clientes leen de
 // aquí: un cambio se propaga a todo el sitio (Fase 8, NAP único).
@@ -82,7 +82,6 @@ export const sedes: Sede[] = [
     nombre: 'Sede Vallenar',
     ciudad: 'Vallenar',
     region: 'Región de Atacama',
-    // TODO: confirmar la dirección y el mapa de Vallenar (sección 4, punto 5).
     direccion: 'Río del Tránsito 1546, Villa Vista Hermosa',
     telefono: '+56 9 9715 7034',
     telefonoE164: '+56997157034',

@@ -201,7 +201,7 @@ for l in es en pt; do
   check "/$l theme-color=$tc" test "$tc" = "#485CC7"
   can=$(grep -o 'rel="canonical" href="[^"]*"' <<<"$h" | cut -d'"' -f4)
   check "/$l canonical=$can" test "$can" = "https://insecap.cl/$l"
-  n=$(count 'name="twitter:site" content="@insecap"' <<<"$h"); check "/$l twitter:site @insecap ($n)" test "$n" -eq 1
+  n=$(count 'twitter:site' <<<"$h"); check "/$l sin twitter:site, INSECAP no usa X ($n)" test "$n" -eq 0
   og=$(grep -o 'property="og:image" content="[^"]*"' <<<"$h" | cut -d'"' -f4)
   check "/$l og:image en el dominio ($og)" test "${og#https://insecap.cl/og/}" != "$og"
 done
