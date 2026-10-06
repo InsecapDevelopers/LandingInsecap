@@ -1,0 +1,166 @@
+/**
+ * Identidad visual de Capin (la burbuja de insecap.cl). Copiada de tmsFrontend/features/capin/capin.css:
+ * si cambia la identidad de Capin, cambiar las dos.
+ *
+ * Vive en su propio archivo y bajo `.capin-root` en vez de tocar los tokens globales del sitio:
+ * Capin conserva su propia paleta (índigo 227° y cian 191°), vecina del azul INSECAP #485CC7,
+ * para verse igual que en el TMS.
+ */
+
+.capin-root {
+    --capin-primary: 227 58% 53%;
+    --capin-accent: 191 100% 47%;
+    --capin-foreground: 222 84% 4.9%;
+    --capin-muted-foreground: 215 16% 47%;
+    --capin-border: 214 32% 91%;
+
+    --capin-gradient: linear-gradient(135deg, hsl(227 58% 53%), hsl(191 100% 47%));
+    --capin-shadow-chat: 0 4px 20px hsl(227 58% 53% / 0.1);
+}
+
+.capin-gradient {
+    background-image: var(--capin-gradient);
+}
+
+.capin-shadow-chat {
+    box-shadow: var(--capin-shadow-chat);
+}
+
+/* Transición común de lo que reacciona al puntero, heredada desde `.capin-root`. */
+.capin-root button,
+.capin-root input,
+.capin-root a {
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease,
+        transform 0.15s ease;
+}
+
+/* Foco de teclado visible en todo lo clickeable; sobre el degradado (encabezado), en blanco. */
+.capin-root :is(button, a, summary):focus-visible {
+    outline: 2px solid hsl(var(--capin-primary));
+    outline-offset: 2px;
+}
+
+.capin-root .capin-gradient :focus-visible {
+    outline-color: white;
+}
+
+/* Campos de texto sobre fondo claro: el realce es el índigo de Capin. */
+.capin-root input:hover:not(:disabled) {
+    border-color: hsl(var(--capin-primary) / 0.5);
+}
+
+/* El panel crece desde la esquina de la burbuja, no desde su centro. */
+@keyframes capin-panel-entra {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.capin-panel-entra {
+    animation: capin-panel-entra 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: bottom right;
+}
+
+/* La burbuja aparece con un rebote corto al volver del panel. */
+@keyframes capin-burbuja-entra {
+    from {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.capin-burbuja-entra {
+    animation: capin-burbuja-entra 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Al ocultarla se va encogiendo hacia su esquina, en vez de desaparecer de golpe. */
+@keyframes capin-burbuja-sale {
+    from {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.3) rotate(12deg);
+    }
+}
+
+.capin-burbuja-sale {
+    animation: capin-burbuja-sale 0.25s cubic-bezier(0.4, 0, 1, 1) forwards;
+    transform-origin: bottom right;
+    pointer-events: none;
+}
+
+/* Cada mensaje y cada paso del chat entra subiendo 6px: marca qué es nuevo sin distraer. */
+@keyframes capin-aparece {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.capin-aparece {
+    animation: capin-aparece 0.22s ease-out;
+}
+
+/* Texto de lo que Capin está haciendo ahora: un brillo lo recorre mientras trabaja. */
+@keyframes capin-brillo {
+    from {
+        background-position: 100% 0;
+    }
+    to {
+        background-position: -100% 0;
+    }
+}
+
+.capin-brillo {
+    background: linear-gradient(90deg, currentColor 40%, hsl(var(--capin-primary)) 50%, currentColor 60%) 0 0 / 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: capin-brillo 1.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .capin-panel-entra,
+    .capin-aparece,
+    .capin-burbuja-entra {
+        animation: none;
+    }
+
+    /* Esta sí conserva su animación: es la que decide cuándo desmontar la burbuja, y
+       anularla dejaría el botón visible para siempre. Se acorta y se queda en la opacidad. */
+    .capin-burbuja-sale {
+        animation-duration: 0.01s;
+    }
+
+    .capin-root button,
+    .capin-root input,
+    .capin-root a {
+        transition: none;
+    }
+
+    .capin-brillo {
+        animation: none;
+        background: none;
+        color: inherit;
+    }
+}

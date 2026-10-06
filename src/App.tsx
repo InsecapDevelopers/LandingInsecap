@@ -35,7 +35,8 @@ import NotFound from "./pages/NotFound";
 import ExperienciaYRespaldo from "./pages/Xp";
 import { buildLocalizedPath, isAppLanguage } from "./lib/locale-routing";
 import { fallbackLanguage } from "./lib/translations";
-import { isSimulatorsEnabled } from "./lib/featureFlags";
+import { isCapinChatEnabled, isSimulatorsEnabled } from "./lib/featureFlags";
+import CapinBubble from "./components/capin/CapinBubble";
 
 const queryClient = new QueryClient();
 
@@ -151,6 +152,7 @@ const App = () => {
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ScrollToTop />
           <MetaPixelPageView />
+          {isCapinChatEnabled && <CapinBubble />}
           {/*<PromoPopup />*/}
           <Routes>
             {routeDefinitions.map((routeDefinition) => (

@@ -7,6 +7,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const tmsTarget = env.TMS_PROXY_TARGET || 'https://tms.insecap.cl';
   const tmsPlusTarget = env.TMS_PLUS_PROXY_TARGET || 'https://api-plus.insecap.cl';
+  // Capin (RAG-service) local: la burbuja llama a /capin/chat y el proxy evita CORS en dev.
+  const capinTarget = env.CAPIN_PROXY_TARGET || 'http://localhost:8000';
 
   return {
     server: {
@@ -30,6 +32,12 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: tmsPlusTarget.startsWith('https'),
           headers: { 'ngrok-skip-browser-warning': 'true' },
+        },
+        '/capin': {
+          target: capinTarget,
+          changeOrigin: true,
+          secure: capinTarget.startsWith('https'),
+          rewrite: (p) => p.replace(/^\/capin/, ''),
         },
         '/api': {
           target: tmsTarget,

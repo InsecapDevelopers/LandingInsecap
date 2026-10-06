@@ -4,6 +4,7 @@ import { ChevronUp, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "motion/react";
 import { useCartStore } from "@/stores/cartStore";
+import { isCapinChatEnabled } from "@/lib/featureFlags";
 
 export default function BackToTop() {
   const { t } = useTranslation();
@@ -37,7 +38,8 @@ export default function BackToTop() {
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.2 }}
             className="fixed right-8 z-40 md:hidden"
-            style={{ bottom: showBackToTop ? "5.5rem" : "2rem" }}
+            // Sobre la burbuja de Capin, si está activa (ocupa la esquina inferior derecha).
+            style={{ bottom: `${(showBackToTop ? 5.5 : 2) + (isCapinChatEnabled ? 5 : 0)}rem` }}
           >
             <motion.div
               animate={{ bottom: 0 }}
@@ -67,7 +69,7 @@ export default function BackToTop() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-8 right-8 z-40"
+            className={`fixed right-8 z-40 ${isCapinChatEnabled ? 'bottom-28' : 'bottom-8'}`}
           >
             <motion.div whileHover={{ scale: 1.1, y: -3 }} whileTap={{ scale: 0.92 }}>
               <Button

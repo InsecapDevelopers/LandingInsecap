@@ -46,3 +46,10 @@ export const isSimulatorsEnabled: boolean =
  */
 export const isOpenCourseOfferEnabled: boolean =
   import.meta.env.VITE_OPEN_COURSE_OFFER === 'true';
+
+/**
+ * Burbuja de Capin (chat de cursos) en todo el sitio. Llama directo al RAG-service de Capin en
+ * modo público (VITE_CAPIN_API_URL): activar cuando esa versión de Capin esté desplegada.
+ */
+export const isCapinChatEnabled: boolean =
+  import.meta.env.VITE_CAPIN_CHAT_ENABLED === 'true';
