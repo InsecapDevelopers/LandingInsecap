@@ -9,6 +9,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
@@ -140,6 +141,12 @@ const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+
+      <SEO
+        title={content.title}
+        description={content.introText}
+        url="/politica-de-privacidad"
+      />
 
       <main>
         <PageHero

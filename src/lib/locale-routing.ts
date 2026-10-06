@@ -51,6 +51,6 @@ export const getLocaleMeta = (locale: AppLanguage) => {
       return { htmlLang: 'pt', ogLocale: 'pt_BR', hreflang: 'pt' };
     case 'es':
     default:
-      return { htmlLang: 'es', ogLocale: 'es_CL', hreflang: 'es' };
+      return { htmlLang: 'es-CL', ogLocale: 'es_CL', hreflang: 'es-CL' };
   }
 };

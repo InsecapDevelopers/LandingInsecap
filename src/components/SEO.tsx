@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { buildLocalizedPath, getLocaleFromPath, getLocaleMeta, isAbsoluteUrl, SITE_URL, stripLocaleFromPath } from '@/lib/locale-routing';
+import { findSeoRoute, getRobotsForPath, isSeoRouteIndexable } from '@/lib/seo-routes';
 import { fallbackLanguage, supportedLanguages } from '@/lib/translations';
 
 interface SEOProps {
@@ -58,7 +59,14 @@ const SEO = ({
     ? (isAbsoluteUrl(url) ? url : buildLocalizedPath(sourcePath, currentLocale))
     : location.pathname;
   const pathWithoutLocale = stripLocaleFromPath(sourcePath);
-  const alternateLinks = supportedLanguages.map((language) => {
+  // hreflang desde la tabla (seo-routes.ts): solo si esta página se indexa, y solo hacia los
+  // idiomas en que la misma ruta también se indexa. Páginas de datos en /es: es-CL + x-default;
+  // en /en y /pt (noindex) no llevan hreflang.
+  const seoRoute = findSeoRoute(location.pathname);
+  const hreflangLocales = seoRoute && isSeoRouteIndexable(seoRoute, currentLocale)
+    ? supportedLanguages.filter((language) => isSeoRouteIndexable(seoRoute, language))
+    : [];
+  const alternateLinks = hreflangLocales.map((language) => {
     const meta = getLocaleMeta(language);
     return {
       hrefLang: meta.hreflang,
@@ -90,7 +98,9 @@ const SEO = ({
       {alternateLinks.map((link) => (
         <link key={link.hrefLang} rel="alternate" hrefLang={link.hrefLang} href={link.href} />
       ))}
-      <link rel="alternate" hrefLang="x-default" href={`${baseUrl}${buildLocalizedPath(pathWithoutLocale, fallbackLanguage)}`} />
+      {hreflangLocales.includes(fallbackLanguage) && (
+        <link rel="alternate" hrefLang="x-default" href={`${baseUrl}${buildLocalizedPath(pathWithoutLocale, fallbackLanguage)}`} />
+      )}
 
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
@@ -131,9 +141,8 @@ const SEO = ({
       <meta property="inLanguage" content={localeMeta.htmlLang} />
 
       {/* Additional Meta Tags */}
-      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-      <meta name="googlebot" content="index, follow" />
-      <meta name="format-detection" content="telephone=no" />
+      {/* index/noindex según la tabla de rutas por idioma (seo-routes.ts) */}
+      <meta name="robots" content={getRobotsForPath(location.pathname)} />
       
       {/* Structured Data / JSON-LD */}
       {jsonLd && (

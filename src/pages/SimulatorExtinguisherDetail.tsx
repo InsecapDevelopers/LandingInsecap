@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { Button } from '@/components/ui/button';
@@ -97,6 +98,12 @@ const SimulatorExtinguisherDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+
+      <SEO
+        title={content.subtitle}
+        description={content.description}
+        url="/simuladores/extintores"
+      />
 
       <main className="pb-16">
         <PageHero

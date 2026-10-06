@@ -1,12 +1,12 @@
-import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
-import { buildLocalizedPath, isAppLanguage } from '@/lib/locale-routing';
+import { buildLocalizedPath, getLocaleFromPath } from '@/lib/locale-routing';
 import { fallbackLanguage, type AppLanguage } from '@/lib/translations';
 
+/** El idioma sale de la URL (/es, /en, /pt): igual en el servidor y en el cliente, sin desfase al hidratar. */
 export const useLocalizedPath = () => {
-  const { i18n } = useTranslation();
-  const resolvedLanguage = i18n.resolvedLanguage;
-  const locale: AppLanguage = isAppLanguage(resolvedLanguage) ? resolvedLanguage : fallbackLanguage;
+  const { pathname } = useLocation();
+  const locale: AppLanguage = getLocaleFromPath(pathname) ?? fallbackLanguage;
 
   return {
     locale,

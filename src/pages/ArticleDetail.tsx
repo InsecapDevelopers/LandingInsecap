@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
@@ -8,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowLeft, Share2, Newspaper, X } from 'lucide-react';
 import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
-import { fetchNewsBySlug } from '@/lib/newsData';
+import { newsArticleQuery } from '@/lib/queries';
+import { stripHtml } from '@/lib/html';
 import { SITE_URL } from '@/lib/locale-routing';
 import { toast } from 'sonner';
 import PageHero from '@/components/PageHero';
@@ -17,8 +19,11 @@ import { useLocalizedPath } from '@/hooks/use-localized-path';
 const ArticleDetail = () => {
   const { localizedPath, locale } = useLocalizedPath();
   const { blogHandle, articleHandle } = useParams<{ blogHandle: string; articleHandle: string }>();
-  const [article, setArticle] = useState<ShopifyArticle | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // En el build llega prerenderizada (window.__RQ__). null: no existe o está oculta.
+  const { data: article = null, isPending: isLoading } = useQuery({
+    ...newsArticleQuery(articleHandle ?? ''),
+    enabled: Boolean(blogHandle && articleHandle),
+  });
   const [selectedImage, setSelectedImage] = useState<{ url: string; alt: string } | null>(null);
   const articleContentRef = useRef<HTMLDivElement>(null);
 
@@ -66,24 +71,6 @@ const ArticleDetail = () => {
       language: 'pt-BR',
     },
   }[locale];
-
-  useEffect(() => {
-    const loadArticle = async () => {
-      if (!blogHandle || !articleHandle) return;
-      
-      try {
-        setIsLoading(true);
-        const data = await fetchNewsBySlug(articleHandle);
-        setArticle(data);
-      } catch (err) {
-        console.error('Error loading article:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadArticle();
-  }, [blogHandle, articleHandle]);
 
   // Handle ESC key to close image modal
   useEffect(() => {
@@ -153,13 +140,6 @@ const ArticleDetail = () => {
       });
     };
   }, [article]);
-
-  // Helper function to extract plain text from HTML
-  const stripHtml = (html: string): string => {
-    const tmp = document.createElement('DIV');
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
-  };
 
   // Helper function to get first 160 chars for description
   const getMetaDescription = (article: ShopifyArticle): string => {

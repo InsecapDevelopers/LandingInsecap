@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, GraduationCap, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { WordRotate } from '@/components/ui/word-rotate';
 import { getYearsOfExperience } from '@/lib/insecapUtils';
+import { useReducedMotion } from '@/hooks/use-reduced-motion';
 
 const CAPIN_IMG = '/CapinMov.webp';
 
@@ -91,12 +92,13 @@ const Hero = () => {
       {/* ── Contenido ── */}
       <div className="container mx-auto px-8 sm:px-14 lg:px-16 relative z-10 py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-10 items-center">
-          {/* ─── IZQUIERDA: texto ─── */}
+          {/* ─── IZQUIERDA: texto ───
+              initial={false}: el texto se ve en el HTML prerenderizado (sin JS y antes de hidratar). */}
           <div className="text-center lg:text-left max-w-xl mx-auto lg:mx-0">
             <motion.p
               custom={0}
               variants={fadeUp}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               className="inline-flex items-center gap-2.5 mb-5 text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-insecap-cyan"
@@ -105,10 +107,11 @@ const Hero = () => {
               {t('hero.eyebrow')}
             </motion.p>
 
-            <motion.h1
+            {/* h2: el único H1 de la home es el de VideoHero. */}
+            <motion.h2
               custom={1}
               variants={fadeUp}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               className="text-[clamp(1.9rem,6.5vw,3rem)] font-extrabold text-slate-900 leading-[1.15] tracking-tight mb-6"
@@ -123,12 +126,12 @@ const Hero = () => {
                   className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-cyan-400 inline-block whitespace-nowrap max-w-full"
                 />
               </span>
-            </motion.h1>
+            </motion.h2>
 
             <motion.p
               custom={2}
               variants={fadeUp}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               className="text-slate-600 text-base sm:text-lg leading-relaxed mb-9"
@@ -139,7 +142,7 @@ const Hero = () => {
             <motion.div
               custom={3}
               variants={fadeUp}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               className="flex flex-wrap gap-4 justify-center lg:justify-start"

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Target, Eye, CheckCircle2, Award, ShieldCheck, TrendingUp } from 'lucide-react';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
@@ -121,6 +122,12 @@ const QualityPolicy = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+
+      <SEO
+        title={content.title}
+        description={content.excellenceText}
+        url="/politica-calidad"
+      />
 
       <main>
         <PageHero

@@ -1,4 +1,3 @@
-import b2bCatalog from '@/data/b2bCatalog.json';
 import { storefrontApiRequest } from '@/lib/shopify';
 
 export interface B2bCombination {
@@ -169,14 +168,8 @@ const finalizeTopic = (topic: B2bCatalogTopic): B2bCatalogTopic => {
   };
 };
 
-const getLocalCatalog = (): B2bCatalogTopic[] =>
-  (b2bCatalog as B2bCatalogTopic[]).map((topic) => finalizeTopic(topic));
-
 const getShopifyQuery = (): string =>
   import.meta.env.VITE_B2B_SHOPIFY_QUERY || 'tag:b2b';
-
-let cachedCatalog: B2bCatalogTopic[] | null = null;
-let loadPromise: Promise<B2bCatalogTopic[]> | null = null;
 
 const buildTopicsFromShopifyProducts = (products: ShopifyB2bProductNode[]): B2bCatalogTopic[] => {
   const grouped = new Map<string, B2bCatalogTopic>();
@@ -239,49 +232,20 @@ const buildTopicsFromShopifyProducts = (products: ShopifyB2bProductNode[]): B2bC
   );
 };
 
-export const loadB2bCatalogTopics = async (): Promise<B2bCatalogTopic[]> => {
-  if (cachedCatalog) {
-    return cachedCatalog;
-  }
+/**
+ * Catálogo B2B desde Shopify Storefront (`tag:b2b`), agrupado por tema.
+ * Es la queryFn de `b2bTopicsQuery` (src/lib/queries.ts): la usan useQuery en el cliente y el
+ * prerender en el build. No tiene respaldo silencioso: si la petición falla, lanza, para que el
+ * build falle y quede la imagen anterior (src/data/b2bCatalog.json está vacío, no sirve de respaldo).
+ */
+export const fetchB2bCatalogTopics = async (): Promise<B2bCatalogTopic[]> => {
+  const data = await storefrontApiRequest(STOREFRONT_B2B_PRODUCTS_QUERY, {
+    first: 250,
+    query: getShopifyQuery(),
+  });
 
-  if (loadPromise) {
-    return loadPromise;
-  }
-
-  loadPromise = (async () => {
-    try {
-      const data = await storefrontApiRequest(STOREFRONT_B2B_PRODUCTS_QUERY, {
-        first: 250,
-        query: getShopifyQuery(),
-      });
-
-      const edges = (data?.data?.products?.edges ?? []) as Array<{ node: ShopifyB2bProductNode }>;
-      const products = edges.map((edge) => edge.node);
-
-      if (products.length > 0) {
-        cachedCatalog = buildTopicsFromShopifyProducts(products);
-        return cachedCatalog;
-      }
-    } catch (error) {
-      console.error('Error loading B2B catalog from Shopify. Using local fallback.', error);
-    }
-
-    cachedCatalog = getLocalCatalog();
-    return cachedCatalog;
-  })();
-
-  try {
-    return await loadPromise;
-  } finally {
-    loadPromise = null;
-  }
-};
-
-export const findB2bCatalogByHandle = async (
-  handle: string
-): Promise<B2bCatalogTopic | null> => {
-  const topics = await loadB2bCatalogTopics();
-  return topics.find((topic) => topic.handle === handle) ?? null;
+  const edges = (data?.data?.products?.edges ?? []) as Array<{ node: ShopifyB2bProductNode }>;
+  return buildTopicsFromShopifyProducts(edges.map((edge) => edge.node));
 };
 
 export const getB2bCatalogCategoriesFromTopics = (

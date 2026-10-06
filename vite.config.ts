@@ -3,12 +3,17 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const tmsTarget = env.TMS_PROXY_TARGET || 'https://tms.insecap.cl';
   const tmsPlusTarget = env.TMS_PLUS_PROXY_TARGET || 'https://api-plus.insecap.cl';
   // Capin (RAG-service) local: la burbuja llama a /capin/chat y el proxy evita CORS en dev.
   const capinTarget = env.CAPIN_PROXY_TARGET || 'http://localhost:8000';
+  // Fecha del build en hora de Chile (AAAA-MM-DD). Fija el "hoy" de los filtros por fecha
+  // (openCourses.ts) para que el HTML prerenderizado y la hidratación coincidan; el cron diario
+  // del deploy la renueva. BUILD_DATE permite fijarla a mano. En dev no se define: usa new Date().
+  const buildDate = env.BUILD_DATE
+    || new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Santiago' }).format(new Date());
 
   return {
     server: {
@@ -48,6 +53,12 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [react()].filter(Boolean),
+    define: command === 'build' ? { __BUILD_DATE__: JSON.stringify(buildDate) } : {},
+    // Build SSR del prerender (src/entry-server.tsx): react-helmet-async es CJS con exports que
+    // Node no resuelve como ESM; se empaqueta en vez de quedar externo.
+    ssr: {
+      noExternal: ['react-helmet-async'],
+    },
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

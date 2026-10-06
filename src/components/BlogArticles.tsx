@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, User, ArrowRight, Newspaper } from 'lucide-react';
 import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
-import { fetchNews } from '@/lib/newsData';
+import { newsListQuery } from '@/lib/queries';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 interface ArticleCardProps {
@@ -97,27 +97,13 @@ interface BlogArticlesProps {
   showTitle?: boolean;
 }
 
-export const BlogArticles = ({ blogHandle = 'news', limit = 6, showTitle = true }: BlogArticlesProps) => {  const { t } = useTranslation();
-  const { localizedPath } = useLocalizedPath();  const [articles, setArticles] = useState<ShopifyArticle[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadArticles = async () => {
-      try {
-        setIsLoading(true);
-        const { articles: data } = await fetchNews(1, limit);
-        setArticles(data);
-      } catch (err) {
-        setError(t('blog.loadError'));
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadArticles();
-  }, [blogHandle, limit]);
+// blogHandle queda por compatibilidad: las noticias vienen todas del mismo módulo del TMS Plus.
+export const BlogArticles = ({ limit = 6, showTitle = true }: BlogArticlesProps) => {
+  const { t } = useTranslation();
+  const { localizedPath } = useLocalizedPath();
+  const { data, isPending: isLoading, isError } = useQuery(newsListQuery(1, limit));
+  const articles = data?.articles ?? [];
+  const error = isError ? t('blog.loadError') : null;
 
   if (error) {
     return (

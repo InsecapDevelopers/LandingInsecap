@@ -71,3 +71,18 @@ export async function fetchNewsBySlug(slug: string): Promise<ShopifyArticle | nu
   if (!res.ok) throw new Error(`Error al cargar la noticia: ${res.status}`);
   return toArticle(await res.json());
 }
+
+/** Todas las noticias publicadas (lista, sin cuerpo), paginando de a 50. La usa el prerender
+ *  para generar una página por noticia; lanza si alguna página falla. */
+export async function fetchAllNews(perPage = 50): Promise<ShopifyArticle[]> {
+  const first = await fetchNews(1, perPage);
+  const articles = [...first.articles];
+  const pages = Math.ceil(first.total / perPage);
+
+  for (let page = 2; page <= pages; page++) {
+    const { articles: pageArticles } = await fetchNews(page, perPage);
+    articles.push(...pageArticles);
+  }
+
+  return articles;
+}

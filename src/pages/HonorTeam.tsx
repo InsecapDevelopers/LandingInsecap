@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Trophy } from 'lucide-react';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import {
@@ -225,6 +226,12 @@ const HonorTeam = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+
+      <SEO
+        title={content.title}
+        description={content.intro}
+        url="/equipo-honor"
+      />
 
       <main className="pb-16">
         <PageHero

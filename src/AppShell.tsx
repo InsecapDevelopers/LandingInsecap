@@ -1,20 +1,22 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+/**
+ * Árbol de la app común al cliente y al servidor (prerender).
+ * El router lo pone cada entrada: BrowserRouter en entry-client, StaticRouter en entry-server.
+ */
+import { useEffect, useRef } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation, useParams } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
+import { HydrationBoundary, QueryClient, QueryClientProvider, type DehydratedState } from "@tanstack/react-query";
+import { Routes, Route, Navigate, Outlet, useLocation, useParams } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useTranslation } from 'react-i18next';
 import BackToTop from "./components/BackToTop";
 import ScrollToTop from "./components/ScrollToTop";
-import SplashScreen from "./components/SplashScreen";
 // import PromoPopup from "./components/PromoPopup";
 import Index from "./pages/Index";
 import CourseDetail from "./pages/CourseDetail";
 import Blog from "./pages/Blog";
 import ArticleDetail from "./pages/ArticleDetail";
-import CourseCatalog from "./pages/CourseCatalog";
 import AboutUs from "./pages/AboutUs";
 import OurTeam from "./pages/OurTeam";
 import HonorTeam from "./pages/HonorTeam";
@@ -33,13 +35,28 @@ import OpenCourseForm from "./pages/OpenCourseForm";
 import Clients from "./pages/Clients";
 import NotFound from "./pages/NotFound";
 import ExperienciaYRespaldo from "./pages/Xp";
-import { buildLocalizedPath, isAppLanguage } from "./lib/locale-routing";
+import { buildLocalizedPath, getLocaleFromPath, getLocaleMeta, isAppLanguage } from "./lib/locale-routing";
+import { getRobotsForPath } from "./lib/seo-routes";
+import { siteJsonLd } from "./lib/jsonld";
+import { useCartStore } from "./stores/cartStore";
 import { fallbackLanguage } from "./lib/translations";
 import { isCapinChatEnabled, isSimulatorsEnabled } from "./lib/featureFlags";
 import CapinBubble from "./components/capin/CapinBubble";
 import { trackAttribution } from "./lib/attribution";
 
-const queryClient = new QueryClient();
+/** Un QueryClient por render en el servidor y uno por sesión en el cliente.
+ *  staleTime alto: los datos llegan prerenderizados en window.__RQ__ y no deben volver a pedirse al hidratar. */
+export const createQueryClient = (options: { server?: boolean } = {}) =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 30 * 60 * 1000,
+        ...(options.server ? { retry: false } : {}),
+      },
+    },
+  });
+
+export const routerFuture = { v7_startTransition: true, v7_relativeSplatPath: true } as const;
 
 /** /cursos (catálogo B2C retirado) → /cursos-abiertos, conservando el prefijo de idioma.
  *  Un `Navigate` relativo caería en la ruta `cursos/:handle` y daría "Curso no encontrado". */
@@ -77,7 +94,42 @@ const AttributionTracker = () => {
   return null;
 };
 
-const routeDefinitions = [
+/** Metadatos por defecto de cada ruta (idioma del <html>, title, description y robots según
+ *  seo-routes) y el JSON-LD global (#org, #website). El <SEO> de cada página sobrescribe los
+ *  metadatos porque se monta después; el JSON-LD de la página se suma al global. */
+const RouteMeta = () => {
+  const { pathname } = useLocation();
+  const { t } = useTranslation();
+  const localeMeta = getLocaleMeta(getLocaleFromPath(pathname) ?? fallbackLanguage);
+
+  return (
+    <Helmet htmlAttributes={{ lang: localeMeta.htmlLang }}>
+      <title>{t('seo.defaultTitle')}</title>
+      <meta name="description" content={t('seo.defaultDescription')} />
+      <meta name="robots" content={getRobotsForPath(pathname)} />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={t('seo.defaultTitle')} />
+      <meta property="og:description" content={t('seo.defaultDescription')} />
+      <meta property="og:site_name" content={t('seo.siteName')} />
+      <meta property="og:locale" content={localeMeta.ogLocale} />
+      <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <script type="application/ld+json">{siteJsonLd}</script>
+    </Helmet>
+  );
+};
+
+/** El carrito persiste en localStorage: se rehidrata después de montar para que el primer
+ *  render del cliente coincida con el HTML prerenderizado (carrito vacío). */
+const CartRehydrate = () => {
+  useEffect(() => {
+    void useCartStore.persist.rehydrate();
+  }, []);
+
+  return null;
+};
+
+export const routeDefinitions = [
   { path: '', element: <Index /> },
   { path: 'curso/:handle', element: <CourseDetail /> },
   { path: 'cursos/:handle', element: <CourseDetail /> },
@@ -114,7 +166,8 @@ const LegacyRedirect = () => {
   return <Navigate to={`${buildLocalizedPath(location.pathname, fallbackLanguage)}${location.search}${location.hash}`} replace />;
 };
 
-
+/** Mantiene i18n alineado con el idioma de la URL al navegar entre /es, /en y /pt.
+ *  En la primera carga ya viene alineado: entry-client y entry-server cambian el idioma antes de renderizar. */
 const LocaleRouteSync = () => {
   const { locale } = useParams();
   const { i18n } = useTranslation();
@@ -134,65 +187,56 @@ const LocaleRouteSync = () => {
   return <Outlet />;
 };
 
-const App = () => {
-  const { i18n } = useTranslation();
+export const AppRoutes = () => (
+  <Routes>
+    {routeDefinitions.map((routeDefinition) => (
+      <Route
+        key={`legacy-${routeDefinition.path || 'home'}`}
+        path={routeDefinition.path || '/'}
+        element={<LegacyRedirect />}
+      />
+    ))}
+    <Route path=":locale" element={<LocaleRouteSync />}>
+      {routeDefinitions.map((routeDefinition) => (
+        <Route
+          key={`localized-${routeDefinition.path || 'home'}`}
+          index={routeDefinition.path === ''}
+          path={routeDefinition.path || undefined}
+          element={routeDefinition.element}
+        />
+      ))}
+    </Route>
+    <Route path="*" element={<NotFound />} />
+  </Routes>
+);
 
-  // showSplash: muestra el splash
-  // showApp: difiere el montado de la app pesada hasta que el splash haya terminado
-  const [showSplash, setShowSplash] = useState(true);
-  const [showApp, setShowApp] = useState(false);
+interface AppShellProps {
+  queryClient: QueryClient;
+  /** Solo en el servidor: react-helmet-async deja aquí los tags del <head>. */
+  helmetContext?: Record<string, unknown>;
+  /** Solo en el cliente: estado de react-query prerenderizado (window.__RQ__). */
+  dehydratedState?: DehydratedState;
+}
 
-  useEffect(() => {
-    document.documentElement.lang = i18n.resolvedLanguage ?? 'es';
-  }, [i18n.resolvedLanguage]);
-
-  const handleSplashDone = useCallback(() => {
-    setShowSplash(false);
-    setShowApp(true);
-  }, []);
-
-  return (
-    <HelmetProvider>
-      {showSplash && <SplashScreen onDone={handleSplashDone} />}
-      {showApp && (
-      <div className="app-reveal">
+/** Providers y rutas. Debe renderizarse dentro de un router (BrowserRouter o StaticRouter). */
+export const AppShell = ({ queryClient, helmetContext, dehydratedState }: AppShellProps) => (
+  <HelmetProvider context={helmetContext}>
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BackToTop />
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <HydrationBoundary state={dehydratedState}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BackToTop />
           <ScrollToTop />
           <MetaPixelPageView />
           <AttributionTracker />
+          <RouteMeta />
+          <CartRehydrate />
           {isCapinChatEnabled && <CapinBubble />}
           {/*<PromoPopup />*/}
-          <Routes>
-            {routeDefinitions.map((routeDefinition) => (
-              <Route
-                key={`legacy-${routeDefinition.path || 'home'}`}
-                path={routeDefinition.path || '/'}
-                element={<LegacyRedirect />}
-              />
-            ))}
-            <Route path=":locale" element={<LocaleRouteSync />}>
-              {routeDefinitions.map((routeDefinition) => (
-                <Route
-                  key={`localized-${routeDefinition.path || 'home'}`}
-                  index={routeDefinition.path === ''}
-                  path={routeDefinition.path || undefined}
-                  element={routeDefinition.element}
-                />
-              ))}
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+          <AppRoutes />
+        </TooltipProvider>
+      </HydrationBoundary>
     </QueryClientProvider>
-      </div>
-      )}
-    </HelmetProvider>
-  );
-};
-export default App;
+  </HelmetProvider>
+);

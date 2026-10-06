@@ -109,6 +109,9 @@ export const useCartStore = create<CartStore>()(
     {
       name: 'insecap-cart',
       storage: createJSONStorage(() => localStorage),
+      // Sin hidratar al crear el store: el HTML prerenderizado sale con el carrito vacío y el
+      // cliente debe hidratar igual. CartRehydrate (AppShell.tsx) llama a rehydrate() al montar.
+      skipHydration: true,
       partialize: (state) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { isDrawerOpen, ...rest } = state;

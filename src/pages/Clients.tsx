@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { clientLogos } from '@/data/clients';
@@ -79,6 +80,12 @@ const Clients = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
+      <SEO
+        title={content.title}
+        description={content.alliancesText}
+        url="/nuestros-clientes"
+      />
+
       <main>
         <PageHero 
           title={content.title}

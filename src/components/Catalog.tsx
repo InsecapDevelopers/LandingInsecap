@@ -35,7 +35,7 @@ const Catalog: React.FC = () => {
         <div className="container mx-auto px-8 md:px-14 lg:px-16">
           <div className="max-w-xl">
             {/* Título Principal */}
-            <motion.h1
+            <motion.h2
               custom={0}
               variants={slideInLeft}
               initial="hidden"
@@ -44,7 +44,7 @@ const Catalog: React.FC = () => {
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4"
             >
               {t('catalog.title')}
-            </motion.h1>
+            </motion.h2>
 
             {/* Descripción */}
             <motion.p

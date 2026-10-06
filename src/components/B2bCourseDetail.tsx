@@ -1,29 +1,37 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, Building2, Mail } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
+import SEO from '@/components/SEO';
 import { ClientTypeSwitch } from '@/components/ClientTypeSwitch';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   B2bCatalogTopic,
-  findB2bCatalogByHandle,
   formatB2bHoursLabel,
   getB2bTopicAvailabilitySummary,
   getRelatedB2bTopics,
-  loadB2bCatalogTopics,
 } from '@/lib/b2bCatalogData';
+import { b2bTopicsQuery } from '@/lib/queries';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+
+const NO_TOPICS: B2bCatalogTopic[] = [];
 
 const B2bCourseDetail = () => {
   const { handle } = useParams<{ handle: string }>();
   const { localizedPath, locale } = useLocalizedPath();
-  const [isLoadingTopic, setIsLoadingTopic] = useState(true);
-  const [topic, setTopic] = useState<B2bCatalogTopic | null>(null);
-  const [allTopics, setAllTopics] = useState<B2bCatalogTopic[]>([]);
+  // Misma consulta que el catálogo: en el build llega prerenderizada (window.__RQ__) y al
+  // navegar desde /cursos-empresas ya está en caché.
+  const { data: allTopics = NO_TOPICS, isPending } = useQuery(b2bTopicsQuery());
+  const isLoadingTopic = Boolean(handle) && isPending;
+  const topic = useMemo(
+    () => (handle ? allTopics.find((candidate) => candidate.handle === handle) ?? null : null),
+    [allTopics, handle]
+  );
 
   const content = {
     es: {
@@ -85,48 +93,6 @@ const B2bCourseDetail = () => {
     },
   }[locale];
 
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadTopic = async () => {
-      if (!handle) {
-        setTopic(null);
-        setAllTopics([]);
-        setIsLoadingTopic(false);
-        return;
-      }
-
-      try {
-        setIsLoadingTopic(true);
-        const [topics, foundTopic] = await Promise.all([
-          loadB2bCatalogTopics(),
-          findB2bCatalogByHandle(handle),
-        ]);
-
-        if (!cancelled) {
-          setAllTopics(topics);
-          setTopic(foundTopic);
-        }
-      } catch (error) {
-        console.error('Error loading B2B topic detail:', error);
-        if (!cancelled) {
-          setAllTopics([]);
-          setTopic(null);
-        }
-      } finally {
-        if (!cancelled) {
-          setIsLoadingTopic(false);
-        }
-      }
-    };
-
-    void loadTopic();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [handle]);
-
   const relatedTopics = useMemo(() => {
     if (!topic) {
       return [];
@@ -171,6 +137,12 @@ const B2bCourseDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+
+      <SEO
+        title={topic.tema}
+        description={`${topic.tema} (${topic.categoria}). ${content.summaryBody}`}
+        url={`/curso-empresa/${topic.handle}`}
+      />
 
       <main className="pb-16">
         <PageHero

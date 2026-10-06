@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
 // Importar tipos y funciones de Shopify
-import { ShopifyArticle } from '@/lib/shopify';
-import { fetchNews } from '@/lib/newsData';
+import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
+import { NEWS_SLIDER_COUNT, newsListQuery } from '@/lib/queries';
+import { stripHtml } from '@/lib/html';
 
 // Importar componentes UI
 import { Skeleton } from '@/components/ui/skeleton';
@@ -13,46 +15,19 @@ import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const NewsSlider: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const [articles, setArticles] = useState<ShopifyArticle[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { localizedPath } = useLocalizedPath();
+  // En el build llega prerenderizado (window.__RQ__); en el cliente solo se pide si no vino.
+  const { data, isPending: loading, isError } = useQuery(newsListQuery(1, NEWS_SLIDER_COUNT));
+  const articles = data?.articles ?? [];
+  const error = isError ? t('news.loadError') : null;
 
-  useEffect(() => {
-    const loadArticles = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchNews(1, 4);
-        setArticles(data.articles);
-        setError(null);
-      } catch (err) {
-        console.error('Error loading articles:', err);
-        setError(t('news.loadError'));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadArticles();
-  }, []);
-
-  // Función para formatear la fecha usando el idioma activo
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString(i18n.language, { day: 'numeric', month: 'long', year: 'numeric' });
-  };
+  // Fecha en el idioma activo, igual en el servidor y en el cliente
+  const formatDate = (dateString: string): string => formatArticleDate(dateString, i18n.language);
 
   // Función para truncar texto
   const truncateText = (text: string, maxLength: number): string => {
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength).trim() + '...';
-  };
-
-  // Función para extraer texto plano del HTML
-  const stripHtml = (html: string): string => {
-    const tmp = document.createElement('DIV');
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
   };
 
   // Loading state

@@ -42,13 +42,18 @@ ENV VITE_TMS_API_URL=$VITE_TMS_API_URL \
     VITE_URL_APPSTORE=$VITE_URL_APPSTORE \
     VITE_URL_PLAYSTORE=$VITE_URL_PLAYSTORE
 
-RUN npm run build
+# BUILD_ID cambia en cada ejecución de CI (github.run_id): invalida la caché de la
+# capa del build para que el cron diario vuelva a pedir noticias y cursos B2B a sus
+# APIs en vez de reutilizar el dist/ de una ejecución anterior (cache type=gha).
+ARG BUILD_ID=local
+RUN echo "BUILD_ID=${BUILD_ID}" && npm run build
 
 # ---------- Stage 2: serve ----------
 FROM nginx:1.27-alpine AS runtime
 
-# SPA-friendly nginx config
+# nginx: 404 real, 301 a /es, shell noindex y cabeceras (Tarea #8, decisión 1.2)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY snippets/security-headers.conf /etc/nginx/snippets/security-headers.conf
 
 # Static assets
 COPY --from=build /app/dist /usr/share/nginx/html
@@ -56,6 +61,6 @@ COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD wget -qO- http://127.0.0.1/ >/dev/null 2>&1 || exit 1
+  CMD wget -qO- http://127.0.0.1/healthz >/dev/null 2>&1 || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]

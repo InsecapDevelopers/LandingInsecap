@@ -1,5 +1,8 @@
 /// <reference types="vite/client" />
 
+/** Fecha del build (AAAA-MM-DD, hora de Chile). Solo existe en `vite build` (vite.config.ts). */
+declare const __BUILD_DATE__: string | undefined;
+
 declare global {
   interface Window {
     dataLayer: Record<string, unknown>[];

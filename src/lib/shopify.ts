@@ -974,11 +974,22 @@ export async function fetchArticleByHandle(blogHandle: string, articleHandle: st
 }
 
 // Format date for articles
-export function formatArticleDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('es-CL', {
+/**
+ * Fecha de una noticia, igual en el prerender y en el navegador (sin depender de la zona
+ * horaria del equipo, que rompería la hidratación). `publicadoEn` llega sin zona horaria:
+ * se muestra tal cual viene (TODO: confirmar con TMS Plus que es hora de Chile).
+ * Si trae desfase, se muestra en America/Santiago.
+ */
+export function formatArticleDate(dateString: string, locale: string = 'es-CL'): string {
+  const value = dateString.replace(/(\.\d{3})\d+/, '$1');
+  const isNaiveDateTime = /T\d{2}:\d{2}(:\d{2}(\.\d+)?)?$/.test(value);
+  const hasOffset = /(Z|[+-]\d{2}:?\d{2})$/i.test(value);
+
+  return new Date(isNaiveDateTime ? `${value}Z` : value).toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: hasOffset ? 'America/Santiago' : 'UTC',
   });
 }
 

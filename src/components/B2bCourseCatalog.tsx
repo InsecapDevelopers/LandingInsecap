@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { Building2, ImageIcon, Search, SlidersHorizontal } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
+import SEO from '@/components/SEO';
 import { ClientTypeSwitch } from '@/components/ClientTypeSwitch';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -11,12 +13,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import {
   B2bCatalogTopic,
   getB2bCatalogCategoriesFromTopics,
-  loadB2bCatalogTopics,
   semanticSearchB2bTopics,
 } from '@/lib/b2bCatalogData';
+import { b2bTopicsQuery } from '@/lib/queries';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const TOPICS_PER_PAGE = 12;
+const NO_TOPICS: B2bCatalogTopic[] = [];
 
 const B2bCourseCard = ({ topic }: { topic: B2bCatalogTopic }) => {
   const { localizedPath } = useLocalizedPath();
@@ -66,8 +69,8 @@ const B2bCourseCatalog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoadingTopics, setIsLoadingTopics] = useState(true);
-  const [allTopics, setAllTopics] = useState<B2bCatalogTopic[]>([]);
+  // En el build llega prerenderizado (window.__RQ__). Si Shopify falla, se muestra noData.
+  const { data: allTopics = NO_TOPICS, isPending: isLoadingTopics } = useQuery(b2bTopicsQuery());
 
   const content = {
     es: {
@@ -120,35 +123,6 @@ const B2bCourseCatalog = () => {
     },
   }[locale];
 
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadTopics = async () => {
-      try {
-        setIsLoadingTopics(true);
-        const topics = await loadB2bCatalogTopics();
-        if (!cancelled) {
-          setAllTopics(topics);
-        }
-      } catch (error) {
-        console.error('Error loading B2B catalog topics:', error);
-        if (!cancelled) {
-          setAllTopics([]);
-        }
-      } finally {
-        if (!cancelled) {
-          setIsLoadingTopics(false);
-        }
-      }
-    };
-
-    void loadTopics();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   const categories = useMemo(() => getB2bCatalogCategoriesFromTopics(allTopics), [allTopics]);
 
   const filteredByCategory = useMemo(() => {
@@ -176,6 +150,8 @@ const B2bCourseCatalog = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+
+      <SEO title={content.title} description={content.intro} url="/cursos-empresas" />
 
       <main className="pb-16">
         <PageHero

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
@@ -860,6 +861,12 @@ const BeRelator = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <SEO
+        title={content.title}
+        description={content.paragraph1}
+        url="/relator-trabaja-con-nosotros"
+      />
 
       <main>
         <PageHero

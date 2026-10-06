@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { Mail, Phone, MapPin, Send, ExternalLink } from 'lucide-react';
@@ -71,6 +72,11 @@ const Contact = () => {
     <div className="min-h-screen bg-white">
       <Header />
       
+      <SEO
+        title={content.title}
+        url="/contacto"
+      />
+
       <main>
         <PageHero 
           title={content.title}

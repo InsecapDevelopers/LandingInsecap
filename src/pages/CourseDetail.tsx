@@ -278,9 +278,10 @@ const LegacyCourseDetail = () => {
                   </Badge>
                 </div>
 
-                <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+                {/* h2: el H1 de la página es el de PageHero. */}
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                   {product.title}
-                </h1>
+                </h2>
 
                 <p className="text-muted-foreground">
                   {content.by} <span className="text-insecap-cyan font-medium">{product.vendor}</span>

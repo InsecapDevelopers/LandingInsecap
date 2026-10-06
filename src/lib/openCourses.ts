@@ -211,8 +211,16 @@ export const OPEN_COURSES: OpenCourse[] = [
   },
 ];
 
-/** Compara contra el día de hoy a medianoche: una fecha de hoy sigue siendo vigente. */
+/**
+ * Compara contra el día de hoy a medianoche: una fecha de hoy sigue siendo vigente.
+ * En el build "hoy" es la fecha del build (__BUILD_DATE__, vite.config.ts), igual en el
+ * prerender y en el navegador: así la hidratación no cambia la lista. El cron diario del deploy
+ * la renueva. En dev (y en openCourses.check.ts) no existe y se usa el reloj.
+ */
 const startOfToday = () => {
+  if (typeof __BUILD_DATE__ === 'string') {
+    return new Date(`${__BUILD_DATE__}T00:00:00`);
+  }
   const d = new Date();
   d.setHours(0, 0, 0, 0);
   return d;

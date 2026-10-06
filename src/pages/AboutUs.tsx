@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Users, Monitor, Video, MapPin, CheckCircle2 } from 'lucide-react';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import MeetUs from '@/components/MeetUs';
 import OurLocations from '@/components/OurLocations';
@@ -277,6 +278,12 @@ const AboutUs = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+
+      <SEO
+        title={content.breadcrumb}
+        description={content.whatText}
+        url="/nosotros"
+      />
 
       <main>
         <PageHero

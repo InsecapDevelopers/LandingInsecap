@@ -8,9 +8,14 @@ const PAGE_HERO_IMAGES = [
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2026-03-05_at_10.58.32.jpg?v=1772742131',
 ];
 
-const pickRandom = (exclude?: string) => {
-  const options = PAGE_HERO_IMAGES.filter((img) => img !== exclude);
-  return options[Math.floor(Math.random() * options.length)];
+/** Imagen fija por ruta (hash del pathname): el HTML prerenderizado y la hidratación eligen la
+ *  misma, y cada página conserva su fondo entre visitas. */
+const pickForPath = (pathname: string) => {
+  let hash = 0;
+  for (let i = 0; i < pathname.length; i++) {
+    hash = (hash * 31 + pathname.charCodeAt(i)) >>> 0;
+  }
+  return PAGE_HERO_IMAGES[hash % PAGE_HERO_IMAGES.length];
 };
 
 interface BreadcrumbItem {
@@ -35,7 +40,7 @@ const PageHero = ({
 }: PageHeroProps) => {
   const location = useLocation();
   const { localizedPath } = useLocalizedPath();
-  const [activeBg, setActiveBg] = useState(backgroundImage ?? pickRandom());
+  const [activeBg, setActiveBg] = useState(backgroundImage ?? pickForPath(location.pathname));
   const [visible, setVisible] = useState(true);
   const isFirstRender = useRef(true);
 
@@ -55,7 +60,7 @@ const PageHero = ({
     // fade out → swap → fade in
     setVisible(false);
     const swap = setTimeout(() => {
-      setActiveBg((prev) => pickRandom(prev));
+      setActiveBg(pickForPath(location.pathname));
       setVisible(true);
     }, 300);
     return () => clearTimeout(swap);

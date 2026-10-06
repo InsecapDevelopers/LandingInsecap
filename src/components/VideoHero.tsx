@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown, MapPin } from 'lucide-react';
 import type { CSSProperties } from 'react';
 import { DiaTextReveal } from '@/components/ui/dia-text-reveal';
 import { isOpenCourseOfferEnabled } from '@/lib/featureFlags';
 import { useTranslation } from 'react-i18next';
+import { useReducedMotion } from '@/hooks/use-reduced-motion';
 
 // ponytail: pega aquí la URL del .mp4 (Shopify CDN o /public). Vacío => solo poster.
 const VIDEO_SRC = 'https://cdn.shopify.com/videos/c/o/v/24efdc373f8f4f5c8ebebbce1ecdb1e7.mp4';
@@ -87,8 +88,10 @@ const VideoHero = () => {
         style={{ y: reduceMotion ? 0 : contentY, opacity: reduceMotion ? 1 : contentOpacity }}
         className="relative z-10 container mx-auto px-8 text-center pb-24"
       >
+        {/* initial={false}: el H1 y la píldora están sobre el pliegue y deben verse en el HTML
+            prerenderizado (LCP y bots sin JS), no aparecer con opacity 0 hasta hidratar. */}
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
           className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
@@ -123,7 +126,7 @@ const VideoHero = () => {
 
         {/* Pill "A lo largo de todo Chile" bajo el título */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.25, ease: 'easeOut' }}
           className="mt-8 flex justify-center"

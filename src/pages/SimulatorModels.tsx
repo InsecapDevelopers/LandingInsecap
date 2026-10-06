@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, MapPin, ShieldCheck, Truck } from 'lucide-react';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { Button } from '@/components/ui/button';
@@ -424,6 +425,12 @@ const SimulatorModels = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+
+      <SEO
+        title={content.title}
+        description={content.storeDescription}
+        url="/simuladores/modelos"
+      />
 
       <main className="pb-16">
         <PageHero

@@ -1,6 +1,38 @@
 <!doctype html>
 <html lang="es-CL">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Splash de marca: solo en la primera visita, fuera de React y sin bloquear el HTML prerenderizado.
+         No se muestra a bots, navegadores automatizados, reduced-motion ni Save-Data; dura como máximo 1,2 s.
+         Si cambia este script, recalcular su hash para el CSP (Fase 7). -->
+    <style>
+      #splash{display:none}
+      html.splash-on #splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;background:#485CC7;color:#fff;opacity:1;transition:opacity .3s ease}
+      html.splash-out #splash{opacity:0}
+      #splash svg{width:min(18rem,70vw);height:auto}
+      #splash p{margin:0;font:500 .875rem/1 Montserrat,system-ui,sans-serif;letter-spacing:.42em;text-transform:uppercase;opacity:.85}
+    </style>
+    <script>
+      (function(){try{
+        var d=document.documentElement,n=navigator,k='insecap-splash-v1';
+        if(localStorage.getItem(k)||n.webdriver||/bot|crawl|spider|slurp|lighthouse|pagespeed|headless|preview|gptbot|claudebot|perplexity|inspectiontool/i.test(n.userAgent)||matchMedia('(prefers-reduced-motion: reduce)').matches||(n.connection&&n.connection.saveData))return;
+        localStorage.setItem(k,'1');
+        d.classList.add('splash-on');
+        setTimeout(function(){d.classList.add('splash-out')},900);
+        setTimeout(function(){d.classList.remove('splash-on','splash-out')},1200);
+      }catch(e){}})();
+    </script>
+
+    <!-- title, description, robots, canonical, og y JSON-LD de cada ruta: los inyecta scripts/prerender.mjs
+         (react-helmet-async). En dev y en _shell.html los pone el cliente. -->
+    <!--app-head-->
+
+    <meta name="author" content="INSECAP" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#0077B6" />
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -34,39 +66,7 @@
     </script>
     <!-- End Meta Pixel Code -->
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Primary Meta Tags (will be overridden by react-helmet-async in pages) -->
-    <title>INSECAP - Organismo Técnico de Capacitación</title>
-    <meta name="title" content="INSECAP - Organismo Técnico de Capacitación" />
-    <meta name="description" content="INSECAP es un Organismo Técnico de Capacitación (OTEC) certificado, especializado en formación profesional y desarrollo de competencias laborales en Chile." />
-    <meta name="keywords" content="INSECAP, OTEC, capacitación, formación profesional, desarrollo laboral, cursos, Chile, capacitación empresarial, seguridad laboral" />
-    <meta name="author" content="INSECAP" />
-    <meta name="language" content="Spanish" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="INSECAP - Organismo Técnico de Capacitación" />
-    <meta property="og:description" content="INSECAP es un Organismo Técnico de Capacitación (OTEC) certificado, especializado en formación profesional y desarrollo de competencias laborales en Chile." />
-    <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png" />
-    <meta property="og:image:alt" content="Logo INSECAP" />
-    <meta property="og:site_name" content="INSECAP - Capacitaciones" />
-    <meta property="og:locale" content="es_CL" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="INSECAP - Organismo Técnico de Capacitación" />
-    <meta name="twitter:description" content="INSECAP es un Organismo Técnico de Capacitación (OTEC) certificado, especializado en formación profesional y desarrollo de competencias laborales en Chile." />
-    <meta name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/gakLUeb1NqeODjO4gfzigCGfMjb2/social-images/social-1767794256256-Insecap_ISOTIPO-08.png" />
-    <meta name="twitter:image:alt" content="Logo INSECAP" />
-
-    <!-- Additional Meta Tags -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="theme-color" content="#0077B6" />
-    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/isotipos/Insecap_Logo-09.png" />
@@ -86,7 +86,12 @@
     src="https://www.facebook.com/tr?id=3241702786017146&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="splash" aria-hidden="true">
+      <!-- TODO: reemplazar el texto por el logo SVG oficial de INSECAP (decisiones tarea #8, sección 4, punto 10). -->
+      <svg viewBox="0 0 320 60" xmlns="http://www.w3.org/2000/svg"><text x="160" y="45" text-anchor="middle" font-family="Montserrat,system-ui,sans-serif" font-weight="700" font-size="44" letter-spacing="8" fill="#fff">INSECAP</text></svg>
+      <p><!--splash-tagline--></p>
+    </div>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/entry-client.tsx"></script>
   </body>
 </html>

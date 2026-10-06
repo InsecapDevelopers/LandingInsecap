@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs && node scripts/check-dist.mjs",
     "build:dev": "vite build --mode development",
     "catalog:b2b:build": "node scripts/build-b2b-catalog.mjs",
     "lint": "eslint .",

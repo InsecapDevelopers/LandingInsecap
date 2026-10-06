@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
@@ -8,12 +9,12 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowRight, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react';
 import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
-import { fetchNews } from '@/lib/newsData';
+import { NEWS_PER_PAGE, newsListQuery } from '@/lib/queries';
 import { SITE_URL } from '@/lib/locale-routing';
 import PageHero from '@/components/PageHero';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
-const ARTICLES_PER_PAGE = 9;
+const ARTICLES_PER_PAGE = NEWS_PER_PAGE;
 
 const ArticleCard = ({ article }: { article: ShopifyArticle }) => {
   const { localizedPath } = useLocalizedPath();
@@ -86,12 +87,13 @@ const ArticleCardSkeleton = () => (
 
 const Blog = () => {
   const { localizedPath, locale } = useLocalizedPath();
-  const [allArticles, setAllArticles] = useState<ShopifyArticle[]>([]);
-  const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const gridRef = useRef<HTMLElement>(null);
+  // La página 1 llega prerenderizada (window.__RQ__); cada cambio de página es un request nuevo.
+  const { data, isPending: isLoading, isError } = useQuery(newsListQuery(currentPage, ARTICLES_PER_PAGE));
+  const allArticles = data?.articles ?? [];
+  const total = data?.total ?? 0;
+  const error = isError ? 'No se pudieron cargar las noticias. Por favor, intenta de nuevo más tarde.' : null;
 
   // El servidor ya devuelve la página pedida
   const pageArticles = allArticles;
@@ -108,24 +110,6 @@ const Blog = () => {
       title: 'Noticias e Artigos', subtitle: 'Blog e Noticias', breadcrumb: 'Noticias', intro: 'Fique por dentro das ultimas novidades da INSECAP sobre capacitacao, seguranca no trabalho e desenvolvimento profissional.', loadError: 'Erro ao carregar noticias',
     },
   }[locale];
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const { articles, total: totalNoticias } = await fetchNews(currentPage, ARTICLES_PER_PAGE);
-        setAllArticles(articles);
-        setTotal(totalNoticias);
-      } catch {
-        setError('No se pudieron cargar las noticias. Por favor, intenta de nuevo más tarde.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    load();
-    // con la API interna cada cambio de página es un request nuevo
-  }, [currentPage]);
 
   const goToPage = (page: number) => {
     setCurrentPage(page);

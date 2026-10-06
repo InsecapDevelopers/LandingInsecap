@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mail } from 'lucide-react';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import PageHero from '@/components/PageHero';
@@ -475,6 +476,12 @@ const OurTeam = () => {
   return (
     <div className="min-h-screen bg-[#f7f9ff]">
       <Header />
+
+      <SEO
+        title={content.title}
+        description={content.paragraph1}
+        url="/nuestro-equipo"
+      />
 
       <main>
         <PageHero

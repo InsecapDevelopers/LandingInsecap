@@ -1,8 +1,8 @@
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import VideoHero from '@/components/VideoHero';
 import Hero from '@/components/Hero';
 import AccreditationsStrip from '@/components/AccreditationsStrip';
-import Categories from '@/components/Categories';
 import ShopifyProducts from '@/components/ShopifyProducts';
 import Accreditations from '@/components/Accreditations';
 import ContactCTA from '@/components/ContactCTA';
@@ -10,7 +10,6 @@ import Footer from '@/components/Footer';
 import MeetUs from '@/components/MeetUs';
 import Catalog from '@/components/Catalog';
 import OurClients from '@/components/OurClients';
-import OurLocations from '@/components/OurLocations';
 import DuaSection from '@/components/DuaSection';
 import NumberTickerDemo from '@/components/Statistics';
 import NewsSlider from '@/components/NewsSlider';
@@ -24,6 +23,8 @@ import { isOpenCourseOfferEnabled, isSimulatorsEnabled } from '@/lib/featureFlag
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      {/* Title y description por defecto (seo.defaultTitle / seo.defaultDescription); canonical /<locale>. */}
+      <SEO url="/" />
       <Header />
       <main>
         <VideoHero />

@@ -1,4 +1,5 @@
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import OpenCourseRequestForm from '@/components/OpenCourseRequestForm';
@@ -37,6 +38,11 @@ const OpenCourseForm = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
+
+      <SEO
+        title={content.title}
+        url="/formulario/cursos-abiertos"
+      />
 
       <main>
         <PageHero

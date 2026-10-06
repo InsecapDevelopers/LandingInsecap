@@ -5,6 +5,13 @@ import { animate, useInView, useMotionValue, useSpring } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
+/** es-CL fijo (53.432): la misma cifra en el HTML prerenderizado y en el cliente, en todos los idiomas. */
+const formatNumber = (value: number, decimalPlaces: number) =>
+  Intl.NumberFormat("es-CL", {
+    minimumFractionDigits: decimalPlaces,
+    maximumFractionDigits: decimalPlaces,
+  }).format(Number(value.toFixed(decimalPlaces)))
+
 interface NumberTickerProps extends ComponentPropsWithoutRef<"span"> {
   value: number
   startValue?: number
@@ -70,10 +77,7 @@ export function NumberTicker({
     const source = duration ? motionValue : springValue
     return source.on("change", (latest) => {
       if (ref.current) {
-        ref.current.textContent = Intl.NumberFormat("en-US", {
-          minimumFractionDigits: decimalPlaces,
-          maximumFractionDigits: decimalPlaces,
-        }).format(Number(latest.toFixed(decimalPlaces)))
+        ref.current.textContent = formatNumber(latest, decimalPlaces)
       }
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,7 +92,8 @@ export function NumberTicker({
       )}
       {...props}
     >
-      {startValue}
+      {/* Cifra final en el HTML (bots y sin JS); la animación la reescribe al entrar en vista. */}
+      {formatNumber(direction === "down" ? startValue : value, decimalPlaces)}
     </span>
   )
 }

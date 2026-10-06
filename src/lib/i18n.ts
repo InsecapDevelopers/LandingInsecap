@@ -14,13 +14,17 @@ void i18n
     interpolation: {
       escapeValue: false,
     },
+    // La URL (/es, /en, /pt) es la única fuente del idioma; nunca Accept-Language.
+    // entry-client y entry-server llaman a changeLanguage(locale del path) antes de renderizar.
     detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
+      order: ['path', 'localStorage'],
+      lookupFromPathIndex: 0,
       caches: ['localStorage'],
     },
     react: {
       useSuspense: false,
     },
+    showSupportNotice: false,
   });
 
 export default i18n;
