@@ -15,7 +15,9 @@ RUN if [ -f package-lock.json ]; then \
       npm install --no-audit --no-fund; \
     fi
 
-# Copy source and build
+# Copy source and build. Incluye .source-lastmod.json si CI lo generó (fechas de commit para el
+# <lastmod> de los sitemaps; sin .git en la imagen, scripts/source-lastmod.mjs). Sin él, las
+# páginas estáticas salen sin <lastmod>.
 COPY . .
 
 # VITE_* build-time vars (se embeben en el bundle).

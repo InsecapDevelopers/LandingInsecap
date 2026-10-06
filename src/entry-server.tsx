@@ -37,9 +37,10 @@ import {
 import { fallbackLanguage, type AppLanguage } from "./lib/translations";
 import { cursoAreas, cursosSeo, slugify } from "./data/cursos-seo";
 import { sedes } from "./data/sedes";
-import { mergeJsonLdScripts } from "./lib/jsonld";
+import { mergeJsonLdScripts, toSantiagoIso } from "./lib/jsonld";
+import { buildCrawlerFiles as buildCrawlerFilesFrom, listPageSourceFiles, type CrawlerPage } from "./lib/crawler-files";
 
-export { createQueryClient, seoLocales, seoRoutes, isSeoRouteIndexable, buildSeoRouteUrl, isDynamicSeoRoute };
+export { createQueryClient, seoLocales, seoRoutes, isSeoRouteIndexable, buildSeoRouteUrl, isDynamicSeoRoute, listPageSourceFiles };
 
 export interface RenderResult {
   html: string;
@@ -182,6 +183,38 @@ export async function prefetchRoute(url: string, queryClient: QueryClient): Prom
   if (article) {
     await prefetchShared(queryClient, newsArticleQuery(article.params.slug ?? ""));
   }
+}
+
+/**
+ * Fecha real del dato de una URL para el lastmod del sitemap (Fase 5): en una noticia, su
+ * `actualizadoEn` o `publicadoEn`; en la home y en /noticias (que muestran las últimas), la
+ * noticia más reciente. Lee la caché del build (las noticias ya se pidieron para el prerender).
+ */
+const newsLastmod = (url: string): string | null => {
+  const path = stripLocaleFromPath(url);
+  const articleDate = (slug: string) => {
+    const article = buildCache.getQueryData(newsArticleQuery(slug).queryKey);
+    return article ? toSantiagoIso(article.updatedAt ?? article.publishedAt) : null;
+  };
+
+  const article = matchPath({ path: "/noticias/:slug", end: true }, path);
+  if (article) return articleDate(article.params.slug ?? "");
+
+  if (path === "/" || path === "/noticias") {
+    const all = buildCache.getQueryData(newsAllQuery().queryKey) ?? [];
+    return all
+      .map((item) => articleDate(item.handle) ?? toSantiagoIso(item.publishedAt))
+      .reduce<string | null>((best, date) => (best === null || Date.parse(date) > Date.parse(best) ? date : best), null);
+  }
+  return null;
+};
+
+/**
+ * robots.txt, sitemaps, llms.txt y llms-full.txt (Fase 5, src/lib/crawler-files.ts) a partir de las
+ * páginas ya renderizadas. `sourceLastmod` lo entrega prerender.mjs (git log de cada archivo fuente).
+ */
+export function buildCrawlerFiles(pages: CrawlerPage[], sourceLastmod: (file: string) => string | null) {
+  return buildCrawlerFilesFrom(pages, { sourceLastmod, dataLastmod: newsLastmod });
 }
 
 export function getSplashTagline(locale: AppLanguage): string {

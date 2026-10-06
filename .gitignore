@@ -10,6 +10,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+# Fechas de commit de los archivos fuente para el lastmod de los sitemaps (CI → Docker; scripts/source-lastmod.mjs)
+.source-lastmod.json
 *.local
 
 # Editor directories and files

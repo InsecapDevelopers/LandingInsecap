@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Aceptación de las Fases 1, 2, 3 y 4 (Tarea #8): lo que ven los bots en el HTML inicial,
-# sin ejecutar JS, más las reglas de nginx (404 real, 301 con query, caché, cabeceras)
-# y las URLs en español con los 301 de las URLs antiguas en un solo salto.
+# Aceptación de las Fases 1 a 5 (Tarea #8): lo que ven los bots en el HTML inicial,
+# sin ejecutar JS, más las reglas de nginx (404 real, 301 con query, caché, cabeceras),
+# las URLs en español con los 301 de las URLs antiguas en un solo salto, y robots.txt,
+# sitemaps y llms.txt (cada <loc> del sitemap responde 200 contra $B).
 #
 # Uso:
 #   scripts/check-bots.sh                      # contra el contenedor local (B=http://localhost:8080)
@@ -278,6 +279,59 @@ n=$(curl -s "$B/es/cursos/trabajo-en-altura" | count '"courseWorkload":"PT[0-9]*
 check "/es/cursos/trabajo-en-altura courseWorkload ISO 8601 ($n)" test "$n" -ge 1
 n=$(curl -s "$B/es/cursos/trabajo-en-altura" | count '"offers"')
 check "/es/cursos/trabajo-en-altura sin offers ($n)" test "$n" -eq 0
+
+# 11d. Fase 5, archivos para crawlers y agentes: robots.txt (Allow a todos + bots de IA, sin
+# bloquear /), sitemaps como application/xml con lastmod, llms.txt/llms-full.txt como text/plain
+# con H1, ai-catalog.json 404 real. Cada <loc> de los sitemaps y cada enlace de llms.txt responde
+# 200 contra $B (las URLs absolutas https://insecap.cl se prueban en $B).
+SITE=https://insecap.cl
+AI_BOTS="OAI-SearchBot ChatGPT-User GPTBot ClaudeBot Claude-SearchBot Claude-User PerplexityBot Perplexity-User Google-Extended Applebot-Extended Bingbot"
+c=$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$B/robots.txt")
+check "/robots.txt → $c" test "$c" = "200 text/plain; charset=utf-8"
+robots=$(curl -s "$B/robots.txt" | tr -d '\r')
+n=$(grep -c 'GPTBot\|ClaudeBot\|PerplexityBot\|Sitemap:' <<<"$robots"); check "/robots.txt GPTBot|ClaudeBot|PerplexityBot|Sitemap: ($n >= 4)" test "$n" -ge 4
+for bot in $AI_BOTS; do
+  check "/robots.txt User-agent: $bot" grep -qx "User-agent: $bot" <<<"$robots"
+done
+check "/robots.txt User-agent: * + Disallow: /api/" grep -qx 'Disallow: /api/' <<<"$robots"
+check "/robots.txt Sitemap: $SITE/sitemap-index.xml" grep -qx "Sitemap: $SITE/sitemap-index.xml" <<<"$robots"
+n=$(grep -cix 'Disallow: */' <<<"$robots"); check "/robots.txt sin Disallow: / ($n)" test "$n" -eq 0
+for f in sitemap-index.xml sitemap-es.xml sitemap-intl.xml; do
+  c=$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$B/$f")
+  check "/$f → $c" test "${c%%;*}" = "200 application/xml"
+done
+for f in llms.txt llms-full.txt; do
+  c=$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$B/$f")
+  first=$(curl -s "$B/$f" | head -1)
+  check "/$f → $c, H1 \"${first:0:50}\"" test "$c" = "200 text/plain; charset=utf-8" -a "${first:0:2}" = "# "
+done
+c=$(status "$B/.well-known/ai-catalog.json"); check "/.well-known/ai-catalog.json → 404 ($c)" test "$c" = 404
+for ua in $AI_BOTS; do
+  c=$(status -A "$ua" "$B/es"); check "$ua /es → $c" test "$c" = 200
+done
+sitemaps=$(curl -s "$B/sitemap-index.xml" | grep -o '<loc>[^<]*' | cut -c6-)
+n=$(wc -w <<<"$sitemaps" | tr -d ' '); check "sitemap-index.xml lista $n sitemaps (2)" test "$n" -eq 2
+locs=""
+for sm in $sitemaps; do
+  xml=$(curl -s "${sm/#$SITE/$B}")
+  locs="$locs $(grep -o '<loc>[^<]*' <<<"$xml" | cut -c6-)"
+  urls=$(count '<url>' <<<"$xml"); lastmods=$(count '<lastmod>' <<<"$xml")
+  check "${sm#"$SITE"}: $urls <url>, $lastmods <lastmod>" test "$urls" -gt 0 -a "$urls" -eq "$lastmods"
+done
+total=0; bad=0
+for u in $locs; do
+  total=$((total + 1))
+  c=$(status -A GPTBot "${u/#$SITE/$B}")
+  [ "$c" = 200 ] || { bad=$((bad + 1)); echo "      $c $u"; }
+done
+check "<loc> de los sitemaps que no responden 200: $bad de $total" test "$total" -gt 0 -a "$bad" -eq 0
+bad=0; total=0
+for u in $(curl -s "$B/llms.txt" | grep -o "]($SITE/[^)]*)" | sed 's/^](//; s/)$//'); do
+  total=$((total + 1))
+  c=$(status -A ClaudeBot "${u/#$SITE/$B}")
+  [ "$c" = 200 ] || { bad=$((bad + 1)); echo "      $c $u"; }
+done
+check "enlaces de llms.txt que no responden 200: $bad de $total" test "$total" -gt 0 -a "$bad" -eq 0
 
 # 12. Consola del navegador sin warnings de hidratación en /es, /en y /pt.
 if [ "$HYDRATION" = skip ]; then

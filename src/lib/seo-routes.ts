@@ -1,9 +1,9 @@
 /**
  * Tabla única de rutas públicas por idioma (decisiones tarea #8, sección 1.3).
  *
- * De aquí salen el `robots` de cada página, la lista de rutas a prerenderizar y, en fases
- * siguientes, el hreflang, el sitemap y llms.txt. Una ruta nueva se agrega aquí y en
- * `routeDefinitions` (AppShell.tsx).
+ * De aquí salen el `robots` de cada página, la lista de rutas a prerenderizar, el hreflang, los
+ * sitemaps y llms.txt (src/lib/crawler-files.ts). Una ruta nueva se agrega aquí, en
+ * `routeDefinitions` (AppShell.tsx) y, si se indexa, en PAGE_SOURCES (crawler-files.ts).
  *
  * - institucional: contenido traducido; se indexa en los idiomas con `translated` en true.
  * - datos: cursos, fichas, noticias… Hoy solo existen en español: en /en y /pt se

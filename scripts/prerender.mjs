@@ -21,6 +21,12 @@
  *   dist/_report/urls.csv           URL, robots, title, description y H1 de cada página (entregable
  *                                   de la Fase 3 para revisar metadatos). No se publica: el
  *                                   Dockerfile lo borra.
+ *   dist/robots.txt                 Fase 5 (src/lib/crawler-files.ts): Allow a todos + bloque para
+ *   dist/sitemap-index.xml          bots de IA; sitemaps con las URLs indexables (canonical 200,
+ *   dist/sitemap-es.xml             hreflang y lastmod real); llms.txt y llms-full.txt desde el
+ *   dist/sitemap-intl.xml           mismo HTML renderizado. El lastmod de las páginas estáticas
+ *   dist/llms.txt                   sale del último commit de sus archivos fuente
+ *   dist/llms-full.txt              (scripts/source-lastmod.mjs: git o .source-lastmod.json).
  *
  * Datos: las rutas dinámicas (noticias y fichas B2B) salen de `listDynamicPaths` y cada página
  * precarga sus datos con `prefetchRoute` (mismas queryFn que el cliente, src/lib/queries.ts).
@@ -36,6 +42,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+
+import { loadSourceLastmods } from './source-lastmod.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
@@ -158,11 +166,14 @@ try {
 }
 
 const report = [];
+/** HTML de cada página para los archivos de crawlers (Fase 5). */
+const rendered = [];
 for (const { url, locale } of urls) {
   try {
     const page = await renderUrl(url, locale);
     writeFile(path.join(url.slice(1), 'index.html'), page);
     report.push(reportRow(url, page));
+    rendered.push({ url, html: page });
   } catch (error) {
     failures.push(error);
   }
@@ -176,6 +187,29 @@ writeFile(
     .sort((a, b) => a.url.localeCompare(b.url))
     .map((row) => REPORT_COLUMNS.map((column) => csvCell(row[column])).join(','))].join('\n')}\n`,
 );
+
+// Archivos para crawlers y agentes (Fase 5): robots.txt, sitemaps, llms.txt y llms-full.txt.
+// Lanza (y el build falla) si una página contradice a seo-routes.ts o si falta PAGE_SOURCES.
+let crawlerSummary = '';
+try {
+  const missingSources = ssr.listPageSourceFiles().filter((file) => !fs.existsSync(path.join(ROOT, file)));
+  if (missingSources.length > 0) {
+    throw new Error(`PAGE_SOURCES (src/lib/crawler-files.ts) con archivos que no existen: ${missingSources.join(', ')}`);
+  }
+  const { dates, origin } = loadSourceLastmods();
+  if (!origin) {
+    console.warn('[prerender] Sin git con historia ni .source-lastmod.json: las páginas estáticas salen sin <lastmod>.');
+  }
+  const crawler = ssr.buildCrawlerFiles(rendered, (file) => dates[file] ?? null);
+  for (const [name, content] of Object.entries(crawler.files)) writeFile(name, content);
+  if (crawler.withoutLastmod.length > 0) {
+    console.warn(`[prerender] ${crawler.withoutLastmod.length} URL(s) del sitemap sin <lastmod>: ${crawler.withoutLastmod.slice(0, 5).join(', ')}${crawler.withoutLastmod.length > 5 ? '…' : ''}`);
+  }
+  crawlerSummary = ` + robots.txt, sitemaps (${crawler.urls} URLs, lastmod de ${origin ?? 'ninguna fuente'}), llms.txt y llms-full.txt`;
+} catch (error) {
+  failures.push(new Error(`archivos para crawlers: ${(error && error.message) || error}`));
+}
+rendered.length = 0;
 
 // 404 real: cualquier ruta que no existe cae en <NotFound /> con robots noindex.
 try {
@@ -212,4 +246,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`[prerender] ${urls.length} páginas + 404.html + _shell.html + redirects.map (${redirectsCount} reglas) + _report/urls.csv en ${((Date.now() - started) / 1000).toFixed(1)} s`);
+console.log(`[prerender] ${urls.length} páginas + 404.html + _shell.html + redirects.map (${redirectsCount} reglas) + _report/urls.csv${crawlerSummary} en ${((Date.now() - started) / 1000).toFixed(1)} s`);

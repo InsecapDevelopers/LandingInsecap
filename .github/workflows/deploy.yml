@@ -31,14 +31,22 @@ jobs:
     outputs:
       image: ${{ steps.meta.outputs.tags }}
     steps:
+      # Historia completa: el lastmod de los sitemaps sale del último commit de cada archivo fuente.
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # Node 22: scripts/check-hydration.mjs usa el WebSocket global.
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      # El build de Docker no tiene .git: las fechas de commit viajan en .source-lastmod.json
+      # (scripts/source-lastmod.mjs) y prerender.mjs las usa como <lastmod> (Fase 5).
+      - name: Source lastmod (sitemaps)
+        run: node scripts/source-lastmod.mjs --write
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3

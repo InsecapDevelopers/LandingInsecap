@@ -47,6 +47,16 @@
  *     (headline, author, fechas con desfase horario), sede (PostalAddress, telephone, parentOrganization)
  *   - por ruta: Course en fichas, #place en sedes, FAQPage en preguntas-frecuentes, NewsArticle en
  *     noticias y BreadcrumbList en toda página con breadcrumb visible
+ * Archivos para crawlers y agentes (Fase 5, src/lib/crawler-files.ts):
+ *   - robots.txt con `User-agent: *` + Allow /, Disallow /api/, un bloque con los bots de IA y la
+ *     línea Sitemap; nunca `Disallow: /`
+ *   - sitemap-index.xml lista sitemap-es.xml (/es) y sitemap-intl.xml (/en y /pt)
+ *   - cada <loc> existe en dist/ y es indexable (robots index + canonical a sí misma), sin
+ *     duplicados, con <lastmod> W3C no futuro y el mismo hreflang que la página; y toda página
+ *     indexable está en algún sitemap
+ *   - llms.txt con H1, blockquote y las secciones Cursos/Sedes/Información/Optional; cada enlace
+ *     a insecap.cl es una página indexable del build. llms-full.txt con H1 y solo URLs indexables
+ *   - sin .well-known/ai-catalog.json (debe dar 404)
  * Redirecciones (dist/redirects.map, Fase 2):
  *   - cada línea es `"origen" "destino";` (exacta) o `"~^…" "destino";` (regex)
  *   - sin cadenas: ningún destino es a su vez un origen
@@ -485,6 +495,117 @@ for (const file of htmlFiles) {
 }
 for (const [urlPath, message] of badLinks) fail('enlace interno', `${urlPath}: ${message}`);
 
+// ---------- Archivos para crawlers y agentes (Fase 5) ----------
+
+/** Mismos bots que AI_BOTS de src/lib/crawler-files.ts. */
+const AI_BOTS = ['OAI-SearchBot', 'ChatGPT-User', 'GPTBot', 'ClaudeBot', 'Claude-SearchBot', 'Claude-User',
+  'PerplexityBot', 'Perplexity-User', 'Google-Extended', 'Applebot-Extended', 'Bingbot'];
+const SITEMAP_INDEX = 'sitemap-index.xml';
+/** Sitemap → idiomas que puede contener. */
+const SITEMAPS = { 'sitemap-es.xml': /^\/es(\/|$)/, 'sitemap-intl.xml': /^\/(en|pt)(\/|$)/ };
+const W3C_DATETIME = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+)?)?([+-]\d{2}:\d{2}|Z))?$/;
+const LLMS_SECTIONS = ['Cursos', 'Sedes', 'Información', 'Optional'];
+/** Páginas que llms-full.txt debe traer (las fichas indexables se revisan aparte). */
+const LLMS_FULL_REQUIRED = ['/es', '/es/nosotros', '/es/acreditaciones', '/es/preguntas-frecuentes', '/es/sedes/calama'];
+
+const readDist = (name) => {
+  const file = path.join(DIST, name);
+  if (!fs.existsSync(file)) {
+    fail(name, 'no existe (lo genera scripts/prerender.mjs)');
+    return null;
+  }
+  return fs.readFileSync(file, 'utf8');
+};
+
+if (!ONLY_REDIRECTS) {
+  const robotsTxt = readDist('robots.txt');
+  if (robotsTxt) {
+    const lines = robotsTxt.split('\n').map((line) => line.trim());
+    for (const required of ['User-agent: *', 'Allow: /', 'Disallow: /api/', `Sitemap: ${SITE_URL}/${SITEMAP_INDEX}`]) {
+      if (!lines.includes(required)) fail('robots.txt', `falta "${required}"`);
+    }
+    for (const bot of AI_BOTS) if (!lines.includes(`User-agent: ${bot}`)) fail('robots.txt', `falta el bloque de ${bot}`);
+    if (lines.some((line) => /^Disallow:\s*\/\s*$/i.test(line))) fail('robots.txt', 'tiene "Disallow: /"');
+  }
+
+  const sitemapIndex = readDist(SITEMAP_INDEX);
+  if (sitemapIndex) {
+    const listed = [...sitemapIndex.matchAll(/<loc>([^<]*)<\/loc>/g)].map(([, loc]) => loc);
+    for (const name of Object.keys(SITEMAPS)) {
+      if (!listed.includes(`${SITE_URL}/${name}`)) fail(SITEMAP_INDEX, `no lista ${SITE_URL}/${name}`);
+    }
+  }
+
+  const inSitemap = new Set();
+  const tomorrow = Date.now() + 24 * 60 * 60 * 1000;
+  for (const [name, localePattern] of Object.entries(SITEMAPS)) {
+    const xml = readDist(name);
+    if (!xml) continue;
+    for (const [, block] of xml.matchAll(/<url>([\s\S]*?)<\/url>/g)) {
+      const loc = (block.match(/<loc>([^<]*)<\/loc>/) || [])[1] ?? '';
+      const urlPath = loc.startsWith(`${SITE_URL}/`) ? loc.slice(SITE_URL.length) : '';
+      if (!localePattern.test(urlPath)) {
+        fail(name, `<loc> que no corresponde a este sitemap: ${loc}`);
+        continue;
+      }
+      if (inSitemap.has(loc)) fail(name, `<loc> duplicada: ${loc}`);
+      inSitemap.add(loc);
+      if (!pageExists(urlPath)) {
+        fail(name, `${loc} no está en dist/ (no respondería 200)`);
+        continue;
+      }
+      const page = indexablePages.get(loc);
+      if (!page) {
+        fail(name, `${loc} no es indexable (noindex o canonical a otra URL)`);
+        continue;
+      }
+      const lastmod = (block.match(/<lastmod>([^<]*)<\/lastmod>/) || [])[1];
+      if (lastmod !== undefined && (!W3C_DATETIME.test(lastmod) || Date.parse(lastmod) > tomorrow)) {
+        fail(name, `${loc} con <lastmod> inválido o en el futuro: ${lastmod}`);
+      }
+      const key = (alternates) => alternates.map(({ hreflang, href }) => `${hreflang} ${href}`).sort().join(' | ');
+      const sitemapAlternates = findTags(block, /<xhtml:link\b[^>]*>/gi).map((link) => ({ hreflang: link.hreflang, href: link.href }));
+      if (key(sitemapAlternates) !== key(page.alternates)) {
+        fail(name, `${loc}: hreflang del sitemap (${key(sitemapAlternates)}) distinto al de la página (${key(page.alternates)})`);
+      }
+    }
+  }
+  for (const [selfUrl, page] of indexablePages) {
+    if (!inSitemap.has(selfUrl)) fail(page.relative, `indexable y fuera de los sitemaps (${selfUrl})`);
+  }
+
+  const llms = readDist('llms.txt');
+  if (llms) {
+    if (!/^# \S/.test(llms)) fail('llms.txt', 'no empieza con un H1 ("# …")');
+    if (!/^> \S/m.test(llms)) fail('llms.txt', 'sin blockquote de resumen ("> …")');
+    for (const section of LLMS_SECTIONS) if (!llms.includes(`\n## ${section}\n`)) fail('llms.txt', `sin la sección "## ${section}"`);
+    const links = [...llms.matchAll(/\]\((https?:\/\/[^)\s]+)\)/g)].map(([, href]) => href);
+    if (links.length === 0) fail('llms.txt', 'sin enlaces Markdown');
+    for (const href of links) {
+      if (!indexablePages.has(href)) fail('llms.txt', `${href} no es una página indexable del build`);
+    }
+    for (const line of llms.split('\n').filter((item) => item.startsWith('- ['))) {
+      if (!/^- \[[^\]]+\]\(https:\/\/insecap\.cl\/[^)]*\): \S/.test(line)) fail('llms.txt', `enlace sin descripción: ${line}`);
+    }
+  }
+
+  const llmsFull = readDist('llms-full.txt');
+  if (llmsFull) {
+    if (!/^# \S/.test(llmsFull)) fail('llms-full.txt', 'no empieza con un H1 ("# …")');
+    const urls = [...llmsFull.matchAll(/^URL: (\S+)$/gm)].map(([, url]) => url);
+    for (const url of urls) if (!indexablePages.has(url)) fail('llms-full.txt', `${url} no es una página indexable del build`);
+    for (const urlPath of LLMS_FULL_REQUIRED) {
+      if (!urls.includes(`${SITE_URL}${urlPath}`)) fail('llms-full.txt', `no trae ${urlPath}`);
+    }
+    const fichas = [...indexablePages.keys()].filter((url) => /^https:\/\/insecap\.cl\/es\/cursos\/(?!categoria\/)[^/]+$/.test(url));
+    for (const ficha of fichas) if (!urls.includes(ficha)) fail('llms-full.txt', `no trae la ficha indexable ${ficha}`);
+  }
+
+  if (fs.existsSync(path.join(DIST, '.well-known', 'ai-catalog.json'))) {
+    fail('.well-known/ai-catalog.json', 'no debe existir: sin recursos ARD reales, debe responder 404 (Fase 5)');
+  }
+}
+
 if (failures.length > 0) {
   console.error(`[check-dist] ${failures.length} falla(s) en ${pages.length} páginas:`);
   for (const message of failures) console.error(`  - ${message}`);
@@ -494,4 +615,4 @@ if (failures.length > 0) {
 const redirectsSummary = `redirects.map: ${redirects.length} entradas, ${chains} cadenas; enlaces internos sin 301`;
 console.log(ONLY_REDIRECTS
   ? `[check-dist] OK: ${redirectsSummary} (${htmlFiles.length} páginas)`
-  : `[check-dist] OK: ${pages.length} páginas, 404.html y _shell.html; ${redirectsSummary}`);
+  : `[check-dist] OK: ${pages.length} páginas, 404.html y _shell.html; ${redirectsSummary}; robots.txt, sitemaps y llms.txt`);

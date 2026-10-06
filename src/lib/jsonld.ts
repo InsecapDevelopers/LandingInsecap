@@ -41,6 +41,10 @@ const credential = (name: string, extra: JsonLdNode = {}) => ({
   ...extra,
 });
 
+/** Descripción de la organización: JSON-LD (#org) y resumen de llms.txt (crawler-files.ts). */
+export const ORG_DESCRIPTION =
+  'OTEC chilena acreditada por SENCE que capacita en seguridad, cumplimiento normativo y continuidad operacional, sobre todo para la gran minería.';
+
 const organization: JsonLdNode = {
   '@type': 'EducationalOrganization',
   '@id': ORG_ID,
@@ -51,8 +55,7 @@ const organization: JsonLdNode = {
   // TODO: confirmar el año de fundación. El contexto de negocio dice "OTEC chilena desde 2009" y
   // src/lib/insecapUtils.ts usa FOUNDING_YEAR = 1991; se publica 2009 hasta que INSECAP lo confirme.
   foundingDate: '2009',
-  description:
-    'OTEC chilena acreditada por SENCE que capacita en seguridad, cumplimiento normativo y continuidad operacional, sobre todo para la gran minería.',
+  description: ORG_DESCRIPTION,
   email: 'contacto@insecap.cl',
   telephone: '+56 55 292 6431',
   address: {
@@ -105,6 +108,9 @@ const organization: JsonLdNode = {
     'https://x.com/insecap',
   ],
 };
+
+/** Nombres de las acreditaciones de #org (resumen de llms.txt, crawler-files.ts). */
+export const ORG_CREDENTIAL_NAMES = (organization.hasCredential as Array<{ name: string }>).map((item) => item.name);
 
 const website: JsonLdNode = {
   '@type': 'WebSite',
