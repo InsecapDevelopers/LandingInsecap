@@ -37,6 +37,7 @@ import { buildLocalizedPath, isAppLanguage } from "./lib/locale-routing";
 import { fallbackLanguage } from "./lib/translations";
 import { isCapinChatEnabled, isSimulatorsEnabled } from "./lib/featureFlags";
 import CapinBubble from "./components/capin/CapinBubble";
+import { trackAttribution } from "./lib/attribution";
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,17 @@ const MetaPixelPageView = () => {
     }
     (window as Window & { fbq?: (...args: unknown[]) => void }).fbq?.('track', 'PageView');
   }, [pathname]);
+
+  return null;
+};
+
+/** Guarda el gclid / utm de la URL en cada navegación, para enviarlos con el formulario de contacto. */
+const AttributionTracker = () => {
+  const { pathname, search } = useLocation();
+
+  useEffect(() => {
+    trackAttribution(search, pathname);
+  }, [pathname, search]);
 
   return null;
 };
@@ -152,6 +164,7 @@ const App = () => {
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ScrollToTop />
           <MetaPixelPageView />
+          <AttributionTracker />
           {isCapinChatEnabled && <CapinBubble />}
           {/*<PromoPopup />*/}
           <Routes>
