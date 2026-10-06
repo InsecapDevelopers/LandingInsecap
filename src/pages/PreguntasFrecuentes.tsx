@@ -7,6 +7,8 @@ import Pendiente from '@/components/Pendiente';
 import { cursosSeo, getCursoSeo, getHorasPorModalidad, listarNombres } from '@/data/cursos-seo';
 import { sedes } from '@/data/sedes';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { buildFaqJsonLd } from '@/lib/jsonld';
+import { SITE_URL } from '@/lib/locale-routing';
 
 interface Pregunta {
   pregunta: string;
@@ -63,13 +65,22 @@ const PREGUNTAS: Pregunta[] = [
   },
 ];
 
+/**
+ * FAQPage (Fase 4): solo las preguntas sin parte pendiente; una respuesta parcial no va al JSON-LD.
+ * TODO: sumar las demás cuando INSECAP valide sus respuestas (sección 4, punto 6).
+ */
+const faqJsonLd = buildFaqJsonLd(
+  PREGUNTAS.map((item) => ({ pregunta: item.pregunta, respuesta: item.respuesta, porVerificar: Boolean(item.pendiente) })),
+  `${SITE_URL}/es/preguntas-frecuentes#faq`,
+);
+
 /** Preguntas frecuentes (/preguntas-frecuentes). */
 const PreguntasFrecuentes = () => {
   const { localizedPath, locale } = useLocalizedPath();
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO url="/preguntas-frecuentes" />
+      <SEO url="/preguntas-frecuentes" jsonLd={[faqJsonLd]} />
       <Header />
 
       <main className="pb-16" lang={locale === 'es' ? undefined : 'es'}>

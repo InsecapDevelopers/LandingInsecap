@@ -37,6 +37,7 @@ import {
 import { fallbackLanguage, type AppLanguage } from "./lib/translations";
 import { cursoAreas, cursosSeo, slugify } from "./data/cursos-seo";
 import { sedes } from "./data/sedes";
+import { mergeJsonLdScripts } from "./lib/jsonld";
 
 export { createQueryClient, seoLocales, seoRoutes, isSeoRouteIndexable, buildSeoRouteUrl, isDynamicSeoRoute };
 
@@ -227,9 +228,10 @@ export async function render(url: string, queryClient: QueryClient = createQuery
   });
 
   const { helmet } = helmetContext;
+  // JSON-LD (Fase 4): los bloques de RouteMeta, <SEO> y PageHero van en un solo <script> con @graph.
   const head = helmet
     ? [helmet.title, helmet.meta, helmet.link, helmet.script, helmet.style, helmet.noscript, helmet.base]
-      .map((part) => part.toString())
+      .map((part) => (part === helmet.script ? mergeJsonLdScripts(part.toString()) : part.toString()))
       .filter(Boolean)
       .join("\n    ")
     : "";

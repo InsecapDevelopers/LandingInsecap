@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { buildBreadcrumbJsonLd, serializeJsonLd } from '@/lib/jsonld';
 
 const PAGE_HERO_IMAGES = [
   'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2026-03-05_at_10.58.32_2.jpg?v=1772742132',
@@ -46,6 +48,14 @@ const PageHero = ({
   const [activeBg, setActiveBg] = useState(backgroundImage ?? pickForPath(location.pathname));
   const [visible, setVisible] = useState(true);
   const isFirstRender = useRef(true);
+  // BreadcrumbList (Fase 4) con los mismos elementos que el breadcrumb visible.
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd(
+    [
+      { name: t('header.nav.home'), path: localizedPath('/') },
+      ...breadcrumbs.map((item) => ({ name: item.label, path: item.href ? localizedPath(item.href) : undefined })),
+    ],
+    location.pathname,
+  );
 
   useEffect(() => {
     if (backgroundImage) {
@@ -73,6 +83,9 @@ const PageHero = ({
     <section 
       className={`relative w-full h-[450px] flex items-center overflow-hidden ${className || ''}`}
     >
+      <Helmet>
+        <script type="application/ld+json">{serializeJsonLd(breadcrumbJsonLd)}</script>
+      </Helmet>
       <div className="absolute inset-0 z-0">
         <img 
           src={activeBg}
@@ -91,7 +104,7 @@ const PageHero = ({
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 animate-in fade-in slide-in-from-left-6 duration-1000">
             {title}
           </h1>
-          {/* Breadcrumb visible (Fase 3); el BreadcrumbList en JSON-LD llega en la Fase 4. */}
+          {/* Breadcrumb visible (Fase 3); su BreadcrumbList en JSON-LD va arriba (Fase 4). */}
           <nav aria-label={t('breadcrumb.label')} className="text-sm text-slate-300 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
             <ol className="flex flex-wrap gap-2 items-center">
               <li>

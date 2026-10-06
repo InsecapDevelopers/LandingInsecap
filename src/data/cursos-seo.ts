@@ -29,11 +29,18 @@ export interface Faq {
   pregunta: string;
   /** null: respuesta pendiente de validar con INSECAP. */
   respuesta: string | null;
+  /** La respuesta incluye datos por confirmar (p. ej. horas dudosas): se muestra, pero no va al JSON-LD. */
+  porVerificar?: boolean;
 }
 
 export interface CursoArea {
   slug: string;
   nombre: string;
+}
+
+export interface HoraCombinacion {
+  modalidad: string;
+  horas: number;
 }
 
 export interface HorasModalidad {
@@ -59,6 +66,8 @@ export interface CursoSeo {
   normativa: Normativa[] | null;
   /** Nota sobre horas dudosas del JSON (sección 4, punto 2). */
   horasPorVerificar: string | null;
+  /** Combinaciones modalidad/horas dudosas: se muestran con la nota, pero no van al JSON-LD (Fase 4). */
+  horasDudosas: HoraCombinacion[];
   faq: Faq[];
   ultimaActualizacion: string;
   indexable: boolean;
@@ -168,13 +177,19 @@ export const CURSOS_MAS_DEMANDADOS = [
   'primeros-auxilios',
 ];
 
-/** Horas del JSON que hay que verificar con INSECAP (sección 4, punto 2). */
-const HORAS_POR_VERIFICAR: Record<string, string> = {
+/**
+ * Horas del JSON que hay que verificar con INSECAP (sección 4, punto 2). `combinaciones`: las
+ * dudosas; si no se indica, todas las horas del tema lo son.
+ */
+const HORAS_POR_VERIFICAR: Record<string, { nota: string; combinaciones?: HoraCombinacion[] }> = {
   // TODO: verificar la combinación e-learning asincrónico de 150 h.
-  'trabajo-en-altura': 'La combinación e-learning asincrónico de 150 horas está por confirmar.',
+  'trabajo-en-altura': {
+    nota: 'La combinación e-learning asincrónico de 150 horas está por confirmar.',
+    combinaciones: [{ modalidad: 'E-learning Asincrónico', horas: 150 }],
+  },
   // TODO: las horas del JSON y las de Shopify no coinciden en estos temas.
-  'seguridad-y-prevencion-otros': 'Las horas del catálogo y las de la tienda no coinciden: por confirmar.',
-  'comunicacion-y-trabajo-en-equipo': 'Las horas del catálogo y las de la tienda no coinciden: por confirmar.',
+  'seguridad-y-prevencion-otros': { nota: 'Las horas del catálogo y las de la tienda no coinciden: por confirmar.' },
+  'comunicacion-y-trabajo-en-equipo': { nota: 'Las horas del catálogo y las de la tienda no coinciden: por confirmar.' },
 };
 
 // Normativa chilena vigente, citada solo como marco general (no como contenido del curso).
@@ -262,7 +277,7 @@ export const listarNombres = (items: string[]): string =>
 const listar = (items: string[]): string => listarNombres(items.map((item) => item.toLowerCase()));
 
 /** FAQ desde datos del JSON (modalidades, horas, estándares). La de SENCE queda pendiente. */
-const buildFaq = (tema: JsonCatalogTopic): Faq[] => {
+const buildFaq = (tema: JsonCatalogTopic, horasDudosas: boolean): Faq[] => {
   const nombre = tema.tema;
   const horas = getHorasPorModalidad(tema)
     .filter((item) => item.horas.length > 0)
@@ -279,6 +294,7 @@ const buildFaq = (tema: JsonCatalogTopic): Faq[] => {
       respuesta: horas.length > 0
         ? `Depende de la modalidad y del estándar requerido. Cargas disponibles: ${horas.join('; ')}.`
         : null,
+      porVerificar: horasDudosas,
     },
     {
       // TODO: confirmar que todos los estándares del JSON se pueden publicar (p. ej. "Piloto DUA").
@@ -310,6 +326,16 @@ export const cursosSeo: CursoSeo[] = Object.entries(SLUG_A_TEMA)
       throw new Error(`[cursos-seo] El tema ${temaHandle} (${slug}) no existe en shopify_thematic_intermediate.json`);
     }
     const respuesta = RESPUESTAS[slug] ?? null;
+    const porVerificar = HORAS_POR_VERIFICAR[slug];
+    const horasDudosas = porVerificar
+      ? porVerificar.combinaciones ?? getHorasPorModalidad(tema)
+        .flatMap((item) => item.horas.map((horas) => ({ modalidad: item.modalidad, horas })))
+      : [];
+    for (const dudosa of horasDudosas) {
+      if (!tema.combinaciones.some((c) => c.modalidad === dudosa.modalidad && c.horas === dudosa.horas)) {
+        throw new Error(`[cursos-seo] ${slug}: la combinación dudosa ${dudosa.modalidad} ${dudosa.horas} h no está en el JSON`);
+      }
+    }
 
     return {
       slug,
@@ -324,8 +350,9 @@ export const cursosSeo: CursoSeo[] = Object.entries(SLUG_A_TEMA)
       objetivo: null,
       aprendizajes: null,
       normativa: NORMATIVA_POR_SLUG[slug] ?? (tema.categoria === AREA_SEGURIDAD ? NORMATIVA_SEGURIDAD : null),
-      horasPorVerificar: HORAS_POR_VERIFICAR[slug] ?? null,
-      faq: buildFaq(tema),
+      horasPorVerificar: porVerificar?.nota ?? null,
+      horasDudosas,
+      faq: buildFaq(tema, horasDudosas.length > 0),
       ultimaActualizacion: CURSOS_SEO_ACTUALIZADO,
       indexable: respuesta !== null && !NOINDEX_SLUGS.has(slug),
     };

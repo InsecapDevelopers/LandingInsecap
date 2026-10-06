@@ -26,6 +26,10 @@
  * precarga sus datos con `prefetchRoute` (mismas queryFn que el cliente, src/lib/queries.ts).
  * El estado de react-query viaja en window.__RQ__ con `<` escapado.
  *
+ * JSON-LD (Fase 4): el <head> de cada página trae un solo <script type="application/ld+json"> con
+ * @graph (global #org/#website + nodos de la página + BreadcrumbList), que arma `render` en
+ * src/entry-server.tsx con mergeJsonLdScripts (src/lib/jsonld.ts).
+ *
  * Falla (exit 1) si alguna ruta lanza un error de render, si falla una petición a Shopify (productos
  * `ea-*` del mapa de 301) o al TMS Plus, o si no se cumplen las guardas (mínimo de temas B2B y de noticias, entry-server.tsx).
  */

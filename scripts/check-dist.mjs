@@ -12,7 +12,7 @@
  *   - un <title> y un <meta name="robots">
  *   - exactamente un <h1>
  *   - al menos un <a href="/…"> interno
- *   - al menos un <script type="application/ld+json">
+ *   - exactamente un <script type="application/ld+json"> (ver JSON-LD, Fase 4)
  *   - sin fallbacks de render en cliente (<!--$!-->) que dejaría un error de SSR
  *   - window.__RQ__ sin `<` crudo
  * Además: más de 800 palabras visibles en /es, y 404.html y _shell.html con noindex.
@@ -37,6 +37,16 @@
  *   - hreflang recíproco: incluye la propia página, cada alternativa existe, se indexa y enlaza
  *     de vuelta, y x-default apunta a la versión /es
  *
+ * JSON-LD (Fase 4), en todas las páginas:
+ *   - un solo bloque que parsea como {"@context":"https://schema.org","@graph":[…]} con #org y #website
+ *   - cada {"@id"} referenciado existe en el grafo de la página o en el global (el de /es)
+ *   - sin "TODO" ni "Por confirmar" dentro del JSON-LD
+ *   - estructura mínima por tipo: Course (name, description, provider, hasCourseInstance con
+ *     courseMode onsite/online/blended y courseWorkload ISO 8601), BreadcrumbList (posiciones 1..n
+ *     con name e item absolutos), FAQPage (Question con acceptedAnswer.text), NewsArticle
+ *     (headline, author, fechas con desfase horario), sede (PostalAddress, telephone, parentOrganization)
+ *   - por ruta: Course en fichas, #place en sedes, FAQPage en preguntas-frecuentes, NewsArticle en
+ *     noticias y BreadcrumbList en toda página con breadcrumb visible
  * Redirecciones (dist/redirects.map, Fase 2):
  *   - cada línea es `"origen" "destino";` (exacta) o `"~^…" "destino";` (regex)
  *   - sin cadenas: ningún destino es a su vez un origen
@@ -115,6 +125,134 @@ const checkNoindex = (relative) => {
   return html;
 };
 
+// ---------- JSON-LD (Fase 4) ----------
+
+const ORG_ID = `${SITE_URL}/#org`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
+const LD_JSON = /<script\b[^>]*\btype="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi;
+const ISO_DURATION = /^P(?!$)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$/;
+const DATE_WITH_OFFSET = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?([+-]\d{2}:\d{2}|Z)$/;
+const COURSE_MODES = new Set(['onsite', 'online', 'blended']);
+
+const typesOf = (node) => [].concat(node['@type'] ?? []);
+const isRef = (value) => value && typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 1 && typeof value['@id'] === 'string';
+
+/** Recorre un valor JSON-LD: `visit(objeto)` para cada objeto anidado. */
+const walkJson = (value, visit) => {
+  if (Array.isArray(value)) value.forEach((item) => walkJson(item, visit));
+  else if (value && typeof value === 'object') {
+    visit(value);
+    Object.values(value).forEach((item) => walkJson(item, visit));
+  }
+};
+
+/** @id definidos (objetos con más propiedades que @id) y referencias ({"@id"} solo). */
+const collectIds = (graph) => {
+  const defined = new Set();
+  const refs = new Set();
+  walkJson(graph, (node) => {
+    if (typeof node['@id'] !== 'string') return;
+    if (isRef(node)) refs.add(node['@id']);
+    else defined.add(node['@id']);
+  });
+  return { defined, refs };
+};
+
+/** Grafo global: el de /es (debe traer #org y #website). Se llena al revisar las páginas. */
+let globalIds = null;
+const readGraph = (html) => {
+  const blocks = [...html.matchAll(LD_JSON)].map(([, json]) => json);
+  if (blocks.length !== 1) return { error: `${blocks.length} <script type="application/ld+json"> (se espera 1 con @graph)` };
+  try {
+    const data = JSON.parse(blocks[0]);
+    if (data['@context'] !== 'https://schema.org' || !Array.isArray(data['@graph'])) return { error: 'JSON-LD sin @context schema.org o sin @graph' };
+    return { raw: blocks[0], graph: data['@graph'] };
+  } catch (error) {
+    return { error: `JSON-LD que no parsea: ${error.message}` };
+  }
+};
+
+const requireProps = (relative, node, props) => {
+  for (const prop of props) {
+    const value = node[prop];
+    if (value === undefined || value === null || value === '' || (Array.isArray(value) && value.length === 0)) {
+      fail(relative, `JSON-LD ${typesOf(node).join('/')} ${node['@id'] ?? ''} sin ${prop}`);
+    }
+  }
+};
+
+/** Estructura mínima por tipo (schema.org y lo que piden los rich results de Google). */
+const checkNodeStructure = (relative, node) => {
+  const types = typesOf(node);
+  if (types.includes('Course')) {
+    requireProps(relative, node, ['name', 'description', 'provider', 'hasCourseInstance']);
+    for (const instance of [].concat(node.hasCourseInstance ?? [])) {
+      if (!COURSE_MODES.has(instance.courseMode)) fail(relative, `CourseInstance con courseMode "${instance.courseMode}"`);
+      if (instance.courseWorkload !== undefined && !ISO_DURATION.test(instance.courseWorkload)) {
+        fail(relative, `CourseInstance con courseWorkload "${instance.courseWorkload}" (no es ISO 8601)`);
+      }
+    }
+  }
+  if (types.includes('BreadcrumbList')) {
+    const items = node.itemListElement ?? [];
+    if (items.length < 2) fail(relative, `BreadcrumbList con ${items.length} elementos`);
+    items.forEach((item, index) => {
+      if (item.position !== index + 1 || !item.name || !/^https:\/\/insecap\.cl\//.test(item.item ?? '')) {
+        fail(relative, `BreadcrumbList: elemento ${index + 1} inválido (${JSON.stringify(item)})`);
+      }
+    });
+  }
+  if (types.includes('FAQPage')) {
+    const questions = node.mainEntity ?? [];
+    if (questions.length === 0) fail(relative, 'FAQPage sin preguntas');
+    for (const question of questions) {
+      if (!typesOf(question).includes('Question') || !question.name || !question.acceptedAnswer?.text) {
+        fail(relative, `FAQPage: pregunta sin name o sin acceptedAnswer.text (${question.name ?? '?'})`);
+      }
+    }
+  }
+  if (types.includes('NewsArticle')) {
+    requireProps(relative, node, ['headline', 'datePublished', 'dateModified', 'author', 'publisher']);
+    for (const field of ['datePublished', 'dateModified']) {
+      if (node[field] && !DATE_WITH_OFFSET.test(node[field])) fail(relative, `NewsArticle ${field} "${node[field]}" sin desfase horario`);
+    }
+  }
+  if (types.includes('LocalBusiness')) {
+    requireProps(relative, node, ['name', 'address', 'telephone', 'parentOrganization']);
+    requireProps(relative, node.address ?? {}, ['streetAddress', 'addressLocality', 'addressCountry']);
+  }
+};
+
+const checkJsonLd = (relative, html) => {
+  const { error, raw, graph } = readGraph(html);
+  if (error) {
+    fail(relative, error);
+    return;
+  }
+  // "TODO" en mayúsculas (el español usa "todo", p. ej. "sobre todo"); "por confirmar" en cualquier forma.
+  if (/TODO/.test(raw) || /por confirmar/i.test(raw)) fail(relative, 'JSON-LD con "TODO" o "Por confirmar"');
+
+  const { defined, refs } = collectIds(graph);
+  for (const id of [ORG_ID, WEBSITE_ID]) if (!defined.has(id)) fail(relative, `JSON-LD sin ${id}`);
+  for (const id of refs) {
+    if (!defined.has(id) && !globalIds?.has(id)) fail(relative, `JSON-LD referencia ${id}, que no está en el grafo`);
+  }
+  graph.forEach((node) => walkJson(node, (child) => checkNodeStructure(relative, child)));
+
+  const urlPath = `/${path.dirname(relative).split(path.sep).join('/')}`;
+  const has = (predicate) => graph.some(predicate);
+  const hasType = (type) => has((node) => typesOf(node).includes(type));
+  const ficha = urlPath.match(/^\/(es|en|pt)\/cursos\/(?!categoria\/)([^/]+)$/);
+  if (ficha && !hasType('Course')) fail(relative, 'ficha sin Course en el JSON-LD');
+  const sede = urlPath.match(/^\/(es|en|pt)\/sedes\/([^/]+)$/);
+  if (sede && !defined.has(`${SITE_URL}/es/sedes/${sede[2]}#place`)) fail(relative, `sede sin ${SITE_URL}/es/sedes/${sede[2]}#place`);
+  if (/^\/(es|en|pt)\/preguntas-frecuentes$/.test(urlPath) && !hasType('FAQPage')) fail(relative, 'sin FAQPage');
+  if (/^\/(es|en|pt)\/noticias\/[^/]+$/.test(urlPath) && !hasType('NewsArticle')) fail(relative, 'noticia sin NewsArticle');
+  if (/<nav\b[^>]*\saria-label="[^"]+"[^>]*>\s*<ol[\s>]/i.test(html) && !hasType('BreadcrumbList')) {
+    fail(relative, 'breadcrumb visible sin BreadcrumbList en el JSON-LD');
+  }
+};
+
 if (!fs.existsSync(DIST)) {
   console.error('[check-dist] No existe dist/. Corre `npm run build`.');
   process.exit(1);
@@ -125,6 +263,12 @@ const pages = Object.keys(HTML_LANG)
   .flatMap((locale) => walk(path.join(DIST, locale)).map((file) => ({ file, locale })));
 
 if (pages.length === 0) fail('dist', 'no hay páginas prerenderizadas en dist/{es,en,pt}');
+
+const homeEs = path.join(DIST, 'es', 'index.html');
+if (fs.existsSync(homeEs)) {
+  const { graph } = readGraph(fs.readFileSync(homeEs, 'utf8'));
+  if (graph) globalIds = collectIds(graph).defined;
+}
 
 /** Páginas indexables por URL absoluta: para duplicados y reciprocidad del hreflang. */
 const indexablePages = new Map();
@@ -150,8 +294,7 @@ for (const { file, locale } of ONLY_REDIRECTS ? [] : pages) {
   const links = count(html, /<a\s[^>]*href="\/[^/"]/gi);
   if (links === 0) fail(relative, 'sin enlaces internos <a href="/…">');
 
-  const ldJson = count(html, /<script[^>]+type="application\/ld\+json"/gi);
-  if (ldJson === 0) fail(relative, 'sin JSON-LD');
+  checkJsonLd(relative, html);
 
   if (html.includes('<!--$!-->')) fail(relative, 'contiene un fallback de render en cliente (<!--$!-->): error de SSR');
 

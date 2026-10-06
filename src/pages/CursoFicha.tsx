@@ -19,6 +19,7 @@ import {
 import { COBERTURA_VIRTUAL, sedes } from '@/data/sedes';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { resolveLegacyPath } from '@/lib/legacy-redirects';
+import { buildCourseJsonLd, buildFaqJsonLd, courseFaqId } from '@/lib/jsonld';
 
 const FichaRow = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <tr className="border-b border-border last:border-0">
@@ -54,10 +55,16 @@ const CursoFicha = () => {
   const tieneElearning = tema.modalidades.some((modalidad) => modalidad.toLowerCase().startsWith('e-learning'));
   const relacionados = getRelatedCursos(curso, 3);
   const quotePath = `${localizedPath('/contacto')}?origen=b2b&curso=${encodeURIComponent(tema.tema)}`;
+  const seoMeta = getCursoSeoMeta(curso);
+  // Course + FAQPage (Fase 4): solo datos reales; la FAQ sin las respuestas pendientes.
+  const jsonLd = [
+    buildCourseJsonLd(curso, curso.respuesta ?? seoMeta.description),
+    buildFaqJsonLd(curso.faq, courseFaqId(curso.slug)),
+  ];
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO {...getCursoSeoMeta(curso)} url={`/cursos/${curso.slug}`} />
+      <SEO {...seoMeta} url={`/cursos/${curso.slug}`} jsonLd={jsonLd} />
       <Header />
 
       {/* El contenido de datos solo existe en español (decisión 1.3). */}

@@ -9,6 +9,7 @@ import NotFound from '@/pages/NotFound';
 import { CURSOS_MAS_DEMANDADOS, cursoAreas, getCursoSeo, type CursoSeo } from '@/data/cursos-seo';
 import { COBERTURA_VIRTUAL, getSedeBySlug, getSedeMapsUrl, getSedeSeoMeta, sedes } from '@/data/sedes';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { buildSedeJsonLd } from '@/lib/jsonld';
 
 const masDemandados = CURSOS_MAS_DEMANDADOS
   .map((slug) => getCursoSeo(slug))
@@ -29,7 +30,7 @@ const SedeDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO {...getSedeSeoMeta(sede)} url={`/sedes/${sede.slug}`} />
+      <SEO {...getSedeSeoMeta(sede)} url={`/sedes/${sede.slug}`} jsonLd={buildSedeJsonLd(sede)} />
       <Header />
 
       <main className="pb-16" lang={locale === 'es' ? undefined : 'es'}>

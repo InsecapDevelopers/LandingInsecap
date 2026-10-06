@@ -14,6 +14,7 @@ import {
   TWITTER_SITE,
 } from '@/lib/seo-text';
 import { fallbackLanguage, supportedLanguages } from '@/lib/translations';
+import { serializeJsonLd, toJsonLdGraph, type JsonLdNode } from '@/lib/jsonld';
 
 interface SEOProps {
   /** Keyword del title, sin la marca (se agrega " | INSECAP"). Por defecto, `seo.pages` de la ruta. */
@@ -33,7 +34,8 @@ interface SEOProps {
     section?: string;
     tags?: string[];
   };
-  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Nodos schema.org de la página (sin @context); null y undefined se ignoran. */
+  jsonLd?: JsonLdNode | Array<JsonLdNode | null | undefined>;
   /**
    * Capa base de RouteMeta (AppShell.tsx): no emite og:image:width/height/type. Helmet conserva
    * las etiquetas de una instancia anterior que la siguiente no repite, así que si la base los
@@ -104,6 +106,7 @@ const SEO = ({
   const finalImage = isAbsoluteUrl(imagePath) ? imagePath : `${baseUrl}${imagePath}`;
   const finalImageAlt = imageAlt || (isDefaultImage ? getSeoImageAlt(currentLocale) : finalTitle);
   const finalUrl = isAbsoluteUrl(localizedPath) ? localizedPath : `${baseUrl}${localizedPath}`;
+  const pageGraph = jsonLd ? toJsonLdGraph(jsonLd) : null;
 
   return (
     <Helmet>
@@ -160,10 +163,9 @@ const SEO = ({
       <meta name="twitter:image" content={finalImage} />
       <meta name="twitter:image:alt" content={finalImageAlt} />
 
-      {jsonLd && (
-        <script type="application/ld+json">
-          {JSON.stringify(Array.isArray(jsonLd) ? jsonLd : [jsonLd])}
-        </script>
+      {/* Nodos de la página (src/lib/jsonld.ts); el prerender los junta con el grafo global. */}
+      {pageGraph && pageGraph['@graph'].length > 0 && (
+        <script type="application/ld+json">{serializeJsonLd(pageGraph)}</script>
       )}
     </Helmet>
   );

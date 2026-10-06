@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Aceptación de las Fases 1, 2 y 3 (Tarea #8): lo que ven los bots en el HTML inicial,
+# Aceptación de las Fases 1, 2, 3 y 4 (Tarea #8): lo que ven los bots en el HTML inicial,
 # sin ejecutar JS, más las reglas de nginx (404 real, 301 con query, caché, cabeceras)
 # y las URLs en español con los 301 de las URLs antiguas en un solo salto.
 #
@@ -234,6 +234,50 @@ if [ -d "$SCRIPT_DIR/../src" ]; then
   n=$(grep -rn 'capacitacoes\|fisicas\|Certificacoes' "$SCRIPT_DIR/../src" | wc -l | tr -d ' ')
   check "src sin portugués sin tildes (capacitacoes|fisicas|Certificacoes: $n)" test "$n" -eq 0
 fi
+
+# 11c. Fase 4, JSON-LD en el HTML inicial: un solo <script type="application/ld+json"> con @graph
+# que parsea, con #org y #website, los tipos de cada página y sin "TODO" ni "Por confirmar".
+# Mismos parámetros en /es, /en y /pt. (Cada @id referenciado y la estructura por tipo, en todas
+# las páginas: scripts/check-dist.mjs.)
+# jsonld_ok <ruta> <tipo o @id esperado>…: imprime "OK" o el motivo de la falla.
+jsonld_ok() {
+  local p="$1"; shift
+  curl -s -A GPTBot "$B/$p" | node -e '
+    const html = require("fs").readFileSync(0, "utf8");
+    const blocks = [...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
+    if (blocks.length !== 1) { console.log(`${blocks.length} bloques ld+json`); process.exit(); }
+    let graph;
+    try { graph = JSON.parse(blocks[0])["@graph"]; } catch (e) { console.log(`no parsea: ${e.message}`); process.exit(); }
+    if (!Array.isArray(graph)) { console.log("sin @graph"); process.exit(); }
+    if (/TODO/.test(blocks[0]) || /por confirmar/i.test(blocks[0])) { console.log("con TODO/Por confirmar"); process.exit(); }
+    const found = new Set(graph.flatMap((n) => [].concat(n["@type"] ?? [], n["@id"] ?? [])));
+    const missing = ["https://insecap.cl/#org", "https://insecap.cl/#website", ...process.argv.slice(1)].filter((x) => !found.has(x));
+    console.log(missing.length ? `falta ${missing.join(", ")}` : "OK");
+  ' "$@"
+}
+noticia_slug=${noticia#/es/}
+for l in es en pt; do
+  for spec in \
+    "$l|" \
+    "$l/cursos/trabajo-en-altura|Course FAQPage BreadcrumbList" \
+    "$l/sedes/calama|https://insecap.cl/es/sedes/calama#place BreadcrumbList" \
+    "$l/preguntas-frecuentes|FAQPage BreadcrumbList" \
+    "$l/$noticia_slug|NewsArticle BreadcrumbList"; do
+    p="${spec%%|*}"; p="${p%/}"; want="${spec#*|}"
+    # shellcheck disable=SC2086
+    r=$(jsonld_ok "$p" $want)
+    check "/$p JSON-LD ${want:-#org #website}: $r" test "$r" = OK
+  done
+done
+n=$(curl -s "$B/es/cursos/trabajo-en-altura" | count '"@type":"Course"')
+check "/es/cursos/trabajo-en-altura \"@type\":\"Course\" ($n)" test "$n" -ge 1
+h=$(curl -s "$B/es/$noticia_slug")
+d=$(grep -o '"datePublished":"[^"]*"' <<<"$h" | head -1)
+check "/es/$noticia_slug $d con desfase America/Santiago" grep -Eq '"datePublished":"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:]+-0[34]:00"' <<<"$d"
+n=$(curl -s "$B/es/cursos/trabajo-en-altura" | count '"courseWorkload":"PT[0-9]*H"')
+check "/es/cursos/trabajo-en-altura courseWorkload ISO 8601 ($n)" test "$n" -ge 1
+n=$(curl -s "$B/es/cursos/trabajo-en-altura" | count '"offers"')
+check "/es/cursos/trabajo-en-altura sin offers ($n)" test "$n" -eq 0
 
 # 12. Consola del navegador sin warnings de hidratación en /es, /en y /pt.
 if [ "$HYDRATION" = skip ]; then

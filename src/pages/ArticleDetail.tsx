@@ -12,8 +12,7 @@ import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
 import { newsArticleQuery } from '@/lib/queries';
 import { stripHtml, withImageAlts } from '@/lib/html';
 import { fitDescription, getSeoFillers } from '@/lib/seo-text';
-import { SITE_URL } from '@/lib/locale-routing';
-import { ORG_ID } from '@/lib/jsonld';
+import { buildNewsArticleJsonLd, toSantiagoIso } from '@/lib/jsonld';
 import { toast } from 'sonner';
 import PageHero from '@/components/PageHero';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
@@ -42,10 +41,8 @@ const ArticleDetail = () => {
       share: 'Compartir',
       more: 'Ver más noticias',
       news: 'Noticias',
-      home: 'Inicio',
       articleImage: 'Imagen de la noticia',
       tags: ['capacitación', 'INSECAP', 'formación profesional'],
-      language: 'es-CL',
     },
     en: {
       copied: 'Link copied to clipboard',
@@ -56,10 +53,8 @@ const ArticleDetail = () => {
       share: 'Share',
       more: 'See more news',
       news: 'News',
-      home: 'Home',
       articleImage: 'Article image',
       tags: ['training', 'INSECAP', 'professional development'],
-      language: 'en-US',
     },
     pt: {
       copied: 'Link copiado para a área de transferência',
@@ -70,10 +65,8 @@ const ArticleDetail = () => {
       share: 'Compartilhar',
       more: 'Ver mais notícias',
       news: 'Notícias',
-      home: 'Início',
       articleImage: 'Imagem da notícia',
       tags: ['capacitação', 'INSECAP', 'formação profissional'],
-      language: 'pt-BR',
     },
   }[locale];
 
@@ -228,58 +221,14 @@ const ArticleDetail = () => {
           url={articlePath}
           type="article"
           article={{
-            publishedTime: article.publishedAt,
-            modifiedTime: article.updatedAt,
+            publishedTime: toSantiagoIso(article.publishedAt),
+            modifiedTime: article.updatedAt ? toSantiagoIso(article.updatedAt) : undefined,
             author: article.authorV2?.name,
             section: content.news,
             tags: content.tags
           }}
-          jsonLd={[
-            {
-              '@context': 'https://schema.org',
-              '@type': 'NewsArticle',
-              'headline': article.title,
-              'description': getMetaDescription(article),
-              'image': article.image?.url,
-              'datePublished': article.publishedAt,
-              'dateModified': article.updatedAt ?? article.publishedAt,
-              'author': {
-                '@type': 'Person',
-                'name': article.authorV2?.name || 'INSECAP'
-              },
-              'publisher': { '@id': ORG_ID },
-              'mainEntityOfPage': {
-                '@type': 'WebPage',
-                '@id': `${SITE_URL}${localizedPath(articlePath)}`
-              },
-              'articleSection': content.news,
-              'inLanguage': content.language
-            },
-            {
-              '@context': 'https://schema.org',
-              '@type': 'BreadcrumbList',
-              'itemListElement': [
-                {
-                  '@type': 'ListItem',
-                  'position': 1,
-                  'name': content.home,
-                  'item': `${SITE_URL}${localizedPath('/')}`
-                },
-                {
-                  '@type': 'ListItem',
-                  'position': 2,
-                  'name': content.news,
-                  'item': `${SITE_URL}${localizedPath('/noticias')}`
-                },
-                {
-                  '@type': 'ListItem',
-                  'position': 3,
-                  'name': article.title,
-                  'item': `${SITE_URL}${localizedPath(articlePath)}`
-                }
-              ]
-            }
-          ]}
+          // NewsArticle (Fase 4); el BreadcrumbList lo emite PageHero.
+          jsonLd={buildNewsArticleJsonLd(article, getMetaDescription(article))}
         />
       )}
       <Header />

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
-import { ORG_ID } from '@/lib/jsonld';
+import { articleAuthor, ORG_ID, toSantiagoIso } from '@/lib/jsonld';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -144,24 +144,22 @@ const Blog = () => {
         url="/noticias"
         type="website"
         jsonLd={{
-          '@context': 'https://schema.org',
           '@type': 'Blog',
+          '@id': `${SITE_URL}/es/noticias#blog`,
           'name': 'Blog INSECAP - Noticias y Artículos',
           'description': 'Blog oficial de INSECAP con noticias, artículos y recursos sobre capacitación y desarrollo profesional en Chile',
-          'url': `${SITE_URL}${localizedPath('/noticias')}`,
+          'url': `${SITE_URL}/es/noticias`,
+          'inLanguage': 'es-CL',
           'publisher': { '@id': ORG_ID },
           'blogPost': allArticles.slice(0, 10).map((article) => ({
             '@type': 'BlogPosting',
             'headline': article.title,
             'description': article.excerpt || article.title,
-            'image': article.image?.url,
-            'datePublished': article.publishedAt,
-            'author': {
-              '@type': 'Person',
-              'name': article.authorV2?.name || 'INSECAP'
-            },
+            ...(article.image?.url ? { 'image': article.image.url } : {}),
+            'datePublished': toSantiagoIso(article.publishedAt),
+            'author': articleAuthor(article),
             'publisher': { '@id': ORG_ID },
-            'url': `${SITE_URL}${localizedPath(`/noticias/${article.handle}`)}`
+            'url': `${SITE_URL}/es/noticias/${article.handle}`
           }))
         }}
       />
