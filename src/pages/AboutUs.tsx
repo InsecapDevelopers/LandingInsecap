@@ -6,6 +6,8 @@ import Footer from '@/components/Footer';
 import MeetUs from '@/components/MeetUs';
 import OurLocations from '@/components/OurLocations';
 import PageHero from '@/components/PageHero';
+import InsecapEnDatos from '@/components/InsecapEnDatos';
+import { getRespuestaNosotros } from '@/data/respuestas';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
 import { Meteors } from '@/components/ui/meteors';
 import { getYearsOfExperience } from '@/lib/insecapUtils';
@@ -328,6 +330,13 @@ const AboutUs = () => {
           breadcrumbs={[{ label: content.breadcrumb }]}
         />
 
+        {/* Párrafo de respuesta (Fase 8): qué es INSECAP en 40–60 palabras, con entidades explícitas. */}
+        <div className="container mx-auto px-8 md:px-14 lg:px-16 pt-12">
+          <p data-respuesta="nosotros" className="max-w-4xl mx-auto text-lg leading-relaxed text-foreground">
+            {getRespuestaNosotros(locale)}
+          </p>
+        </div>
+
         <MeetUs />
 
         {/* ¿Qué hacemos? Section */}
@@ -379,6 +388,9 @@ const AboutUs = () => {
             </div>
           </div>
         </section>
+
+        {/* Acreditaciones, modalidades, sedes y cifras 2025 en tablas y listas (Fase 8). */}
+        <InsecapEnDatos />
 
         {/* Sedes Section */}
         <section className="py-20 bg-white">

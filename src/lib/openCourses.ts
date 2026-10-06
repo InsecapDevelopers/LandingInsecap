@@ -3,6 +3,7 @@
 //
 // Fuente única para la sección de la home (OpenCourseOffer) y la página de catálogo
 // (OpenCoursesCatalog): antes cada una tenía su copia de las fechas y se desincronizaban.
+import { getCasaMatriz } from '../data/sedes';
 
 export interface OpenCourseSession {
   /** id de calendarización del TMS; preselecciona la fecha en el formulario.
@@ -53,7 +54,8 @@ export interface OpenCourse {
 // (JPEG de 0,4–2 MB) están en storageisecap.sfo2.digitaloceanspaces.com/noticias/<base>.jpeg.
 // Afiche nuevo: `cwebp -q 80 -resize 640 0 afiche.jpg -o <base>-640.webp` y lo mismo con 1080.
 const IMG = '/images/cursos-abiertos/';
-const CALAMA = 'Calama · La Cascada 1513';
+// NAP único (Fase 8): la dirección de la casa matriz sale de src/data/sedes.ts.
+const CALAMA = `${getCasaMatriz().ciudad} · ${getCasaMatriz().direccion}`;
 
 export const OPEN_COURSES: OpenCourse[] = [
   {

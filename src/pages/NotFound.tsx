@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Home, Mail, Phone } from 'lucide-react';
 import SEO from '@/components/SEO';
-import { CONTACT_EMAIL, sedes } from '@/data/sedes';
+import { CONTACT_EMAIL, getCasaMatriz } from '@/data/sedes';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { shopifyImage } from '@/lib/images';
 
 /** Teléfono de la casa matriz (NAP único de src/data/sedes.ts). */
-const casaMatriz = sedes.find((sede) => sede.casaMatriz) ?? sedes[0];
+const casaMatriz = getCasaMatriz();
 
 const NotFound: React.FC = () => {
   const { localizedPath, locale } = useLocalizedPath();

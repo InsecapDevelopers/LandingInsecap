@@ -83,7 +83,7 @@ const CursoFicha = () => {
           <article className="space-y-10 lg:col-span-2">
             <section aria-label="Resumen del curso">
               {curso.respuesta ? (
-                <p className="text-lg leading-relaxed text-foreground">{curso.respuesta}</p>
+                <p data-respuesta="ficha" className="text-lg leading-relaxed text-foreground">{curso.respuesta}</p>
               ) : (
                 <p className="text-lg leading-relaxed">
                   {/* TODO: párrafo de respuesta de 40–60 palabras (sección 4, punto 1). */}

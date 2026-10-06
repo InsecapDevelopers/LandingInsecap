@@ -22,7 +22,7 @@ import { ORG_CREDENTIAL_NAMES, ORG_DESCRIPTION } from './jsonld';
 import { SITE_URL, getLocaleFromPath } from './locale-routing';
 import { isSeoRouteIndexable, matchSeoRoute, type SeoRoute } from './seo-routes';
 import type { AppLanguage } from './translations';
-import { COBERTURA_VIRTUAL, CONTACT_EMAIL, sedes } from '../data/sedes';
+import { COBERTURA_VIRTUAL, CONTACT_EMAIL, getCasaMatriz, sedes } from '../data/sedes';
 
 export const SITEMAP_INDEX_FILE = 'sitemap-index.xml';
 /** /es en un sitemap y /en + /pt en otro (decisión 1.3: mismos parámetros en los tres idiomas). */
@@ -351,7 +351,7 @@ const listarNombres = (items: string[]) =>
 
 /** Encabezado común de llms.txt y llms-full.txt: H1 y resumen en blockquote, solo con datos del sitio. */
 const llmsIntro = (title: string) => {
-  const casaMatriz = sedes.find((sede) => sede.casaMatriz) ?? sedes[0];
+  const casaMatriz = getCasaMatriz();
   const ciudades = sedes.map((sede) => (sede.casaMatriz ? `${sede.ciudad} (casa matriz)` : sede.ciudad));
   return [
     `# ${title}`,

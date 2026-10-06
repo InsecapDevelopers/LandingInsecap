@@ -4,6 +4,7 @@ import { useInView } from 'motion/react';
 import { NumberTicker } from "./ui/number-ticker";
 import { Particles } from "./ui/particles";
 import { Users, GraduationCap, Clock3, List } from "lucide-react";
+import { CIFRAS } from "@/data/respuestas";
 
 export function StatsSection() {
   const { t } = useTranslation();
@@ -13,25 +14,25 @@ export function StatsSection() {
   const stats = [
     {
       label: t('statistics.trainedUsers'),
-      value: 53432,
+      value: CIFRAS.personasCapacitadas,
       icon: <Users className="w-8 h-8 text-white/90" />,
       suffix: "+"
     },
     {
       label: t('statistics.expertFacilitators'),
-      value: 507,
+      value: CIFRAS.facilitadores,
       icon: <GraduationCap className="w-8 h-8 text-white/90" />,
       suffix: "+"
     },
     {
       label: t('statistics.trainingHours'),
-      value: 1840173,
+      value: CIFRAS.horas,
       icon: <Clock3 className="w-8 h-8 text-white/90" />,
       suffix: "+"
     },
     {
       label: t('statistics.designedCourses'),
-      value: 2315,
+      value: CIFRAS.cursosDisenados,
       icon: <List className="w-8 h-8 text-white/90" />,
       suffix: "+"
     }
@@ -41,7 +42,7 @@ export function StatsSection() {
     <section ref={sectionRef} className="relative py-16 overflow-hidden bg-gradient-to-r from-[#2952cc] via-insecap-blue to-insecap-cyan-ink">
       <Particles className="absolute inset-0" quantity={120} color="#ffffff" staticity={30} ease={60} />
       <div className="container mx-auto px-8 md:px-14 lg:px-16">
-        <p className="text-center text-white/70 text-xs font-bold uppercase tracking-widest mb-6">{t('statistics.yearLabel')}</p>
+        <p className="text-center text-white/70 text-xs font-bold uppercase tracking-widest mb-6">{t('statistics.yearLabel', { anio: CIFRAS.anio })}</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 lg:divide-x divide-white/25">
           {stats.map((stat, index) => (
             <div

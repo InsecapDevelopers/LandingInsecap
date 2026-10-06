@@ -181,7 +181,7 @@ export const resources = {
           },
           contacto: {
             title: 'Contacto: cotiza tu capacitación',
-            description: 'Cotiza cursos de capacitación con INSECAP: escribe a contacto@insecap.cl o llama a la casa matriz en Calama, +56 55 292 6431. Sedes en el norte y Santiago.',
+            description: 'Cotiza cursos de capacitación con INSECAP: escribe a {{email}} o llama a la casa matriz en {{ciudadCasaMatriz}}, {{telefonoCasaMatriz}}. Sedes en el norte y Santiago.',
           },
           'relator-trabaja-con-nosotros': {
             title: 'Trabaja con nosotros: relatores y facilitadores',
@@ -269,7 +269,7 @@ export const resources = {
         expertFacilitators: 'Facilitadores Expertos',
         trainingHours: 'Horas de Capacitación',
         designedCourses: 'Cantidad de Cursos Diseñados',
-        yearLabel: 'Estadísticas del 2025',
+        yearLabel: 'Cifras al {{anio}}',
       },
       cart: {
         title: 'Carrito de Compras',
@@ -624,7 +624,7 @@ export const resources = {
           },
           contacto: {
             title: 'Contact us: request a training quote',
-            description: 'Request a training quote from INSECAP: email contacto@insecap.cl or call our head office in Calama, +56 55 292 6431. Offices in the north and Santiago.',
+            description: 'Request a training quote from INSECAP: email {{email}} or call our head office in {{ciudadCasaMatriz}}, {{telefonoCasaMatriz}}. Offices in the north and Santiago.',
           },
           'relator-trabaja-con-nosotros': {
             title: 'Work with us: instructors and facilitators',
@@ -712,7 +712,7 @@ export const resources = {
         expertFacilitators: 'Expert Facilitators',
         trainingHours: 'Training Hours',
         designedCourses: 'Designed Courses',
-        yearLabel: '2025 Statistics',
+        yearLabel: 'Figures as of {{anio}}',
       },
       cart: {
         title: 'Shopping Cart',
@@ -1067,7 +1067,7 @@ export const resources = {
           },
           contacto: {
             title: 'Contato: solicite um orçamento de capacitação',
-            description: 'Solicite um orçamento de capacitação à INSECAP: escreva para contacto@insecap.cl ou ligue para a matriz em Calama, +56 55 292 6431. Unidades no Chile.',
+            description: 'Solicite um orçamento de capacitação à INSECAP: escreva para {{email}} ou ligue para a matriz em {{ciudadCasaMatriz}}, {{telefonoCasaMatriz}}. Unidades no Chile.',
           },
           'relator-trabaja-con-nosotros': {
             title: 'Trabalhe conosco: instrutores e facilitadores',
@@ -1155,7 +1155,7 @@ export const resources = {
         expertFacilitators: 'Facilitadores Especialistas',
         trainingHours: 'Horas de Capacitação',
         designedCourses: 'Cursos Desenvolvidos',
-        yearLabel: 'Estatísticas de 2025',
+        yearLabel: 'Números até {{anio}}',
       },
       cart: {
         title: 'Carrinho de Compras',

@@ -216,7 +216,10 @@ for p in es en pt pt/nosotros es/contacto; do
   n=$(perl -0777 -ne 'print scalar(() = m{<address\b(?:(?!</address>).)*?href="mailto:[^"]*\@insecap\.cl"}gs)' <<<"$h")
   check "/$p <address> con mailto: ($n)" test "$n" -ge 1
 done
-n=$(curl -s "$B/es/contacto" | count '+56 55 292 6431'); check "/es/contacto NAP casa matriz +56 55 292 6431 ($n)" test "$n" -ge 1
+# Fase 8: NAP único, el teléfono de la casa matriz (src/data/sedes.ts) en la home, contacto y la sede.
+for p in es es/contacto es/sedes/calama; do
+  n=$(curl -s "$B/$p" | count '+56 55 292 6431'); check "/$p NAP casa matriz +56 55 292 6431 ($n)" test "$n" -ge 1
+done
 n=$(curl -s "$B/es/contacto" | count '+55 2 \|+56 9 7887\|+56 9 6125'); check "/es/contacto sin teléfonos fuera de sedes.ts ($n)" test "$n" -eq 0
 for p in pt pt/nosotros pt/acreditaciones; do
   h=$(curl -s "$B/$p")

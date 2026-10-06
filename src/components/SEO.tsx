@@ -15,6 +15,14 @@ import {
 } from '@/lib/seo-text';
 import { fallbackLanguage, supportedLanguages } from '@/lib/translations';
 import { serializeJsonLd, toJsonLdGraph, type JsonLdNode } from '@/lib/jsonld';
+import { CONTACT_EMAIL, getCasaMatriz } from '@/data/sedes';
+
+/** NAP único (Fase 8): `{{telefonoCasaMatriz}}`, `{{ciudadCasaMatriz}}` y `{{email}}` de `seo.pages` salen de src/data/sedes.ts. */
+const NAP_PARAMS = {
+  telefonoCasaMatriz: getCasaMatriz().telefono,
+  ciudadCasaMatriz: getCasaMatriz().ciudad,
+  email: CONTACT_EMAIL,
+};
 
 interface SEOProps {
   /** Keyword del title, sin la marca (se agrega " | INSECAP"). Por defecto, `seo.pages` de la ruta. */
@@ -80,7 +88,7 @@ const SEO = ({
 
   // Textos escritos a mano de la ruta (translations.ts → seo.pages); fuera de la tabla, los del 404.
   const pageKey = seoRoute ? getSeoPageKey(seoRoute) : 'notFound';
-  const pageText = pageKey ? getSeoPageText(currentLocale, pageKey, seoParams) : null;
+  const pageText = pageKey ? getSeoPageText(currentLocale, pageKey, { ...NAP_PARAMS, ...seoParams }) : null;
 
   // hreflang desde la tabla (seo-routes.ts): solo si esta página se indexa, y solo hacia los
   // idiomas en que la misma ruta también se indexa. Páginas de datos en /es: es-CL + x-default;

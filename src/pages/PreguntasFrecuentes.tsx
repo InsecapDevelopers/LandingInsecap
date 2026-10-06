@@ -5,7 +5,7 @@ import PageHero from '@/components/PageHero';
 import SEO from '@/components/SEO';
 import Pendiente from '@/components/Pendiente';
 import { cursosSeo, getCursoSeo, getHorasPorModalidad, listarNombres } from '@/data/cursos-seo';
-import { sedes } from '@/data/sedes';
+import { getCasaMatriz, sedes } from '@/data/sedes';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { buildFaqJsonLd } from '@/lib/jsonld';
 import { SITE_URL } from '@/lib/locale-routing';
@@ -15,16 +15,31 @@ interface Pregunta {
   respuesta: string;
   /** Lo que falta validar con INSECAP. TODO: respuestas validadas (sección 4, punto 6). */
   pendiente?: string;
+  /**
+   * Respuesta para el FAQPage cuando la pregunta tiene una parte pendiente pero lo confirmado ya la
+   * responde (sin el texto "Por confirmar" ni datos dudosos). Sin este campo, una pregunta con
+   * `pendiente` queda fuera del JSON-LD.
+   */
+  respuestaJsonLd?: string;
   enlace?: { href: string; label: string };
 }
 
 const trabajoEnAltura = getCursoSeo('trabajo-en-altura');
-const horasAltura = trabajoEnAltura
+const horasAlturaTexto = (sinDudosas: boolean) => (trabajoEnAltura
   ? getHorasPorModalidad(trabajoEnAltura.tema)
+    .map((item) => ({
+      ...item,
+      horas: sinDudosas
+        ? item.horas.filter((h) => !trabajoEnAltura.horasDudosas.some((d) => d.modalidad === item.modalidad && d.horas === h))
+        : item.horas,
+    }))
     .filter((item) => item.horas.length > 0)
     .map((item) => `${item.modalidad.toLowerCase()}: ${item.horas.join(', ')} horas`)
-  : [];
+  : []);
+const respuestaAltura = (sinDudosas: boolean) =>
+  `Depende de la modalidad y del estándar que requiera la empresa. Cargas disponibles en el catálogo de INSECAP: ${horasAlturaTexto(sinDudosas).join('; ')}.`;
 const cursosCodelco = cursosSeo.filter((curso) => curso.tema.estandares.includes('Codelco'));
+const respuestaCodelco = `INSECAP es OTEC acreditada por Codelco y ofrece ${cursosCodelco.length} cursos con versión de estándar Codelco, como ${listarNombres(cursosCodelco.slice(0, 4).map((curso) => curso.tema.tema))}.`;
 const ciudades = listarNombres(sedes.map((sede) => sede.ciudad));
 
 /** Las 6 preguntas del contexto de negocio, respondidas solo con datos del contexto y del catálogo. */
@@ -32,7 +47,7 @@ const PREGUNTAS: Pregunta[] = [
   {
     pregunta: '¿Qué es una OTEC?',
     respuesta:
-      'OTEC significa Organismo Técnico de Capacitación. INSECAP es una OTEC chilena acreditada por SENCE (Resolución N° 12208), certificada en NCh 2728:2015 e ISO 9001:2015, acreditada por Codelco y con el sello del Consejo de Competencias Mineras (CCM). Es miembro de la Cámara de Comercio de Santiago (CCS) y de SICEP.',
+      `OTEC significa Organismo Técnico de Capacitación. INSECAP es una OTEC chilena con casa matriz en ${getCasaMatriz().ciudad}, acreditada por SENCE (Resolución N° 12208), certificada en NCh 2728:2015 e ISO 9001:2015, acreditada por Codelco y con el sello del Consejo de Competencias Mineras (CCM). Es miembro de la Cámara de Comercio de Santiago (CCS) y de SICEP.`,
     enlace: { href: '/acreditaciones', label: 'Ver acreditaciones' },
   },
   {
@@ -43,14 +58,18 @@ const PREGUNTAS: Pregunta[] = [
   },
   {
     pregunta: '¿Cuánto dura el curso de trabajo en altura?',
-    respuesta: `Depende de la modalidad y del estándar que requiera la empresa. Cargas disponibles en el catálogo de INSECAP: ${horasAltura.join('; ')}.`,
+    respuesta: respuestaAltura(false),
     pendiente: trabajoEnAltura?.horasPorVerificar ?? undefined,
+    // El FAQPage no lleva la combinación dudosa (150 h asincrónico, TODO en src/data/cursos-seo.ts).
+    respuestaJsonLd: respuestaAltura(true),
     enlace: { href: '/cursos/trabajo-en-altura', label: 'Ficha del curso de Trabajo en Altura' },
   },
   {
     pregunta: '¿El certificado sirve para faena Codelco?',
-    respuesta: `INSECAP es OTEC acreditada por Codelco y ofrece ${cursosCodelco.length} cursos con versión de estándar Codelco, como ${listarNombres(cursosCodelco.slice(0, 4).map((curso) => curso.tema.tema))}.`,
+    respuesta: respuestaCodelco,
     pendiente: 'Validez del certificado en cada faena por confirmar.',
+    // Lo confirmado (acreditación Codelco y cursos con su estándar) ya responde; la validez por faena queda fuera.
+    respuestaJsonLd: respuestaCodelco,
   },
   {
     pregunta: '¿Hacen cursos en terreno?',
@@ -66,11 +85,16 @@ const PREGUNTAS: Pregunta[] = [
 ];
 
 /**
- * FAQPage (Fase 4): solo las preguntas sin parte pendiente; una respuesta parcial no va al JSON-LD.
+ * FAQPage (Fases 4 y 8): las preguntas sin parte pendiente y las que tienen `respuestaJsonLd` (solo
+ * lo confirmado). Lo "Por confirmar" nunca va al JSON-LD.
  * TODO: sumar las demás cuando INSECAP valide sus respuestas (sección 4, punto 6).
  */
 const faqJsonLd = buildFaqJsonLd(
-  PREGUNTAS.map((item) => ({ pregunta: item.pregunta, respuesta: item.respuesta, porVerificar: Boolean(item.pendiente) })),
+  PREGUNTAS.map((item) => ({
+    pregunta: item.pregunta,
+    respuesta: item.respuestaJsonLd ?? item.respuesta,
+    porVerificar: Boolean(item.pendiente) && !item.respuestaJsonLd,
+  })),
   `${SITE_URL}/es/preguntas-frecuentes#faq`,
 );
 

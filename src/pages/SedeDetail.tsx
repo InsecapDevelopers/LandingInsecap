@@ -10,10 +10,13 @@ import { CURSOS_MAS_DEMANDADOS, cursoAreas, getCursoSeo, type CursoSeo } from '@
 import { COBERTURA_VIRTUAL, getSedeBySlug, getSedeMapsUrl, getSedeSeoMeta, sedes } from '@/data/sedes';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { buildSedeJsonLd } from '@/lib/jsonld';
+import { getRespuestaSede } from '@/data/respuestas';
 
+// Cursos más relevantes para enlazar desde cada sede (Fase 8): los más demandados, indexables primero.
 const masDemandados = CURSOS_MAS_DEMANDADOS
   .map((slug) => getCursoSeo(slug))
-  .filter((curso): curso is CursoSeo => curso !== null);
+  .filter((curso): curso is CursoSeo => curso !== null)
+  .sort((a, b) => Number(b.indexable) - Number(a.indexable));
 
 /** Página de una sede física (/sedes/:sede) con el NAP de src/data/sedes.ts. */
 const SedeDetail = () => {
@@ -26,7 +29,6 @@ const SedeDetail = () => {
   }
 
   const title = `INSECAP ${sede.ciudad}`;
-  const respuesta = `${sede.nombre} de INSECAP está en ${sede.direccion}, ${sede.ciudad}, ${sede.region}.${sede.casaMatriz ? ' Es la casa matriz de INSECAP.' : ''} INSECAP es una OTEC chilena acreditada por SENCE (Resolución N° 12208) y por Codelco, que capacita en seguridad, cumplimiento normativo y continuidad operacional, sobre todo para la gran minería. Teléfono ${sede.telefono}.`;
 
   return (
     <div className="min-h-screen bg-background">
@@ -42,7 +44,10 @@ const SedeDetail = () => {
 
         <div className="container mx-auto mt-12 grid grid-cols-1 gap-10 px-8 md:px-14 lg:grid-cols-3 lg:px-16">
           <div className="space-y-10 lg:col-span-2">
-            <p className="text-lg leading-relaxed text-foreground">{respuesta}</p>
+            {/* Párrafo de respuesta (Fase 8) en el idioma de la URL; el resto de la página va en español. */}
+            <p data-respuesta="sede" lang={locale === 'es' ? undefined : locale} className="text-lg leading-relaxed text-foreground">
+              {getRespuestaSede(sede, locale)}
+            </p>
 
             <section>
               <h2 className="mb-4 text-2xl font-bold text-foreground">Cursos más demandados de INSECAP</h2>

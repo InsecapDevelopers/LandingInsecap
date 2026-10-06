@@ -7,7 +7,7 @@ import SEO from '@/components/SEO';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Calendar, ArrowLeft, Share2, Newspaper, X } from 'lucide-react';
+import { Calendar, ArrowLeft, Share2, Newspaper, User, X } from 'lucide-react';
 import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
 import { newsArticleQuery } from '@/lib/queries';
 import { stripHtml, withHeadingLevels, withImageAlts, withLazyImages } from '@/lib/html';
@@ -42,6 +42,9 @@ const ArticleDetail = () => {
       more: 'Ver más noticias',
       news: 'Noticias',
       articleImage: 'Imagen de la noticia',
+      by: 'Por',
+      published: 'Publicado el',
+      updated: 'actualizado el',
       tags: ['capacitación', 'INSECAP', 'formación profesional'],
     },
     en: {
@@ -54,6 +57,9 @@ const ArticleDetail = () => {
       more: 'See more news',
       news: 'News',
       articleImage: 'Article image',
+      by: 'By',
+      published: 'Published on',
+      updated: 'updated on',
       tags: ['training', 'INSECAP', 'professional development'],
     },
     pt: {
@@ -66,6 +72,9 @@ const ArticleDetail = () => {
       more: 'Ver mais notícias',
       news: 'Notícias',
       articleImage: 'Imagem da notícia',
+      by: 'Por',
+      published: 'Publicado em',
+      updated: 'atualizado em',
       tags: ['capacitação', 'INSECAP', 'formação profissional'],
     },
   }[locale];
@@ -246,10 +255,29 @@ const ArticleDetail = () => {
         <section className="py-12">
           <div className="container mx-auto px-8 md:px-14 lg:px-16 max-w-4xl">
             <div className="flex flex-wrap items-center gap-4 text-slate-500 mb-8 border-b pb-4">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <span>{formatArticleDate(article.updatedAt ?? article.publishedAt)}</span>
-              </div>
+              {/* Autoría visible (Fase 8, E-E-A-T): el autor que entrega el API del TMS Plus; si no viene, INSECAP. */}
+              <p className="flex items-center gap-2">
+                <User className="h-4 w-4" aria-hidden="true" />
+                <span>
+                  {content.by}{' '}
+                  {article.authorV2?.name
+                    ? <span className="font-semibold text-foreground">{article.authorV2.name}</span>
+                    : <span className="font-semibold text-foreground">INSECAP</span>}
+                </span>
+              </p>
+              <p className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" aria-hidden="true" />
+                <span>
+                  {content.published}{' '}
+                  <time dateTime={toSantiagoIso(article.publishedAt)}>{formatArticleDate(article.publishedAt)}</time>
+                  {article.updatedAt && formatArticleDate(article.updatedAt) !== formatArticleDate(article.publishedAt) && (
+                    <>
+                      {' · '}{content.updated}{' '}
+                      <time dateTime={toSantiagoIso(article.updatedAt)}>{formatArticleDate(article.updatedAt)}</time>
+                    </>
+                  )}
+                </span>
+              </p>
               <Button
                 variant="ghost"
                 size="sm"

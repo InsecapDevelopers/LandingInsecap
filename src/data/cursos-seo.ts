@@ -142,25 +142,26 @@ const SLUG_A_TEMA: Record<string, string> = {
 const NOINDEX_SLUGS = new Set(['seguridad-y-prevencion-otros', 'computacion-e-informatica-general']);
 
 /**
- * Párrafos de respuesta (40–60 palabras). Solo para los cursos más demandados del contexto de
- * negocio que tienen tema propio; cada dato sale del contexto (acreditaciones) o del JSON
+ * Párrafos de respuesta (40–60 palabras, con INSECAP, OTEC, ciudad y acreditaciones: Fase 8). Solo
+ * para los cursos más demandados del contexto de negocio que tienen tema propio; cada dato sale del
+ * contexto (casa matriz en Calama y acreditaciones) o del JSON
  * (modalidades, horas y estándares). TODO: los 54 temas restantes (sección 4, punto 1).
  */
 const RESPUESTAS: Record<string, string> = {
   'trabajo-en-altura':
-    'Trabajo en Altura es uno de los cursos más demandados de INSECAP, OTEC acreditada por SENCE y por Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, desde 2 horas, en versión genérica o con el estándar de compañías mineras como Codelco, Minera Escondida, Collahuasi, BHP Spence y Antofagasta Minerals.',
+    'Trabajo en Altura es uno de los cursos más demandados de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, desde 2 horas, en versión genérica o con el estándar de compañías mineras como Codelco, Minera Escondida, Collahuasi, BHP Spence y Antofagasta Minerals.',
   'manejo-defensivo-y-conduccion-segura':
-    'Manejo Defensivo y Conducción Segura es una de las áreas más demandadas de INSECAP, OTEC acreditada por SENCE y por Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 2 a 40 horas, en versión genérica o con estándar Codelco, y se cotiza según la modalidad, la carga horaria y el estándar.',
+    'Manejo Defensivo y Conducción Segura es una de las áreas más demandadas de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 2 a 40 horas, en versión genérica o con estándar Codelco, y se cotiza según la modalidad, la carga horaria y el estándar.',
   'aislacion-y-bloqueo-loto':
-    'Aislación y Bloqueo (LOTO) es uno de los cursos más demandados de INSECAP, OTEC acreditada por SENCE y por Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 8 horas, en versión genérica o con estándar Codelco, y se cotiza según la modalidad, la carga horaria y el estándar.',
+    'Aislación y Bloqueo (LOTO) es uno de los cursos más demandados de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 8 horas, en versión genérica o con estándar Codelco, y se cotiza según la modalidad, la carga horaria y el estándar.',
   'espacios-confinados':
-    'Espacios Confinados es uno de los cursos más demandados de INSECAP, OTEC acreditada por SENCE y por Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 16 horas, en versión genérica o con el estándar de Codelco, Minera Escondida o BHP Spence, y se cotiza para cada empresa.',
+    'Espacios Confinados es uno de los cursos más demandados de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 16 horas, en versión genérica o con el estándar de Codelco, Minera Escondida o BHP Spence, y se cotiza para cada empresa.',
   'montaje-y-uso-de-andamios':
-    'Montaje y Uso de Andamios es uno de los cursos más demandados de INSECAP, OTEC acreditada por SENCE y por Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 16 horas, en versión genérica o con el estándar de Codelco, Collahuasi o Minera Escondida, y se cotiza para cada empresa.',
+    'Montaje y Uso de Andamios es uno de los cursos más demandados de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 16 horas, en versión genérica o con el estándar de Codelco, Collahuasi o Minera Escondida, y se cotiza para cada empresa.',
   'operacion-de-grua-horquilla-y-apilador':
-    'Operación de Grúa Horquilla y Apilador es una de las áreas más demandadas de INSECAP, que también dicta la recertificación de operadores. Como OTEC acreditada por SENCE y por Codelco, ofrece el curso a empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, desde 2 horas, en versión genérica o con estándar Codelco.',
+    'Operación de Grúa Horquilla y Apilador es una de las áreas más demandadas de INSECAP, que también dicta la recertificación de operadores. Como OTEC de Calama acreditada por SENCE y Codelco, ofrece el curso a empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, desde 2 horas, en versión genérica o con estándar Codelco.',
   'primeros-auxilios':
-    'Primeros Auxilios es uno de los cursos más demandados de INSECAP, OTEC acreditada por SENCE y por Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 16 horas, y se cotiza según la modalidad, la carga horaria y las necesidades de cada organización.',
+    'Primeros Auxilios es uno de los cursos más demandados de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 16 horas, y se cotiza según la modalidad, la carga horaria y las necesidades de cada organización.',
 };
 
 /**
@@ -373,12 +374,18 @@ export const getCursoArea = (slug: string | undefined): CursoArea | null =>
 export const getCursosByArea = (areaSlug: string): CursoSeo[] =>
   cursosSeo.filter((curso) => curso.area.slug === areaSlug);
 
-/** Cursos de la misma área, primero los indexables (los que tienen contenido real). */
-export const getRelatedCursos = (curso: CursoSeo, limit = 3): CursoSeo[] =>
-  getCursosByArea(curso.area.slug)
-    .filter((candidato) => candidato.slug !== curso.slug)
-    .sort((a, b) => Number(b.indexable) - Number(a.indexable))
-    .slice(0, limit);
+/**
+ * Cursos relacionados (Fase 8: cada ficha enlaza a 3): primero los de la misma área y, si no
+ * alcanzan, los de otras áreas; en cada grupo, primero los indexables (los que tienen contenido real).
+ */
+export const getRelatedCursos = (curso: CursoSeo, limit = 3): CursoSeo[] => {
+  const porIndexable = (a: CursoSeo, b: CursoSeo) => Number(b.indexable) - Number(a.indexable);
+  const otros = cursosSeo.filter((candidato) => candidato.slug !== curso.slug);
+  return [
+    ...otros.filter((candidato) => candidato.area.slug === curso.area.slug).sort(porIndexable),
+    ...otros.filter((candidato) => candidato.area.slug !== curso.area.slug).sort(porIndexable),
+  ].slice(0, limit);
+};
 
 /** Modalidades de los cursos de un área, en minúscula y orden alfabético. */
 export const getModalidadesArea = (cursos: CursoSeo[]): string[] =>

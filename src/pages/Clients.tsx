@@ -8,6 +8,7 @@ import { clientLogos } from '@/data/clients';
 import { Marquee } from "@/components/ui/marquee";
 import { getLiderComercial, LiderComercial } from '@/lib/tmsApi';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { getSedeBySlug } from '@/data/sedes';
 import { shopifyImage, shopifyImageForHeight } from '@/lib/images';
 
 const slideInLeft = {
@@ -31,7 +32,8 @@ const Clients = () => {
     });
   }, []);
 
-  const waPhone = lider?.telefono?.replace(/\D/g, '') ?? '56988198254';
+  // Respaldo: el teléfono de la sede Santiago de src/data/sedes.ts (NAP único, Fase 8).
+  const waPhone = (lider?.telefono ?? getSedeBySlug('santiago')?.telefonoE164 ?? '').replace(/\D/g, '');
   const content = {
     es: {
       title: 'Nuestros Clientes',

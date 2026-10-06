@@ -73,6 +73,11 @@
  *     páginas, 404.html y _shell.html (si no, el CSP reportaría o, en enforce, bloquearía el script)
  *   - sin manejadores de eventos en atributos (onclick="…") ni enlaces javascript:, que el CSP
  *     sin 'unsafe-inline' tampoco permite
+ * Contenido citable (Fase 8):
+ *   - párrafos de respuesta (data-respuesta) de 40–60 palabras; obligatorios en home, nosotros,
+ *     cada sede (es, en y pt) y cada ficha indexable
+ *   - cada ficha indexable: 3 o más enlaces a /es/cursos/… y un enlace a su categoría
+ *   - el teléfono de la casa matriz (+56 55 292 6431) en /es, /es/contacto y /es/sedes/calama
  * Redirecciones (dist/redirects.map, Fase 2):
  *   - cada línea es `"origen" "destino";` (exacta) o `"~^…" "destino";` (regex)
  *   - sin cadenas: ningún destino es a su vez un origen
@@ -287,6 +292,48 @@ const checkJsonLd = (relative, html) => {
   }
 };
 
+// ---------- Contenido citable (Fase 8) ----------
+
+const RESPUESTA_MIN = 40;
+const RESPUESTA_MAX = 60;
+/** Páginas que abren con un párrafo de respuesta (data-respuesta): home, nosotros y sedes en los tres idiomas. */
+const RESPUESTA_PATH = /^\/(es|en|pt)(\/nosotros|\/sedes\/[^/]+)?$/;
+// NAP único: mismo valor que la casa matriz de src/data/sedes.ts.
+const CASA_MATRIZ_TEL = '+56 55 292 6431';
+const NAP_PAGES = ['/es', '/es/contacto', '/es/sedes/calama'];
+const napSeen = new Set();
+const MIN_LINKS_FICHA = 3;
+
+/**
+ * - todo párrafo data-respuesta tiene 40–60 palabras, y home, nosotros, cada sede y cada ficha
+ *   indexable tienen uno
+ * - cada ficha indexable enlaza al menos 3 veces a /es/cursos/… y a su categoría (la del BreadcrumbList)
+ * - el teléfono de la casa matriz aparece en /es, /es/contacto y /es/sedes/calama
+ */
+const checkContenidoCitable = (relative, urlPath, html, indexable) => {
+  const respuestas = [...html.matchAll(/<p\b[^>]*\sdata-respuesta="[^"]*"[^>]*>([\s\S]*?)<\/p>/gi)].map(([, inner]) => plainText(inner));
+  for (const respuesta of respuestas) {
+    const words = respuesta.split(/\s+/).filter((word) => /[\p{L}\p{N}]/u.test(word)).length;
+    if (words < RESPUESTA_MIN || words > RESPUESTA_MAX) fail(relative, `párrafo de respuesta de ${words} palabras (se esperan ${RESPUESTA_MIN}–${RESPUESTA_MAX})`);
+  }
+  const ficha = /^\/es\/cursos\/(?!categoria\/)[^/]+$/.test(urlPath) && indexable;
+  if ((RESPUESTA_PATH.test(urlPath) || ficha) && respuestas.length === 0) fail(relative, 'sin párrafo de respuesta (data-respuesta)');
+
+  if (ficha) {
+    const links = count(html, /<a\s[^>]*href="\/es\/cursos\/[^"]+"/gi);
+    if (links < MIN_LINKS_FICHA) fail(relative, `${links} enlaces a /es/cursos/… (se esperan ${MIN_LINKS_FICHA} o más)`);
+    const { graph = [] } = readGraph(html);
+    let categoria = null;
+    graph.forEach((node) => walkJson(node, (child) => {
+      if (typeof child.item === 'string' && child.item.startsWith(`${SITE_URL}/es/cursos/categoria/`)) categoria = child.item.slice(SITE_URL.length);
+    }));
+    if (!categoria) fail(relative, 'ficha sin categoría en el BreadcrumbList');
+    else if (!html.includes(`href="${categoria}"`)) fail(relative, `ficha sin enlace a su categoría ${categoria}`);
+  }
+
+  if (NAP_PAGES.includes(urlPath) && html.includes(CASA_MATRIZ_TEL)) napSeen.add(urlPath);
+};
+
 if (!fs.existsSync(DIST)) {
   console.error('[check-dist] No existe dist/. Corre `npm run build`.');
   process.exit(1);
@@ -402,6 +449,12 @@ for (const { file, locale } of ONLY_REDIRECTS ? [] : pages) {
   const indexable = /^index/i.test(findTags(html, /<meta[^>]+name="robots"[^>]*>/gi)[0]?.content ?? '');
   if (!indexable && alternates.length > 0) fail(relative, 'página noindex con hreflang');
   if (indexable) indexablePages.set(selfUrl, { relative, locale, title, description, alternates });
+
+  checkContenidoCitable(relative, urlPath, html, indexable);
+}
+
+for (const urlPath of NAP_PAGES) {
+  if (!ONLY_REDIRECTS && !napSeen.has(urlPath)) fail(urlPath, `sin el teléfono de la casa matriz ${CASA_MATRIZ_TEL} (o la página no existe)`);
 }
 
 // Duplicados y hreflang recíproco entre páginas indexables.

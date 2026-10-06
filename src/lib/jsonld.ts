@@ -19,7 +19,7 @@
 import { SITE_URL } from './locale-routing';
 import type { ShopifyArticle } from './shopify';
 import type { CursoSeo, Faq } from '../data/cursos-seo';
-import type { Sede } from '../data/sedes';
+import { CONTACT_EMAIL, getCasaMatriz, type Sede } from '../data/sedes';
 
 export const ORG_ID = `${SITE_URL}/#org`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
@@ -56,13 +56,14 @@ const organization: JsonLdNode = {
   // src/lib/insecapUtils.ts usa FOUNDING_YEAR = 1991; se publica 2009 hasta que INSECAP lo confirme.
   foundingDate: '2009',
   description: ORG_DESCRIPTION,
-  email: 'contacto@insecap.cl',
-  telephone: '+56 55 292 6431',
+  // NAP único (Fase 8): la casa matriz de src/data/sedes.ts.
+  email: CONTACT_EMAIL,
+  telephone: getCasaMatriz().telefonoE164,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'La Cascada 1513',
-    addressLocality: 'Calama',
-    addressRegion: 'Región de Antofagasta',
+    streetAddress: getCasaMatriz().direccion,
+    addressLocality: getCasaMatriz().ciudad,
+    addressRegion: getCasaMatriz().region,
     addressCountry: 'CL',
   },
   areaServed: { '@type': 'Country', name: 'Chile' },

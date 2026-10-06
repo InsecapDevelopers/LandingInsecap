@@ -7,6 +7,8 @@ import { isOpenCourseOfferEnabled } from '@/lib/featureFlags';
 import { useTranslation } from 'react-i18next';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { HIGH_PRIORITY, localImage } from '@/lib/images';
+import { useLocalizedPath } from '@/hooks/use-localized-path';
+import { getRespuestaHome } from '@/data/respuestas';
 
 // ponytail: pega aquí la URL del .mp4 (Shopify CDN o /public). Vacío => solo poster.
 const VIDEO_SRC = 'https://cdn.shopify.com/videos/c/o/v/24efdc373f8f4f5c8ebebbce1ecdb1e7.mp4';
@@ -46,6 +48,7 @@ const VideoHero = () => {
   const { t, i18n } = useTranslation();
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
+  const { locale } = useLocalizedPath();
 
   // El video se monta después de hidratar (el HTML prerenderizado solo trae el poster).
   const [playVideo, setPlayVideo] = useState(false);
@@ -171,6 +174,15 @@ const VideoHero = () => {
             {t('hero.reach')}
           </span>
         </motion.div>
+
+        {/* Párrafo de respuesta (Fase 8): qué es INSECAP en 40–60 palabras, con entidades explícitas
+            y la cifra 2025 con su fecha. Va en el HTML prerenderizado, sin animación de entrada. */}
+        <p
+          data-respuesta="home"
+          className="mt-8 mx-auto max-w-3xl text-sm sm:text-base leading-relaxed text-white/90 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]"
+        >
+          {getRespuestaHome(locale)}
+        </p>
       </motion.div>
 
       {/* ── Empalme con el Hero claro: ondas suaves cyan → indigo → fondo claro ── */}
