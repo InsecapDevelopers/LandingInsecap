@@ -692,6 +692,12 @@ if (!ONLY_REDIRECTS) {
   for (const file of allFiles(DIST)) {
     if (!/\.(jpe?g|png|webp|avif|gif|svg|mp4|webm)$/i.test(file)) continue;
     const kb = Math.round(fs.statSync(file).size / 1024);
+    // Única excepción: el video del hero (solo escritorio, se carga con la primera interacción y
+    // no cuenta para el LCP). Tope propio de 3 MB para que no vuelva a crecer.
+    if (/^videos\/hero-[\w-]+\.mp4$/.test(path.relative(DIST, file).split(path.sep).join('/'))) {
+      if (kb > 3072) fail(path.relative(DIST, file), `pesa ${kb} KB (máximo 3 MB para el video del hero)`);
+      continue;
+    }
     if (kb > MAX_MEDIA_KB) {
       fail(path.relative(DIST, file), `pesa ${kb} KB (máximo ${MAX_MEDIA_KB}): recomprimir a WebP/AVIF al tamaño de render`);
     }

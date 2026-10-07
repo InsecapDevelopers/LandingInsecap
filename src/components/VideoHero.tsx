@@ -9,7 +9,9 @@ import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { HIGH_PRIORITY, localImage } from '@/lib/images';
 
 // ponytail: pega aquí la URL del .mp4 (Shopify CDN o /public). Vacío => solo poster.
-const VIDEO_SRC = 'https://cdn.shopify.com/videos/c/o/v/24efdc373f8f4f5c8ebebbce1ecdb1e7.mp4';
+// H.264 960px sin audio (2,7 MB; el original de Shopify era HEVC 720p de 12,9 MB, que Chrome en
+// Windows a menudo no reproduce).
+const VIDEO_SRC = '/videos/hero-insecap-960.mp4';
 // ponytail: el CDN sirve tanto .mp4 como .webp animado; el tag correcto depende de la extensión.
 const IS_VIDEO = /\.(mp4|webm|mov|m4v)(\?|$)/i.test(VIDEO_SRC);
 
@@ -47,10 +49,19 @@ const VideoHero = () => {
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
 
-  // El video se monta después de hidratar (el HTML prerenderizado solo trae el poster).
+  // El video se monta recién con la primera interacción (mover el mouse, scroll, tecla o toque):
+  // hasta entonces se ve el poster, que es la imagen LCP. Así sus 2,7 MB no compiten con la carga
+  // inicial. El HTML prerenderizado solo trae el poster.
   const [playVideo, setPlayVideo] = useState(false);
   useEffect(() => {
-    setPlayVideo(Boolean(VIDEO_SRC) && !reduceMotion && canPlayHeroVideo());
+    if (!VIDEO_SRC || reduceMotion || !canPlayHeroVideo()) return;
+    const events = ['pointermove', 'scroll', 'keydown', 'touchstart'] as const;
+    const start = () => {
+      setPlayVideo(true);
+      events.forEach((name) => window.removeEventListener(name, start));
+    };
+    events.forEach((name) => window.addEventListener(name, start, { once: true, passive: true }));
+    return () => events.forEach((name) => window.removeEventListener(name, start));
   }, [reduceMotion]);
 
   // Frase de valor: "Capacitación que fortalece tu operación" + rotatorio "Preparando tu equipo para…"
