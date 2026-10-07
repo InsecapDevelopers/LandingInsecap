@@ -5,7 +5,6 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const tmsTarget = env.TMS_PROXY_TARGET || 'https://tms.insecap.cl';
   const tmsPlusTarget = env.TMS_PLUS_PROXY_TARGET || 'https://api-plus.insecap.cl';
   // Capin (RAG-service) local: la burbuja llama a /capin/chat y el proxy evita CORS en dev.
   const capinTarget = env.CAPIN_PROXY_TARGET || 'http://localhost:8000';
@@ -24,30 +23,18 @@ export default defineConfig(({ command, mode }) => {
         ignored: ['**/.env', '**/.env.local', '**/.env.*'],
       },
       proxy: {
-        // Rutas más específicas primero: /api/contacto y /api/publica (noticias) van al
-        // TMS Plus, el resto de /api al TMS.
-        '/api/contacto': {
-          target: tmsPlusTarget,
-          changeOrigin: true,
-          secure: tmsPlusTarget.startsWith('https'),
-          headers: { 'ngrok-skip-browser-warning': 'true' },
-        },
-        '/api/publica': {
-          target: tmsPlusTarget,
-          changeOrigin: true,
-          secure: tmsPlusTarget.startsWith('https'),
-          headers: { 'ngrok-skip-browser-warning': 'true' },
-        },
         '/capin': {
           target: capinTarget,
           changeOrigin: true,
           secure: capinTarget.startsWith('https'),
           rewrite: (p) => p.replace(/^\/capin/, ''),
         },
+        // Todo /api va al TMS Plus (contacto, noticias, Trabaja con nosotros, comercial de turno,
+        // muro). El sitio ya no consume el TMS Legacy.
         '/api': {
-          target: tmsTarget,
+          target: tmsPlusTarget,
           changeOrigin: true,
-          secure: tmsTarget.startsWith('https'),
+          secure: tmsPlusTarget.startsWith('https'),
           headers: { 'ngrok-skip-browser-warning': 'true' },
         },
       },

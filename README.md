@@ -45,9 +45,8 @@ Crea un archivo `.env.local` en la raíz si necesitas sobreescribir valores. Las
 
 | Variable             | Uso                                                                         |
 | -------------------- | --------------------------------------------------------------------------- |
-| `TMS_PROXY_TARGET`   | Target del proxy `/api` en dev server (default `https://tms.insecap.cl`)    |
-| `TMS_PLUS_PROXY_TARGET` | Target del proxy `/api/contacto` en dev server, TMS Plus (default `https://api-plus.insecap.cl`) |
-| `VITE_TMS_PLUS_API_URL` | URL del TMS Plus en producción (usada por el formulario de cursos abiertos) |
+| `TMS_PLUS_PROXY_TARGET` | Target del proxy `/api` en dev server, TMS Plus (default `https://api-plus.insecap.cl`) |
+| `VITE_TMS_PLUS_API_URL` | URL del TMS Plus en producción: contacto, noticias, Trabaja con nosotros, comercial de turno y muro |
 | `VITE_*`             | Cualquier variable expuesta al cliente (se embebe en el bundle al build)    |
 
 > El proxy `/api` definido en [vite.config.ts](vite.config.ts) aplica **solo** al servidor de desarrollo. En producción configura el reverse proxy a nivel de infraestructura/CDN.
@@ -90,7 +89,7 @@ Las variables `VITE_*` se embeben durante el build. Para inyectarlas pásalas co
 
 ```sh
 docker build \
-  --build-arg VITE_TMS_API_URL=https://tms.insecap.cl \
+  --build-arg VITE_TMS_PLUS_API_URL=https://api-plus.insecap.cl \
   --build-arg VITE_B2B_CATALOG_ENABLED=true \
   -t insecap-landing:latest .
 ```

@@ -5,12 +5,13 @@ export interface LiderComercial {
   foto: string | null;
 }
 
-export interface PodioItem {
+/** Ganador vigente del Muro de la Fama (TMS Plus: /api/public/muro/fama/podio). */
+export interface GanadorFama {
+  categoria: 'trabajador' | 'relator';
   nombre: string;
-  rol: string;
-  mes: string;
+  mes: number;
+  anio: number;
   foto: string | null;
-  logro: string;
 }
 
 export interface PodioInsecoinsItem {
@@ -20,20 +21,10 @@ export interface PodioInsecoinsItem {
   totalInsecoins: number;
 }
 
-export interface PodioEstrellasItem {
-  puesto: number;
-  nombre: string;
-  foto: string | null;
-  totalEstrellas: number;
-}
-
-export interface PodioEstrellas {
-  fecha: string;
-  ranking: PodioEstrellasItem[];
-}
-
-const BASE = import.meta.env.VITE_TMS_API_URL ?? '';
-export const TMS_BASE_URL = BASE;
+// Endpoints públicos del TMS Plus (antes en el TMS Legacy, tms.insecap.cl).
+const BASE = (import.meta.env.VITE_TMS_PLUS_API_URL ?? '').replace(/\/+$/, '');
+// El TMS Plus devuelve la foto como ruta relativa a su API (redirige a Spaces).
+const absoluta = (url: string | null | undefined) => (url ? (url.startsWith('/') ? `${BASE}${url}` : url) : null);
 
 async function tmsGet<T>(path: string, fallback: T): Promise<T> {
   try {
@@ -82,21 +73,23 @@ export const getLiderComercial = async (): Promise<LiderComercial | null> => {
   return data;
 };
 
-export const getMuroFamaPodio = () =>
-  tmsGet<PodioItem[]>('/api/MuroFama/podio', []);
+interface PodioPublico { posicion: number; nombreCompleto: string; total: number; fotoUrl: string | null }
 
-export const getMuroFamaHtml = async (): Promise<string | null> => {
-  try {
-    const res = await fetch(`${BASE}/MuroFama/resumenfamaweb`);
-    if (!res.ok) return null;
-    return await res.text();
-  } catch {
-    return null;
-  }
-};
+export const getPodioInsecoins = async (): Promise<PodioInsecoinsItem[]> =>
+  (await tmsGet<PodioPublico[]>('/api/public/muro/felicidad/podio-insecoins', [])).map((p) => ({
+    puesto: p.posicion,
+    nombre: p.nombreCompleto,
+    foto: absoluta(p.fotoUrl),
+    totalInsecoins: p.total,
+  }));
 
-export const getPodioInsecoins = () =>
-  tmsGet<PodioInsecoinsItem[]>('/api/MuroFelicidad/podioInsecoins', []);
+interface FamaPublico { categoria: GanadorFama['categoria']; nombreCompleto: string; mes: number; anio: number; fotoUrl: string | null }
 
-export const getPodioEstrellas = () =>
-  tmsGet<PodioEstrellas>('/api/MuroFelicidad/podioEstrellas', { fecha: '', ranking: [] });
+export const getGanadoresFama = async (): Promise<GanadorFama[]> =>
+  (await tmsGet<FamaPublico[]>('/api/public/muro/fama/podio', [])).map((g) => ({
+    categoria: g.categoria,
+    nombre: g.nombreCompleto,
+    mes: g.mes,
+    anio: g.anio,
+    foto: absoluta(g.fotoUrl),
+  }));
