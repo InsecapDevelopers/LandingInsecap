@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Trophy } from 'lucide-react';
 import Header from '@/components/Header';
 import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import {
-  TMS_BASE_URL,
   getPodioInsecoins, PodioInsecoinsItem,
+  getGanadoresFama, GanadorFama,
 } from '@/lib/tmsApi';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { shopifyImage } from '@/lib/images';
@@ -115,63 +115,51 @@ const shootCelebration = () => void loadConfetti().then((confetti) => {
   setTimeout(() => confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#3b82f6', '#06b6d4', '#8b5cf6'] }), 200);
 });
 
-// Iframe responsivo: siempre en el DOM para que ResizeObserver obtenga el ancho real
-const IframeFama = ({ src, title, onLoaded, loaded }: { src: string; title: string; onLoaded: () => void; loaded: boolean }) => {
-  const [zoom, setZoom] = useState(1);
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const IFRAME_NATURAL_WIDTH = 1200;
-
-  const updateZoom = (el: HTMLDivElement) => {
-    const w = el.offsetWidth;
-    if (w > 0) setZoom(Math.min(1, w / IFRAME_NATURAL_WIDTH));
-  };
-
-  useEffect(() => {
-    const el = wrapperRef.current;
-    if (!el) return;
-    const observer = new ResizeObserver(() => updateZoom(el));
-    observer.observe(el);
-    updateZoom(el);
-    return () => observer.disconnect();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    // wrapper siempre visible → ResizeObserver tiene ancho real desde el primer render
-    <div ref={wrapperRef} style={{ position: 'relative', overflow: 'hidden', minHeight: loaded ? undefined : '260px' }}>
-      {/* Skeleton superpuesto mientras carga */}
-      {!loaded && (
-        <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
-          <PodioSkeleton />
-        </div>
-      )}
-      <iframe
-        src={src}
-        title={title}
-        scrolling="no"
-        onLoad={onLoaded}
-        style={{
-          width: `${IFRAME_NATURAL_WIDTH}px`,
-          minHeight: '850px',
-          border: 'none',
-          display: 'block',
-          zoom: zoom,
-          visibility: loaded ? 'visible' : 'hidden',
-        }}
-      />
-    </div>
+// Foto con respaldo: si no hay URL o no carga (usuario sin foto), muestra la inicial.
+const Avatar = ({ foto, nombre, className }: { foto: string | null; nombre: string; className: string }) => {
+  const [error, setError] = useState(false);
+  return foto && !error ? (
+    <img src={foto} alt={nombre} width={96} height={96} loading="lazy" decoding="async"
+      onError={() => setError(true)} className={`${className} object-cover`} />
+  ) : (
+    <div className={`${className} bg-muted flex items-center justify-center text-2xl font-bold`}>{nombre.charAt(0)}</div>
   );
 };
 
+const GanadoresFama = ({ items, labels, locale }: {
+  items: GanadorFama[];
+  labels: Record<GanadorFama['categoria'], string>;
+  locale: string;
+}) => (
+  <div className="grid gap-6 sm:grid-cols-2 p-6 md:p-10">
+    {items.map((g) => (
+      <div key={g.categoria} className="bg-card rounded-2xl p-6 flex flex-col items-center text-center shadow-md">
+        <span className="text-3xl mb-2" aria-hidden="true">🏆</span>
+        <Avatar foto={g.foto} nombre={g.nombre} className="w-24 h-24 rounded-full ring-2 ring-yellow-400 shadow-md" />
+        <p className="font-semibold text-foreground text-lg mt-3">{g.nombre}</p>
+        <p className="text-sm text-muted-foreground">
+          {labels[g.categoria]} · {new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(new Date(g.anio, g.mes - 1))}
+        </p>
+      </div>
+    ))}
+  </div>
+);
+
 const HonorTeam = () => {
   const { locale } = useLocalizedPath();
-  const [famaLoaded, setFamaLoaded] = useState(false);
+  const [ganadoresFama, setGanadoresFama] = useState<GanadorFama[]>([]);
+  const [loadingFama, setLoadingFama] = useState(true);
 
   const [podioInsecoins, setPodioInsecoins] = useState<PodioInsecoinsItem[]>([]);
   const [loadingInsecoins, setLoadingInsecoins] = useState(true);
 
   useEffect(() => {
     getPodioInsecoins().then((data) => { setPodioInsecoins(data); setLoadingInsecoins(false); });
+    getGanadoresFama().then((data) => {
+      setGanadoresFama(data);
+      setLoadingFama(false);
+      if (data.length > 0) shootStars();
+    });
   }, []);
 
 
@@ -195,6 +183,7 @@ const HonorTeam = () => {
       happinessWall: 'Muro de la Felicidad',
       happinessText: 'El "Muro de la Felicidad" en INSECAP es un espacio destinado a fomentar el bienestar, la actitud positiva y la cohesion entre personal interno y Facilitadores. Su objetivo es promover la expresion de gratitud, logros, mensajes de apoyo y pequenas celebraciones que contribuyan al clima emocional positivo de la comunidad educativa de INSECAP.',
       monthlyPodium: 'El podio mensual se actualizara proximamente.',
+      fameLabels: { trabajador: 'Colaborador del Mes', relator: 'Facilitador del Mes' },
     },
     en: {
       title: 'Honor and Happiness Team',
@@ -211,6 +200,7 @@ const HonorTeam = () => {
       happinessWall: 'Happiness Wall',
       happinessText: 'The "Happiness Wall" at INSECAP is a space created to promote wellbeing, positive attitude and cohesion among internal staff and facilitators. Its goal is to encourage gratitude, achievements, messages of support and small celebrations that strengthen the community\'s emotional climate.',
       monthlyPodium: 'The monthly podium will be updated soon.',
+      fameLabels: { trabajador: 'Employee of the Month', relator: 'Facilitator of the Month' },
     },
     pt: {
       title: 'Equipe Honra e Felicidade',
@@ -227,6 +217,7 @@ const HonorTeam = () => {
       happinessWall: 'Muro da Felicidade',
       happinessText: 'O "Muro da Felicidade" da INSECAP é um espaço criado para promover bem-estar, atitude positiva e coesão entre a equipe interna e os facilitadores. Seu objetivo é estimular a expressão de gratidão, conquistas, mensagens de apoio e pequenas celebrações que contribuam para um clima emocional positivo.',
       monthlyPodium: 'O pódio mensal será atualizado em breve.',
+      fameLabels: { trabajador: 'Colaborador do Mês', relator: 'Facilitador do Mês' },
     },
   }[locale];
 
@@ -263,12 +254,23 @@ const HonorTeam = () => {
 
             {/* Ganadores Muro de la Fama embebidos */}
             <div className="relative rounded-2xl border border-border overflow-hidden shadow-xl bg-gradient-to-br from-primary/10 via-card to-secondary/10">
-              <IframeFama
-                src={`${TMS_BASE_URL}/MuroFama/resumenfamaweb`}
-                title={content.fameWall}
-                onLoaded={() => { setFamaLoaded(true); shootStars(); }}
-                loaded={famaLoaded}
-              />
+              {loadingFama && <PodioSkeleton />}
+
+              {!loadingFama && ganadoresFama.length === 0 && (
+                <div className="text-center py-12 px-6">
+                  <span className="inline-block text-xs font-semibold uppercase tracking-wide bg-secondary/15 text-secondary rounded-full px-3 py-1 mb-3">
+                    {content.inProgress}
+                  </span>
+                  <p className="text-xl font-bold text-foreground">{content.voting1} {content.voting2}</p>
+                  <p className="text-muted-foreground mt-2">
+                    {content.votingText} <strong>{content.votingTextStrong}</strong>
+                  </p>
+                </div>
+              )}
+
+              {!loadingFama && ganadoresFama.length > 0 && (
+                <GanadoresFama items={ganadoresFama} labels={content.fameLabels} locale={locale} />
+              )}
             </div>
           </section>
 

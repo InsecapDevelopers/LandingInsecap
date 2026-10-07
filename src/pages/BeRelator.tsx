@@ -21,8 +21,12 @@ const formatOptionLabel = (option: any) => {
   return option.nombre + (option.comuna ? ` (${option.comuna}, ${option.region})` : '');
 };
 
+// Postulación y catálogos viven en el TMS Plus (antes en el TMS Legacy, tms.insecap.cl):
+// el candidato entra al SIRAR como origen Web.
+const API_BASE = (import.meta.env.VITE_TMS_PLUS_API_URL ?? '').replace(/\/+$/, '');
+
 const getApiUrl = (endpoint: string) => {
-  const baseUrl = import.meta.env.VITE_TMS_API_URL;
+  const baseUrl = API_BASE;
   const isProd = import.meta.env.PROD;
   const url = isProd ? `${baseUrl}${endpoint}` : endpoint;
 
@@ -38,10 +42,10 @@ const getApiUrl = (endpoint: string) => {
 
 // Headers personalizados para el fetch del navegador. No incluir
 // 'ngrok-skip-browser-warning': en producción el navegador llama a
-// tms.insecap.cl directamente (sin túnel ngrok) y ese header no-simple
+// la API del TMS Plus directamente (sin túnel ngrok) y ese header no-simple
 // dispara un preflight que el servidor rechaza, bloqueando la petición por CORS.
 // El proxy de Vite (vite.config.ts) ya lo inyecta del lado del servidor en dev
-// cuando TMS_PROXY_TARGET apunta a un túnel ngrok.
+// cuando TMS_PLUS_PROXY_TARGET apunta a un túnel ngrok.
 const apiHeaders: HeadersInit = {};
 
 // --- Subcomponente para los Selects con buscador ---
@@ -284,7 +288,7 @@ const BeRelator = () => {
 
         console.log('[BeRelator] Iniciando requests...');
         console.log('[BeRelator] Dominio actual:', window.location.origin);
-        console.log('[BeRelator] Dominio API:', 'https://tms.insecap.cl');
+        console.log('[BeRelator] Dominio API:', API_BASE);
 
         const fetchEndpoint = async (url: string, name: string) => {
           try {
@@ -434,7 +438,7 @@ const BeRelator = () => {
           error: errorMessage,
           isCORSError: isCORSError ? 'PROBABLE (Failed to fetch generalmente es CORS)' : 'No identificado',
           possibleCauses: isCORSError ? [
-            'El backend en tms.insecap.cl no permite CORS desde ' + window.location.origin,
+            'El backend en ' + API_BASE + ' no permite CORS desde ' + window.location.origin,
             'El servidor rechaza requests sin autenticación',
             'El header ngrok-skip-browser-warning es rechazado',
             'Certificado SSL inválido o no confiable'
@@ -445,8 +449,8 @@ const BeRelator = () => {
           ],
           domainInfo: {
             currentDomain: window.location.origin,
-            apiDomain: 'https://tms.insecap.cl',
-            crossOrigin: window.location.origin !== 'https://tms.insecap.cl'
+            apiDomain: API_BASE,
+            crossOrigin: window.location.origin !== API_BASE
           },
           stack: error instanceof Error ? error.stack : undefined,
           timestamp: new Date().toISOString(),
@@ -455,7 +459,7 @@ const BeRelator = () => {
         // Log adicional para debugging
         console.warn('[BeRelator] DEBUGGING INFO:');
         console.warn('1. Si ves "Failed to fetch", es un error CORS');
-        console.warn('2. Verifica que tms.insecap.cl tenga CORS habilitado');
+        console.warn('2. Verifica que ' + API_BASE + ' tenga CORS habilitado');
         console.warn('3. Debe permitir requests desde:', window.location.origin);
         console.warn('4. Abre DevTools → Network y recarga para ver el estado de los requests');
       }
