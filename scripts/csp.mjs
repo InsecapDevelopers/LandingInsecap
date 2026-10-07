@@ -58,14 +58,13 @@ const STORAGE = ['https://storageisecap.sfo2.digitaloceanspaces.com'];
 
 /**
  * Política completa como texto de cabecera. `env` son las VITE_* del build: las APIs del TMS
- * (VITE_TMS_API_URL, VITE_TMS_PLUS_API_URL) y Capin (VITE_CAPIN_API_URL) entran por su origen,
+ * (VITE_TMS_PLUS_API_URL) y Capin (VITE_CAPIN_API_URL) entran por su origen,
  * además de los de producción conocidos.
  */
 export const buildCsp = (hashes, env = {}) => {
   const apis = [
     'https://api-plus.insecap.cl',
     'https://tms.insecap.cl',
-    origin(env.VITE_TMS_API_URL),
     origin(env.VITE_TMS_PLUS_API_URL),
     // TODO: Capin (VITE_CAPIN_API_URL) no está definido en CI; su origen entra solo cuando se defina.
     origin(env.VITE_CAPIN_API_URL),
