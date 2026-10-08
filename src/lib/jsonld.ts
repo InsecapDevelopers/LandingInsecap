@@ -17,8 +17,9 @@
  * como TODO aquí o en src/data.
  */
 import { SITE_URL } from './locale-routing';
-import type { ShopifyArticle } from './shopify';
+import type { NewsArticle } from './newsData';
 import type { CursoSeo, Faq } from '../data/cursos-seo';
+import { formatHora } from '../data/cursos-base';
 import { CONTACT_EMAIL, getCasaMatriz, type Sede } from '../data/sedes';
 import { FOUNDING_YEAR } from './insecapUtils';
 
@@ -300,6 +301,12 @@ export const courseFaqId = (slug: string) => absolute(`/es/cursos/${slug}#faq`);
  * (courseWorkload ISO 8601), sin las combinaciones dudosas. Sin offers (ecommerce apagado) y sin
  * código SENCE ni certificado mientras sean TODO.
  */
+/** Duración ISO 8601 con minutos enteros: 2,5 h → PT2H30M (schema.org no acepta PT2.5H en el validador). */
+const isoHoras = (horas: number): string => {
+  const minutos = Math.round((horas % 1) * 60);
+  return `PT${Math.floor(horas)}H${minutos ? `${minutos}M` : ''}`;
+};
+
 export const buildCourseJsonLd = (curso: CursoSeo, description: string): JsonLdNode => {
   const { tema } = curso;
   const dudosa = (modalidad: string, horas: number) =>
@@ -314,7 +321,7 @@ export const buildCourseJsonLd = (curso: CursoSeo, description: string): JsonLdN
     )).sort((a, b) => a - b);
     const base = { '@type': 'CourseInstance', name: `${tema.tema}: ${modalidad}`, courseMode, inLanguage: 'es' };
     return horas.length > 0
-      ? horas.map((h) => ({ ...base, name: `${tema.tema}: ${modalidad}, ${h} horas`, courseWorkload: `PT${h}H` }))
+      ? horas.map((h) => ({ ...base, name: `${tema.tema}: ${modalidad}, ${formatHora(h)} horas`, courseWorkload: isoHoras(h) }))
       : [base];
   });
 
@@ -326,10 +333,6 @@ export const buildCourseJsonLd = (curso: CursoSeo, description: string): JsonLdN
     url: absolute(`/es/cursos/${curso.slug}`),
     provider: ref(ORG_ID),
     inLanguage: 'es',
-    ...(curso.codigoSence ? { courseCode: curso.codigoSence } : {}),
-    ...(curso.certificado
-      ? { educationalCredentialAwarded: { '@type': 'EducationalOccupationalCredential', name: curso.certificado } }
-      : {}),
     ...(curso.aprendizajes ? { teaches: curso.aprendizajes } : {}),
     hasCourseInstance: instances,
   };
@@ -354,11 +357,11 @@ export const buildFaqJsonLd = (faq: Faq[], id: string): JsonLdNode | null => {
 };
 
 /** Autor de una noticia: la persona que entrega el API o, si no viene, la organización. */
-export const articleAuthor = (article: ShopifyArticle) =>
+export const articleAuthor = (article: NewsArticle) =>
   article.authorV2?.name ? { '@type': 'Person', name: article.authorV2.name } : ref(ORG_ID);
 
 /** NewsArticle de una noticia del TMS Plus, con fechas en hora de Chile y el autor del API. */
-export const buildNewsArticleJsonLd = (article: ShopifyArticle, description: string): JsonLdNode => {
+export const buildNewsArticleJsonLd = (article: NewsArticle, description: string): JsonLdNode => {
   const url = absolute(`/es/noticias/${article.handle}`);
   return {
     '@type': 'NewsArticle',

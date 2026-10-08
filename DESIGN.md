@@ -132,6 +132,7 @@ Reglas de contraste (WCAG AA, 4,5:1 para texto normal):
 
 - **Nunca texto blanco sobre cian `#00B8DE`.** Un botón, badge o chip cian con texto blanco usa `bg-insecap-cyan-ink`; si debe ser cian de marca, el texto va en tinta `#0D1C3F`.
 - Texto cian sobre fondo claro (eyebrows, enlaces, palabras destacadas) usa `text-insecap-cyan-ink`, no `text-insecap-cyan`.
+- Botones celestes con texto blanco ("Acceso" del header y "Contáctanos" del footer): fondo `#0277B6`, hover `#026AA2` (4,86 y 5,86:1 con blanco). `#0284C7` se descartó: da 4,1:1.
 - `muted-foreground` sube de 47% (`#65758B`, 4,49 sobre el fondo: falla) a 45% (`#607085`).
 - Se descartó `#007F99` como cyan-ink: da 4,47 sobre `#F9FAFB` (falla).
 
@@ -191,7 +192,7 @@ Plano por defecto; la elevación es funcional, no decorativa.
 ## 6. Do's and Don'ts
 
 **Do:**
-- Fotografía real de INSECAP (sedes, faenas, alumnos) desde el CDN de Shopify; alt text descriptivo en español.
+- Fotografía real de INSECAP (sedes, faenas, alumnos) desde DigitalOcean Spaces (repositorio de imágenes del TMS); alt text descriptivo en español.
 - Todo texto visible pasa por i18n (`t(...)`, ES/EN/PT); años de experiencia siempre vía `getYearsOfExperience()`, nunca hardcodeados.
 - Texto cian sobre claro siempre en cyan-ink; el cian de marca queda para superficies, bordes, íconos y degradados.
 - Todo lo interactivo lleva `focus-visible:ring-2` (índigo o cian según fondo) con `ring-offset`.

@@ -7,11 +7,10 @@ import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { Button } from '@/components/ui/button';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { shopifyImage } from '@/lib/images';
 
-const CAEX_BANNER = 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/banner_caex.png?v=1776263507';
-const MULTISIM_CARD_IMAGE = 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_5510.jpg?v=1776281179';
-const EXTINTOR_IMAGE = 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Extintor_VR_341L.jpg?v=1776289560';
+const CAEX_BANNER = 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/banner-caex-2c7b776e.webp';
+const MULTISIM_CARD_IMAGE = 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/img-5510-b85742dc.webp';
+const EXTINTOR_IMAGE = 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/extintor-vr-341l-87ecc8d0.webp';
 
 const SimulatorCatalog = () => {
   const { t } = useTranslation();
@@ -120,7 +119,7 @@ const SimulatorCatalog = () => {
               </div>
               <div className="w-full md:w-1/2 h-64 md:h-auto min-h-[320px] overflow-hidden">
                 <img
-                  src={shopifyImage(MULTISIM_CARD_IMAGE, 828)}
+                  src={MULTISIM_CARD_IMAGE}
                   alt={content.multisimAlt}
                   loading="lazy"
                   decoding="async"
@@ -150,7 +149,7 @@ const SimulatorCatalog = () => {
               </div>
               <div className="relative w-full md:w-1/2 h-64 md:h-auto min-h-[320px] overflow-hidden bg-gradient-to-br from-orange-700 to-red-900">
                 <img
-                  src={shopifyImage(EXTINTOR_IMAGE, 828)}
+                  src={EXTINTOR_IMAGE}
                   alt={content.extintorAlt}
                   loading="lazy"
                   decoding="async"

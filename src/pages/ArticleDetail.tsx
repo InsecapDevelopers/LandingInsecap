@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowLeft, Share2, Newspaper, User, X } from 'lucide-react';
-import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
+import { formatArticleDate, type NewsArticle } from '@/lib/newsData';
 import { newsArticleQuery } from '@/lib/queries';
 import { stripHtml, withHeadingLevels, withImageAlts, withLazyImages } from '@/lib/html';
 import { fitDescription, getSeoFillers } from '@/lib/seo-text';
@@ -151,7 +151,7 @@ const ArticleDetail = () => {
   // Description de 140–155 (Fase 3) desde el texto de la noticia (frases completas); el extracto
   // solo si no hay cuerpo: suele ser un corte a 160 caracteres del mismo texto. Las noticias están
   // en español en los tres idiomas: el relleno, si hace falta, también.
-  const getMetaDescription = (article: ShopifyArticle): string =>
+  const getMetaDescription = (article: NewsArticle): string =>
     fitDescription(stripHtml(article.contentHtml) || stripHtml(article.excerpt ?? ''), getSeoFillers('es'));
 
   const handleShare = async () => {

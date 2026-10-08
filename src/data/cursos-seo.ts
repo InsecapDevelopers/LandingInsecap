@@ -1,24 +1,23 @@
 /**
- * Contenido SEO de las fichas /cursos/:slug (decisiones tarea #8, Fase 2).
+ * Contenido SEO de las fichas /cursos/:slug (decisiones tarea #8, Fase 2). Solo lo importan las
+ * páginas de cursos: lo liviano que usa el bundle principal está en cursos-base.ts.
  *
- * - Un tema por cada uno de los 61 de shopify_thematic_intermediate.json.
- * - `slug` = handle B2B de Shopify sin el prefijo `curso-` (curso-trabajo-en-altura → trabajo-en-altura).
- * - Horas, modalidades y estándares salen del JSON (combinaciones), no se escriben a mano.
- * - Lo que no tenemos (código SENCE, requisitos, certificado, vigencia, sedes, objetivo y
- *   aprendizajes) queda en null y la ficha lo muestra como pendiente.
- *   TODO: completar por curso con INSECAP (sección 4, punto 1).
- * - Riesgo 13 (fichas delgadas): una ficha es indexable solo si tiene párrafo de respuesta real,
- *   escrito desde datos verificados (contexto de negocio + JSON). Las demás salen con noindex.
+ * - Un tema por cada uno de los 61 de src/data/cursos.json (catálogo de DB_SGC, ver docs/catalogo-cursos.md).
+ * - `slug` = URL pública de la ficha (SLUG_A_TEMA en cursos-base.ts); coincide con los handles antiguos
+ *   sin `curso-`, así las URLs ya publicadas redirigen 1:1 (legacy-redirects.ts).
+ * - Horas, modalidades, estándares y SENCE salen del JSON; objetivo, aprendizajes, normativa y el
+ *   enfoque del párrafo de respuesta, de las fichas R11 (src/data/cursos-contenido.json).
+ * - Toda ficha tiene párrafo de respuesta (buildRespuesta) y es indexable, salvo los temas de relleno
+ *   (NOINDEX_SLUGS).
  */
 import { getJsonCatalogTopics, type JsonCatalogTopic } from '../lib/catalogData';
+import contenidoCursos from './cursos-contenido.json';
+import { formatHora, NOINDEX_SLUGS, SLUG_A_TEMA } from './cursos-base';
+
+export { CURSO_SLUGS, formatHora, isCursoSeoIndexable, PENDIENTE } from './cursos-base';
 import { fitDescription } from '../lib/seo-text';
-import type { SedeSlug } from './sedes';
 
-/** Fecha de la última revisión de este archivo (se muestra como "Última actualización"). */
-export const CURSOS_SEO_ACTUALIZADO = '2026-10-06';
 
-/** Texto visible para datos que faltan. TODO: cada uno se completa con INSECAP (sección 4). */
-export const PENDIENTE = 'Por confirmar';
 
 export interface Normativa {
   nombre: string;
@@ -53,115 +52,55 @@ export interface CursoSeo {
   slug: string;
   tema: JsonCatalogTopic;
   area: CursoArea;
-  /** Párrafo de respuesta de 40–60 palabras. null: TODO (y la ficha queda noindex). */
-  respuesta: string | null;
-  codigoSence: string | null;
-  requisitos: string | null;
-  certificado: string | null;
-  vigencia: string | null;
-  sedes: SedeSlug[] | null;
+  /** Párrafo de respuesta de 40–60 palabras, armado con los datos del tema (buildRespuesta). */
+  respuesta: string;
   objetivo: string | null;
   aprendizajes: string[] | null;
-  /** Solo normativa chilena vigente y segura; null: TODO. */
+  /** Normas citadas en las fichas R11 del tema; null: ninguna (la ficha no muestra la sección). */
   normativa: Normativa[] | null;
   /** Nota sobre horas dudosas del JSON (sección 4, punto 2). */
   horasPorVerificar: string | null;
   /** Combinaciones modalidad/horas dudosas: se muestran con la nota, pero no van al JSON-LD (Fase 4). */
   horasDudosas: HoraCombinacion[];
   faq: Faq[];
-  ultimaActualizacion: string;
   indexable: boolean;
 }
 
-/** slug (handle B2B sin `curso-`) → handle del tema en shopify_thematic_intermediate.json. */
-const SLUG_A_TEMA: Record<string, string> = {
-  'aislacion-y-bloqueo-loto': 'aislacion-bloqueo',
-  'alta-tension': 'alta-tension',
-  'atencion-al-cliente-y-ventas': 'atencion-cliente-ventas',
-  autocad: 'autocad',
-  'baja-tension': 'baja-tension',
-  'bienestar-y-salud-mental': 'bienestar-salud-mental',
-  'bodega-logistica-y-abastecimiento': 'gestion-bodega-logistica',
-  'bombas-y-compresores': 'bombas-compresores',
-  'computacion-e-informatica-general': 'computacion-general',
-  'comunicacion-y-trabajo-en-equipo': 'comunicacion-trabajo-equipo',
-  'electricidad-industrial': 'electricidad-general',
-  'electronica-e-instrumentacion': 'electronica-instrumentacion',
-  'equipos-de-proteccion-personal-epp': 'epp-proteccion-personal',
-  'ergonomia-y-trastornos-musculoesqueleticos': 'ergonomia-trastornos',
-  'espacios-confinados': 'espacios-confinados',
-  'explosivos-y-tronadura': 'explosivos-tronadura',
-  'formacion-de-instructores-y-relatores': 'formacion-instructores',
-  'gases-y-atmosferas-peligrosas': 'gases-atmosferas-peligrosas',
-  'gestion-de-calidad-e-iso': 'calidad-iso',
-  'gestion-de-proyectos': 'gestion-proyectos',
-  'hidraulica-y-neumatica': 'hidraulica-neumatica',
-  'incendio-y-emergencias': 'incendio-emergencias',
-  'instalaciones-sanitarias-y-agua': 'agua-sanitaria',
-  'instrumentos-de-medicion-y-metrologia': 'instrumentos-medicion',
-  'izaje-y-cargas-suspendidas': 'izaje-cargas-suspendidas',
-  'lean-manufacturing-5s-y-mejora-continua': 'lean-5s-mejora-continua',
-  'liderazgo-y-supervision': 'liderazgo',
-  'lubricacion-industrial': 'lubricacion',
-  'manejo-defensivo-y-conduccion-segura': 'manejo-defensivo',
-  'mantenimiento-mecanico': 'mantenimiento-mecanico',
-  'mecanica-general-e-industrial': 'mecanica-general',
-  'medioambiente-y-sustentabilidad': 'medioambiente',
-  'microsoft-excel': 'excel',
-  'microsoft-office-word-powerpoint': 'office-word-powerpoint',
-  'montaje-y-uso-de-andamios': 'andamios',
-  'operacion-de-bulldozer-y-tractores': 'bulldozer',
-  'operacion-de-camion': 'camion-general',
-  'operacion-de-camion-de-extraccion-y-especial': 'camion-especial',
-  'operacion-de-cargador-frontal': 'cargador-frontal',
-  'operacion-de-equipos-menores-y-herramientas': 'equipos-menores',
-  'operacion-de-grua-horquilla-y-apilador': 'grua-horquilla',
-  'operacion-de-grua-pluma': 'grua-pluma',
-  'operacion-de-grua-puente': 'grua-puente',
-  'operacion-de-grua-torre': 'grua-torre',
-  'operacion-de-motoniveladora': 'motoniveladora',
-  'operacion-de-motosierra-y-silvicultura': 'motosierra',
-  'operacion-de-plataforma-elevadora-tijera-boom': 'plataforma-elevadora',
-  'operacion-de-retroexcavadora': 'retroexcavadora',
-  'prevencion-de-riesgos-generales': 'prevencion-riesgos-generales',
-  'primeros-auxilios': 'primeros-auxilios',
-  'procesos-mineros': 'mineria-procesos',
-  sap: 'sap',
-  'seguridad-y-prevencion-otros': 'seguridad-prevencion-otros',
-  'soldadura-industrial': 'soldadura',
-  'tableros-y-distribucion-electrica': 'tableros-electricos',
-  'tecnicas-de-rescate': 'rescate',
-  'termografia-industrial': 'termografia',
-  topografia: 'topografia',
-  'trabajo-en-altura': 'trabajo-en-altura',
-  'trabajos-en-caliente': 'trabajos-en-caliente',
-  'ventilacion-en-mineria-subterranea': 'ventilacion-minera',
-};
 
-/** Temas de relleno: noindex aunque algún día tengan párrafo (decisión Fase 2). */
-const NOINDEX_SLUGS = new Set(['seguridad-y-prevencion-otros', 'computacion-e-informatica-general']);
+
+/** Contenido de cada tema sacado de las fichas R11 de DB_SGC (docs/catalogo-cursos.md). */
+interface ContenidoCurso {
+  /** Qué enseña: completa "<tema> es un curso de INSECAP …, que <enfoque>". */
+  enfoque: string;
+  objetivo: string | null;
+  aprendizajes: string[];
+  /** Solo normas citadas en las fichas de los cursos del tema. */
+  normativa: Normativa[];
+}
+const CONTENIDO = contenidoCursos as Record<string, ContenidoCurso>;
+
+const contarPalabras = (texto: string) => texto.split(/\s+/).filter((palabra) => /[\p{L}\p{N}]/u.test(palabra)).length;
 
 /**
- * Párrafos de respuesta (40–60 palabras, con INSECAP, OTEC, ciudad y acreditaciones: Fase 8). Solo
- * para los cursos más demandados del contexto de negocio que tienen tema propio; cada dato sale del
- * contexto (casa matriz en Calama y acreditaciones) o del JSON
- * (modalidades, horas y estándares). TODO: los 54 temas restantes (sección 4, punto 1).
+ * Párrafo de respuesta (40–60 palabras con INSECAP, OTEC, ciudad y acreditaciones; lo exige
+ * scripts/check-dist.mjs). Se arma con los datos del catálogo para que no se desfase cuando cambien
+ * horas o estándares: prueba de la variante más completa a la más corta y se queda con la primera
+ * que cae en el rango. Lanza en el build si ninguna cabe.
  */
-const RESPUESTAS: Record<string, string> = {
-  'trabajo-en-altura':
-    'Trabajo en Altura es uno de los cursos más demandados de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, desde 2 horas, en versión genérica o con el estándar de compañías mineras como Codelco, Minera Escondida, Collahuasi, BHP Spence y Antofagasta Minerals.',
-  'manejo-defensivo-y-conduccion-segura':
-    'Manejo Defensivo y Conducción Segura es una de las áreas más demandadas de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 2 a 40 horas, en versión genérica o con estándar Codelco, y se cotiza según la modalidad, la carga horaria y el estándar.',
-  'aislacion-y-bloqueo-loto':
-    'Aislación y Bloqueo (LOTO) es uno de los cursos más demandados de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 8 horas, en versión genérica o con estándar Codelco, y se cotiza según la modalidad, la carga horaria y el estándar.',
-  'espacios-confinados':
-    'Espacios Confinados es uno de los cursos más demandados de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 16 horas, en versión genérica o con el estándar de Codelco, Minera Escondida o BHP Spence, y se cotiza para cada empresa.',
-  'montaje-y-uso-de-andamios':
-    'Montaje y Uso de Andamios es uno de los cursos más demandados de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 16 horas, en versión genérica o con el estándar de Codelco, Collahuasi o Minera Escondida, y se cotiza para cada empresa.',
-  'operacion-de-grua-horquilla-y-apilador':
-    'Operación de Grúa Horquilla y Apilador es una de las áreas más demandadas de INSECAP, que también dicta la recertificación de operadores. Como OTEC de Calama acreditada por SENCE y Codelco, ofrece el curso a empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, desde 2 horas, en versión genérica o con estándar Codelco.',
-  'primeros-auxilios':
-    'Primeros Auxilios es uno de los cursos más demandados de INSECAP, OTEC de Calama acreditada por SENCE y Codelco. Se dicta para empresas en modalidad presencial, e-learning sincrónico y e-learning asincrónico, con cargas de 4 a 16 horas, y se cotiza según la modalidad, la carga horaria y las necesidades de cada organización.',
+const buildRespuesta = (tema: JsonCatalogTopic, enfoque: string, masDemandado: boolean): string => {
+  const sujeto = masDemandado ? 'uno de los cursos más demandados de INSECAP' : 'un curso de INSECAP';
+  const intro = `${tema.tema} es ${sujeto}, OTEC de Calama acreditada por SENCE y Codelco, que ${enfoque}.`;
+  const rango = getRangoHorasDesde(tema);
+  const dictado = `Se dicta para empresas en modalidad ${listar(tema.modalidades)}${rango ? `, ${rango.charAt(0).toLowerCase()}${rango.slice(1)}` : ''}`;
+  const estandares = getEstandaresVisibles(tema).filter((estandar) => estandar !== 'Genérico').slice(0, 3);
+  const conEstandar = estandares.length > 0 ? `, en versión genérica o con estándar ${listarNombres(estandares)}` : '';
+  const cierre = ', y se cotiza según la modalidad, la carga horaria y el estándar';
+  const variantes = [conEstandar + cierre, conEstandar, cierre, ''].map((resto) => `${intro} ${dictado}${resto}.`);
+  const respuesta = variantes.find((texto) => contarPalabras(texto) >= 40 && contarPalabras(texto) <= 60);
+  if (!respuesta) {
+    throw new Error(`[cursos-seo] ${tema.handle}: ningún párrafo de respuesta queda entre 40 y 60 palabras (${variantes.map(contarPalabras).join(', ')})`);
+  }
+  return respuesta;
 };
 
 /**
@@ -183,52 +122,10 @@ export const CURSOS_MAS_DEMANDADOS = [
  * dudosas; si no se indica, todas las horas del tema lo son.
  */
 const HORAS_POR_VERIFICAR: Record<string, { nota: string; combinaciones?: HoraCombinacion[] }> = {
-  // TODO: verificar la combinación e-learning asincrónico de 150 h.
-  'trabajo-en-altura': {
-    nota: 'La combinación e-learning asincrónico de 150 horas está por confirmar.',
-    combinaciones: [{ modalidad: 'E-learning Asincrónico', horas: 150 }],
-  },
-  // TODO: las horas del JSON y las de Shopify no coinciden en estos temas.
-  'seguridad-y-prevencion-otros': { nota: 'Las horas del catálogo y las de la tienda no coinciden: por confirmar.' },
-  'comunicacion-y-trabajo-en-equipo': { nota: 'Las horas del catálogo y las de la tienda no coinciden: por confirmar.' },
+  // TODO: "Otros" agrupa cursos muy distintos y no se pudo contrastar con DB_SGC (docs/catalogo-cursos.md).
+  'seguridad-y-prevencion-otros': { nota: 'Las horas de este grupo de cursos están por confirmar.' },
 };
 
-// Normativa chilena vigente, citada solo como marco general (no como contenido del curso).
-// TODO: normativa específica de cada curso validada por INSECAP (sección 4, punto 1).
-const LEY_16744: Normativa = {
-  nombre: 'Ley 16.744',
-  descripcion: 'Seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales.',
-};
-const DS_44_2024: Normativa = {
-  nombre: 'DS 44/2024, Ministerio del Trabajo y Previsión Social',
-  descripcion: 'Reglamento sobre gestión preventiva de los riesgos laborales para un entorno de trabajo seguro y saludable.',
-};
-const DS_594: Normativa = {
-  nombre: 'DS 594/1999, Ministerio de Salud',
-  descripcion: 'Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo.',
-};
-const DS_132: Normativa = {
-  nombre: 'DS 132/2002, Ministerio de Minería',
-  descripcion: 'Reglamento de Seguridad Minera.',
-};
-const LEY_18290: Normativa = {
-  nombre: 'Ley 18.290',
-  descripcion: 'Ley de Tránsito.',
-};
-const LEY_17798: Normativa = {
-  nombre: 'Ley 17.798',
-  descripcion: 'Ley sobre control de armas, que también regula los explosivos.',
-};
-
-const AREA_SEGURIDAD = 'Seguridad y Prevención de Riesgos';
-const NORMATIVA_SEGURIDAD = [LEY_16744, DS_44_2024, DS_594];
-
-const NORMATIVA_POR_SLUG: Record<string, Normativa[]> = {
-  'manejo-defensivo-y-conduccion-segura': [...NORMATIVA_SEGURIDAD, LEY_18290],
-  'explosivos-y-tronadura': [...NORMATIVA_SEGURIDAD, LEY_17798, DS_132],
-  'procesos-mineros': [DS_132],
-  'ventilacion-en-mineria-subterranea': [DS_132],
-};
 
 export const slugify = (value: string): string =>
   value
@@ -257,6 +154,7 @@ export const getHorasPorModalidad = (tema: JsonCatalogTopic): HorasModalidad[] =
     ).sort((a, b) => a - b),
   }));
 
+
 /** "4 a 16 horas", "8 horas" o null si no hay horas en el JSON. */
 export const getRangoHoras = (tema: JsonCatalogTopic): string | null => {
   const horas = tema.combinaciones
@@ -265,11 +163,19 @@ export const getRangoHoras = (tema: JsonCatalogTopic): string | null => {
   if (horas.length === 0) return null;
   const min = Math.min(...horas);
   const max = Math.max(...horas);
-  return min === max ? `${min} horas` : `${min} a ${max} horas`;
+  return min === max ? `${formatHora(min)} horas` : `${formatHora(min)} a ${formatHora(max)} horas`;
 };
 
-export const formatHoras = (horas: number[]): string =>
-  horas.length === 0 ? 'A cotizar' : `${horas.join(', ')} h`;
+/** "Desde 4,5 hasta 44 horas", "8 horas" o null si no hay horas en el JSON (ficha del curso). */
+export const getRangoHorasDesde = (tema: JsonCatalogTopic): string | null => {
+  const horas = tema.combinaciones
+    .map((combinacion) => combinacion.horas)
+    .filter((value): value is number => value !== null);
+  if (horas.length === 0) return null;
+  const min = Math.min(...horas);
+  const max = Math.max(...horas);
+  return min === max ? `${formatHora(min)} horas` : `Desde ${formatHora(min)} hasta ${formatHora(max)} horas`;
+};
 
 /** "a, b y c" */
 export const listarNombres = (items: string[]): string =>
@@ -282,8 +188,9 @@ const buildFaq = (tema: JsonCatalogTopic, horasDudosas: boolean): Faq[] => {
   const nombre = tema.tema;
   const horas = getHorasPorModalidad(tema)
     .filter((item) => item.horas.length > 0)
-    .map((item) => `${item.modalidad.toLowerCase()}: ${item.horas.join(', ')} horas`);
+    .map((item) => `${item.modalidad.toLowerCase()}: ${item.horas.map(formatHora).join('; ')} horas`);
   const estandares = getEstandaresVisibles(tema).filter((estandar) => estandar !== 'Genérico');
+  const rango = getRangoHorasDesde(tema);
 
   return [
     {
@@ -292,8 +199,8 @@ const buildFaq = (tema: JsonCatalogTopic, horasDudosas: boolean): Faq[] => {
     },
     {
       pregunta: `¿Cuántas horas dura el curso de ${nombre}?`,
-      respuesta: horas.length > 0
-        ? `Depende de la modalidad y del estándar requerido. Cargas disponibles: ${horas.join('; ')}.`
+      respuesta: rango
+        ? `${rango}, según la modalidad y el estándar que requiera la empresa (${horas.join('; ')}).`
         : null,
       porVerificar: horasDudosas,
     },
@@ -305,9 +212,11 @@ const buildFaq = (tema: JsonCatalogTopic, horasDudosas: boolean): Faq[] => {
         : `Hoy se ofrece en versión genérica, que se adapta a los lineamientos de cada empresa al cotizar.`,
     },
     {
-      // TODO: código SENCE por curso (sección 4, punto 1).
+      // tema.sence: algún curso vigente del tema tiene código SENCE en DB_SGC.
       pregunta: `¿El curso de ${nombre} se puede usar con franquicia SENCE?`,
-      respuesta: null,
+      respuesta: tema.sence
+        ? `Sí. INSECAP es OTEC acreditada por SENCE y ${nombre} tiene versiones con código SENCE, que la empresa puede imputar a la franquicia tributaria.`
+        : `El uso de la franquicia SENCE para ${nombre} está sujeto a cotización: se revisa con la empresa según la versión del curso que necesite.`,
     },
   ];
 };
@@ -324,9 +233,11 @@ export const cursosSeo: CursoSeo[] = Object.entries(SLUG_A_TEMA)
   .map(([slug, temaHandle]) => {
     const tema = temasPorHandle.get(temaHandle);
     if (!tema) {
-      throw new Error(`[cursos-seo] El tema ${temaHandle} (${slug}) no existe en shopify_thematic_intermediate.json`);
+      throw new Error(`[cursos-seo] El tema ${temaHandle} (${slug}) no existe en src/data/cursos.json`);
     }
-    const respuesta = RESPUESTAS[slug] ?? null;
+    const contenido = CONTENIDO[temaHandle];
+    if (!contenido) throw new Error(`[cursos-seo] ${temaHandle} no tiene contenido en src/data/cursos-contenido.json`);
+    const respuesta = buildRespuesta(tema, contenido.enfoque, CURSOS_MAS_DEMANDADOS.includes(slug));
     const porVerificar = HORAS_POR_VERIFICAR[slug];
     const horasDudosas = porVerificar
       ? porVerificar.combinaciones ?? getHorasPorModalidad(tema)
@@ -343,19 +254,13 @@ export const cursosSeo: CursoSeo[] = Object.entries(SLUG_A_TEMA)
       tema,
       area: areaPorNombre.get(tema.categoria) as CursoArea,
       respuesta,
-      codigoSence: null,
-      requisitos: null,
-      certificado: null,
-      vigencia: null,
-      sedes: null,
-      objetivo: null,
-      aprendizajes: null,
-      normativa: NORMATIVA_POR_SLUG[slug] ?? (tema.categoria === AREA_SEGURIDAD ? NORMATIVA_SEGURIDAD : null),
+      objetivo: contenido.objetivo,
+      aprendizajes: contenido.aprendizajes.length > 0 ? contenido.aprendizajes : null,
+      normativa: contenido.normativa.length > 0 ? contenido.normativa : null,
       horasPorVerificar: porVerificar?.nota ?? null,
       horasDudosas,
       faq: buildFaq(tema, horasDudosas.length > 0),
-      ultimaActualizacion: CURSOS_SEO_ACTUALIZADO,
-      indexable: respuesta !== null && !NOINDEX_SLUGS.has(slug),
+      indexable: !NOINDEX_SLUGS.has(slug),
     };
   })
   .sort((a, b) => a.tema.tema.localeCompare(b.tema.tema, 'es', { sensitivity: 'base' }));
@@ -366,7 +271,6 @@ export const getCursoSeo = (slug: string | undefined): CursoSeo | null =>
   (slug ? cursosPorSlug.get(slug) : undefined) ?? null;
 
 /** false para slugs desconocidos (p. ej. productos `ea-*` que caen en /cursos/:slug). */
-export const isCursoSeoIndexable = (slug: string | undefined): boolean => getCursoSeo(slug)?.indexable ?? false;
 
 export const getCursoArea = (slug: string | undefined): CursoArea | null =>
   cursoAreas.find((area) => area.slug === slug) ?? null;

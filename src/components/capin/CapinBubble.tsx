@@ -16,10 +16,13 @@ import './capin.css';
  */
 
 const CLAVE = 'capin-web-chat'; // conversación de esta pestaña (sessionStorage)
+const CLAVE_SALUDO = 'capin-web-saludo'; // '1' = el visitante cerró el saludo en esta pestaña
 
 const TEXTOS = {
   es: {
     abrir: 'Hablar con Capín, el asistente de cursos',
+    saludo: '¡Hola! Soy Capín, ¿en qué puedo ayudarte?',
+    cerrarSaludo: 'Ocultar el saludo de Capín',
     titulo: 'Capín IA',
     enLinea: 'En línea',
     trabajando: 'Buscando…',
@@ -50,6 +53,8 @@ const TEXTOS = {
   },
   en: {
     abrir: 'Chat with Capín, the course assistant',
+    saludo: "Hi! I'm Capín, how can I help you?",
+    cerrarSaludo: "Hide Capín's greeting",
     titulo: 'Capín AI',
     enLinea: 'Online',
     trabajando: 'Searching…',
@@ -80,6 +85,8 @@ const TEXTOS = {
   },
   pt: {
     abrir: 'Conversar com Capín, o assistente de cursos',
+    saludo: 'Olá! Sou o Capín, como posso ajudar?',
+    cerrarSaludo: 'Ocultar a saudação do Capín',
     titulo: 'Capín IA',
     enLinea: 'Online',
     trabajando: 'Buscando…',
@@ -132,7 +139,30 @@ export default function CapinBubble() {
   const { locale } = useLocalizedPath();
   const t = TEXTOS[locale];
   const [abierto, setAbierto] = useState(false);
+  const [saludo, setSaludo] = useState(false);
   const lanzador = useRef<HTMLButtonElement>(null);
+
+  // Saludo junto al botón: aparece después de montar (no va en el HTML prerenderizado) y no vuelve
+  // en la pestaña si el visitante lo cerró o ya abrió el chat.
+  useEffect(() => {
+    let cerrado = false;
+    try {
+      cerrado = sessionStorage.getItem(CLAVE_SALUDO) === '1';
+    } catch { /* sin almacenamiento: se muestra igual */ }
+    if (cerrado) return;
+    const id = setTimeout(() => setSaludo(true), 1500);
+    return () => clearTimeout(id);
+  }, []);
+  const ocultarSaludo = () => {
+    setSaludo(false);
+    try {
+      sessionStorage.setItem(CLAVE_SALUDO, '1');
+    } catch { /* sin almacenamiento */ }
+  };
+  const abrir = () => {
+    ocultarSaludo();
+    setAbierto(true);
+  };
 
   // Escape cierra el chat y el foco vuelve al botón que lo abrió.
   useEffect(() => {
@@ -150,21 +180,41 @@ export default function CapinBubble() {
 
   return (
     <div className="capin-root fixed bottom-6 [&_p]:text-left right-6 z-50 flex flex-col items-end print:hidden sm:bottom-8 sm:right-8">
+      {!abierto && saludo && (
+        <div className="relative mb-3 max-w-[17rem] animate-fade-in motion-reduce:animate-none">
+          <button
+            type="button"
+            onClick={abrir}
+            className="rounded-2xl rounded-br-sm bg-white py-3.5 pl-4 pr-9 text-left text-base font-medium leading-snug text-slate-800 shadow-lg ring-1 ring-black/5 transition-shadow hover:shadow-xl"
+          >
+            {t.saludo}
+          </button>
+          <button
+            type="button"
+            onClick={ocultarSaludo}
+            aria-label={t.cerrarSaludo}
+            className="absolute right-1 top-1 flex h-7 w-7 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+          >
+            <X className="h-3.5 w-3.5" aria-hidden="true" />
+          </button>
+        </div>
+      )}
       {abierto ? (
         <ChatCapin t={t} onCerrar={cerrar} />
       ) : (
         <button
           ref={lanzador}
           type="button"
-          onClick={() => setAbierto(true)}
+          onClick={abrir}
           aria-label={t.abrir}
           title={t.abrir}
-          className="capin-burbuja-entra capin-gradient group relative flex h-14 w-14 items-center justify-center rounded-full shadow-lg shadow-[hsl(var(--capin-primary)/0.35)] hover:scale-105 active:scale-95 motion-reduce:transform-none"
+          className="capin-burbuja-entra capin-gradient group relative flex h-20 w-20 items-center justify-center rounded-full shadow-lg shadow-[hsl(var(--capin-primary)/0.35)] hover:scale-105 active:scale-95 motion-reduce:transform-none"
         >
-          <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-white">
-            <img src="/images/capin/capin-mitad.webp" alt="" width={36} height={47} className="h-10 w-auto object-contain" />
+          {/* Capín saludando (recorte de capin-saludo-320 a 144 px, 2x del círculo de 72 px). */}
+          <span className="flex h-[4.5rem] w-[4.5rem] items-center justify-center overflow-hidden rounded-full bg-white">
+            <img src="/images/capin/capin-saludo-boton.webp" alt="" width={72} height={72} className="h-full w-full object-cover" />
           </span>
-          <span aria-hidden className="absolute -right-0.5 -top-0.5 h-3.5 w-3.5 rounded-full bg-emerald-400 ring-2 ring-white" />
+          <span aria-hidden className="absolute right-0.5 top-0.5 h-4 w-4 rounded-full bg-emerald-400 ring-2 ring-white" />
         </button>
       )}
     </div>

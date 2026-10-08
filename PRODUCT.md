@@ -12,7 +12,7 @@ brand
 
 ## Product Purpose
 
-Sitio público de INSECAP (OTEC chilena, 16+ años): vender capacitación corporativa, mostrar el catálogo de cursos (Shopify), publicar noticias, y canalizar contacto/cotizaciones hacia líderes comerciales. Éxito = solicitudes de cotización y matrículas, y percepción de INSECAP como socio serio y cercano ("Creciendo Juntos").
+Sitio público de INSECAP (OTEC chilena, 16+ años): vender capacitación corporativa, mostrar el catálogo de cursos (datos de DB_SGC, ver docs/catalogo-cursos.md), publicar noticias, y canalizar contacto/cotizaciones hacia líderes comerciales. Éxito = solicitudes de cotización y matrículas, y percepción de INSECAP como socio serio y cercano ("Creciendo Juntos").
 
 ## Brand Personality
 

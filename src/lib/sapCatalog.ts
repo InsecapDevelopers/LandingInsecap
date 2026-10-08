@@ -191,7 +191,8 @@ export const SAP_TOTAL_HOURS = SAP_COURSES.reduce((sum, c) => sum + c.hours, 0);
 
 export const SAP_HREF = '/sap-pm';
 
-export const SAP_LOGO = 'https://storageisecap.sfo2.digitaloceanspaces.com/noticias/saplogo-svg-e9c51a68.webp';
+/** Logo SAP en WebP local de 80 px de alto (2x del h-10 en que se muestra). */
+export const SAP_LOGO = '/images/sap/sap-logo.webp';
 
 // Capturas recomprimidas a WebP en public/ (Fase 6; los JPEG de origen pesaban hasta 414 KB y están en
 // storageisecap.sfo2.digitaloceanspaces.com/noticias/<nombre>.jpeg). Mismo tamaño: el zoom las amplía.

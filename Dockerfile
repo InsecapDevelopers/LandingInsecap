@@ -23,28 +23,25 @@ COPY . .
 # VITE_* build-time vars (se embeben en el bundle).
 # Pasa valores con `docker build --build-arg VITE_X=...` o desde CI.
 ARG VITE_TMS_PLUS_API_URL
-ARG VITE_ECOMMERCE_ENABLED
-ARG VITE_LECTURA_JSON
-ARG VITE_B2B_CATALOG_ENABLED
-ARG VITE_B2B_SHOPIFY_QUERY
 ARG VITE_SIMULATORS_ENABLED
 ARG VITE_OPEN_COURSE_OFFER
 ARG VITE_URL_APPSTORE
 ARG VITE_URL_PLAYSTORE
+# Burbuja de Capin: modo público de RAG-service (https://rag.insecap.cl). Su origen entra a la CSP.
+ARG VITE_CAPIN_CHAT_ENABLED
+ARG VITE_CAPIN_API_URL
 
 ENV VITE_TMS_PLUS_API_URL=$VITE_TMS_PLUS_API_URL \
-    VITE_ECOMMERCE_ENABLED=$VITE_ECOMMERCE_ENABLED \
-    VITE_LECTURA_JSON=$VITE_LECTURA_JSON \
-    VITE_B2B_CATALOG_ENABLED=$VITE_B2B_CATALOG_ENABLED \
-    VITE_B2B_SHOPIFY_QUERY=$VITE_B2B_SHOPIFY_QUERY \
     VITE_SIMULATORS_ENABLED=$VITE_SIMULATORS_ENABLED \
     VITE_OPEN_COURSE_OFFER=$VITE_OPEN_COURSE_OFFER \
     VITE_URL_APPSTORE=$VITE_URL_APPSTORE \
-    VITE_URL_PLAYSTORE=$VITE_URL_PLAYSTORE
+    VITE_URL_PLAYSTORE=$VITE_URL_PLAYSTORE \
+    VITE_CAPIN_CHAT_ENABLED=$VITE_CAPIN_CHAT_ENABLED \
+    VITE_CAPIN_API_URL=$VITE_CAPIN_API_URL
 
 # BUILD_ID cambia en cada ejecución de CI (github.run_id): invalida la caché de la
-# capa del build para que el cron diario vuelva a pedir noticias y productos de Shopify a sus
-# APIs en vez de reutilizar el dist/ de una ejecución anterior (cache type=gha).
+# capa del build para que el cron diario vuelva a pedir las noticias al TMS Plus
+# en vez de reutilizar el dist/ de una ejecución anterior (cache type=gha).
 ARG BUILD_ID=local
 RUN echo "BUILD_ID=${BUILD_ID}" && npm run build \
     && mkdir -p /app/nginx && mv dist/redirects.map /app/nginx/redirects.map \

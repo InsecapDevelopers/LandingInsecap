@@ -1,7 +1,7 @@
 # Campaña Google Ads INSECAP — plan de lanzamiento
 
 Borrador del 30-09-2026. Los volúmenes de búsqueda y CPC **no están medidos**: las keywords salen del
-catálogo real (61 temas B2B) y de revisar quién aparece en Google para esas búsquedas. Antes de
+catálogo real (61 temas para empresas) y de revisar quién aparece en Google para esas búsquedas. Antes de
 invertir hay que pasarlas por el Planificador de Palabras Clave de la cuenta.
 
 Archivos para importar en Google Ads Editor:
@@ -22,9 +22,9 @@ Medido en producción (`insecap.cl`) y en el código:
 | 1 | El canonical de **todas** las páginas apunta a `insecap-capacitaciones.myshopify.com` | `index.html:34`, `src/components/SEO.tsx:53` | Le dice a Google que la página real es otra; daña SEO y la experiencia de página de destino |
 | 2 | La mayoría de las páginas muestran el `<title>` y la descripción genéricos | el componente `SEO` existe, pero solo lo usan 5 páginas; la ficha de curso empresa y la home no | Baja relevancia anuncio → landing, Quality Score peor, CPC más caro |
 | 3 | La conversión `contacto_enviado` solo se dispara desde `ContactCTA` (home y footer) | `src/components/ContactCTA.tsx:10` | Los envíos desde `/formulario/cursos-abiertos` y la landing SAP no se cuentan (salvo que GTM los capture por otro trigger: revisar en GTM) |
-| 4 | La ficha de curso empresa no tiene formulario: manda a `/contacto?origen=b2b&curso=…` | `src/components/B2bCourseDetail.tsx` | Un clic extra justo en la página donde aterriza el anuncio |
+| 4 | La ficha de curso no tiene formulario: manda a `/contacto?origen=cursos&curso=…` | `src/pages/CursoFicha.tsx` | Un clic extra justo en la página donde aterriza el anuncio |
 | 5 | No existe `sitemap.xml` (la URL devuelve el HTML de la app) | `public/` | Solo SEO, no bloquea Ads |
-| 6 | Fichas de curso con muy poco texto (modalidades, horas, estándares y nada más) | catálogo B2B | Poca relevancia para keywords como "curso rigger codelco" |
+| 6 | Fichas de curso con muy poco texto (modalidades, horas, estándares y nada más) | catálogo de cursos | Poca relevancia para keywords como "curso rigger codelco" |
 
 Mínimo para lanzar: 1, 3 y 4. Sin el 3 la cuenta optimiza a ciegas.
 

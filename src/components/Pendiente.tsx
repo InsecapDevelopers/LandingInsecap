@@ -1,4 +1,4 @@
-import { PENDIENTE } from '@/data/cursos-seo';
+import { PENDIENTE } from '@/data/cursos-base';
 
 /**
  * Dato pendiente de INSECAP (TODO de la sección 4 del registro de la tarea #8). Se ve como

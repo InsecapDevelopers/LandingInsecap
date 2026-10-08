@@ -1,0 +1,570 @@
+[
+ {
+  "handle": "ea-com-1018",
+  "areaSlug": "computacion-e-informatica"
+ },
+ {
+  "handle": "ea-com-115",
+  "areaSlug": "computacion-e-informatica"
+ },
+ {
+  "handle": "ea-com-1159",
+  "areaSlug": "computacion-e-informatica"
+ },
+ {
+  "handle": "ea-com-123",
+  "areaSlug": "computacion-e-informatica"
+ },
+ {
+  "handle": "ea-com-1387",
+  "areaSlug": "computacion-e-informatica"
+ },
+ {
+  "handle": "ea-com-1968",
+  "areaSlug": "computacion-e-informatica"
+ },
+ {
+  "handle": "ea-com-2722",
+  "areaSlug": "computacion-e-informatica"
+ },
+ {
+  "handle": "ea-com-65",
+  "areaSlug": "computacion-e-informatica"
+ },
+ {
+  "handle": "ea-com-797",
+  "areaSlug": "computacion-e-informatica"
+ },
+ {
+  "handle": "ea-com-842",
+  "areaSlug": "computacion-e-informatica"
+ },
+ {
+  "handle": "ea-com-850",
+  "areaSlug": "computacion-e-informatica"
+ },
+ {
+  "handle": "ea-ele-1072",
+  "areaSlug": "electricidad-y-electronica"
+ },
+ {
+  "handle": "ea-ele-2012",
+  "areaSlug": "electricidad-y-electronica"
+ },
+ {
+  "handle": "ea-ele-2225",
+  "areaSlug": "electricidad-y-electronica"
+ },
+ {
+  "handle": "ea-ele-2510",
+  "areaSlug": "electricidad-y-electronica"
+ },
+ {
+  "handle": "ea-ele-2655",
+  "areaSlug": "electricidad-y-electronica"
+ },
+ {
+  "handle": "ea-ele-298",
+  "areaSlug": "electricidad-y-electronica"
+ },
+ {
+  "handle": "ea-ele-42",
+  "areaSlug": "electricidad-y-electronica"
+ },
+ {
+  "handle": "ea-mec-1408",
+  "areaSlug": "mecanica-industrial"
+ },
+ {
+  "handle": "ea-mec-1937",
+  "areaSlug": "mecanica-industrial"
+ },
+ {
+  "handle": "ea-ope-1057",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-1850",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-1871",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-1888",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2144",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2218",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2219",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2249",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2260",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2284",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2344",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2345",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2346",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2347",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2348",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2349",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2350",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2351",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2452",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2564",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2571",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2578",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2584",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-2589",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-340",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-504",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-505",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-507",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-525",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-528",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-ope-648",
+  "areaSlug": "operacion-de-equipos"
+ },
+ {
+  "handle": "ea-pre-1019",
+  "areaSlug": null
+ },
+ {
+  "handle": "ea-pre-1020",
+  "areaSlug": null
+ },
+ {
+  "handle": "ea-pro-1711",
+  "areaSlug": "procesos-industriales"
+ },
+ {
+  "handle": "ea-pro-1724",
+  "areaSlug": "procesos-industriales"
+ },
+ {
+  "handle": "ea-pro-1752",
+  "areaSlug": "procesos-industriales"
+ },
+ {
+  "handle": "ea-pro-2285",
+  "areaSlug": "procesos-industriales"
+ },
+ {
+  "handle": "ea-pro-2287",
+  "areaSlug": "procesos-industriales"
+ },
+ {
+  "handle": "ea-rec-1895",
+  "areaSlug": null
+ },
+ {
+  "handle": "ea-rec-1896",
+  "areaSlug": null
+ },
+ {
+  "handle": "ea-seg-1029",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-120",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-126",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1434",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1462",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1465",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1510",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1686",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1693",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1727",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1735",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1765",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1839",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1898",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1906",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-1952",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2000",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2055",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2072",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2075",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2130",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2179",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2181",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2197",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2213",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2226",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2254",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2259",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2290",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2352",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2382",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2394",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2437",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2438",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2449",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2460",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2461",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2463",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2502",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2503",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2511",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2558",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2585",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2606",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2623",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2624",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2636",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2641",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2657",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2658",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2686",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-2694",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-33",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-352",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-378",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-384",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-392",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-434",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-460",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-511",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-56",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-562",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-589",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-62",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-693",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-712",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-713",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-716",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-723",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-724",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-764",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-seg-963",
+  "areaSlug": "seguridad-y-prevencion-de-riesgos"
+ },
+ {
+  "handle": "ea-tec-1227",
+  "areaSlug": "tecnicas-aplicadas"
+ },
+ {
+  "handle": "ea-tec-1345",
+  "areaSlug": "tecnicas-aplicadas"
+ },
+ {
+  "handle": "ea-tec-1474",
+  "areaSlug": "tecnicas-de-habilidades-blandas"
+ },
+ {
+  "handle": "ea-tec-1488",
+  "areaSlug": "tecnicas-aplicadas"
+ },
+ {
+  "handle": "ea-tec-1702",
+  "areaSlug": "tecnicas-de-habilidades-blandas"
+ },
+ {
+  "handle": "ea-tec-1718",
+  "areaSlug": "tecnicas-de-habilidades-blandas"
+ },
+ {
+  "handle": "ea-tec-2223",
+  "areaSlug": "tecnicas-de-habilidades-blandas"
+ },
+ {
+  "handle": "ea-tec-2334",
+  "areaSlug": "tecnicas-aplicadas"
+ },
+ {
+  "handle": "ea-tec-2643",
+  "areaSlug": "tecnicas-de-habilidades-blandas"
+ },
+ {
+  "handle": "ea-tec-992",
+  "areaSlug": "tecnicas-aplicadas"
+ }
+]

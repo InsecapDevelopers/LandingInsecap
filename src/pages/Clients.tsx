@@ -9,7 +9,6 @@ import { Marquee } from "@/components/ui/marquee";
 import { getLiderComercial, LiderComercial } from '@/lib/tmsApi';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { getSedeBySlug } from '@/data/sedes';
-import { shopifyImage, shopifyImageForHeight } from '@/lib/images';
 
 const slideInLeft = {
   hidden: { opacity: 0, x: -80 },
@@ -112,7 +111,7 @@ const Clients = () => {
                     className="bg-white p-6 md:p-8 mx-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center group min-w-[200px] h-[120px]"
                   >
                     <img
-                      src={shopifyImageForHeight(logo.src, logo.width, logo.height, 80)}
+                      src={logo.src}
                       alt={logo.alt}
                       width={logo.width}
                       height={logo.height}
@@ -132,7 +131,7 @@ const Clients = () => {
                     className="bg-white p-6 md:p-8 mx-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center group min-w-[200px] h-[120px]"
                   >
                     <img
-                      src={shopifyImageForHeight(logo.src, logo.width, logo.height, 80)}
+                      src={logo.src}
                       alt={logo.alt}
                       width={logo.width}
                       height={logo.height}
@@ -153,7 +152,7 @@ const Clients = () => {
 
         <section
           className="relative py-20 overflow-hidden"
-          style={{ backgroundImage: `url('${shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/E-Sala-6-Image-2024-08-05-at-13.13.42-2.jpg?v=1769004992', 1280)}')`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+          style={{ backgroundImage: `url('https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/e-sala-6-image-2024-08-05-at-13-13-42-2-9bb22640.webp')`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         >
           <div className="absolute inset-0 bg-blue-800 bg-opacity-75 backdrop-blur-sm" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-blue-900 opacity-40" />

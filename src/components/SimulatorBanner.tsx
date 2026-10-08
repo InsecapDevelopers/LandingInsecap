@@ -4,16 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { useTranslation } from 'react-i18next';
-import { responsiveImage } from '@/lib/images';
 
-// banner_caex.png (4062×1056, 7,8 MB en origen) bajo un degradado oscuro: <img> lazy de Shopify en
-// WebP al ancho de render. En móvil el recorte cover es mucho más ancho que la pantalla (150vw).
-const SIMULATOR_BG = responsiveImage(
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/banner_caex.png?v=1776263507',
-  [828, 1280, 1920],
-  '(max-width: 1024px) 150vw, 100vw',
-  1280,
-);
+// banner_caex (4062×1056, 7,8 MB en origen) bajo un degradado oscuro: <img> lazy en WebP de 1600 px
+// (Spaces, repositorio/catalogo-web/). En móvil el recorte cover es más ancho que la pantalla.
+const SIMULATOR_BG = 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/banner-caex-2c7b776e.webp';
 
 const slideInLeft = {
   hidden: { opacity: 0, x: -80 },
@@ -54,7 +48,7 @@ const SimulatorBanner = () => {
       className="relative py-24 md:py-32 lg:py-40 overflow-hidden"
     >
       <img
-        {...SIMULATOR_BG}
+        src={SIMULATOR_BG}
         alt=""
         width={4062}
         height={1056}

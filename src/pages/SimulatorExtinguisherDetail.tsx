@@ -8,13 +8,12 @@ import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import { Button } from '@/components/ui/button';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { responsiveImage, shopifyImage } from '@/lib/images';
 
-const EXTINGUISHER_BANNER = 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Extintor_VR_341L.jpg?v=1776289560';
+const EXTINGUISHER_BANNER = 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/extintor-vr-341l-87ecc8d0.webp';
 const EXTINGUISHER_GALLERY_IMAGES = [
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Extintor_VR-3.jpg?v=1776289533',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Extintor_RV-H_858.jpg?v=1776289533',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Extintor_RV-W12.jpg?v=1776289534',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/extintor-vr-3-6540c3a0.webp',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/extintor-rv-h-858-42d61ef9.webp',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/extintor-rv-w12-90fc7b29.webp',
 ];
 
 type ExtinguisherContent = {
@@ -128,7 +127,7 @@ const SimulatorExtinguisherDetail = () => {
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 md:p-6">
               <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white">
                 <img
-                  {...responsiveImage(EXTINGUISHER_GALLERY_IMAGES[activeImageIndex], [640, 960, 1280], '(min-width: 1024px) 50vw, 100vw', 960)}
+                  src={EXTINGUISHER_GALLERY_IMAGES[activeImageIndex]}
                   alt={t('gallery.photo', { name: content.subtitle, n: activeImageIndex + 1 })}
                   className="h-[320px] w-full object-contain md:h-[480px]"
                   decoding="async"
@@ -165,7 +164,7 @@ const SimulatorExtinguisherDetail = () => {
                     aria-label={t('gallery.view', { n: index + 1 })}
                   >
                     <img
-                      src={shopifyImage(imageUrl, 160)}
+                      src={imageUrl}
                       alt=""
                       className="h-16 w-16 object-cover md:h-20 md:w-20"
                       loading="lazy"

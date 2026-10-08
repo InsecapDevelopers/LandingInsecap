@@ -1,11 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
 import SEO from '@/components/SEO';
 import NotFound from '@/pages/NotFound';
-import { cursoAreas, getAreaSeoMeta, getCursoArea, getCursosByArea, getModalidadesArea, getRangoHoras, listarNombres } from '@/data/cursos-seo';
+import { CursoCard } from '@/components/CursoCard';
+import { cursoAreas, getAreaSeoMeta, getCursoArea, getCursosByArea, getModalidadesArea, listarNombres } from '@/data/cursos-seo';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 /** Cursos de un área del catálogo (/cursos/categoria/:area). Datos locales. */
@@ -38,27 +38,12 @@ const CursoCategoria = () => {
         <div className="container mx-auto mt-12 px-8 md:px-14 lg:px-16">
           <p className="mb-10 max-w-3xl text-lg leading-relaxed text-foreground">{intro}</p>
 
-          <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {cursos.map((curso) => {
-              const rango = getRangoHoras(curso.tema);
-              return (
-                <li key={curso.slug}>
-                  <Link
-                    to={localizedPath(`/cursos/${curso.slug}`)}
-                    className="group flex h-full flex-col rounded-xl border border-border bg-card p-5 transition-colors hover:border-insecap-blue"
-                  >
-                    <h2 className="text-lg font-semibold text-foreground group-hover:text-insecap-blue">
-                      Curso de {curso.tema.tema}
-                    </h2>
-                    <span className="mt-2 text-sm text-muted-foreground">{curso.tema.modalidades.join(' · ')}</span>
-                    {rango && <span className="text-sm text-muted-foreground">{rango}</span>}
-                    <span className="mt-auto flex items-center gap-1 pt-3 text-sm font-semibold text-insecap-blue">
-                      Ver ficha <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
+          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {cursos.map((curso) => (
+              <li key={curso.slug}>
+                <CursoCard curso={curso} titulo="h2" label="Ver ficha" />
+              </li>
+            ))}
           </ul>
 
           <nav aria-label="Otras áreas" className="mt-14">

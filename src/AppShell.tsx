@@ -10,14 +10,12 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useTranslation } from 'react-i18next';
 import BackToTop from "./components/BackToTop";
 import ScrollToTop from "./components/ScrollToTop";
-// import PromoPopup from "./components/PromoPopup";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { buildLocalizedPath, getLocaleFromPath, getLocaleMeta, isAppLanguage } from "./lib/locale-routing";
 import SEO from "./components/SEO";
 import { resolveLegacyPath } from "./lib/legacy-redirects";
 import { siteJsonLd } from "./lib/jsonld";
-import { useCartStore } from "./stores/cartStore";
 import { fallbackLanguage } from "./lib/translations";
 import { isCapinChatEnabled, isSimulatorsEnabled } from "./lib/featureFlags";
 import CapinBubble from "./components/capin/CapinBubble";
@@ -108,16 +106,6 @@ const RouteMeta = () => {
       <SEO base />
     </>
   );
-};
-
-/** El carrito persiste en localStorage: se rehidrata después de montar para que el primer
- *  render del cliente coincida con el HTML prerenderizado (carrito vacío). */
-const CartRehydrate = () => {
-  useEffect(() => {
-    void useCartStore.persist.rehydrate();
-  }, []);
-
-  return null;
 };
 
 export const routeDefinitions = [
@@ -235,9 +223,7 @@ export const AppShell = ({ queryClient, helmetContext, dehydratedState }: AppShe
         <MetaPixelPageView />
         <AttributionTracker />
         <RouteMeta />
-        <CartRehydrate />
         {isCapinChatEnabled && <CapinBubble />}
-        {/*<PromoPopup />*/}
         <AppRoutes />
       </HydrationBoundary>
     </QueryClientProvider>

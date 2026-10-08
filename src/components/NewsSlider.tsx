@@ -4,8 +4,7 @@ import { Calendar, User, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
-// Importar tipos y funciones de Shopify
-import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
+import { formatArticleDate, type NewsArticle } from '@/lib/newsData';
 import { NEWS_SLIDER_COUNT, newsListQuery } from '@/lib/queries';
 import { stripHtml } from '@/lib/html';
 
@@ -94,7 +93,7 @@ const NewsSlider: React.FC = () => {
   const featuredArticle = articles[0];
   const secondaryArticles = articles.slice(1, 4);
 
-  const getArticleCategory = (article: ShopifyArticle): string => {
+  const getArticleCategory = (article: NewsArticle): string => {
     if (article.blog?.handle) {
       return article.blog.handle.replace(/-/g, ' ');
     }

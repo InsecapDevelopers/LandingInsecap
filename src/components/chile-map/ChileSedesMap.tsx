@@ -4,7 +4,6 @@ import { Building2, Globe } from 'lucide-react';
 import ChileMap from './ChileMap';
 import Tooltip from './Tooltip';
 import { sedeLocations } from './data';
-import { responsiveImage } from '@/lib/images';
 
 type Mode = 'presenciales' | 'virtuales';
 
@@ -71,7 +70,7 @@ const ChileSedesMap: React.FC = () => {
       {/* Mobile: static image */}
       <div className="block md:hidden">
         <img
-          {...responsiveImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Mapa-Pagina-Web-2048x1119_5e4175db-ab32-4b50-be4c-c3f009f396d9.png?v=1772739032', [640, 960, 1280], 'calc(100vw - 4rem)', 960)}
+          src="https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/mapa-pagina-web-2048x1119-5e4175db-ab32-4b50-be4c-c3f009f396-1aa3c30e.webp"
           alt={t('sedesMap.mapAlt')}
           width={2048}
           height={1119}

@@ -118,7 +118,7 @@ const SapMineralsBanner = () => {
             {/* Mensaje */}
             <div className="flex flex-col">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-                <img src={SAP_LOGO} alt="SAP" width={1280} height={634} loading="lazy" className="h-9 w-auto md:h-10" />
+                <img src={SAP_LOGO} alt="SAP" width={162} height={80} loading="lazy" className="h-9 w-auto md:h-10" />
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
                   <Pickaxe className="h-4 w-4 text-sky-300" aria-hidden="true" />
                   {content.badge}

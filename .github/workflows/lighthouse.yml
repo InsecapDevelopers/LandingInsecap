@@ -44,14 +44,12 @@ jobs:
             BUILD_ID=${{ github.run_id }}-${{ github.run_attempt }}
             VITE_TMS_API_URL=${{ vars.VITE_TMS_API_URL }}
             VITE_TMS_PLUS_API_URL=${{ vars.VITE_TMS_PLUS_API_URL }}
-            VITE_ECOMMERCE_ENABLED=${{ vars.VITE_ECOMMERCE_ENABLED }}
-            VITE_LECTURA_JSON=${{ vars.VITE_LECTURA_JSON }}
-            VITE_B2B_CATALOG_ENABLED=${{ vars.VITE_B2B_CATALOG_ENABLED }}
-            VITE_B2B_SHOPIFY_QUERY=${{ vars.VITE_B2B_SHOPIFY_QUERY }}
             VITE_SIMULATORS_ENABLED=${{ vars.VITE_SIMULATORS_ENABLED }}
             VITE_OPEN_COURSE_OFFER=${{ vars.VITE_OPEN_COURSE_OFFER }}
             VITE_URL_APPSTORE=${{ vars.VITE_URL_APPSTORE }}
             VITE_URL_PLAYSTORE=${{ vars.VITE_URL_PLAYSTORE }}
+            VITE_CAPIN_CHAT_ENABLED=${{ vars.VITE_CAPIN_CHAT_ENABLED }}
+            VITE_CAPIN_API_URL=${{ vars.VITE_CAPIN_API_URL }}
 
       - name: Start container
         run: |

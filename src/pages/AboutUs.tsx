@@ -12,7 +12,6 @@ import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-anim
 import { Meteors } from '@/components/ui/meteors';
 import { getYearsOfExperience } from '@/lib/insecapUtils';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { responsiveImage, shopifyImage } from '@/lib/images';
 // 1. IMPORTANTE: Importar el plugin de Autoplay
 import Autoplay from "embla-carousel-autoplay";
 
@@ -24,53 +23,49 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 const antofagastaImages = [
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede-Antofagasta_2025.jpg?v=1773425188",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2026-01-19-at-09.32.40.jpg?v=1773425188",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sala-2-Antofa_1675-scaled.jpg?v=1773425188",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2026-01-21-at-09.11.04.jpg?v=1773425188",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2026-01-16-at-16.11.18.jpg?v=1773425188",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sala-1-Antofa_1638-scaled.jpg?v=1773425188",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2025-11-10-at-17.23.41-1.jpg?v=1773425189",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Presencialt-092031.jpg?v=1773425188",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_1593-scaled.jpg?v=1773425189",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Gemini_Generated_Image_fhyf58fhyf58fhyf_348fb4bf-e08f-4152-8505-b6643fa9ac81.png?v=1773425190",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/sede-antofagasta-2025-8b813334.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/whatsapp-image-2026-01-19-at-09-32-40-c41a4f12.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/sala-2-antofa-1675-scaled-d6e654b8.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/whatsapp-image-2026-01-21-at-09-11-04-17244468.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/whatsapp-image-2026-01-16-at-16-11-18-5b2585d4.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/sala-1-antofa-1638-scaled-f0587920.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/whatsapp-image-2025-11-10-at-17-23-41-1-1794b787.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/presencialt-092031-b1831735.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/img-1593-scaled-2e337ac7.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/gemini-generated-image-fhyf58fhyf58fhyf-348fb4bf-e08f-4152-8-88e15687.webp",
 ];
 
 const santiagoImages = [
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede_Santiago_web.jpg?v=1776094293",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2024-04-03_at_12.56.34_PM.jpg?v=1776094308",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2026-01-07_at_09.22.34.jpg?v=1776094309",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2025-11-20_at_09.13.03.jpg?v=1776094309",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2025-08-12_at_09.23.16.jpg?v=1776094310",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2025-10-10_at_16.02.21.jpg?v=1776094309",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/E-Sala_3_Image_2024-08-05_at_13.17.20.jpg?v=1776094309",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp_Image_2025-10-14_at_15.54.11_1.jpg?v=1776094309",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sala_Stgo-Salon2_1714.jpg?v=1776094309",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sala_E-Stgo-Salon1_7390.jpg?v=1776094309",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/sede-santiago-web-b334326b.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/whatsapp-image-2024-04-03-at-12-56-34-pm-4a866201.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/whatsapp-image-2026-01-07-at-09-22-34-b82e9669.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/whatsapp-image-2025-11-20-at-09-13-03-4f3fadf5.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/whatsapp-image-2025-08-12-at-09-23-16-29aa5128.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/whatsapp-image-2025-10-10-at-16-02-21-af4ea81c.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/e-sala-3-image-2024-08-05-at-13-17-20-caaa277d.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/whatsapp-image-2025-10-14-at-15-54-11-1-07add670.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/sala-stgo-salon2-1714-d7bfea15.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/sala-e-stgo-salon1-7390-7764895a.webp",
 ];
 
 const calamaImages = [
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cascada-fachada-y-letrero-scaled.jpg?v=1776094124",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GHorquilla3675_web.jpg?v=1773345899",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Toconao-13.59.37.jpg?v=1773424087",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/WhatsApp-Image-2025-11-08-at-09.58.59.jpg?v=1773424087",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Presencial-095357.jpg?v=1773424087",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Salon-Break-104615.jpg?v=1773424087",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sala-Zen135934-1.jpg?v=1773424087",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/San-Pedro-124306-6.jpg?v=1773424088",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lasana-IMG_3964-scaled.jpg?v=1773424088",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Caspana-IMG_3949-scaled.jpg?v=1773424088",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Presencial-094101.jpg?v=1773424088",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Toconce-IMG_3603-scaled.jpg?v=1773424088",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GHorquilla3675_web_6f410fbf-8a24-4820-bfc2-acf479adc4ca.jpg?v=1773424088",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Computacion-IMG_3527-scaled.jpg?v=1773424088",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Simulador-Cabina-173107-7.jpg?v=1773424088",
-  "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Soldadura-1009177.jpg?v=1773424089",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/cascada-fachada-y-letrero-scaled-b16fb817.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/ghorquilla3675-web-3c089be8.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/toconao-13-59-37-b61aeaf0.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/whatsapp-image-2025-11-08-at-09-58-59-b3ab0a7e.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/presencial-095357-eae34b64.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/salon-break-104615-6b2505bc.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/sala-zen135934-1-d124d407.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/san-pedro-124306-6-da50d69e.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/lasana-img-3964-scaled-e25185e5.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/caspana-img-3949-scaled-356f5759.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/presencial-094101-61844b24.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/toconce-img-3603-scaled-ec91321e.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/ghorquilla3675-web-6f410fbf-8a24-4820-bfc2-acf479adc4ca-fad07122.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/computacion-img-3527-scaled-61227306.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/simulador-cabina-173107-7-856ccea5.webp",
+  "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/soldadura-1009177-5c64a9ea.webp",
 ];
-
-// Carruseles de sede: tarjetas 4:3 de hasta max-w-xl (576 px). Fotos de Shopify al ancho de render.
-const galleryImage = (src: string) =>
-  responsiveImage(src, [640, 960, 1280], '(min-width: 640px) 576px, calc(100vw - 4rem)', 960);
 
 // ─── Lightbox compartido para todas las sedes ────────────────────────────────
 const ExpandIcon = () => (
@@ -143,7 +138,7 @@ const SedeGallery = ({ images, label, labels, index, setIndex, onClose }: SedeGa
 
           <img
             key={index}
-            src={shopifyImage(images[index], 1920)}
+            src={images[index]}
             alt={labels.photoAlt(label, index + 1)}
             className="max-h-full max-w-full object-contain rounded-2xl shadow-2xl"
             style={{ maxHeight: '100%', maxWidth: '100%' }}
@@ -175,7 +170,7 @@ const SedeGallery = ({ images, label, labels, index, setIndex, onClose }: SedeGa
             aria-label={labels.thumb(i + 1)}
             className={`shrink-0 w-14 h-full rounded-lg overflow-hidden border-2 transition-all ${i === index ? 'border-white opacity-100' : 'border-transparent opacity-40 hover:opacity-75'}`}
           >
-            <img src={shopifyImage(src, 160)} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
+            <img src={src} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
           </button>
         ))}
       </div>
@@ -467,7 +462,7 @@ const AboutUs = () => {
                     {antofagastaImages.map((src, index) => (
                       <CarouselItem key={index}>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-lg">
-                          <img {...galleryImage(src)} alt={content.gallery.photoAlt('Antofagasta', index + 1)} width={1600} height={1200} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                          <img src={src} alt={content.gallery.photoAlt('Antofagasta', index + 1)} width={1600} height={1200} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                       </CarouselItem>
                     ))}
@@ -505,7 +500,7 @@ const AboutUs = () => {
                     {calamaImages.map((src, index) => (
                       <CarouselItem key={index}>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-lg">
-                          <img {...galleryImage(src)} alt={content.gallery.photoAlt('Calama', index + 1)} width={1600} height={1200} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                          <img src={src} alt={content.gallery.photoAlt('Calama', index + 1)} width={1600} height={1200} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                       </CarouselItem>
                     ))}
@@ -621,7 +616,7 @@ const AboutUs = () => {
                     {santiagoImages.map((src, index) => (
                       <CarouselItem key={index}>
                         <div className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-lg">
-                          <img {...galleryImage(src)} alt={content.gallery.photoAlt('Santiago', index + 1)} width={1600} height={1200} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                          <img src={src} alt={content.gallery.photoAlt('Santiago', index + 1)} width={1600} height={1200} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                       </CarouselItem>
                     ))}
@@ -688,7 +683,7 @@ const AboutUs = () => {
                 </div>
                 <div className="flex justify-center">
                   <img
-                    src={shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_20190903_133957-scaled-ppg1u2wov3lkg6zm0s3v1xtbjxpl8ub1vtrbj8miio.jpg?v=1776094514', 900)}
+                    src="https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/img-20190903-133957-scaled-ppg1u2wov3lkg6zm0s3v1xtbjxpl8ub1v-7b9e3d03.webp"
                     alt={content.virtualImage}
                     width={900}
                     height={600}

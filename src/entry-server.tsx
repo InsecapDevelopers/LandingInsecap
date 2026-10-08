@@ -17,8 +17,8 @@ import type { HelmetServerState } from "react-helmet-async";
 import { AppShell, createQueryClient, routerFuture } from "./AppShell";
 import i18n from "./lib/i18n";
 import { getLocaleFromPath, stripLocaleFromPath } from "./lib/locale-routing";
-import { storefrontApiRequest } from "./lib/shopify";
 import { getLegacyRedirects, toNginxMap, type EaProductArea } from "./lib/legacy-redirects";
+import eaProducts from "./data/ea-redirects.json";
 import {
   NEWS_PER_PAGE,
   NEWS_SLIDER_COUNT,
@@ -35,7 +35,7 @@ import {
   type SeoRoute,
 } from "./lib/seo-routes";
 import { fallbackLanguage, type AppLanguage } from "./lib/translations";
-import { cursoAreas, cursosSeo, slugify } from "./data/cursos-seo";
+import { cursoAreas, cursosSeo } from "./data/cursos-seo";
 import { sedes } from "./data/sedes";
 import { mergeJsonLdScripts, toSantiagoIso } from "./lib/jsonld";
 import { buildCrawlerFiles as buildCrawlerFilesFrom, listPageSourceFiles, type CrawlerPage } from "./lib/crawler-files";
@@ -54,12 +54,10 @@ export interface RenderResult {
 }
 
 /**
- * Guardas del build (decisión 1.6): si Shopify o el TMS Plus fallan o devuelven menos datos de lo
+ * Guardas del build (decisión 1.6): si el TMS Plus falla o devuelven menos datos de lo
  * esperable, el build falla y en producción sigue la imagen anterior.
  */
 export const MIN_NEWS = 1;
-/** Productos `ea-*` para el mapa de 301 (hoy 142). Menos de esto indica una consulta rota. */
-export const MIN_EA_PRODUCTS = 1;
 
 /**
  * Caché del build: cada dato remoto se pide una sola vez aunque lo usen varias páginas e idiomas.
@@ -97,45 +95,13 @@ const loadAllNews = async () => {
   return articles;
 };
 
-const EA_PRODUCTS_QUERY = `
-  query EaProducts($after: String) {
-    products(first: 250, after: $after) {
-      pageInfo { hasNextPage endCursor }
-      edges { node { handle tags } }
-    }
-  }
-`;
-
 /**
- * Handles `ea-*` de Shopify (ecommerce apagado) con el área del catálogo según su tag
- * (SEGURIDAD Y PREVENCIÓN DE RIESGOS → seguridad-y-prevencion-de-riesgos…). PRE-CONTRATO,
- * RECERTIFICACIONES y los productos sin tag de área quedan en null (→ /cursos).
+ * Contenido de dist/redirects.map (nginx). Los 142 handles `ea-*` del ecommerce apagado quedaron
+ * congelados en src/data/ea-redirects.json (Shopify ya no existe); su área sale del tag que tenían.
  * TODO: tabla `ea-*` → tema para redirigir a la ficha exacta (sección 4, punto 4).
  */
-const loadEaProducts = async (): Promise<EaProductArea[]> => {
-  const areaSlugs = new Set(cursoAreas.map((area) => area.slug));
-  const products: EaProductArea[] = [];
-  let after: string | null = null;
-
-  do {
-    const { data } = await storefrontApiRequest(EA_PRODUCTS_QUERY, { after });
-    for (const { node } of data.products.edges as Array<{ node: { handle: string; tags: string[] } }>) {
-      if (!node.handle.startsWith("ea-")) continue;
-      const areaSlug = node.tags.map(slugify).find((slug) => areaSlugs.has(slug)) ?? null;
-      products.push({ handle: node.handle, areaSlug });
-    }
-    after = data.products.pageInfo.hasNextPage ? data.products.pageInfo.endCursor : null;
-  } while (after);
-
-  if (products.length < MIN_EA_PRODUCTS) {
-    throw new Error(`[guarda] Shopify devolvió ${products.length} productos ea-* (mínimo ${MIN_EA_PRODUCTS}).`);
-  }
-  return products.sort((a, b) => a.handle.localeCompare(b.handle));
-};
-
-/** Contenido de dist/redirects.map (nginx). Lanza si falla Shopify: el build se detiene. */
 export async function buildRedirectsMap(): Promise<{ map: string; count: number }> {
-  const redirects = getLegacyRedirects(await loadEaProducts());
+  const redirects = getLegacyRedirects(eaProducts as EaProductArea[]);
   return { map: toNginxMap(redirects), count: redirects.length };
 }
 

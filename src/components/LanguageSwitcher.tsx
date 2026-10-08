@@ -7,6 +7,8 @@ import { fallbackLanguage, type AppLanguage, supportedLanguages } from '@/lib/tr
 
 type LanguageSwitcherProps = {
   className?: string;
+  /** Header de escritorio: bajo 2xl va justo de ancho y muestra solo el código del idioma. */
+  compact?: boolean;
 };
 
 const FlagIcon = ({ language }: { language: AppLanguage }) => {
@@ -71,7 +73,7 @@ const FlagIcon = ({ language }: { language: AppLanguage }) => {
   );
 };
 
-const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
+const LanguageSwitcher = ({ className, compact = false }: LanguageSwitcherProps) => {
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -98,13 +100,14 @@ const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
               navigate(`${nextPath}${location.search}${location.hash}`);
             }}
             className={cn(
-              'rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors',
+              'rounded-full py-1 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors',
+              compact ? 'px-2 2xl:px-2.5' : 'px-2.5',
               isActive ? 'bg-white text-slate-900' : 'text-white/75 hover:text-white',
             )}
             aria-pressed={isActive}
             title={t(`languageSwitcher.options.${language}`)}
           >
-            <span className="mr-1 inline-flex" aria-hidden="true">
+            <span className={cn('mr-1', compact ? 'hidden 2xl:inline-flex' : 'inline-flex')} aria-hidden="true">
               <FlagIcon language={language} />
             </span>
             {language}

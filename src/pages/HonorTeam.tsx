@@ -9,7 +9,6 @@ import {
   getGanadoresFama, GanadorFama,
 } from '@/lib/tmsApi';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { shopifyImage } from '@/lib/images';
 
 const medalEmoji = ['🥇', '🥈', '🥉'];
 
@@ -52,7 +51,7 @@ const PodioMensual = ({ items }: { items: PodioInsecoinsItem[] }) => {
               <span className="text-2xl mb-1">{medalEmoji[item.puesto - 1]}</span>
               {item.foto ? (
                 <img
-                  src={shopifyImage(item.foto, 160)}
+                  src={item.foto}
                   alt={item.nombre}
                   width={80}
                   height={80}

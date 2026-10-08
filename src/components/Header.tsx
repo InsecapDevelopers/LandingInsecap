@@ -1,16 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
 import { Button } from '@/components/ui/button';
-import CartDrawer from './CartDrawer';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { shopifyImage } from '@/lib/images';
 import { stripLocaleFromPath } from '@/lib/locale-routing';
-import { isEcommerceEnabled } from '@/lib/featureFlags';
 import { SAP_HREF } from '@/lib/sapCatalog';
 import {
   NavigationMenu,
@@ -40,6 +37,18 @@ type NavItem = {
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  // Hover con margen: al salir de un ítem el submenú espera 150 ms antes de cerrarse, así el cursor
+  // puede bajar en diagonal hasta él sin que desaparezca. Entrar a otro ítem lo cambia al instante.
+  const closeTimer = useRef<ReturnType<typeof setTimeout>>();
+  const openDropdown = (id: string) => {
+    clearTimeout(closeTimer.current);
+    setActiveDropdown(id);
+  };
+  const closeDropdownSoon = () => {
+    clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setActiveDropdown(null), 150);
+  };
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
   const [isAtTop, setIsAtTop] = useState(true);
   const { t } = useTranslation();
   const { localizedPath } = useLocalizedPath();
@@ -102,7 +111,6 @@ const Header = () => {
         { id: 'culture', labelKey: 'header.nav.culture', href: '/equipo-honor', isLink: true },
         { id: 'experience', labelKey: 'header.nav.experience', href: '/acreditaciones', isLink: true },
         { id: 'quality', labelKey: 'header.nav.quality', href: '/politica-calidad', isLink: true },
-        { id: 'contact', labelKey: 'header.nav.contact', href: '#contacto', isAnchor: true },
       ]
     },
     {
@@ -119,7 +127,8 @@ const Header = () => {
       labelKey: 'header.nav.news',
       href: '/noticias',
       isLink: true,
-    }
+    },
+    { id: 'contact', labelKey: 'header.nav.contact', href: '/contacto', isLink: true },
   ];
 
   // Efecto tipo CILOG: una píldora translúcida vive en el ítem activo y se desliza al que tiene hover;
@@ -128,7 +137,7 @@ const Header = () => {
   const pillId = activeDropdown ?? activeId;
   const pillTransition = reduceMotion ? { duration: 0 } : { type: 'spring' as const, bounce: 0.2, duration: 0.45 };
   const desktopLinkClass = (item: NavItem) =>
-    `relative z-10 flex items-center gap-1 rounded-full px-3 py-1.5 font-medium whitespace-nowrap transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${isAtTop ? 'text-sm' : 'text-xs'} ${
+    `relative z-10 flex items-center gap-1 rounded-full px-2.5 2xl:px-3 py-1.5 font-medium whitespace-nowrap transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${isAtTop ? 'text-sm' : 'text-xs'} ${
       pillId === item.id || activeId === item.id ? 'text-white' : 'text-primary-foreground/90 hover:text-primary-foreground'
     }`;
 
@@ -145,28 +154,29 @@ const Header = () => {
       >
         <div className="container mx-auto flex justify-between items-center">
           {/* Logo */}
-          <Link to={localizedPath('/')} className="flex items-center gap-2" onClick={handleLogoClick}>
+          <Link to={localizedPath('/')} className="flex shrink-0 items-center gap-2" onClick={handleLogoClick}>
             <div className="text-primary-foreground font-bold text-2xl flex items-center">
-              {/* 2327×728 en origen; se pide a 480 px (2x del w-60). TODO: logo SVG oficial (sección 4, punto 10). */}
+              {/* WebP local de 480 px (2x del w-60): sobre el pliegue, sin conexión a otro dominio. TODO: logo SVG oficial (sección 4, punto 10). */}
               <img
-                src={shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508', 480)}
+                src="/images/insecap-logo.webp"
                 alt="INSECAP"
-                width={2327}
-                height={728}
-                className={`h-auto object-contain transition-all duration-500 ease-in-out ${isAtTop ? 'w-60' : 'w-40'
+                width={480}
+                height={151}
+                className={`h-auto object-contain transition-all duration-500 ease-in-out ${isAtTop ? 'w-48 2xl:w-60' : 'w-40'
                   }`}
               />
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className={`hidden lg:flex items-center transition-all duration-500 ${isAtTop ? 'gap-1' : 'gap-0.5'}`}>
+          {/* Desde xl: con 7 ítems más idioma y Acceso, bajo 1280 px no cabe y se usa el menú móvil. */}
+          <div className={`hidden xl:flex items-center transition-all duration-500 ${isAtTop ? 'gap-1' : 'gap-0.5'}`}>
             {navItems.map((item) => (
               <div
                 key={item.id}
                 className="relative"
-                onMouseEnter={() => setActiveDropdown(item.id)}
-                onMouseLeave={() => setActiveDropdown(null)}
+                onMouseEnter={() => openDropdown(item.id)}
+                onMouseLeave={closeDropdownSoon}
                 // Teclado: el submenú se abre al enfocar el ítem, se cierra al salir con Tab y con Escape.
                 onFocus={() => setActiveDropdown(item.id)}
                 onBlur={(e) => {
@@ -222,8 +232,10 @@ const Header = () => {
                     {item.dropdown && <ChevronDown className="w-4 h-4" aria-hidden="true" />}
                   </button>
                 )}
+                {/* pt-2 transparente: puente de hover entre el ítem y el submenú (sin hueco que lo cierre). */}
                 {item.dropdown && activeDropdown === item.id && (
-                  <div data-focus-dark className="absolute top-full left-0 bg-card rounded-md shadow-card-hover py-2 min-w-[200px] animate-fade-in">
+                  <div className="absolute top-full left-0 pt-2">
+                  <div data-focus-dark className="bg-card rounded-md shadow-card-hover py-2 min-w-[200px] animate-fade-in">
                     {item.dropdown.map((subItem) => (
                       subItem.isLink ? (
                         <Link
@@ -259,19 +271,20 @@ const Header = () => {
                       )
                     ))}
                   </div>
+                  </div>
                 )}
               </div>
             ))}
           </div>
 
           {/* Access Buttons & Cart */}
-          <div className="hidden lg:flex items-center gap-3">
-            <LanguageSwitcher />
+          <div className="hidden xl:flex shrink-0 items-center gap-3">
+            <LanguageSwitcher compact />
             <NavigationMenu aria-label={t('header.access.label')}>
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
-                    className={`bg-insecap-blue text-white hover:bg-[#3547B1] hover:text-white focus:bg-[#3547B1] focus:text-white focus-visible:ring-2 focus-visible:ring-white data-[state=open]:bg-[#3547B1] data-[state=open]:text-white transition-all duration-500 border-none ${isAtTop ? 'h-9 px-4 text-sm' : 'h-8 px-3 text-xs'}`}
+                    className={`bg-[#0277B6] text-white hover:bg-[#026AA2] hover:text-white focus:bg-[#026AA2] focus:text-white focus-visible:ring-2 focus-visible:ring-white data-[state=open]:bg-[#026AA2] data-[state=open]:text-white transition-all duration-500 border-none ${isAtTop ? 'h-9 px-4 text-sm' : 'h-8 px-3 text-xs'}`}
                   >
                     {t('header.access.label')}
                   </NavigationMenuTrigger>
@@ -306,13 +319,12 @@ const Header = () => {
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            {isEcommerceEnabled && <CartDrawer />}
           </div>
 
           {/* Mobile Menu Button */}
           <button
             type="button"
-            className="lg:hidden text-primary-foreground rounded-md p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="xl:hidden text-primary-foreground rounded-md p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? t('aria.closeMenu') : t('aria.openMenu')}
             aria-expanded={isMenuOpen}
@@ -324,7 +336,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div id="mobile-menu" className="lg:hidden bg-gradient-to-br from-insecap-cyan-ink to-insecap-blue/95 border border-white/15 mt-3 rounded-lg p-4 animate-fade-in max-h-[80vh] overflow-y-auto">
+          <div id="mobile-menu" className="xl:hidden bg-gradient-to-br from-insecap-cyan-ink to-insecap-blue/95 border border-white/15 mt-3 rounded-lg p-4 animate-fade-in max-h-[80vh] overflow-y-auto">
             {navItems.map((item) => (
               <div key={item.id} className="border-b border-primary-foreground/10 last:border-0">
                 <div className="flex items-center justify-between">

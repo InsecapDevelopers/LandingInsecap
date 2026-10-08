@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-// Clarity va con los demás terceros (requestIdleCallback o primera interacción) y en su propio chunk.
+// Clarity va con los demás terceros (primera interacción o 6 s después del load) y en su propio chunk.
 window.__on3p?.(() => {
   void import("@microsoft/clarity").then(({ default: Clarity }) => Clarity.init("vqiykaqr50"));
 });
