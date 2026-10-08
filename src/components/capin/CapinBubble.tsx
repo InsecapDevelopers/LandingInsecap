@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  AlertTriangle, ArrowRight, CheckCircle2, Loader2, Mail, Phone, Eraser, Search, Send, Sparkles, Square, UserRound, X,
+  AlertTriangle, ArrowRight, CheckCircle2, Loader2, Mail, MessageCircle, Phone, Eraser, Search, Send, Sparkles, Square, UserRound, X,
 } from 'lucide-react';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import {
@@ -46,6 +46,7 @@ const TEXTOS = {
     fallo: 'No se pudo consultar; Capín siguió con lo demás.',
     cotizar: '¿Te interesa? Cotiza con nuestro equipo',
     deTurno: 'Comercial de turno',
+    escribirWa: 'escribir por WhatsApp',
     limite: 'Hiciste muchas preguntas seguidas: espera unos minutos y vuelve a intentarlo.',
     sinConexion: 'No pude conectarme con Capín. Intenta de nuevo en unos minutos.',
     incompleta: 'La respuesta llegó incompleta: intenta de nuevo.',
@@ -79,6 +80,7 @@ const TEXTOS = {
     fallo: 'Could not search; Capín moved on.',
     cotizar: 'Interested? Get a quote from our team',
     deTurno: 'Sales rep on duty',
+    escribirWa: 'message on WhatsApp',
     limite: 'Too many questions in a row: please wait a few minutes and try again.',
     sinConexion: 'Could not reach Capín. Please try again in a few minutes.',
     incompleta: 'The answer arrived incomplete: please try again.',
@@ -112,6 +114,7 @@ const TEXTOS = {
     fallo: 'Não foi possível consultar; Capín seguiu com o resto.',
     cotizar: 'Tem interesse? Peça uma cotação à nossa equipe',
     deTurno: 'Comercial de plantão',
+    escribirWa: 'escrever pelo WhatsApp',
     limite: 'Muitas perguntas seguidas: aguarde alguns minutos e tente de novo.',
     sinConexion: 'Não consegui me conectar ao Capín. Tente novamente em alguns minutos.',
     incompleta: 'A resposta chegou incompleta: tente novamente.',
@@ -323,9 +326,10 @@ function ChatCapin({ t, onCerrar }: { t: Textos; onCerrar: () => void }) {
       aria-label={t.titulo}
       className="capin-panel-entra capin-shadow-chat relative flex h-[min(36rem,calc(100dvh-3rem))] w-[min(25rem,calc(100vw-3rem))] flex-col overflow-hidden rounded-2xl border border-[hsl(var(--capin-border))] bg-white text-left"
     >
-      <header className="capin-gradient flex items-center gap-2.5 px-3 py-3 text-white shadow-[inset_0_-1px_0_rgb(255_255_255/0.15)]">
-        <span aria-hidden className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white shadow-md ring-2 ring-white/40">
-          <img src="/images/capin/capin-mitad.webp" alt="" width={25} height={32} className="h-8 w-auto object-contain" />
+      {/* capin-sobre-color: índigo → cyan-ink, texto blanco ≥ 5:1 (DESIGN.md: nunca blanco sobre cian). */}
+      <header className="capin-sobre-color flex items-center gap-2.5 px-3 py-2.5 text-white shadow-[inset_0_-1px_0_rgb(255_255_255/0.15)]">
+        <span aria-hidden className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white shadow-md ring-2 ring-white/40">
+          <img src="/images/capin/capin-saludo-boton.webp" alt="" width={44} height={44} className="h-full w-full object-cover" />
         </span>
         <div className="min-w-0 flex-1">
           <h2 className="text-base font-semibold leading-5 tracking-tight">{t.titulo}</h2>
@@ -342,7 +346,7 @@ function ChatCapin({ t, onCerrar }: { t: Textos; onCerrar: () => void }) {
           onClick={nueva}
           disabled={mensajes.length === 0}
           title={t.nueva}
-          className="flex h-9 items-center gap-1.5 rounded-full bg-white/15 px-3 text-xs font-semibold text-white hover:bg-white/25 disabled:pointer-events-none disabled:opacity-40"
+          className="flex h-11 items-center gap-1.5 rounded-full bg-white/15 px-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/25 disabled:pointer-events-none disabled:opacity-40"
         >
           {/* Texto visible: el ícono solo no dejaba claro que borra la conversación. */}
           <Eraser className="h-4 w-4" aria-hidden="true" />
@@ -353,9 +357,9 @@ function ChatCapin({ t, onCerrar }: { t: Textos; onCerrar: () => void }) {
           onClick={onCerrar}
           aria-label={t.cerrar}
           title={t.cerrar}
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-white/90 hover:bg-white/15 hover:text-white"
+          className="flex h-11 w-11 items-center justify-center rounded-full text-white/90 transition-colors hover:bg-white/15 hover:text-white"
         >
-          <X className="h-[1.125rem] w-[1.125rem]" />
+          <X className="h-5 w-5" aria-hidden="true" />
         </button>
       </header>
 
@@ -404,7 +408,7 @@ function ChatCapin({ t, onCerrar }: { t: Textos; onCerrar: () => void }) {
               {m.error && <AlertTriangle className="mr-1.5 inline h-3.5 w-3.5 align-[-2px]" aria-hidden />}
               {m.texto}
             </p>
-            {m.comercial && <TarjetaComercial c={m.comercial} etiqueta={t.deTurno} />}
+            {m.comercial && <TarjetaComercial c={m.comercial} etiqueta={t.deTurno} escribirWa={t.escribirWa} />}
             {/* Lo que Capin no sabe (precios, fechas, contenidos) lo ve el equipo comercial. */}
             {!!m.cursos?.length && !m.comercial && (
               <Link
@@ -469,7 +473,7 @@ function ChatCapin({ t, onCerrar }: { t: Textos; onCerrar: () => void }) {
             disabled={!texto.trim()}
             aria-label={t.enviar}
             title={t.enviar}
-            className="capin-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="capin-sobre-color flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Send className="h-4 w-4" />
           </button>
@@ -479,8 +483,17 @@ function ChatCapin({ t, onCerrar }: { t: Textos; onCerrar: () => void }) {
   );
 }
 
-/** Contacto del comercial de turno, con enlaces para escribirle o llamarlo. */
-function TarjetaComercial({ c, etiqueta }: { c: ComercialTurno; etiqueta: string }) {
+/** wa.me del teléfono si es un celular chileno (WhatsApp necesita uno): 569XXXXXXXX, +56 9… o 9 XXXX XXXX.
+ *  Misma regla que `whatsapp()` de RAG-service (capin/domain/chat_publico.py). */
+const whatsappUrl = (telefono: string): string | null => {
+  let digitos = telefono.replace(/\D/g, '');
+  if (digitos.length === 9 && digitos.startsWith('9')) digitos = `56${digitos}`;
+  return digitos.length === 11 && digitos.startsWith('569') ? `https://wa.me/${digitos}` : null;
+};
+
+/** Contacto del comercial de turno: correo y teléfono, que abre WhatsApp si es celular. */
+function TarjetaComercial({ c, etiqueta, escribirWa }: { c: ComercialTurno; etiqueta: string; escribirWa: string }) {
+  const wa = c.telefono ? whatsappUrl(c.telefono) : null;
   const enlace = 'flex min-h-9 items-center gap-1.5 text-xs text-[hsl(var(--capin-primary))] hover:underline [overflow-wrap:anywhere]';
   return (
     <div className="max-w-[90%] rounded-xl border border-[hsl(var(--capin-primary)/0.25)] bg-[hsl(var(--capin-primary)/0.04)] px-3 py-2">
@@ -493,7 +506,13 @@ function TarjetaComercial({ c, etiqueta }: { c: ComercialTurno; etiqueta: string
           <Mail className="h-3.5 w-3.5 shrink-0" aria-hidden /> {c.correo}
         </a>
       )}
-      {c.telefono && (
+      {c.telefono && wa && (
+        <a href={wa} target="_blank" rel="noopener noreferrer" className={enlace} title={escribirWa}>
+          <MessageCircle className="h-3.5 w-3.5 shrink-0" aria-hidden /> {c.telefono}
+          <span className="sr-only"> ({escribirWa})</span>
+        </a>
+      )}
+      {c.telefono && !wa && (
         <a href={`tel:${c.telefono.replace(/[^\d+]/g, '')}`} className={enlace}>
           <Phone className="h-3.5 w-3.5 shrink-0" aria-hidden /> {c.telefono}
         </a>
