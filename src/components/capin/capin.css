@@ -45,8 +45,15 @@
     outline-offset: 2px;
 }
 
-.capin-root .capin-gradient :focus-visible {
+.capin-root .capin-gradient :focus-visible,
+.capin-root .capin-sobre-color :focus-visible {
     outline-color: white;
+}
+
+/* Encabezado y botón Enviar: índigo → cyan-ink. El --capin-gradient termina en cian claro, que con
+   blanco encima da ~2,2:1; este degradado da ≥ 5:1 en todo el recorrido. */
+.capin-sobre-color {
+    background-image: linear-gradient(90deg, hsl(var(--insecap-blue)), hsl(var(--insecap-cyan-ink)));
 }
 
 /* Campos de texto sobre fondo claro: el realce es el índigo de Capin. */
