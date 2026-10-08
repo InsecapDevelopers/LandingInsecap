@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  AlertTriangle, ArrowRight, CheckCircle2, Loader2, Mail, Phone, Search, Send, Sparkles, Square, SquarePen, UserRound, X,
+  AlertTriangle, ArrowRight, CheckCircle2, Loader2, Mail, Phone, Eraser, Search, Send, Sparkles, Square, UserRound, X,
 } from 'lucide-react';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import {
@@ -26,7 +26,8 @@ const TEXTOS = {
     titulo: 'Capín IA',
     enLinea: 'En línea',
     trabajando: 'Buscando…',
-    nueva: 'Nueva conversación',
+    nueva: 'Limpiar el chat y empezar una conversación nueva',
+    limpiar: 'Limpiar',
     cerrar: 'Cerrar el chat',
     hola: 'Hola, soy Capín',
     intro: 'Te ayudo a encontrar cursos de INSECAP y te digo cuántas horas dura cada uno.',
@@ -58,7 +59,8 @@ const TEXTOS = {
     titulo: 'Capín AI',
     enLinea: 'Online',
     trabajando: 'Searching…',
-    nueva: 'New conversation',
+    nueva: 'Clear the chat and start a new conversation',
+    limpiar: 'Clear',
     cerrar: 'Close chat',
     hola: "Hi, I'm Capín",
     intro: 'I help you find INSECAP courses and tell you how many hours each one lasts.',
@@ -90,7 +92,8 @@ const TEXTOS = {
     titulo: 'Capín IA',
     enLinea: 'Online',
     trabajando: 'Buscando…',
-    nueva: 'Nova conversa',
+    nueva: 'Limpar o chat e começar uma nova conversa',
+    limpiar: 'Limpar',
     cerrar: 'Fechar o chat',
     hola: 'Olá, sou o Capín',
     intro: 'Ajudo você a encontrar cursos da INSECAP e digo quantas horas dura cada um.',
@@ -338,11 +341,12 @@ function ChatCapin({ t, onCerrar }: { t: Textos; onCerrar: () => void }) {
           type="button"
           onClick={nueva}
           disabled={mensajes.length === 0}
-          aria-label={t.nueva}
           title={t.nueva}
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-white/90 hover:bg-white/15 hover:text-white disabled:pointer-events-none disabled:opacity-35"
+          className="flex h-9 items-center gap-1.5 rounded-full bg-white/15 px-3 text-xs font-semibold text-white hover:bg-white/25 disabled:pointer-events-none disabled:opacity-40"
         >
-          <SquarePen className="h-4 w-4" />
+          {/* Texto visible: el ícono solo no dejaba claro que borra la conversación. */}
+          <Eraser className="h-4 w-4" aria-hidden="true" />
+          {t.limpiar}
         </button>
         <button
           type="button"
