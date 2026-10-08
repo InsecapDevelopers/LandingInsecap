@@ -4,7 +4,6 @@ import { Home, Mail, Phone } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { CONTACT_EMAIL, getCasaMatriz } from '@/data/sedes';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { shopifyImage } from '@/lib/images';
 
 /** Teléfono de la casa matriz (NAP único de src/data/sedes.ts). */
 const casaMatriz = getCasaMatriz();
@@ -42,10 +41,10 @@ const NotFound: React.FC = () => {
       <SEO />
       <div className="text-center max-w-2xl">
         
-        {/* Imagen Capin - Usando la URL de Shopify para evitar problemas de exportación */}
+        {/* Imagen Capin (Spaces, repositorio/catalogo-web/) */}
         <div className="mb-8 flex justify-center">
           <img
-            src={shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Capin-19.png?v=1769112910', 512)}
+            src="https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/capin-19-5f719252.webp"
             alt={content.imageAlt}
             width={3980}
             height={3301}

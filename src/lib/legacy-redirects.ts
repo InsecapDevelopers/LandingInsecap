@@ -14,7 +14,7 @@
  *   Experiencia-y-Respaldo (sin distinguir mayúsculas) → acreditaciones
  *   especialidades/sap-pm          → sap-pm
  *   noticias/<blog>/<slug>         → noticias/<slug>   (incluye noticias/noticias/<slug>)
- *   curso(s)/ea-*                  → cursos/categoria/<área> según el tag de Shopify (build);
+ *   curso(s)/ea-*                  → cursos/categoria/<área> según src/data/ea-redirects.json (build);
  *                                    PRE-CONTRATO, RECERTIFICACIONES y los desconocidos → cursos
  *   curso/curso-<slug>             → cursos/<slug>
  *   curso/<otro>                   → cursos
@@ -23,7 +23,7 @@
  * final. Los patrones son regex compatibles con PCRE (nginx) y JS: sin barras invertidas, sin
  * llaves ni punto y coma (se escriben entre comillas en el .map).
  */
-import { cursosSeo } from '../data/cursos-seo';
+import { CURSO_SLUGS } from '../data/cursos-base';
 import { getLocaleFromPath, stripLocaleFromPath } from './locale-routing';
 import { fallbackLanguage, supportedLanguages } from './translations';
 
@@ -46,9 +46,9 @@ const LOCALE_GROUP = `(${supportedLanguages.join('|')})`;
 
 /** Exactas: tienen prioridad sobre las regex (en nginx y en `resolveLegacyPath`). */
 const exactRules = (eaProducts: EaProductArea[]): LegacyRedirect[] => [
-  ...cursosSeo.flatMap((curso) => [
-    { from: `curso-empresa/curso-${curso.slug}`, to: `cursos/${curso.slug}` },
-    { from: `curso/curso-${curso.slug}`, to: `cursos/${curso.slug}` },
+  ...CURSO_SLUGS.flatMap((slug) => [
+    { from: `curso-empresa/curso-${slug}`, to: `cursos/${slug}` },
+    { from: `curso/curso-${slug}`, to: `cursos/${slug}` },
   ]),
   ...eaProducts.flatMap(({ handle, areaSlug }) => {
     const to = areaSlug ? `cursos/categoria/${areaSlug}` : 'cursos';
@@ -109,7 +109,7 @@ export const toNginxMap = (redirects: LegacyRedirect[]): string => {
 
 /**
  * Destino nuevo (con idioma) de un pathname antiguo, o null si no es una ruta antigua.
- * En el cliente no hay datos de Shopify: los `ea-*` van al índice /cursos.
+ * En el cliente no se carga la tabla `ea-*` (nginx ya la resuelve): esos van al índice /cursos.
  */
 export const resolveLegacyPath = (pathname: string, eaProducts: EaProductArea[] = []): string | null => {
   const locale = getLocaleFromPath(pathname) ?? fallbackLanguage;

@@ -273,7 +273,7 @@ const SapSpecialty = () => {
           <div className={`${wrap} relative grid items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-10`}>
             <div>
               <div className="flex flex-wrap items-center gap-3">
-                <img src={SAP_LOGO} alt="SAP" width={1280} height={634} className="h-9 w-auto md:h-10" />
+                <img src={SAP_LOGO} alt="SAP" width={162} height={80} className="h-9 w-auto md:h-10" />
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.16em]">
                   <Pickaxe className="h-3.5 w-3.5 text-[#08B8EC]" aria-hidden="true" />
                   {c.badge}

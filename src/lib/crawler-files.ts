@@ -10,7 +10,7 @@
  * - textos de llms.txt: title y description de la página; llms-full.txt: su <main> en Markdown.
  * - lastmod: fecha real del dato (noticias: `actualizadoEn`/`publicadoEn` del TMS Plus) o del
  *   último commit de los archivos fuente de la ruta (PAGE_SOURCES, `git log -1 --format=%cI`).
- *   Las fichas salen del JSON local, no de Shopify, así que no hay `updatedAt` de Shopify que usar.
+ *   Las fichas salen del catálogo local (src/data/cursos.json), que no trae fecha propia.
  *
  * Sin ai-catalog.json ni /.well-known/ard.json: no hay recursos ARD reales (Fase 5), y nginx
  * responde 404 real a esas rutas.
@@ -49,7 +49,7 @@ export const AI_BOTS = [
  * suman translations.ts, donde está su texto. `noticias/:slug` usa solo la fecha de la noticia.
  */
 const TRANSLATIONS = 'src/lib/translations.ts';
-const CATALOG_JSON = 'shopify_thematic_intermediate.json';
+const CATALOG_JSON = 'src/data/cursos.json';
 const CURSOS_SEO = 'src/data/cursos-seo.ts';
 const SEDES = 'src/data/sedes.ts';
 

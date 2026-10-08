@@ -8,17 +8,17 @@ import { useTranslation } from 'react-i18next';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { HIGH_PRIORITY, localImage } from '@/lib/images';
 
-// ponytail: pega aquí la URL del .mp4 (Shopify CDN o /public). Vacío => solo poster.
+// ponytail: pega aquí la URL del .mp4 (/public o Spaces). Vacío => solo poster.
 // H.264 960px sin audio (2,7 MB; el original de Shopify era HEVC 720p de 12,9 MB, que Chrome en
 // Windows a menudo no reproduce).
 const VIDEO_SRC = '/videos/hero-insecap-960.mp4';
-// ponytail: el CDN sirve tanto .mp4 como .webp animado; el tag correcto depende de la extensión.
+// ponytail: puede ser .mp4 o .webp animado; el tag correcto depende de la extensión.
 const IS_VIDEO = /\.(mp4|webm|mov|m4v)(\?|$)/i.test(VIDEO_SRC);
 
 /* Poster = imagen LCP de la home (Fase 6): WebP local en public/images/hero (fachada de Calama,
    recomprimida desde Shopify Cascada-fachada-y-letrero-scaled.jpg con `cwebp -q 60 -m 6 -resize
    <ancho> 0`), con fetchpriority=high y el preload que inyecta scripts/prerender.mjs. Mismo origen:
-   no abre una conexión a cdn.shopify.com antes del LCP. Cubre una caja de 120% del alto de pantalla
+   no abre una conexión a otro dominio antes del LCP. Cubre una caja de 120% del alto de pantalla
    (object-cover). En vertical el ancho real sería ~165vh; se pide 70vh a propósito: va bajo capas
    oscuras y en un móvil 412×823 @1,75x basta el de 1080 px (~45 KB; con 75vh el redondeo pedía 1280). */
 const POSTER_WIDTH = 4262;

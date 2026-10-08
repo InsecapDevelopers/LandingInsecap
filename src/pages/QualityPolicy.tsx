@@ -7,7 +7,6 @@ import PageHero from '@/components/PageHero';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 import { ShineBorder } from '@/components/ui/shine-border';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { responsiveImage } from '@/lib/images';
 
 /**
  * Hook de parallax correcto.
@@ -192,7 +191,7 @@ const QualityPolicy = () => {
           {/* Imagen de fondo con parallax */}
           <div ref={bannerParallax.wrapRef} className="absolute inset-0 pointer-events-none" style={{ top: '-15%', bottom: '-15%' }}>
             <img
-              {...responsiveImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Quienes-Somos-Collage-01-2400x1356.jpg?v=1776094555', [640, 1080, 1600], '100vw', 1080)}
+              src="https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/quienes-somos-collage-01-2400x1356-eb0f7e5d.webp"
               alt=""
               aria-hidden="true"
               width={1919}

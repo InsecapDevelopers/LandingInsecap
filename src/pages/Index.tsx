@@ -4,7 +4,6 @@ import SEO from '@/components/SEO';
 import VideoHero from '@/components/VideoHero';
 import Hero from '@/components/Hero';
 import AccreditationsStrip from '@/components/AccreditationsStrip';
-import ShopifyProducts from '@/components/ShopifyProducts';
 import Accreditations from '@/components/Accreditations';
 import ContactCTA from '@/components/ContactCTA';
 import Footer from '@/components/Footer';
@@ -23,6 +22,8 @@ import { isOpenCourseOfferEnabled, isSimulatorsEnabled } from '@/lib/featureFlag
 // Swiper (DuaSection) va en su propio chunk, fuera de la carga inicial (Fase 6). El prerender lo
 // incluye completo en el HTML; en el cliente esa sección hidrata cuando llega el chunk.
 const DuaSection = lazy(() => import('@/components/DuaSection'));
+// Cursos Destacados arrastra el catálogo (src/data/cursos*.json, ~200 KB): en su chunk, bajo el pliegue.
+const FeaturedCourses = lazy(() => import('@/components/FeaturedCourses'));
 
 const Index = () => {
   return (
@@ -55,7 +56,9 @@ const Index = () => {
         <Suspense fallback={null}>
           <DuaSection />
         </Suspense>
-        <ShopifyProducts />
+        <Suspense fallback={null}>
+          <FeaturedCourses />
+        </Suspense>
       </main>
       <Footer />
     </div>

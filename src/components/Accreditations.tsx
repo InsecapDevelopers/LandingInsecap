@@ -4,9 +4,9 @@ import { Award, CheckCircle, Shield, FileCheck } from 'lucide-react';
 const backingLogos = [
   { src: '/logos/SELLO_2728.svg', alt: 'Certificadora NCh2728' },
   { src: '/logos/CCS.png', alt: 'Cámara de Comercio de Santiago' },
-  { src: '/logos/SICEP.png', alt: 'SICEP' },
-  { src: '/logos/Sello Acreditado Codelco Color.png', alt: 'OTEC Acreditada por Codelco' },
-  { src: '/logos/Sello CCM Color.png', alt: 'Consejo de Competencias Mineras' },
+  { src: '/images/logos/sicep.webp', alt: 'SICEP' },
+  { src: '/images/logos/sello-codelco.webp', alt: 'OTEC Acreditada por Codelco' },
+  { src: '/images/logos/sello-ccm.webp', alt: 'Consejo de Competencias Mineras' },
 ];
 
 const Accreditations = () => {

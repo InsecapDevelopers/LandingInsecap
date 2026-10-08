@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Instagram, Facebook, Linkedin, Phone, Mail, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import ContactCTA from './ContactCTA';
 import { CONTACT_EMAIL, sedes } from '@/data/sedes';
-import { shopifyImage } from '@/lib/images';
 
 const HERO_BACKGROUNDS = [
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_111938161.png?v=1772461187',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cascada-fachada-y-letrero-scaled.jpg?v=1776094124',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Sede-Antofagasta-web.jpg?v=1773345628',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-03-02_112057871.png?v=1772461266',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GHorquilla3675_web.jpg?v=1773345899'
-// Fondo fijo (background-attachment: fixed) bajo un degradado azul al 75–90 %: 1280 px en WebP basta.
-].map((url) => shopifyImage(url, 1280));
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/imagen-2026-03-02-111938161-4c5f916d.webp',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/cascada-fachada-y-letrero-scaled-b16fb817.webp',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/sede-antofagasta-web-2124dd5c.webp',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/imagen-2026-03-02-112057871-cccdb39d.webp',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/ghorquilla3675-web-3c089be8.webp'
+];
 
 // Componentes de iconos personalizados
 const TikTokIcon = ({ className }: { className?: string }) => (
@@ -33,6 +31,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { t } = useTranslation();
   const { localizedPath } = useLocalizedPath();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const strip = stripRef.current;
@@ -131,9 +130,11 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
     };
   }, []);
 
+  // Baja al formulario del pie; donde el pie no lo trae (/contacto, /sap-pm) va a /contacto.
   const scrollToContact = () => {
     const el = document.getElementById('contacto');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
+    else navigate(localizedPath('/contacto'));
   };
 
   const siteMap = [
@@ -143,7 +144,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
     { label: t('footer.siteMap.sence'), href: "/franquicia-sence" },
     { label: t('footer.siteMap.faq'), href: "/preguntas-frecuentes" },
     { label: t('footer.siteMap.about'), href: "/nosotros" },
-    { label: t('footer.siteMap.contact'), href: "/#contacto" },
+    { label: t('footer.siteMap.contact'), href: "/contacto" },
   ];
 
   const handleLogoClick = () => {
@@ -195,7 +196,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
               </p>
               <button
                 onClick={scrollToContact}
-                className="inline-flex items-center gap-2 bg-insecap-cyan-ink hover:bg-insecap-cyan-ink/90 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-insecap-cyan/30 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 bg-[#0277B6] hover:bg-[#026AA2] text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-insecap-cyan/30 hover:-translate-y-0.5"
               >
                 {t('footer.growthCta')}
               </button>
@@ -209,7 +210,7 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
           {/* Logo & Social */}
           <div className="col-span-2 lg:col-span-1">
             <Link to={localizedPath('/')} className="inline-flex mb-6" onClick={handleLogoClick}>
-              <img src={shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Insecap_Logo-07.png?v=1767801508', 384)} alt="INSECAP" width={2327} height={728} loading="lazy" decoding="async" className="w-48 h-auto" />
+              <img src="/images/insecap-logo.webp" alt="INSECAP" width={480} height={151} loading="lazy" decoding="async" className="w-48 h-auto" />
             </Link>
             <div className="flex items-center gap-3 mt-4">
               <a href="https://instagram.com/insecapcapacitacion" aria-label={t('footer.social', { network: 'Instagram' })} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">

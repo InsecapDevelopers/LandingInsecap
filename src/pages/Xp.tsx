@@ -33,7 +33,6 @@ import Autoplay from 'embla-carousel-autoplay';
 import { ShineBorder } from '@/components/ui/shine-border';
 import { WarpBackground } from '@/components/ui/warp-background';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { shopifyImage } from '@/lib/images';
 
 const ExperienciaYRespaldo = () => {
   const { locale } = useLocalizedPath();
@@ -161,13 +160,13 @@ const ExperienciaYRespaldo = () => {
 
   // Datos visuales fijos de certificaciones (logos/iconos)
   const certVisuals = [
-    { logo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498', logoAlt: 'SENCE', iconType: 'logo' as const, badgeColor: 'blue' as const },
+    { logo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/logosence-png-0bbdd899.webp', logoAlt: 'SENCE', iconType: 'logo' as const, badgeColor: 'blue' as const },
     { logo: '/logos/SELLO_2728.svg', logoAlt: 'NCh 2728:2015', iconType: 'logo' as const, badgeColor: 'green' as const },
-    { logo: shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', 240), logoAlt: 'ISO 9001:2015', iconType: 'logo' as const, badgeColor: 'green' as const },
+    { logo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/imagen-2026-02-27-085941459-0929b47e.webp', logoAlt: 'ISO 9001:2015', iconType: 'logo' as const, badgeColor: 'green' as const },
     { logo: '/logos/CCS.png', logoAlt: 'CCS', iconType: 'logo' as const, badgeColor: 'blue' as const },
-    { logo: '/logos/SICEP.png', logoAlt: 'SICEP', iconType: 'logo' as const, badgeColor: 'blue' as const },
-    { logo: '/logos/Sello Acreditado Codelco Color.png', logoAlt: 'Codelco', iconType: 'logo' as const, badgeColor: 'green' as const },
-    { logo: '/logos/Sello CCM Color.png', logoAlt: 'CCM', iconType: 'logo' as const, badgeColor: 'green' as const },
+    { logo: '/images/logos/sicep.webp', logoAlt: 'SICEP', iconType: 'logo' as const, badgeColor: 'blue' as const },
+    { logo: '/images/logos/sello-codelco.webp', logoAlt: 'Codelco', iconType: 'logo' as const, badgeColor: 'green' as const },
+    { logo: '/images/logos/sello-ccm.webp', logoAlt: 'CCM', iconType: 'logo' as const, badgeColor: 'green' as const },
   ];
   const certificaciones = certVisuals.map((visual, i) => ({
     ...visual,
@@ -330,11 +329,11 @@ const ExperienciaYRespaldo = () => {
               >
                 <p className="text-center text-slate-500 text-xs font-semibold uppercase tracking-widest mb-8">{content.backedBy}</p>
                 <div className="flex flex-wrap items-center justify-center gap-10">
-                  <img src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498" alt="SENCE" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  <img src="https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/logosence-png-0bbdd899.webp" alt="SENCE" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                   <img src="/logos/SELLO_2728.svg" alt="NCh 2728:2015" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
-                  <img src={shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', 240)} loading="lazy" decoding="async" alt="ISO 9001:2015" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  <img src="https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/imagen-2026-02-27-085941459-0929b47e.webp" loading="lazy" decoding="async" alt="ISO 9001:2015" className="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                   <img src="/logos/CCS.png" alt="Cámara de Comercio de Santiago (CCS)" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
-                  <img src="/logos/SICEP.png" alt="SICEP" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
+                  <img src="/images/logos/sicep.webp" alt="SICEP" className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                 </div>
               </div>
             </div>

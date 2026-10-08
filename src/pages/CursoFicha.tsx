@@ -1,5 +1,5 @@
 import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
-import { ArrowRight, Mail, MapPin } from 'lucide-react';
+import { ArrowRight, BadgeCheck, Mail, MapPin } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
@@ -9,14 +9,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import NotFound from '@/pages/NotFound';
 import {
-  formatHoras,
   getEstandaresVisibles,
-  getHorasPorModalidad,
+  getRangoHorasDesde,
   getRelatedCursos,
   getCursoSeo,
   getCursoSeoMeta,
 } from '@/data/cursos-seo';
-import { COBERTURA_VIRTUAL, sedes } from '@/data/sedes';
+import { sedes } from '@/data/sedes';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { resolveLegacyPath } from '@/lib/legacy-redirects';
 import { buildCourseJsonLd, buildFaqJsonLd, courseFaqId } from '@/lib/jsonld';
@@ -33,8 +32,8 @@ const FichaRow = ({ label, children }: { label: string; children: React.ReactNod
 /**
  * Ficha SEO de un tema del catálogo (/cursos/:slug), con la estructura de la Fase 2:
  * H1, respuesta, tabla, objetivo y aprendizajes, normativa, FAQ, CTA + relacionados + categoría
- * + sedes y "Última actualización". Datos locales (src/data/cursos-seo.ts): sale completa en el
- * HTML prerenderizado, sin esperar a Shopify.
+ * + sedes. Datos locales (src/data/cursos-seo.ts): sale completa en el
+ * HTML prerenderizado, sin esperar a ninguna API.
  */
 const CursoFicha = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -50,11 +49,11 @@ const CursoFicha = () => {
 
   const { tema, area } = curso;
   const title = `Curso de ${tema.tema}`;
-  const horasPorModalidad = getHorasPorModalidad(tema);
-  const estandares = getEstandaresVisibles(tema);
-  const tieneElearning = tema.modalidades.some((modalidad) => modalidad.toLowerCase().startsWith('e-learning'));
+  const rangoHoras = getRangoHorasDesde(tema);
+  // "Genérico" no es un estándar de cliente: la fila solo lista los de las mineras y empresas.
+  const estandares = getEstandaresVisibles(tema).filter((estandar) => estandar !== 'Genérico');
   const relacionados = getRelatedCursos(curso, 3);
-  const quotePath = `${localizedPath('/contacto')}?origen=b2b&curso=${encodeURIComponent(tema.tema)}`;
+  const quotePath = `${localizedPath('/contacto')}?origen=cursos&curso=${encodeURIComponent(tema.tema)}`;
   const seoMeta = getCursoSeoMeta(curso);
   // Course + FAQPage (Fase 4): solo datos reales; la FAQ sin las respuestas pendientes.
   const jsonLd = [
@@ -82,14 +81,7 @@ const CursoFicha = () => {
         <div className="container mx-auto mt-12 grid grid-cols-1 gap-8 px-8 md:px-14 lg:grid-cols-3 lg:px-16">
           <article className="space-y-10 lg:col-span-2">
             <section aria-label="Resumen del curso">
-              {curso.respuesta ? (
-                <p data-respuesta="ficha" className="text-lg leading-relaxed text-foreground">{curso.respuesta}</p>
-              ) : (
-                <p className="text-lg leading-relaxed">
-                  {/* TODO: párrafo de respuesta de 40–60 palabras (sección 4, punto 1). */}
-                  <Pendiente campo="respuesta">Descripción del curso por confirmar con INSECAP.</Pendiente>
-                </p>
-              )}
+              <p data-respuesta="ficha" className="text-lg leading-relaxed text-foreground">{curso.respuesta}</p>
             </section>
 
             <section>
@@ -98,13 +90,7 @@ const CursoFicha = () => {
                 <table className="w-full">
                   <tbody>
                     <FichaRow label="Horas">
-                      <ul className="space-y-1">
-                        {horasPorModalidad.map((item) => (
-                          <li key={item.modalidad}>
-                            {item.modalidad}: {formatHoras(item.horas)}
-                          </li>
-                        ))}
-                      </ul>
+                      {rangoHoras ?? 'A cotizar'}
                       {curso.horasPorVerificar && (
                         <p className="mt-2">
                           <Pendiente campo="horas">{curso.horasPorVerificar}</Pendiente>
@@ -112,19 +98,18 @@ const CursoFicha = () => {
                       )}
                     </FichaRow>
                     <FichaRow label="Modalidades">{tema.modalidades.join(', ')}</FichaRow>
-                    <FichaRow label="Estándares">{estandares.length > 0 ? estandares.join(', ') : <Pendiente campo="estandares" />}</FichaRow>
-                    <FichaRow label="Código SENCE">{curso.codigoSence ?? <Pendiente campo="codigo-sence" />}</FichaRow>
-                    <FichaRow label="Requisitos de ingreso">{curso.requisitos ?? <Pendiente campo="requisitos" />}</FichaRow>
-                    <FichaRow label="Certificado">{curso.certificado ?? <Pendiente campo="certificado" />}</FichaRow>
-                    <FichaRow label="Vigencia">{curso.vigencia ?? <Pendiente campo="vigencia" />}</FichaRow>
-                    <FichaRow label="Sedes">
-                      {curso.sedes ? (
-                        curso.sedes.join(', ')
+                    {estandares.length > 0 && <FichaRow label="Estándares">{estandares.join(', ')}</FichaRow>}
+                    <FichaRow label="SENCE">
+                      {/* Sale de R11.codigoSence de los cursos del tema (docs/catalogo-cursos.md). */}
+                      {tema.sence ? (
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-insecap-blue/10 px-3 py-1 text-xs font-semibold text-insecap-blue">
+                          <BadgeCheck className="h-3.5 w-3.5" aria-hidden="true" />
+                          Puede ejecutarse con SENCE
+                        </span>
                       ) : (
-                        <>
-                          <Pendiente campo="sedes">Sedes presenciales por confirmar.</Pendiente>
-                          {tieneElearning && <> E-learning con cobertura {COBERTURA_VIRTUAL}.</>}
-                        </>
+                        <span className="inline-flex rounded-full bg-muted px-3 py-1 text-xs font-semibold text-muted-foreground">
+                          SENCE sujeto a cotización
+                        </span>
                       )}
                     </FichaRow>
                   </tbody>
@@ -132,40 +117,32 @@ const CursoFicha = () => {
               </div>
             </section>
 
-            <section>
-              <h2 className="mb-4 text-2xl font-bold text-foreground">Objetivo y aprendizajes</h2>
-              {curso.objetivo ? (
-                <p className="leading-relaxed text-muted-foreground">{curso.objetivo}</p>
-              ) : (
-                <p><Pendiente campo="objetivo">Objetivo general por confirmar.</Pendiente></p>
-              )}
-              {curso.aprendizajes ? (
-                <ul className="mt-4 list-disc space-y-1 pl-5 text-muted-foreground">
-                  {curso.aprendizajes.map((aprendizaje) => <li key={aprendizaje}>{aprendizaje}</li>)}
-                </ul>
-              ) : (
-                <p className="mt-2"><Pendiente campo="aprendizajes">Aprendizajes esperados por confirmar.</Pendiente></p>
-              )}
-            </section>
-
-            <section>
-              <h2 className="mb-4 text-2xl font-bold text-foreground">Normativa de referencia</h2>
-              {curso.normativa ? (
-                <>
-                  <p className="mb-3 text-sm text-muted-foreground">Marco legal chileno general de la materia.</p>
-                  <ul className="space-y-2">
-                    {curso.normativa.map((norma) => (
-                      <li key={norma.nombre} className="text-muted-foreground">
-                        <strong className="text-foreground">{norma.nombre}:</strong> {norma.descripcion}
-                      </li>
-                    ))}
+            {/* Objetivo y aprendizajes resumidos de las fichas R11 del tema; sin datos, no hay sección. */}
+            {(curso.objetivo || curso.aprendizajes) && (
+              <section>
+                <h2 className="mb-4 text-2xl font-bold text-foreground">Objetivo del curso</h2>
+                {curso.objetivo && <p className="leading-relaxed text-muted-foreground">{curso.objetivo}</p>}
+                {curso.aprendizajes && (
+                  <ul className="mt-4 list-disc space-y-1 pl-5 text-muted-foreground">
+                    {curso.aprendizajes.map((aprendizaje) => <li key={aprendizaje}>{aprendizaje}</li>)}
                   </ul>
-                  <p className="mt-3 text-sm"><Pendiente campo="normativa">Normativa específica del curso por confirmar.</Pendiente></p>
-                </>
-              ) : (
-                <p><Pendiente campo="normativa">Normativa aplicable por confirmar.</Pendiente></p>
-              )}
-            </section>
+                )}
+              </section>
+            )}
+
+            {/* Solo normas que citan las fichas R11 de los cursos del tema. */}
+            {curso.normativa && (
+              <section>
+                <h2 className="mb-4 text-2xl font-bold text-foreground">Normativa de referencia</h2>
+                <ul className="space-y-2">
+                  {curso.normativa.map((norma) => (
+                    <li key={norma.nombre} className="text-muted-foreground">
+                      <strong className="text-foreground">{norma.nombre}:</strong> {norma.descripcion}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             <section>
               <h2 className="mb-4 text-2xl font-bold text-foreground">Preguntas frecuentes</h2>
@@ -180,13 +157,21 @@ const CursoFicha = () => {
                 ))}
               </div>
             </section>
-
-            <p className="text-sm text-muted-foreground">
-              Última actualización: <time dateTime={curso.ultimaActualizacion}>{curso.ultimaActualizacion}</time>
-            </p>
           </article>
 
           <aside className="space-y-6">
+            {/* Foto del curso (Spaces, repositorio/catalogo-web/), si la tiene. */}
+            {tema.imagen && (
+              <img
+                src={tema.imagen}
+                alt={`Curso de ${tema.tema} en INSECAP`}
+                width={800}
+                height={500}
+                loading="lazy"
+                decoding="async"
+                className="aspect-[16/10] w-full rounded-xl border border-border object-cover shadow-sm"
+              />
+            )}
             <Card>
               <CardHeader>
                 <CardTitle>Cotiza este curso</CardTitle>

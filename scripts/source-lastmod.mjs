@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const SOURCE_LASTMOD_FILE = path.join(ROOT, '.source-lastmod.json');
 /** Rutas de las que se guarda la fecha (las de PAGE_SOURCES en src/lib/crawler-files.ts están aquí). */
-const PATHS = ['src', 'shopify_thematic_intermediate.json'];
+const PATHS = ['src'];
 
 const git = (args) => execFileSync('git', ['-C', ROOT, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 64 * 1024 * 1024 });
 

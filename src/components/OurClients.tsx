@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 import { clientLogos } from '@/data/clients';
 import { Marquee } from "@/components/ui/marquee";
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { shopifyImageForHeight } from '@/lib/images';
 
 const bounceVariant = {
     hidden: { y: 0 },
@@ -38,7 +37,7 @@ const OurClients: React.FC = () => {
                     {clientLogos.map((logo, index) => (
                         <div key={index} className="flex shrink-0 items-center justify-center px-10">
                             <img
-                                src={shopifyImageForHeight(logo.src, logo.width, logo.height, 80)}
+                                src={logo.src}
                                 alt={logo.alt}
                                 width={logo.width}
                                 height={logo.height}

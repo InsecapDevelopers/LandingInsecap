@@ -46,7 +46,7 @@ CI (`.github/workflows/deploy.yml`) construye la imagen, la prueba con `check-bo
 - Textos de enlace descriptivos (nada de "ver más" o "aquí" sueltos) y `alt` en toda imagen (`alt=""` solo en las decorativas).
 
 ## Rendimiento (Core Web Vitals)
-- Ninguna imagen de más de **200 KB**: WebP al tamaño de render, con `width`/`height` y `loading="lazy"` bajo el pliegue. Las imágenes de Shopify llevan `&width=` y `srcset` (`src/lib/images.ts`).
+- Ninguna imagen de más de **200 KB**: WebP al tamaño de render, con `width`/`height` y `loading="lazy"` bajo el pliegue. Las fotos remotas viven en DigitalOcean Spaces (repositorio de imágenes del TMS, categoría "Catálogo de Imágenes Web"), que no redimensiona: se suben ya en WebP al ancho de render. Lo que va sobre el pliegue (logo, imagen LCP) va local en `public/images/` (`src/lib/images.ts`). Nada de Shopify.
 - Fuentes: solo Montserrat woff2 autoalojada (400 a 700). Nada de Google Fonts ni pesos nuevos.
 - Terceros (GTM, Meta Pixel, Clarity) solo por el cargador diferido de `index.html`, nunca como `<script src>` en el HTML.
 - Librerías pesadas con `import()` dinámico, fuera de la ruta inicial. Presupuesto móvil: LCP < 2,5 s, peso < 1,5 MB (lo vigila `.github/workflows/lighthouse.yml`).

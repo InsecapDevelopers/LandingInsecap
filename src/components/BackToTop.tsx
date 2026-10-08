@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import { ChevronUp, ShoppingCart } from "lucide-react";
+import { ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "motion/react";
-import { useCartStore } from "@/stores/cartStore";
 import { isCapinChatEnabled } from "@/lib/featureFlags";
 
 export default function BackToTop() {
   const { t } = useTranslation();
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const totalItems = useCartStore((state) => state.getTotalItems());
-  const setDrawerOpen = useCartStore((state) => state.setDrawerOpen);
 
   const toggleVisibility = () => {
     setShowBackToTop(window.scrollY > 300);
@@ -25,42 +22,8 @@ export default function BackToTop() {
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
-  const showCart = totalItems > 0;
-
   return (
     <>
-      {/* Floating Cart Button — mobile only, always visible when cart has items */}
-      <AnimatePresence>
-        {showCart && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2 }}
-            className="fixed right-8 z-40 md:hidden"
-            // Sobre la burbuja de Capin, si está activa (ocupa la esquina inferior derecha).
-            style={{ bottom: `${(showBackToTop ? 5.5 : 2) + (isCapinChatEnabled ? 5 : 0)}rem` }}
-          >
-            <motion.div
-              animate={{ bottom: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            >
-              <Button
-                onClick={() => setDrawerOpen(true)}
-                size="icon"
-                className="rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-insecap-cyan-ink hover:bg-insecap-cyan-ink/90 text-white w-12 h-12 relative"
-                aria-label={t('aria.viewCart')}
-              >
-                <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-insecap-blue text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
-                  {totalItems}
-                </span>
-              </Button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Back to Top Button */}
       <AnimatePresence>
         {showBackToTop && (
@@ -69,7 +32,7 @@ export default function BackToTop() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.3 }}
-            className={`fixed right-8 z-40 ${isCapinChatEnabled ? 'bottom-28' : 'bottom-8'}`}
+            className={`fixed right-8 z-40 ${isCapinChatEnabled ? 'bottom-32' : 'bottom-8'}`}
           >
             <motion.div whileHover={{ scale: 1.1, y: -3 }} whileTap={{ scale: 0.92 }}>
               <Button

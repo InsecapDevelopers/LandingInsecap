@@ -1,12 +1,12 @@
 # Insecap Landing
 
-Sitio web institucional y landing de Insecap. SPA construida con Vite + React + TypeScript, estilizada con Tailwind CSS y componentes shadcn/ui. Incluye catálogo B2B, integración con Shopify, mapas de sedes, blog, simulador y soporte multilenguaje (i18next).
+Sitio web institucional y landing de Insecap. SPA construida con Vite + React + TypeScript, estilizada con Tailwind CSS y componentes shadcn/ui. Incluye catálogo de cursos (datos locales de DB_SGC), noticias del TMS Plus, mapas de sedes, simulador y soporte multilenguaje (i18next).
 
 ## Stack
 
 - **Vite** + **React 18** + **TypeScript**
 - **Tailwind CSS** + **shadcn/ui** (Radix UI)
-- **React Router**, **TanStack Query**, **Zustand**
+- **React Router**, **TanStack Query**
 - **i18next** (es / en)
 - **Framer Motion** / **Swiper** / **Embla**
 
@@ -90,7 +90,7 @@ Las variables `VITE_*` se embeben durante el build. Para inyectarlas pásalas co
 ```sh
 docker build \
   --build-arg VITE_TMS_PLUS_API_URL=https://api-plus.insecap.cl \
-  --build-arg VITE_B2B_CATALOG_ENABLED=true \
+  --build-arg VITE_SIMULATORS_ENABLED=true \
   -t insecap-landing:latest .
 ```
 

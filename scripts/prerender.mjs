@@ -31,7 +31,7 @@
  *   dist/llms.txt                   sale del último commit de sus archivos fuente
  *   dist/llms-full.txt              (scripts/source-lastmod.mjs: git o .source-lastmod.json).
  *
- * Datos: las rutas dinámicas (noticias y fichas B2B) salen de `listDynamicPaths` y cada página
+ * Datos: las rutas dinámicas (noticias, fichas de curso, categorías y sedes) salen de `listDynamicPaths` y cada página
  * precarga sus datos con `prefetchRoute` (mismas queryFn que el cliente, src/lib/queries.ts).
  * El estado de react-query viaja en <script type="application/json" id="__RQ__"> con `<` escapado:
  * es un bloque de datos (no se ejecuta), así que no necesita hash en el CSP aunque cambie por página.
@@ -44,8 +44,8 @@
  * @graph (global #org/#website + nodos de la página + BreadcrumbList), que arma `render` en
  * src/entry-server.tsx con mergeJsonLdScripts (src/lib/jsonld.ts).
  *
- * Falla (exit 1) si alguna ruta lanza un error de render, si falla una petición a Shopify (productos
- * `ea-*` del mapa de 301) o al TMS Plus, o si no se cumplen las guardas (mínimo de temas B2B y de noticias, entry-server.tsx).
+ * Falla (exit 1) si alguna ruta lanza un error de render, si falla una petición al TMS Plus o si no
+ * se cumple la guarda de noticias (mínimo de noticias, entry-server.tsx).
  */
 import fs from 'node:fs';
 import path from 'node:path';

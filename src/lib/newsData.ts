@@ -1,14 +1,51 @@
 /**
  * Capa de datos del módulo de Noticias (sistema interno).
  *
- * Reemplaza el blog de Shopify. Devuelve `ShopifyArticle` para no reescribir los componentes
- * que ya consumen esa forma (Blog, ArticleDetail, NewsSlider, BlogArticles).
- * El nombre del tipo es herencia de Shopify; la fuente ya no lo es.
+ * Devuelve `NewsArticle`, la forma que consumen Blog, ArticleDetail, NewsSlider y BlogArticles
+ * (heredada del antiguo blog, de ahí `authorV2` y `blog.handle`).
  *
  * La API responde camelCase (serializador global del backend); las claves de paginación
  * sí son snake_case.
  */
-import type { ShopifyArticle } from './shopify';
+export interface NewsArticle {
+  id: string;
+  title: string;
+  handle: string;
+  publishedAt: string;
+  /** Fecha de la última edición; undefined si nunca se editó. */
+  updatedAt?: string;
+  excerpt: string | null;
+  contentHtml: string;
+  image: {
+    url: string;
+    altText: string | null;
+  } | null;
+  authorV2: {
+    name: string;
+  } | null;
+  blog: {
+    handle: string;
+  };
+}
+
+/**
+ * Fecha de una noticia, igual en el prerender y en el navegador (sin depender de la zona
+ * horaria del equipo, que rompería la hidratación). `publicadoEn` llega sin zona horaria:
+ * se muestra tal cual viene (TODO: confirmar con TMS Plus que es hora de Chile).
+ * Si trae desfase, se muestra en America/Santiago.
+ */
+export function formatArticleDate(dateString: string, locale: string = 'es-CL'): string {
+  const value = dateString.replace(/(\.\d{3})\d+/, '$1');
+  const isNaiveDateTime = /T\d{2}:\d{2}(:\d{2}(\.\d+)?)?$/.test(value);
+  const hasOffset = /(Z|[+-]\d{2}:?\d{2})$/i.test(value);
+
+  return new Date(isNaiveDateTime ? `${value}Z` : value).toLocaleDateString(locale, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: hasOffset ? 'America/Santiago' : 'UTC',
+  });
+}
 
 // El módulo vive en el TMS Plus. En dev se usa ruta relativa y el proxy de Vite
 // (vite.config.ts → TMS_PLUS_PROXY_TARGET) la reenvía server-side, evitando CORS;
@@ -41,7 +78,7 @@ interface ApiListado {
   per_page: number;
 }
 
-const toArticle = (n: ApiNoticia): ShopifyArticle => ({
+const toArticle = (n: ApiNoticia): NewsArticle => ({
   id: n.slug,
   title: n.titulo,
   handle: n.slug,
@@ -58,14 +95,14 @@ const toArticle = (n: ApiNoticia): ShopifyArticle => ({
 export async function fetchNews(
   page = 1,
   perPage = 9
-): Promise<{ articles: ShopifyArticle[]; total: number }> {
+): Promise<{ articles: NewsArticle[]; total: number }> {
   const res = await fetch(newsUrl(`?page=${page}&per_page=${perPage}`));
   if (!res.ok) throw new Error(`Error al cargar noticias: ${res.status}`);
   const json: ApiListado = await res.json();
   return { articles: json.data.map(toArticle), total: json.total };
 }
 
-export async function fetchNewsBySlug(slug: string): Promise<ShopifyArticle | null> {
+export async function fetchNewsBySlug(slug: string): Promise<NewsArticle | null> {
   const res = await fetch(newsUrl(`/${encodeURIComponent(slug)}`));
   if (res.status === 404) return null; // no existe, oculta o eliminada
   if (!res.ok) throw new Error(`Error al cargar la noticia: ${res.status}`);
@@ -74,7 +111,7 @@ export async function fetchNewsBySlug(slug: string): Promise<ShopifyArticle | nu
 
 /** Todas las noticias publicadas (lista, sin cuerpo), paginando de a 50. La usa el prerender
  *  para generar una página por noticia; lanza si alguna página falla. */
-export async function fetchAllNews(perPage = 50): Promise<ShopifyArticle[]> {
+export async function fetchAllNews(perPage = 50): Promise<NewsArticle[]> {
   const first = await fetchNews(1, perPage);
   const articles = [...first.articles];
   const pages = Math.ceil(first.total / perPage);

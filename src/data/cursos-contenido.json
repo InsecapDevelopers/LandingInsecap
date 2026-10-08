@@ -1,0 +1,1714 @@
+{
+  "agua-sanitaria": {
+    "enfoque": "enseña técnicas de gasfitería para instalar, mantener y reparar redes de agua potable, gas y alcantarillado",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de gasfitería para confeccionar, instalar, mantener y reparar redes de agua potable, agua caliente, gas y evacuación de aguas servidas en edificaciones, respetando la normativa técnica vigente.",
+    "aprendizajes": [
+      "Identificar procedimientos de instalación y de gasfitería",
+      "Reconocer las normas legales aplicables a cada especialidad",
+      "Utilizar equipos de protección personal",
+      "Realizar los procedimientos propios de cada especialidad"
+    ],
+    "normativa": []
+  },
+  "aislacion-bloqueo": {
+    "enfoque": "enseña a aplicar técnicas de aislación, bloqueo y control de energías residuales al intervenir equipos y sistemas",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de aislación, bloqueo y control de energías residuales para intervenir equipos, máquinas, sistemas y circuitos en condición de energía cero, siguiendo los procedimientos y controles críticos de la empresa.",
+    "aprendizajes": [
+      "Reconocer las etapas del procedimiento de aislación y bloqueo",
+      "Reconocer los protocolos de seguridad de aislación y bloqueo",
+      "Identificar los principales riesgos de los sistemas eléctricos",
+      "Aplicar las reglas de oro en maniobras eléctricas",
+      "Implementar bloqueo, señalización y verificación de ausencia de tensión"
+    ],
+    "normativa": [
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      }
+    ]
+  },
+  "alta-tension": {
+    "enfoque": "entrega técnicas para controlar riesgos eléctricos en la operación y mantenimiento de sistemas de media y alta tensión",
+    "objetivo": "Al finalizar, los participantes podrán aplicar los fundamentos de control de riesgos eléctricos en la operación y el mantenimiento de sistemas de media y alta tensión, reconociendo sus peligros e implementando las medidas de seguridad correspondientes.",
+    "aprendizajes": [
+      "Reconocer los principales riesgos de los sistemas eléctricos",
+      "Aplicar las reglas de oro en maniobras e intervenciones",
+      "Utilizar EPP según el nivel de energía incidente",
+      "Implementar bloqueo, señalización y verificación de ausencia de tensión",
+      "Identificar tipos de transformadores y sus protecciones"
+    ],
+    "normativa": [
+      {
+        "nombre": "NFPA 70E",
+        "descripcion": "Norma estadounidense para la seguridad eléctrica en los lugares de trabajo."
+      },
+      {
+        "nombre": "NCh Elec. 4/2003",
+        "descripcion": "Norma chilena de instalaciones de consumo en baja tensión."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "NFPA 70B",
+        "descripcion": "Norma estadounidense para el mantenimiento de equipos eléctricos."
+      },
+      {
+        "nombre": "NFPA 70 (NEC)",
+        "descripcion": "Código Eléctrico Nacional de Estados Unidos para instalaciones eléctricas."
+      },
+      {
+        "nombre": "DS 8/2019, Ministerio de Energía",
+        "descripcion": "Reglamento de seguridad de las instalaciones de consumo de energía eléctrica."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 44/2024, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre gestión preventiva de los riesgos laborales para un entorno de trabajo seguro y saludable."
+      }
+    ]
+  },
+  "andamios": {
+    "enfoque": "enseña a clasificar, montar, inspeccionar y desmontar andamios de forma segura según la normativa legal vigente",
+    "objetivo": "Al finalizar, los participantes podrán clasificar los andamios y sus piezas, y aplicar procedimientos para montarlos, inspeccionarlos, usarlos y desmontarlos de forma correcta y segura, de acuerdo con la normativa legal vigente.",
+    "aprendizajes": [
+      "Aplicar procedimientos seguros de montaje y desmontaje de andamios",
+      "Inspeccionar andamios y reconocer condiciones subestándar",
+      "Manejar técnicas de prevención de riesgos de caídas",
+      "Aplicar criterios de segregación de áreas de trabajo"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "NCh 998.Of1999",
+        "descripcion": "Norma chilena de andamios: requisitos generales de seguridad."
+      },
+      {
+        "nombre": "NCh 997.Of1999",
+        "descripcion": "Norma chilena de andamios: terminología y clasificación."
+      },
+      {
+        "nombre": "NCh 2501",
+        "descripcion": "Norma chilena de andamios metálicos modulares prefabricados."
+      },
+      {
+        "nombre": "NCh 1258",
+        "descripcion": "Norma chilena sobre sistemas personales para detención de caídas: arneses, estrobos y líneas de vida."
+      }
+    ]
+  },
+  "atencion-cliente-ventas": {
+    "enfoque": "desarrolla técnicas de atención al cliente, comunicación efectiva, ventas y negociación para el trabajo con clientes",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas y estrategias de atención al cliente, comunicación efectiva, ventas y negociación para mejorar la relación con los clientes, manejar conflictos y lograr los objetivos comerciales de la organización.",
+    "aprendizajes": [
+      "Comprender el modelo de comunicación organizacional entre personas",
+      "Identificar situaciones y herramientas de negociación",
+      "Aplicar técnicas de negociación y cierre",
+      "Aplicar técnicas de ventas orientadas a metas comerciales",
+      "Resolver conflictos en contextos de atención al cliente"
+    ],
+    "normativa": []
+  },
+  "autocad": {
+    "enfoque": "enseña a usar AutoCAD para crear, editar, acotar y presentar planos técnicos y proyectos de diseño",
+    "objetivo": "Al finalizar, los participantes podrán utilizar AutoCAD para crear, editar, acotar y presentar planos técnicos y proyectos de diseño, desde los comandos básicos hasta técnicas intermedias de trabajo en 2D y una introducción al 3D.",
+    "aprendizajes": [
+      "Dominar la interfaz y las herramientas de dibujo y modificación",
+      "Gestionar capas, bloques y atributos",
+      "Crear textos, cotas y sombreados",
+      "Desarrollar dibujo isométrico y modelado 3D básico"
+    ],
+    "normativa": []
+  },
+  "baja-tension": {
+    "enfoque": "entrega técnicas de prevención y control de riesgos eléctricos para realizar tareas seguras en instalaciones de baja tensión",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de prevención y control de riesgos eléctricos para realizar tareas seguras en instalaciones de baja tensión, reconociendo peligros como el arco eléctrico y el contacto directo e indirecto.",
+    "aprendizajes": [
+      "Identificar fundamentos de electricidad y sus principales riesgos",
+      "Aplicar la normativa chilena y los requisitos de NFPA 70E",
+      "Reconocer EPP dieléctricos e ignífugos según nivel de exposición",
+      "Aplicar las reglas de oro del mantenimiento eléctrico",
+      "Ejecutar bloqueo, etiquetado y verificación de energía cero"
+    ],
+    "normativa": [
+      {
+        "nombre": "NFPA 70E",
+        "descripcion": "Norma estadounidense para la seguridad eléctrica en los lugares de trabajo."
+      },
+      {
+        "nombre": "NCh Elec. 4/2003",
+        "descripcion": "Norma chilena de instalaciones de consumo en baja tensión."
+      }
+    ]
+  },
+  "bienestar-salud-mental": {
+    "enfoque": "entrega técnicas de autocuidado, manejo del estrés y gestión emocional para promover entornos laborales saludables",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de autocuidado, manejo del estrés y gestión emocional para prevenir el estrés laboral, fortalecer su bienestar y promover entornos de trabajo saludables y colaborativos.",
+    "aprendizajes": [
+      "Comprender cómo el cerebro responde ante el estrés",
+      "Identificar factores de riesgo y protección en salud mental laboral",
+      "Aplicar técnicas simples para disminuir el estrés laboral",
+      "Desarrollar una comunicación consciente y emocionalmente inteligente",
+      "Elaborar un plan personal de autocuidado y bienestar"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "Ley 20.000",
+        "descripcion": "Sanciona el tráfico ilícito de estupefacientes y sustancias sicotrópicas."
+      }
+    ]
+  },
+  "bombas-compresores": {
+    "enfoque": "enseña la operación, inspección, mantenimiento y reparación de bombas centrífugas y otros tipos de bombas industriales",
+    "objetivo": "Al finalizar, los participantes podrán identificar los componentes y el funcionamiento de bombas centrífugas y otros tipos de bombas, y aplicar técnicas de operación, inspección, diagnóstico, mantenimiento y reparación para prolongar su vida útil.",
+    "aprendizajes": [
+      "Identificar componentes y funcionamiento de bombas centrífugas",
+      "Reconocer parámetros de funcionamiento y fallas habituales",
+      "Ejecutar mantenciones preventivas y correctivas según protocolos",
+      "Diagnosticar fallas operativas en bombas y sistemas asociados",
+      "Aplicar normas de seguridad en inspección y reparación"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      }
+    ]
+  },
+  "bulldozer": {
+    "enfoque": "prepara a los operadores para conducir bulldozer y tractores de forma segura e inspeccionar y mantener el equipo",
+    "objetivo": "Al finalizar, los participantes podrán operar bulldozer y tractores de forma segura y eficiente, e inspeccionar, verificar componentes y realizar la mantención planificada del equipo según las indicaciones del fabricante y las normas de seguridad.",
+    "aprendizajes": [
+      "Identificar las funciones de los componentes principales del equipo",
+      "Aplicar normas de seguridad y recomendaciones del fabricante",
+      "Ejecutar maniobras de operación en distintas condiciones de trabajo",
+      "Realizar inspecciones y mantenimiento preventivo básico",
+      "Usar correctamente los sistemas y dispositivos de seguridad"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      }
+    ]
+  },
+  "calidad-iso": {
+    "enfoque": "enseña los requisitos de sistemas de gestión de calidad e integrados ISO y técnicas de auditoría interna",
+    "objetivo": "Al finalizar, los participantes podrán aplicar los requisitos de sistemas de gestión de calidad, medio ambiente y seguridad y salud en el trabajo basados en normas ISO, y planificar y ejecutar auditorías internas de sistemas integrados de gestión.",
+    "aprendizajes": [
+      "Describir los principios y el proceso de auditoría interna",
+      "Preparar el plan y el programa de auditoría",
+      "Reportar no conformidades y cerrar auditorías",
+      "Identificar conceptos clave del sistema integrado de gestión",
+      "Analizar los requisitos de ISO 9001:2015"
+    ],
+    "normativa": [
+      {
+        "nombre": "ISO 9001",
+        "descripcion": "Norma internacional de sistemas de gestión de la calidad."
+      },
+      {
+        "nombre": "ISO 45001",
+        "descripcion": "Norma internacional de sistemas de gestión de la seguridad y salud en el trabajo."
+      },
+      {
+        "nombre": "ISO 14001",
+        "descripcion": "Norma internacional de sistemas de gestión ambiental."
+      },
+      {
+        "nombre": "ISO 19011",
+        "descripcion": "Directrices para la auditoría de sistemas de gestión."
+      },
+      {
+        "nombre": "OHSAS 18001",
+        "descripcion": "Especificación de sistemas de gestión de seguridad y salud ocupacional, reemplazada por ISO 45001."
+      },
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 76/2006, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento del artículo 66 bis de la Ley 16.744 sobre seguridad y salud en obras, faenas o servicios con contratistas."
+      }
+    ]
+  },
+  "camion-especial": {
+    "enfoque": "prepara a los conductores para operar camiones de extracción y camiones especiales de forma segura y eficiente",
+    "objetivo": "Al finalizar, los participantes podrán operar de manera segura y eficiente camiones de extracción y camiones especiales, como lubricador, aspirador, aljibe y dumper, comprendiendo sus sistemas y respetando las normas de seguridad de la empresa.",
+    "aprendizajes": [
+      "Identificar características y elementos de seguridad del equipo",
+      "Identificar peligros y controles críticos de la operación",
+      "Diagnosticar sistemas hidráulicos y eléctricos de dirección y levante",
+      "Verificar presiones hidráulicas e interpretar alarmas",
+      "Aplicar pautas de mantenimiento programado"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      },
+      {
+        "nombre": "DS 44/2024, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre gestión preventiva de los riesgos laborales para un entorno de trabajo seguro y saludable."
+      },
+      {
+        "nombre": "Ley 19.495",
+        "descripcion": "Modifica la Ley de Tránsito en materia de licencias de conducir."
+      },
+      {
+        "nombre": "Ley 18.290",
+        "descripcion": "Ley de Tránsito."
+      },
+      {
+        "nombre": "Ley 21.156",
+        "descripcion": "Obliga a disponer de desfibriladores externos automáticos portátiles en los establecimientos que indica."
+      }
+    ]
+  },
+  "camion-general": {
+    "enfoque": "prepara a los conductores para operar camiones pluma, tracto camiones y otros camiones respetando las normas de seguridad",
+    "objetivo": "Al finalizar, los participantes podrán operar adecuadamente camiones pluma, tracto camiones y otros camiones de carga, aplicando técnicas de operación, inspección y mantenimiento preventivo, y respetando las normas de seguridad de la empresa.",
+    "aprendizajes": [
+      "Reconocer el funcionamiento de la grúa y sus controles",
+      "Identificar leyes, normas y procedimientos de seguridad aplicables",
+      "Realizar inspecciones y mantenimiento preventivo del equipo",
+      "Estabilizar el equipo y operar la pluma de forma segura",
+      "Aplicar conceptos de manejo defensivo"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "Ley 18.290",
+        "descripcion": "Ley de Tránsito."
+      },
+      {
+        "nombre": "ASME B30.5",
+        "descripcion": "Norma estadounidense de seguridad para grúas móviles y locomotoras."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      },
+      {
+        "nombre": "ASME B30.9",
+        "descripcion": "Norma estadounidense de seguridad para eslingas."
+      },
+      {
+        "nombre": "NCh 1258",
+        "descripcion": "Norma chilena sobre sistemas personales para detención de caídas: arneses, estrobos y líneas de vida."
+      }
+    ]
+  },
+  "cargador-frontal": {
+    "enfoque": "enseña a operar cargador frontal y minicargador de forma segura y eficiente en movimiento de carga y tierra",
+    "objetivo": "Al finalizar, los participantes podrán operar cargador frontal y minicargador de forma segura y eficiente, aplicando técnicas operacionales y de seguridad en actividades de movimiento de carga y de tierra.",
+    "aprendizajes": [
+      "Identificar componentes, sistemas y funcionamiento del equipo",
+      "Reconocer riesgos de la operación y sus medidas de control",
+      "Aplicar la inspección preoperacional del equipo",
+      "Ejecutar maniobras de desplazamiento y carga-descarga de materiales"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "Ley 20.123",
+        "descripcion": "Regula el trabajo en régimen de subcontratación y las empresas de servicios transitorios."
+      }
+    ]
+  },
+  "computacion-general": {
+    "enfoque": "enseña el uso de computadores y herramientas digitales como Google Workspace, Microsoft Teams y SharePoint en el trabajo",
+    "objetivo": "Al finalizar, los participantes podrán utilizar equipos computacionales y herramientas digitales, como Google Workspace, Zoom, Microsoft Teams y SharePoint, para la gestión administrativa, la comunicación y el trabajo colaborativo en la organización.",
+    "aprendizajes": [
+      "Identificar las ventajas de Google Workspace",
+      "Crear textos, presentaciones y formularios con herramientas de Google",
+      "Almacenar y gestionar archivos en la nube",
+      "Usar calendario, tareas y espacios de trabajo colaborativo",
+      "Gestionar aulas virtuales con Google Classroom"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      }
+    ]
+  },
+  "comunicacion-trabajo-equipo": {
+    "enfoque": "desarrolla técnicas de comunicación efectiva, manejo de conflictos, oratoria y trabajo en equipo dentro de la organización",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de comunicación efectiva, oratoria, retroalimentación y manejo de conflictos para fortalecer el trabajo en equipo y desenvolverse adecuadamente en los distintos escenarios de la organización.",
+    "aprendizajes": [
+      "Reconocer elementos, procesos y tipos de comunicación",
+      "Identificar beneficios y obstáculos de la comunicación efectiva",
+      "Entregar retroalimentación de manera efectiva",
+      "Aplicar estrategias de manejo de conflictos",
+      "Desarrollar habilidades comunicativas para distintos escenarios laborales"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "Ley 21.303",
+        "descripcion": "Modifica la Ley 20.422 para promover el uso de la lengua de señas."
+      },
+      {
+        "nombre": "Ley 21.643 (Ley Karin)",
+        "descripcion": "Previene, investiga y sanciona el acoso laboral, el acoso sexual y la violencia en el trabajo."
+      }
+    ]
+  },
+  "electricidad-general": {
+    "enfoque": "entrega fundamentos de electricidad, interpretación de planos e instalaciones y control del riesgo eléctrico en el trabajo",
+    "objetivo": "Al finalizar, los participantes podrán identificar principios eléctricos, interpretar planos e instalaciones, y aplicar medidas preventivas y de control del riesgo eléctrico en la intervención de equipos y sistemas eléctricos industriales.",
+    "aprendizajes": [
+      "Reconocer los peligros de equipos y sistemas eléctricos",
+      "Aplicar medidas de control de riesgos eléctricos",
+      "Conocer procedimientos de intervención y maniobra segura",
+      "Comprender la seguridad eléctrica según NFPA 70E y normativa chilena",
+      "Interpretar proyectos eléctricos y planos unilineales"
+    ],
+    "normativa": [
+      {
+        "nombre": "NFPA 70E",
+        "descripcion": "Norma estadounidense para la seguridad eléctrica en los lugares de trabajo."
+      },
+      {
+        "nombre": "NCh Elec. 4/2003",
+        "descripcion": "Norma chilena de instalaciones de consumo en baja tensión."
+      },
+      {
+        "nombre": "DS 8/2019, Ministerio de Energía",
+        "descripcion": "Reglamento de seguridad de las instalaciones de consumo de energía eléctrica."
+      },
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "NFPA 70B",
+        "descripcion": "Norma estadounidense para el mantenimiento de equipos eléctricos."
+      },
+      {
+        "nombre": "NFPA 70 (NEC)",
+        "descripcion": "Código Eléctrico Nacional de Estados Unidos para instalaciones eléctricas."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 92/1983, Ministerio de Economía, Fomento y Reconstrucción",
+        "descripcion": "Reglamento de instaladores eléctricos y de electricistas de recintos de espectáculos públicos."
+      }
+    ]
+  },
+  "electronica-instrumentacion": {
+    "enfoque": "enseña componentes electrónicos, instrumentación industrial, variadores de frecuencia y programación de circuitos para automatización",
+    "objetivo": "Al finalizar, los participantes podrán identificar componentes eléctricos y electrónicos, manejar instrumentación industrial, reconocer fallas en variadores de frecuencia e interpretar, programar y simular circuitos para la automatización de máquinas industriales.",
+    "aprendizajes": [
+      "Introducirse en la instrumentación y control de equipos",
+      "Aplicar técnicas de automatización y control",
+      "Identificar fallas y averías en variadores de frecuencia",
+      "Utilizar equipos de medición en redes de fibra óptica",
+      "Configurar y diagnosticar redes de comunicación Profibus"
+    ],
+    "normativa": []
+  },
+  "epp-proteccion-personal": {
+    "enfoque": "enseña a seleccionar, usar, inspeccionar y mantener elementos de protección personal según la tarea y la normativa vigente",
+    "objetivo": "Al finalizar, los participantes podrán reconocer, seleccionar, usar, inspeccionar y mantener los elementos de protección personal adecuados a cada trabajo o tarea, de acuerdo con la evaluación de riesgos, las instrucciones del fabricante y la normativa vigente.",
+    "aprendizajes": [
+      "Distinguir el uso correcto de los EPP según el proceso",
+      "Identificar los EPP requeridos según el tipo de tarea",
+      "Conocer la normativa que regula el uso de los EPP",
+      "Desarrollar el manejo y mantenimiento de los equipos",
+      "Identificar características y componentes de equipos de respiración"
+    ],
+    "normativa": [
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 18/1982, Ministerio de Salud",
+        "descripcion": "Regula la certificación de calidad de los elementos de protección personal contra riesgos ocupacionales."
+      },
+      {
+        "nombre": "NFPA 70E",
+        "descripcion": "Norma estadounidense para la seguridad eléctrica en los lugares de trabajo."
+      },
+      {
+        "nombre": "NCh 461",
+        "descripcion": "Norma chilena de cascos de seguridad para uso industrial."
+      },
+      {
+        "nombre": "NCh 1668",
+        "descripcion": "Norma chilena de guantes aislantes de electricidad."
+      },
+      {
+        "nombre": "NCh 1331",
+        "descripcion": "Norma chilena de protectores auditivos."
+      },
+      {
+        "nombre": "NCh 2147",
+        "descripcion": "Norma chilena de calzado de seguridad, incluido el calzado aislante."
+      }
+    ]
+  },
+  "equipos-menores": {
+    "enfoque": "enseña el uso seguro de herramientas manuales, eléctricas y portátiles y su revisión mediante código de colores",
+    "objetivo": "Al finalizar, los participantes podrán utilizar de forma segura herramientas y equipos manuales, eléctricos y portátiles, como el esmeril angular, y establecer un sistema de revisión con código de colores para retirar del servicio los equipos defectuosos.",
+    "aprendizajes": [
+      "Reconocer el funcionamiento y componentes del esmeril angular",
+      "Identificar tipos de discos abrasivos y de corte",
+      "Aplicar normas de seguridad en el uso de herramientas",
+      "Dominar técnicas de corte, desbaste y pulido",
+      "Reconocer los riesgos de herramientas manuales y portátiles"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      }
+    ]
+  },
+  "ergonomia-trastornos": {
+    "enfoque": "enseña a identificar riesgos del manejo manual de cargas y aplicar técnicas para prevenir trastornos musculoesqueléticos",
+    "objetivo": "Al finalizar, los participantes podrán identificar los peligros y riesgos asociados al manejo manual de cargas y a factores ergonómicos, y aplicar técnicas que permitan realizar sus labores de forma más segura, previniendo trastornos musculoesqueléticos.",
+    "aprendizajes": [
+      "Aplicar técnicas de manejo manual de cargas",
+      "Identificar factores de riesgo ergonómicos en el trabajo",
+      "Reconocer enfermedades musculoesqueléticas de origen laboral",
+      "Analizar el marco legal de la gestión preventiva de TMERT",
+      "Reconocer medidas de control frente a factores ergonómicos"
+    ],
+    "normativa": [
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 101/1968, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento para la aplicación de la Ley 16.744."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      },
+      {
+        "nombre": "Ley 20.001",
+        "descripcion": "Regula el peso máximo de carga humana."
+      },
+      {
+        "nombre": "DS 63/2005, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento para la aplicación de la Ley 20.001, que regula el peso máximo de carga humana."
+      },
+      {
+        "nombre": "Ley 20.949",
+        "descripcion": "Modifica el Código del Trabajo para reducir el peso de las cargas de manipulación manual."
+      }
+    ]
+  },
+  "espacios-confinados": {
+    "enfoque": "enseña los protocolos, medidas de control y técnicas de trabajo seguro para realizar labores en espacios confinados",
+    "objetivo": "Al finalizar, los participantes podrán reconocer las características y protocolos de los distintos tipos de espacios confinados, y aplicar las medidas de control, administrativas, preventivas y operativas necesarias para realizar un trabajo seguro.",
+    "aprendizajes": [
+      "Distinguir medidas preventivas y de control de riesgos críticos",
+      "Implementar el plan de ingreso, salida y rescate",
+      "Identificar equipos y materiales para el trabajo seguro",
+      "Conocer el permiso y control de accesos",
+      "Aplicar la normativa legal vigente aplicable"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 44/2024, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre gestión preventiva de los riesgos laborales para un entorno de trabajo seguro y saludable."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      }
+    ]
+  },
+  "excel": {
+    "enfoque": "enseña Microsoft Excel desde nivel básico hasta avanzado para usar fórmulas y generar informes de trabajo",
+    "objetivo": "Al finalizar, los participantes podrán utilizar Microsoft Excel desde un nivel básico hasta avanzado, adaptándolo a su trabajo diario mediante fórmulas y funciones, para generar informes que complementen y perfeccionen su actividad laboral.",
+    "aprendizajes": [],
+    "normativa": []
+  },
+  "explosivos-tronadura": {
+    "enfoque": "entrega conocimientos teóricos y prácticos sobre perforación, manejo de explosivos y tronadura con énfasis en la seguridad",
+    "objetivo": "Al finalizar, los participantes podrán manejar los aspectos teóricos y prácticos de los procesos de perforación, manejo de explosivos y tronadura, con especial énfasis en la seguridad y en la selección del explosivo según el tipo de roca.",
+    "aprendizajes": [],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      }
+    ]
+  },
+  "formacion-instructores": {
+    "enfoque": "prepara a trabajadores para desempeñarse como relatores, instructores o tutores aplicando técnicas formativas en la empresa",
+    "objetivo": "Al finalizar, los participantes podrán desempeñarse como relatores internos, instructores o tutores, aplicando técnicas formativas que favorezcan el aprendizaje significativo y guiando las prácticas de trabajo y conductas preventivas de otros trabajadores.",
+    "aprendizajes": [
+      "Desempeñarse en el rol de tutor en el lugar de trabajo",
+      "Aplicar técnicas de formación de relatores internos",
+      "Preparar, enseñar y capacitar a otras personas",
+      "Potenciar las prácticas de tutoría en la empresa"
+    ],
+    "normativa": []
+  },
+  "gases-atmosferas-peligrosas": {
+    "enfoque": "enseña a usar, medir y calibrar detectores de gases y oxígeno para trabajar de forma segura",
+    "objetivo": "Al finalizar, los participantes podrán identificar los tipos de gases, sus características y límites permisibles, y utilizar, calibrar y mantener detectores de gases y oxígeno para desempeñar trabajos seguros según los protocolos de la empresa.",
+    "aprendizajes": [
+      "Reconocer los tipos de gases en ambientes de trabajo y sus efectos",
+      "Identificar atmósferas peligrosas, agentes de riesgo y límites de exposición",
+      "Reconocer la normativa chilena para el monitoreo de gases",
+      "Identificar aspectos esenciales del trabajo en espacios confinados"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 44/2024, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre gestión preventiva de los riesgos laborales para un entorno de trabajo seguro y saludable."
+      }
+    ]
+  },
+  "gestion-bodega-logistica": {
+    "enfoque": "entrega herramientas de logística, administración de bodegas, control de inventarios y almacenamiento de materiales y herramientas",
+    "objetivo": "Al finalizar, los participantes podrán aplicar conceptos y herramientas de logística y abastecimiento para administrar bodegas, controlar inventarios y almacenar correctamente materiales, herramientas y sustancias, con criterios técnicos y normativos.",
+    "aprendizajes": [
+      "Aplicar métodos de control de inventarios y trazabilidad",
+      "Implementar procedimientos de recepción, almacenamiento y despacho",
+      "Usar indicadores de gestión logística para decidir",
+      "Interpretar hojas de seguridad de sustancias peligrosas",
+      "Gestionar procesos de compras públicas"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "Ley 19.886",
+        "descripcion": "Ley de bases sobre contratos administrativos de suministro y prestación de servicios (compras públicas)."
+      }
+    ]
+  },
+  "gestion-proyectos": {
+    "enfoque": "enseña la planificación y control de proyectos con herramientas como Microsoft Project y Primavera Project Planner",
+    "objetivo": "Al finalizar, los participantes podrán planificar, programar y controlar proyectos y contratos, utilizando herramientas como Microsoft Project y Primavera Project Planner para diseñar programas de trabajo, asignar recursos y generar reportes de avance.",
+    "aprendizajes": [
+      "Aplicar métodos de planificación",
+      "Realizar seguimiento y control de proyectos",
+      "Manejar conceptos de administración de contratos",
+      "Gestionar proyectos con Microsoft Project"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      }
+    ]
+  },
+  "grua-horquilla": {
+    "enfoque": "enseña técnicas de operación segura de grúa horquilla y apilador eléctrico según la normativa legal vigente",
+    "objetivo": "Al finalizar, los participantes podrán operar de forma segura y eficiente grúas horquilla, apiladores y transpaletas eléctricas, trasladando cargas y efectuando el mantenimiento preventivo del equipo, de acuerdo con la normativa legal vigente y el estándar de la empresa.",
+    "aprendizajes": [
+      "Identificar partes y componentes del equipo",
+      "Identificar áreas seguras de trabajo y condiciones subestándar",
+      "Aplicar técnicas de manejo y traslado de cargas",
+      "Detectar fallas o anomalías del equipo",
+      "Coordinar la comunicación entre operador y señalero"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "Ley 18.290",
+        "descripcion": "Ley de Tránsito."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      }
+    ]
+  },
+  "grua-pluma": {
+    "enfoque": "prepara a los operadores para operar grúas pluma y tecles pluma cumpliendo las normas de seguridad",
+    "objetivo": "Al finalizar, los participantes podrán operar grúas pluma sobre camión y tecles pluma de forma segura y correcta, aplicando técnicas de izaje, inspección y mantenimiento preventivo, y cumpliendo las normas y protocolos de seguridad de la empresa.",
+    "aprendizajes": [
+      "Reconocer el funcionamiento de la grúa telescópica sobre camión",
+      "Identificar normas y procedimientos de seguridad aplicables",
+      "Realizar inspecciones y mantenimiento preventivo",
+      "Estabilizar el equipo y operar de forma segura"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      }
+    ]
+  },
+  "grua-puente": {
+    "enfoque": "enseña técnicas de operación segura de puente grúa, incluido el monorriel, según la normativa vigente",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de operación segura de puente grúa, incluido el monorriel, y de los equipos de izaje asociados, de acuerdo con la normativa y el marco legal vigentes y los controles críticos de la empresa.",
+    "aprendizajes": [
+      "Aplicar técnicas seguras de operación de puente grúa",
+      "Aplicar inspección y mantenimiento preventivo del equipo",
+      "Utilizar el código de señales para izaje de cargas",
+      "Planificar las etapas de una maniobra de izaje",
+      "Aplicar la normativa legal vigente"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "ASME B30.9",
+        "descripcion": "Norma estadounidense de seguridad para eslingas."
+      },
+      {
+        "nombre": "ASME B30.5",
+        "descripcion": "Norma estadounidense de seguridad para grúas móviles y locomotoras."
+      },
+      {
+        "nombre": "NCh 1258",
+        "descripcion": "Norma chilena sobre sistemas personales para detención de caídas: arneses, estrobos y líneas de vida."
+      },
+      {
+        "nombre": "Ley 20.001",
+        "descripcion": "Regula el peso máximo de carga humana."
+      },
+      {
+        "nombre": "ASME B30.10",
+        "descripcion": "Norma estadounidense de seguridad para ganchos de izaje."
+      }
+    ]
+  },
+  "grua-torre": {
+    "enfoque": "enseña la operación segura y eficiente de grúa torre y grúa automontante y maniobras de izaje de cargas",
+    "objetivo": "Al finalizar, los participantes podrán operar grúas torre y grúas automontantes de manera segura y eficiente, identificando técnicas seguras de maniobras de izaje de cargas y los fundamentos de mantenimiento del equipo, según los protocolos de la empresa.",
+    "aprendizajes": [
+      "Identificar técnicas seguras de maniobras de izaje",
+      "Operar la grúa torre de manera segura y eficiente",
+      "Comprender los fundamentos del mantenimiento del equipo",
+      "Conocer la normativa sobre instalación y operación de grúa torre"
+    ],
+    "normativa": [
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "Ley 18.290",
+        "descripcion": "Ley de Tránsito."
+      },
+      {
+        "nombre": "NCh 1258",
+        "descripcion": "Norma chilena sobre sistemas personales para detención de caídas: arneses, estrobos y líneas de vida."
+      },
+      {
+        "nombre": "ASME B30.5",
+        "descripcion": "Norma estadounidense de seguridad para grúas móviles y locomotoras."
+      }
+    ]
+  },
+  "hidraulica-neumatica": {
+    "enfoque": "entrega fundamentos de hidráulica y neumática, lectura de planos, diagnóstico de fallas y uso seguro de herramientas",
+    "objetivo": "Al finalizar, los participantes podrán manejar los fundamentos de hidráulica y neumática, interpretar planos de estos sistemas, diagnosticar fallas, realizar su mantenimiento y utilizar de forma segura las herramientas hidráulicas, neumáticas y eléctricas.",
+    "aprendizajes": [
+      "Reconocer conceptos introductorios de la teoría hidráulica",
+      "Interpretar simbología y planos hidráulicos",
+      "Diagnosticar y reparar sistemas hidráulicos y neumáticos",
+      "Aplicar bloqueo y despresurización antes de intervenir equipos",
+      "Revisar periódicamente herramientas neumáticas, hidráulicas y eléctricas"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      },
+      {
+        "nombre": "ISO 4413",
+        "descripcion": "Transmisiones hidráulicas: reglas generales y requisitos de seguridad para sistemas y componentes."
+      },
+      {
+        "nombre": "ISO 1219",
+        "descripcion": "Símbolos gráficos y diagramas de circuitos para sistemas de fluidos de potencia."
+      }
+    ]
+  },
+  "incendio-emergencias": {
+    "enfoque": "enseña a controlar fuegos incipientes con extintores, usar sistemas de extinción y actuar como vigía del fuego",
+    "objetivo": "Al finalizar, los participantes podrán controlar un fuego incipiente con extintores, identificar las causas y los métodos de extinción, operar sistemas de extinción y realizar labores de vigía del fuego y respuesta ante emergencias, según la normativa vigente.",
+    "aprendizajes": [
+      "Identificar tipos de fuego y mecanismos de extinción",
+      "Distinguir el funcionamiento y activación de sistemas de extinción",
+      "Ejecutar la vigilancia preventiva y la respuesta inicial",
+      "Usar extintores y su mantenimiento básico",
+      "Enfrentar distintos tipos de emergencias industriales"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 44/2024, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre gestión preventiva de los riesgos laborales para un entorno de trabajo seguro y saludable."
+      },
+      {
+        "nombre": "NCh 1430",
+        "descripcion": "Norma chilena de extintores portátiles: características y rotulación."
+      },
+      {
+        "nombre": "NCh 934",
+        "descripcion": "Norma chilena de clasificación de fuegos."
+      },
+      {
+        "nombre": "NCh 2095",
+        "descripcion": "Norma chilena de sistemas de rociadores contra incendio."
+      },
+      {
+        "nombre": "NFPA 600",
+        "descripcion": "Norma estadounidense sobre brigadas industriales contra incendios."
+      }
+    ]
+  },
+  "instrumentos-medicion": {
+    "enfoque": "enseña metrología de taller y uso de instrumentos de medición para asegurar la calidad dimensional de piezas",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de metrología de taller e instrumentos de medición con procedimientos normados, asegurando la calidad dimensional de piezas y componentes industriales.",
+    "aprendizajes": [
+      "Reconocer los fundamentos de la metrología",
+      "Determinar parámetros de ajuste y tolerancias",
+      "Medir piezas y componentes mecánicos",
+      "Interpretar resultados y elaborar reportes técnicos",
+      "Aplicar criterios de calidad y exactitud"
+    ],
+    "normativa": []
+  },
+  "izaje-cargas-suspendidas": {
+    "enfoque": "enseña maniobras de izaje y transferencia de cargas, sus peligros, prácticas seguras e inspección de la operación",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de maniobras de izaje y transferencia de cargas, identificando sus peligros, prácticas seguras y responsabilidades, e inspeccionar equipos y accesorios de izaje según los procedimientos y la normativa vigentes.",
+    "aprendizajes": [
+      "Reconocer componentes del sistema de izaje y el cálculo de carga",
+      "Identificar los riesgos críticos de las operaciones de izaje",
+      "Controlar riesgos en la ejecución de izajes mecánicos",
+      "Inspeccionar equipos y accesorios de izaje",
+      "Aplicar la normativa legal vigente"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "ASME B30.5",
+        "descripcion": "Norma estadounidense de seguridad para grúas móviles y locomotoras."
+      },
+      {
+        "nombre": "ASME B30.9",
+        "descripcion": "Norma estadounidense de seguridad para eslingas."
+      },
+      {
+        "nombre": "NCh 997.Of1999",
+        "descripcion": "Norma chilena de andamios: terminología y clasificación."
+      },
+      {
+        "nombre": "ASME B30.10",
+        "descripcion": "Norma estadounidense de seguridad para ganchos de izaje."
+      },
+      {
+        "nombre": "NCh 998.Of1999",
+        "descripcion": "Norma chilena de andamios: requisitos generales de seguridad."
+      }
+    ]
+  },
+  "lean-5s-mejora-continua": {
+    "enfoque": "enseña la metodología Kaizen 5S, la filosofía Lean y sus herramientas para la mejora continua en la organización",
+    "objetivo": "Al finalizar, los participantes podrán aplicar la metodología Kaizen 5S, la filosofía Lean y técnicas de gestión de procesos como herramientas para la mejora continua dentro de la organización.",
+    "aprendizajes": [
+      "Identificar las ventajas de la mejora continua y las 5S",
+      "Reconocer los conceptos de cada etapa de las 5S",
+      "Identificar oportunidades de mejora en procesos operativos",
+      "Definir procesos, subprocesos, actividades y tareas",
+      "Elaborar mapas de procesos y flujogramas"
+    ],
+    "normativa": []
+  },
+  "liderazgo": {
+    "enfoque": "desarrolla técnicas de liderazgo, motivación, comunicación efectiva y trabajo en equipo para dirigir equipos de trabajo",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de liderazgo, motivación, comunicación efectiva y trabajo en equipo para dirigir equipos de trabajo, promover conductas seguras y favorecer un ambiente laboral colaborativo.",
+    "aprendizajes": [
+      "Autoevaluar el propio estilo de liderazgo",
+      "Aplicar técnicas de comunicación efectiva",
+      "Gestionar el tiempo y la toma de decisiones",
+      "Resolver conflictos de forma constructiva",
+      "Promover conductas seguras en el equipo"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 21.643 (Ley Karin)",
+        "descripcion": "Previene, investiga y sanciona el acoso laboral, el acoso sexual y la violencia en el trabajo."
+      },
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "Ley 21.015",
+        "descripcion": "Incentiva la inclusión de personas con discapacidad en el mundo laboral."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      },
+      {
+        "nombre": "Ley 21.120",
+        "descripcion": "Reconoce y da protección al derecho a la identidad de género."
+      }
+    ]
+  },
+  "lubricacion": {
+    "enfoque": "enseña técnicas de lubricación, tipos de lubricantes y sistemas de lubricación centralizada para el mantenimiento de equipos",
+    "objetivo": "Al finalizar, los participantes podrán aplicar buenas técnicas de lubricación, reconocer los tipos de lubricantes y sus propiedades, y comprender los sistemas de lubricación centralizada y los principios de tribología aplicados al mantenimiento de equipos.",
+    "aprendizajes": [
+      "Aplicar principios de tribología en el mantenimiento",
+      "Identificar tipos de lubricantes y sus propiedades",
+      "Ejecutar lubricación preventiva, predictiva y correctiva",
+      "Detectar síntomas de fallas relacionadas con lubricación"
+    ],
+    "normativa": [
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "Ley 18.290",
+        "descripcion": "Ley de Tránsito."
+      },
+      {
+        "nombre": "ISO 4406",
+        "descripcion": "Código para expresar el nivel de contaminación por partículas sólidas en fluidos hidráulicos."
+      }
+    ]
+  },
+  "manejo-defensivo": {
+    "enfoque": "enseña técnicas de manejo defensivo y conducción segura, incluida la conducción en terrenos difíciles y minería subterránea",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de manejo defensivo y conducción segura, reconociendo la normativa de tránsito, los factores de riesgo y las responsabilidades del conductor, incluida la conducción en terrenos de alta dificultad y en minería subterránea.",
+    "aprendizajes": [
+      "Reconocer riesgos de la conducción 4x4 en terrenos difíciles",
+      "Identificar factores de riesgo en la conducción",
+      "Reconocer factores de pérdida de control vehicular",
+      "Distinguir conductas seguras e inseguras en situaciones críticas",
+      "Aplicar controles críticos de conducción preventiva"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 18.290",
+        "descripcion": "Ley de Tránsito."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 72/1985, Ministerio de Minería",
+        "descripcion": "Antiguo Reglamento de Seguridad Minera, reemplazado por el DS 132."
+      },
+      {
+        "nombre": "Ley 19.495",
+        "descripcion": "Modifica la Ley de Tránsito en materia de licencias de conducir."
+      }
+    ]
+  },
+  "mantenimiento-mecanico": {
+    "enfoque": "enseña técnicas de mantenimiento de sistemas mecánicos y equipos pesados aplicando procedimientos y normas de seguridad",
+    "objetivo": "Al finalizar, los participantes podrán realizar el mantenimiento de sistemas mecánicos y de equipos fijos, pesados y livianos, aplicando técnicas de mantención y reparación, procedimientos y normas de seguridad correspondientes.",
+    "aprendizajes": [
+      "Manejar técnicas de mantención y reparación",
+      "Identificar el mantenimiento mecánico básico de equipos fijos",
+      "Aplicar metrología dimensional con vernier y micrómetro",
+      "Ejecutar mantenimiento de sistemas de transmisión de potencia"
+    ],
+    "normativa": [
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      }
+    ]
+  },
+  "mecanica-general": {
+    "enfoque": "entrega fundamentos de mecánica y electromecánica industrial y automotriz para identificar componentes y realizar mantenimiento seguro",
+    "objetivo": "Al finalizar, los participantes podrán comprender los aspectos básicos de la mecánica y la electromecánica industrial y automotriz, identificar sus componentes e interpretar diagramas, para realizar el mantenimiento de forma segura y eficiente.",
+    "aprendizajes": [
+      "Identificar procedimientos de trabajo con máquinas de maestranza",
+      "Reconocer normas de prevención de riesgos en maestranza",
+      "Utilizar correctamente los equipos de protección personal"
+    ],
+    "normativa": []
+  },
+  "medioambiente": {
+    "enfoque": "enseña a identificar riesgos de residuos peligrosos, aplicar normas ambientales y medir la huella de carbono",
+    "objetivo": "Al finalizar, los participantes podrán identificar situaciones de riesgo en el manejo de residuos peligrosos y sus formas de tratamiento, aplicar normas y políticas de control ambiental, y conocer herramientas para medir la huella de carbono de la empresa.",
+    "aprendizajes": [
+      "Identificar condiciones sanitarias y de seguridad en el manejo de residuos",
+      "Entender el marco legal ambiental en Chile",
+      "Conocer los instrumentos de gestión ambiental",
+      "Interpretar un sistema de gestión ambiental ISO 14001",
+      "Entender la huella de carbono y su reducción"
+    ],
+    "normativa": [
+      {
+        "nombre": "DS 148/2003, Ministerio de Salud",
+        "descripcion": "Reglamento sanitario sobre manejo de residuos peligrosos."
+      },
+      {
+        "nombre": "NCh 382",
+        "descripcion": "Norma chilena de clasificación de sustancias y mercancías peligrosas."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "ISO 14001",
+        "descripcion": "Norma internacional de sistemas de gestión ambiental."
+      },
+      {
+        "nombre": "DS 43/2015, Ministerio de Salud",
+        "descripcion": "Reglamento de almacenamiento de sustancias peligrosas."
+      },
+      {
+        "nombre": "NCh 2245",
+        "descripcion": "Norma chilena de hoja de datos de seguridad para productos químicos."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      }
+    ]
+  },
+  "mineria-procesos": {
+    "enfoque": "entrega fundamentos de operación y mantenimiento de procesos y equipos mineros, como perforación, correas transportadoras y relaves",
+    "objetivo": "Al finalizar, los participantes podrán manejar los fundamentos de los procesos y operaciones mineras, como perforación, chancado, molienda, correas transportadoras y conducción de relaves, para operar y mantener los equipos sin alterar la producción.",
+    "aprendizajes": [
+      "Controlar variables operacionales de chancado y molienda",
+      "Identificar componentes y funcionamiento de correas transportadoras",
+      "Ejecutar la mantención de correas transportadoras",
+      "Operar y monitorear sistemas de transporte de relaves",
+      "Aplicar normas de seguridad en la operación"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 72/1985, Ministerio de Minería",
+        "descripcion": "Antiguo Reglamento de Seguridad Minera, reemplazado por el DS 132."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      },
+      {
+        "nombre": "ISO 9001",
+        "descripcion": "Norma internacional de sistemas de gestión de la calidad."
+      },
+      {
+        "nombre": "Ley 19.300",
+        "descripcion": "Ley sobre bases generales del medio ambiente."
+      },
+      {
+        "nombre": "ISO 14001",
+        "descripcion": "Norma internacional de sistemas de gestión ambiental."
+      }
+    ]
+  },
+  "motoniveladora": {
+    "enfoque": "prepara a los operadores para manejar la motoniveladora en condiciones seguras y realizar su mantención preventiva y correctiva",
+    "objetivo": "Al finalizar, los participantes podrán operar la motoniveladora en condiciones de seguridad óptimas y realizar su mantención preventiva, predictiva y correctiva con un enfoque en la eficiencia y la eficacia.",
+    "aprendizajes": [],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      }
+    ]
+  },
+  "motosierra": {
+    "enfoque": "enseña técnicas y procedimientos de operación segura de motosierra en faenas forestales, áreas verdes y jardinería",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas y procedimientos de operación segura de motosierra y de herramientas de jardinería en faenas forestales y de áreas verdes, incluyendo tareas de mantenimiento básico y preventivo.",
+    "aprendizajes": [],
+    "normativa": []
+  },
+  "office-word-powerpoint": {
+    "enfoque": "enseña el uso de Word, PowerPoint, Excel y Outlook de Microsoft Office para optimizar las labores diarias",
+    "objetivo": "Al finalizar, los participantes podrán utilizar de forma eficiente Windows y las aplicaciones de Microsoft Office, como Word, Excel, PowerPoint y Outlook, para crear documentos, presentaciones y planillas que optimicen sus labores.",
+    "aprendizajes": [
+      "Dominar las herramientas de PowerPoint para crear presentaciones",
+      "Comprender los principios de las presentaciones efectivas",
+      "Identificar los elementos clave de un informe técnico",
+      "Aplicar las funciones principales de Microsoft Office"
+    ],
+    "normativa": []
+  },
+  "plataforma-elevadora": {
+    "enfoque": "enseña a operar el alza hombre de forma segura y a controlar los peligros del trabajo en altura",
+    "objetivo": "Al finalizar, los participantes podrán operar equipos alza hombre de forma cuidadosa y segura, de acuerdo con los procedimientos técnicos y de seguridad de la empresa, identificando los peligros del trabajo en altura y sus medidas de control.",
+    "aprendizajes": [
+      "Distinguir los peligros del uso de equipos alza hombre",
+      "Aplicar medidas de control asociadas a esos peligros",
+      "Aplicar técnicas seguras de operación de manlift",
+      "Operar según las recomendaciones del fabricante"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "NCh 1258",
+        "descripcion": "Norma chilena sobre sistemas personales para detención de caídas: arneses, estrobos y líneas de vida."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "Ley 18.290",
+        "descripcion": "Ley de Tránsito."
+      },
+      {
+        "nombre": "ASME B30.9",
+        "descripcion": "Norma estadounidense de seguridad para eslingas."
+      },
+      {
+        "nombre": "ASME B30.5",
+        "descripcion": "Norma estadounidense de seguridad para grúas móviles y locomotoras."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      }
+    ]
+  },
+  "prevencion-riesgos-generales": {
+    "enfoque": "entrega herramientas para identificar peligros, gestionar riesgos e investigar accidentes con metodologías como ICAM y árbol de causas",
+    "objetivo": "Al finalizar, los participantes podrán identificar peligros, gestionar riesgos e investigar incidentes y accidentes del trabajo con metodologías como ICAM y árbol de causas, proponiendo medidas correctivas y preventivas que eviten su repetición.",
+    "aprendizajes": [
+      "Comprender la estructura y el alcance del método ICAM",
+      "Ejecutar los pasos de una investigación ICAM",
+      "Elaborar informes de investigación orientados al aprendizaje",
+      "Comprender las técnicas de investigación de accidentes",
+      "Conocer las responsabilidades civiles y penales del supervisor"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 54/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento de constitución y funcionamiento de los comités paritarios de higiene y seguridad; reemplazado por el DS 44/2024."
+      },
+      {
+        "nombre": "DS 44/2024, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre gestión preventiva de los riesgos laborales para un entorno de trabajo seguro y saludable."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      },
+      {
+        "nombre": "Ley 20.123",
+        "descripcion": "Regula el trabajo en régimen de subcontratación y las empresas de servicios transitorios."
+      },
+      {
+        "nombre": "Ley 20.001",
+        "descripcion": "Regula el peso máximo de carga humana."
+      },
+      {
+        "nombre": "ISO 14001",
+        "descripcion": "Norma internacional de sistemas de gestión ambiental."
+      }
+    ]
+  },
+  "primeros-auxilios": {
+    "enfoque": "enseña técnicas de primeros auxilios, reanimación cardiopulmonar y uso de desfibrilador ante emergencias en el lugar de trabajo",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de primeros auxilios, reanimación cardiopulmonar y uso del desfibrilador externo automático para atender emergencias básicas en el lugar de trabajo hasta la llegada de los servicios médicos especializados.",
+    "aprendizajes": [
+      "Reconocer los principios básicos de los primeros auxilios",
+      "Identificar el marco legal de los primeros auxilios en Chile",
+      "Ejecutar maniobras de reanimación cardiopulmonar",
+      "Usar el desfibrilador externo automático según protocolo",
+      "Brindar atención inicial ante heridas, quemaduras y traumatismos"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 21.156",
+        "descripcion": "Obliga a disponer de desfibriladores externos automáticos portátiles en los establecimientos que indica."
+      },
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 44/2024, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre gestión preventiva de los riesgos laborales para un entorno de trabajo seguro y saludable."
+      }
+    ]
+  },
+  "rescate": {
+    "enfoque": "enseña técnicas de rescate en altura y en espacios confinados, incluido el trauma por suspensión, de forma segura",
+    "objetivo": "Al finalizar, los participantes podrán aplicar de forma segura y eficaz técnicas de rescate en altura, en espacios confinados y en entornos urbanos e industriales, incluida la atención del trauma por suspensión.",
+    "aprendizajes": [
+      "Aplicar técnicas de rescate en altura",
+      "Aplicar técnicas de rescate por suspensión",
+      "Reconocer técnicas seguras de rescate con cuerdas",
+      "Identificar EPP e instrumentos para el rescate",
+      "Reconocer condiciones subestándar"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "NCh 1258",
+        "descripcion": "Norma chilena sobre sistemas personales para detención de caídas: arneses, estrobos y líneas de vida."
+      }
+    ]
+  },
+  "retroexcavadora": {
+    "enfoque": "prepara a los operadores para operar la retroexcavadora de forma segura y eficiente e inspeccionar sus componentes",
+    "objetivo": "Al finalizar, los participantes podrán operar la retroexcavadora de manera segura y eficiente bajo el estándar de la empresa, y realizar la inspección, verificación de componentes y mantención planificada del equipo.",
+    "aprendizajes": [],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "Ley 20.123",
+        "descripcion": "Regula el trabajo en régimen de subcontratación y las empresas de servicios transitorios."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      }
+    ]
+  },
+  "sap": {
+    "enfoque": "enseña a usar SAP, en especial los módulos PM de mantenimiento y MM de materiales, en la empresa",
+    "objetivo": "Al finalizar, los participantes podrán utilizar el sistema SAP para la administración de recursos de la empresa, aplicando transacciones de los módulos PM de mantenimiento y MM de materiales para mejorar la gestión, la productividad y el control.",
+    "aprendizajes": [
+      "Reconocer un sistema de administración de recursos productivos",
+      "Comprender la estructura y funcionalidad de SAP S/4HANA",
+      "Aplicar transacciones de SAP PM en mantenimiento planificado",
+      "Identificar indicadores del módulo PM",
+      "Usar reportes de SAP para seguimiento de KPI"
+    ],
+    "normativa": []
+  },
+  "seguridad-prevencion-otros": {
+    "enfoque": "entrega medidas de control para riesgos específicos como sustancias peligrosas, energías hidráulicas y neumáticas, partes móviles e hipobaria",
+    "objetivo": "Al finalizar, los participantes podrán identificar riesgos específicos del trabajo, como sustancias peligrosas, energías hidráulicas y neumáticas, partes móviles de equipos, caída de rocas e hipobaria, y aplicar las medidas de control y la normativa correspondiente.",
+    "aprendizajes": [
+      "Identificar la normativa del transporte de sustancias peligrosas",
+      "Reconocer riesgos de energías hidráulica, neumática y elástica",
+      "Reconocer guardas y protecciones de partes móviles",
+      "Aplicar medidas preventivas frente a la hipobaria",
+      "Distinguir los riesgos de rocas, bloques y macizos rocosos"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 43/2015, Ministerio de Salud",
+        "descripcion": "Reglamento de almacenamiento de sustancias peligrosas."
+      },
+      {
+        "nombre": "NCh 2245",
+        "descripcion": "Norma chilena de hoja de datos de seguridad para productos químicos."
+      },
+      {
+        "nombre": "NCh 382",
+        "descripcion": "Norma chilena de clasificación de sustancias y mercancías peligrosas."
+      },
+      {
+        "nombre": "NCh 2190",
+        "descripcion": "Norma chilena de distintivos para identificación de riesgos en el transporte de sustancias peligrosas."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      }
+    ]
+  },
+  "soldadura": {
+    "enfoque": "enseña procesos de soldadura al arco manual y HDPE en distintas posiciones, oxicorte e inspección de soldaduras",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas y procedimientos de soldadura al arco manual, TIG, HDPE y oxicorte en distintos materiales, espesores y posiciones, e inspeccionar la calidad de las uniones conforme a normas y procedimientos de trabajo seguro.",
+    "aprendizajes": [
+      "Identificar los fundamentos técnicos del proceso SMAW",
+      "Reconocer normas básicas de seguridad en soldadura",
+      "Preparar materiales y equipos de soldadura",
+      "Ejecutar cordones de soldadura con calidad técnica",
+      "Inspeccionar visualmente los cordones de soldadura"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "AWS D1.1",
+        "descripcion": "Código de soldadura estructural para acero."
+      },
+      {
+        "nombre": "ASME BPVC Sección IX",
+        "descripcion": "Código de calificación de procedimientos de soldadura y brazing, soldadores y operadores."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 44/2024, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre gestión preventiva de los riesgos laborales para un entorno de trabajo seguro y saludable."
+      },
+      {
+        "nombre": "ISO 9001",
+        "descripcion": "Norma internacional de sistemas de gestión de la calidad."
+      }
+    ]
+  },
+  "tableros-electricos": {
+    "enfoque": "entrega conocimientos para controlar riesgos de choque eléctrico y relámpago de arco al trabajar en tableros eléctricos",
+    "objetivo": "Al finalizar, los participantes podrán enfrentar tareas en tableros y salas eléctricas controlando riesgos como el choque eléctrico y el relámpago de arco, y mantener los sistemas de ventilación y presurización de salas eléctricas.",
+    "aprendizajes": [
+      "Comprender los principios de ventilación y presurización",
+      "Aplicar NFPA 70E en escenarios de mantenimiento",
+      "Diagnosticar condiciones de operación mediante mediciones",
+      "Evaluar sistemas presurizados con equipos especializados"
+    ],
+    "normativa": [
+      {
+        "nombre": "NFPA 70E",
+        "descripcion": "Norma estadounidense para la seguridad eléctrica en los lugares de trabajo."
+      }
+    ]
+  },
+  "termografia": {
+    "enfoque": "enseña conceptos de termografía infrarroja y su aplicación en el diagnóstico de fallas y monitoreo de condición",
+    "objetivo": "Al finalizar, los participantes podrán aplicar la termografía infrarroja, junto con técnicas de vibraciones y ultrasonido, para diagnosticar fallas incipientes en equipos, interpretar parámetros técnicos y elaborar informes de monitoreo de condición.",
+    "aprendizajes": [
+      "Comprender los fundamentos del mantenimiento predictivo",
+      "Analizar fallas mediante señales vibracionales",
+      "Aplicar técnicas de ultrasonido",
+      "Detectar anomalías con termografía infrarroja",
+      "Generar diagnósticos preventivos en equipos críticos"
+    ],
+    "normativa": [
+      {
+        "nombre": "ISO 10816",
+        "descripcion": "Evaluación de la vibración de máquinas mediante mediciones en partes no rotativas."
+      },
+      {
+        "nombre": "NFPA 70B",
+        "descripcion": "Norma estadounidense para el mantenimiento de equipos eléctricos."
+      },
+      {
+        "nombre": "ISO 20816",
+        "descripcion": "Medición y evaluación de la vibración de máquinas; sucesora de la ISO 10816."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 44/2024, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre gestión preventiva de los riesgos laborales para un entorno de trabajo seguro y saludable."
+      }
+    ]
+  },
+  "topografia": {
+    "enfoque": "enseña el manejo de instrumentos topográficos y métodos de levantamiento, nivelación y replanteo topográfico",
+    "objetivo": "Al finalizar, los participantes podrán manejar adecuadamente instrumentos topográficos y aplicar métodos de levantamiento, nivelación, taquimetría y replanteo, interpretando planos topográficos para proyectos de medición y posicionamiento.",
+    "aprendizajes": [
+      "Medir ángulos, distancias y elevaciones",
+      "Reconocer fundamentos de nivelación y taquimetría",
+      "Operar equipos topográficos de nivelación",
+      "Interpretar lecturas y trasladarlas al plano de trabajo"
+    ],
+    "normativa": []
+  },
+  "trabajo-en-altura": {
+    "enfoque": "enseña técnicas de prevención de riesgos en trabajos sobre 1,80 metros para evitar caídas de personas y objetos",
+    "objetivo": "Al finalizar, los participantes podrán aplicar técnicas de prevención de riesgos en actividades a más de 1,80 metros de altura, utilizando los sistemas y equipos de protección adecuados para evitar caídas, de acuerdo con la legislación vigente y los estándares de la empresa.",
+    "aprendizajes": [
+      "Identificar los principios del trabajo en altura física",
+      "Reconocer el marco legal aplicable al trabajo en altura",
+      "Utilizar sistemas y EPP para trabajos en altura",
+      "Identificar riesgos de herramientas y accesorios en altura"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "DS 40/1969, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre prevención de riesgos profesionales; reemplazado por el DS 44/2024."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 44/2024, Ministerio del Trabajo y Previsión Social",
+        "descripcion": "Reglamento sobre gestión preventiva de los riesgos laborales para un entorno de trabajo seguro y saludable."
+      },
+      {
+        "nombre": "NCh 1258",
+        "descripcion": "Norma chilena sobre sistemas personales para detención de caídas: arneses, estrobos y líneas de vida."
+      },
+      {
+        "nombre": "DS 18/1982, Ministerio de Salud",
+        "descripcion": "Regula la certificación de calidad de los elementos de protección personal contra riesgos ocupacionales."
+      },
+      {
+        "nombre": "NCh 997.Of1999",
+        "descripcion": "Norma chilena de andamios: terminología y clasificación."
+      }
+    ]
+  },
+  "trabajos-en-caliente": {
+    "enfoque": "entrega fundamentos para ejecutar, planificar y supervisar trabajos en caliente de forma segura, incluida la vigilancia del fuego",
+    "objetivo": "Al finalizar, los participantes podrán aplicar los fundamentos para ejecutar trabajos en caliente de manera segura, y planificar, evaluar, autorizar y supervisar estas tareas con controles efectivos y documentación conforme al sistema de permisos.",
+    "aprendizajes": [
+      "Aplicar fundamentos de ejecución segura de trabajos en caliente",
+      "Aplicar controles y documentación del sistema de permisos",
+      "Conocer los controles críticos del riesgo de fatalidad"
+    ],
+    "normativa": []
+  },
+  "ventilacion-minera": {
+    "enfoque": "aborda la seguridad en minería subterránea, el uso correcto del refugio minero y la prevención de riesgos operacionales",
+    "objetivo": "Al finalizar, los participantes podrán emplear correctamente un refugio minero y promover conductas seguras en minería subterránea, gestionando riesgos operacionales y fortaleciendo la cultura de seguridad.",
+    "aprendizajes": [
+      "Identificar riesgos operacionales de la minería subterránea",
+      "Aplicar liderazgo participativo y comunicación efectiva",
+      "Analizar incidentes y condiciones subestándar",
+      "Implementar herramientas de observación preventiva"
+    ],
+    "normativa": [
+      {
+        "nombre": "Ley 16.744",
+        "descripcion": "Establece el seguro social obligatorio contra riesgos de accidentes del trabajo y enfermedades profesionales."
+      },
+      {
+        "nombre": "DS 132/2002, Ministerio de Minería",
+        "descripcion": "Reglamento de Seguridad Minera."
+      },
+      {
+        "nombre": "DS 594/1999, Ministerio de Salud",
+        "descripcion": "Reglamento sobre condiciones sanitarias y ambientales básicas en los lugares de trabajo."
+      },
+      {
+        "nombre": "NFPA 1670",
+        "descripcion": "Norma sobre operaciones y capacitación en búsqueda y rescate técnico."
+      },
+      {
+        "nombre": "Ley 20.001",
+        "descripcion": "Regula el peso máximo de carga humana."
+      },
+      {
+        "nombre": "NFPA 1006",
+        "descripcion": "Norma de calificación profesional para técnicos en rescate."
+      },
+      {
+        "nombre": "Ley 19.495",
+        "descripcion": "Modifica la Ley de Tránsito en materia de licencias de conducir."
+      },
+      {
+        "nombre": "Ley 18.290",
+        "descripcion": "Ley de Tránsito."
+      }
+    ]
+  }
+}

@@ -7,16 +7,15 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { responsiveImage } from '@/lib/images';
 
 const DuaSection: React.FC = () => {
   const { t } = useTranslation();
   const images = [
-    "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DUA-Web_Mesa-de-trabajo-1-scaled.jpg?v=1768504112",
-    "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DUA-Web-02-scaled.jpg?v=1768504131",
-    "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DUA-Web-03-scaled.jpg?v=1768504179",
-    "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DUA-Web-04-scaled.jpg?v=1768504200",
-    "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/DUA-Web-05-scaled.jpg?v=1768504218"
+    "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/dua-web-mesa-de-trabajo-1-scaled-39019af2.webp",
+    "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/dua-web-02-scaled-544dc99b.webp",
+    "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/dua-web-03-scaled-0e86e506.webp",
+    "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/dua-web-04-scaled-4defdff8.webp",
+    "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/dua-web-05-scaled-287c6037.webp"
   ];
 
   return (
@@ -46,7 +45,7 @@ const DuaSection: React.FC = () => {
               {images.map((url, index) => (
                 <SwiperSlide key={index}>
                   <img
-                    {...responsiveImage(url, [640, 960, 1280], '(min-width: 1024px) 60vw, calc(100vw - 4rem)', 960)}
+                    src={url}
                     alt={`${t('dua.imageAlt')} ${index + 1}`}
                     /* Usamos w-full y h-auto para que la imagen mantenga su proporción original */
                     width={2560}

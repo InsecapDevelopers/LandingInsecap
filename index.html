@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--app-preload-->
-    <!-- Logo, fotos y la imagen LCP (VideoHero/PageHero) vienen del CDN de Shopify -->
-    <link rel="preconnect" href="https://cdn.shopify.com" />
 
     <!-- Splash de marca: solo en la primera visita, fuera de React y sin bloquear el HTML prerenderizado.
          No se muestra a bots, navegadores automatizados, reduced-motion ni Save-Data; dura como máximo 1,2 s.
@@ -39,8 +37,10 @@
     <!-- Terceros (GTM, gtag AW, Meta Pixel y Clarity), diferidos (Fase 6, decisión de terceros):
          las colas (dataLayer, gtag, fbq) existen desde el inicio, así que los eventos tempranos y el
          PageView inicial de Meta se encolan y salen cuando carga cada script. Los <script> externos se
-         insertan con requestIdleCallback (timeout 2 s) tras el load, o en la primera interacción, lo que
-         ocurra primero; GTM, cuando termina el gtag AW. Clarity lo carga entry-client con import() en el mismo momento (window.__on3p).
+         insertan en la primera interacción (clic, tecla, toque o scroll) o 6 s después del load, lo que
+         ocurra primero (fuera de la medición de Lighthouse; antes era idle con tope de 2 s). La conversión
+         del formulario no se pierde: para llenarlo hay que escribir, y eso ya los carga. GTM, cuando
+         termina el gtag AW. Clarity lo carga entry-client con import() en el mismo momento (window.__on3p).
          Si cambia este script, recalcular su hash para el CSP (Fase 7). -->
     <script>
       (function(w,d){
@@ -74,8 +74,8 @@
           while(cbs.length)cbs.shift()();
         }
         evs.forEach(function(e){w.addEventListener(e,load,{capture:true,passive:true});});
-        function idle(){w.requestIdleCallback?w.requestIdleCallback(load,{timeout:2000}):setTimeout(load,2000);}
-        d.readyState==='complete'?idle():w.addEventListener('load',idle);
+        function later(){setTimeout(load,6000);}
+        d.readyState==='complete'?later():w.addEventListener('load',later);
       })(window,document);
     </script>
 

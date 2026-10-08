@@ -280,6 +280,9 @@ const Hero = () => {
             {/* Capín asomado */}
             <img
               src={CAPIN_IMG}
+              // Se ve a 128/160 px: 160w en pantallas 1x y 320w en las 2x.
+              srcSet="/images/capin/capin-saludo-160.webp 160w, /images/capin/capin-saludo-320.webp 320w"
+              sizes="(min-width: 640px) 160px, 128px"
               alt=""
               aria-hidden="true"
               width={320}

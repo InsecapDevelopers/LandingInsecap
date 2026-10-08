@@ -10,16 +10,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { SIMULATORS, SIMULATOR_CATEGORIES, type Simulator } from '@/lib/simulatorData';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { responsiveImage, shopifyImage } from '@/lib/images';
 
-const CAEX_BANNER = 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/banner_caex.png?v=1776263507';
+const CAEX_BANNER = 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/banner-caex-2c7b776e.webp';
 const STORE_GALLERY_IMAGES = [
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_5512.jpg?v=1776281178',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_5499.jpg?v=1776281178',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_5495.jpg?v=1776281180',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_5604.jpg?v=1776281181',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_5506.jpg?v=1776281182',
-  'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/IMG_5509.jpg?v=1776281183',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/img-5512-c27b2330.webp',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/img-5499-67644506.webp',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/img-5495-e1aedc93.webp',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/img-5604-d9934f95.webp',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/img-5506-30a2025c.webp',
+  'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/img-5509-613b12df.webp',
 ];
 
 type SimulatorModelsContent = {
@@ -96,7 +95,7 @@ const GalleryPanel = memo(({ content, localizedPath }: GalleryPanelProps) => {
       <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 md:p-6">
         <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white">
           <img
-            {...responsiveImage(STORE_GALLERY_IMAGES[activeImageIndex], [640, 960, 1280], '(min-width: 1024px) 50vw, 100vw', 960)}
+            src={STORE_GALLERY_IMAGES[activeImageIndex]}
             alt={t('gallery.photo', { name: content.productName, n: activeImageIndex + 1 })}
             className="h-[320px] w-full object-cover md:h-[480px]"
             decoding="async"
@@ -133,7 +132,7 @@ const GalleryPanel = memo(({ content, localizedPath }: GalleryPanelProps) => {
               aria-label={t('gallery.view', { n: index + 1 })}
             >
               <img
-                src={shopifyImage(imageUrl, 160)}
+                src={imageUrl}
                 alt=""
                 className="h-16 w-16 object-cover md:h-20 md:w-20"
                 loading="lazy"
@@ -194,7 +193,7 @@ const SimulatorCard = memo(({ simulator }: SimulatorCardProps) => (
     <div className="relative h-48 bg-gradient-to-br from-slate-800 to-slate-900 overflow-hidden">
       {simulator.image ? (
         <img
-          src={shopifyImage(simulator.image, 640)}
+          src={simulator.image}
           alt={simulator.name}
           className="w-full h-full object-cover"
           loading="lazy"

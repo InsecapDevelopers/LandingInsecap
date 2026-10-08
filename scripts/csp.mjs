@@ -9,7 +9,7 @@
  *
  * Orígenes: los que el sitio pide de verdad, medidos con Chrome headless en /es, /en, /pt y
  * contacto (scripts/check-hydration.mjs con CSP=1), más los de código que no corre en esas páginas
- * (Shopify Storefront del carrito y del popup, iframes de mapas y del muro de la fama, Capin).
+ * (iframes de mapas y del muro de la fama, Capin). Fotos del sitio: Spaces (repositorio del TMS).
  * Si GTM-MPJBBMF agrega una etiqueta nueva (HTML personalizado o un píxel), aparece en los reportes
  * de /csp-report y hay que sumarla aquí (sección 4, punto 12 del registro de decisiones).
  */
@@ -53,7 +53,6 @@ const GOOGLE = [
 ];
 const META = ['https://connect.facebook.net', 'https://www.facebook.com'];
 const CLARITY = ['https://*.clarity.ms', 'https://c.bing.com'];
-const SHOPIFY = ['https://cdn.shopify.com', 'https://*.myshopify.com'];
 const STORAGE = ['https://storageisecap.sfo2.digitaloceanspaces.com'];
 
 /**
@@ -66,7 +65,7 @@ export const buildCsp = (hashes, env = {}) => {
     'https://api-plus.insecap.cl',
     'https://tms.insecap.cl',
     origin(env.VITE_TMS_PLUS_API_URL),
-    // TODO: Capin (VITE_CAPIN_API_URL) no está definido en CI; su origen entra solo cuando se defina.
+    // Capin (VITE_CAPIN_API_URL, p. ej. https://rag.insecap.cl): entra cuando la variable está definida en CI.
     origin(env.VITE_CAPIN_API_URL),
   ];
   const list = (...items) => [...new Set(items.flat().filter(Boolean))].join(' ');
@@ -77,10 +76,10 @@ export const buildCsp = (hashes, env = {}) => {
     `script-src ${list("'self'", "'report-sample'", [...hashes].sort(), GOOGLE, META, CLARITY)}`,
     // React y framer-motion escriben style="…" en línea; los hashes no cubren atributos.
     `style-src 'self' 'unsafe-inline'`,
-    `img-src ${list("'self'", 'data:', 'blob:', SHOPIFY, STORAGE, GOOGLE, META, CLARITY)}`,
+    `img-src ${list("'self'", 'data:', 'blob:', STORAGE, GOOGLE, META, CLARITY)}`,
     `font-src 'self' data:`,
-    `media-src ${list("'self'", SHOPIFY, STORAGE)}`,
-    `connect-src ${list("'self'", apis, SHOPIFY, GOOGLE, META, CLARITY)}`,
+    `media-src ${list("'self'", STORAGE)}`,
+    `connect-src ${list("'self'", apis, GOOGLE, META, CLARITY)}`,
     // Mapas de AboutUs, muro de la fama del TMS (HonorTeam) y los iframes de conversión de Google/Meta.
     `frame-src ${list("'self'", 'https://maps.google.com', GOOGLE, META, apis)}`,
     `worker-src 'self' blob:`,

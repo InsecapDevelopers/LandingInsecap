@@ -1,19 +1,18 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { shopifyImage } from '@/lib/images';
 
-// width/height intrínsecos (reservan la proporción). El ISO de Shopify (963 px) se pide a 240 px, ~2x de su render.
+// width/height intrínsecos (reservan la proporción). Los logos están en Spaces en WebP a ~2x de su render.
 const topLogos = [
-  { src: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/logosence_png.png?v=1772478498', alt: 'SENCE', width: 308, height: 132 },
+  { src: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/logosence-png-0bbdd899.webp', alt: 'SENCE', width: 308, height: 132 },
   { src: '/logos/SELLO_2728.svg', alt: 'NCh2728', width: 261, height: 235 },
   { src: '/logos/CCS.png', alt: 'Cámara de Comercio de Santiago', width: 438, height: 124 },
-  { src: '/logos/SICEP.png', alt: 'SICEP', width: 416, height: 179 },
+  { src: '/images/logos/sicep.webp', alt: 'SICEP', width: 298, height: 128 },
 ];
 
 const bottomLogos = [
-  { src: shopifyImage('https://cdn.shopify.com/s/files/1/0711/9827/7676/files/imagen_2026-02-27_085941459.png?v=1772193585', 240), alt: 'ISO 9001', width: 963, height: 865 },
-  { src: '/logos/Sello Acreditado Codelco Color.png', alt: 'OTEC Acreditada por Codelco', width: 290, height: 300 },
-  { src: '/logos/Sello CCM Color.png', alt: 'Consejo de Competencias Mineras', width: 313, height: 167 },
+  { src: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/imagen-2026-02-27-085941459-0929b47e.webp', alt: 'ISO 9001', width: 963, height: 865 },
+  { src: '/images/logos/sello-codelco.webp', alt: 'OTEC Acreditada por Codelco', width: 217, height: 224 },
+  { src: '/images/logos/sello-ccm.webp', alt: 'Consejo de Competencias Mineras', width: 300, height: 160 },
 ];
 
 const AccreditationsStrip = () => {

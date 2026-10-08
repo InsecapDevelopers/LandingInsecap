@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { responsiveImage } from '@/lib/images';
 
 const MeetUs: React.FC = () => {
   const { t } = useTranslation();
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const imageSrc = "https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Quienes-Somos-Collage-01-2400x1356.jpg?v=1776094555";
+  const imageSrc = "https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/quienes-somos-collage-01-2400x1356-eb0f7e5d.webp";
 
   return (
     <section className="py-16 lg:py-24">
@@ -35,7 +34,7 @@ const MeetUs: React.FC = () => {
               onClick={() => setLightboxOpen(true)}
             >
               <img
-                {...responsiveImage(imageSrc, [640, 960, 1280], '(min-width: 1024px) 50vw, calc(100vw - 4rem)', 960)}
+                src={imageSrc}
                 alt={t('meetUs.imageAlt')}
                 width={1919}
                 height={1565}

@@ -8,7 +8,6 @@ import PageHero from '@/components/PageHero';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
 import { Meteors } from '@/components/ui/meteors';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { shopifyImage } from '@/lib/images';
 
 // Tipos
 interface TeamMember {
@@ -33,14 +32,14 @@ const teamByArea: TeamArea[] = [
         name: 'Marcela Riquelme Robles',
         role: 'GERENTE DE OPERACIONES',
         email: 'mriquelme@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Marcela_Riquelme.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/marcela-riquelme-0af56736.webp',
         location: 'Transversal'
       },
       {
         name: 'Santiago Henriquez Romero',
         role: 'GERENTE GENERAL',
         email: 'shenriquez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Santiago_Henriquez.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/santiago-henriquez-cb4b43a2.webp',
         location: 'Transversal'
       },
     ]
@@ -52,28 +51,28 @@ const teamByArea: TeamArea[] = [
         name: 'Karen Riquelme Robles',
         role: 'ASESOR COMERCIAL',
         email: 'Kriquelme@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karen_Riquelme.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/karen-riquelme-500ff1cb.webp',
         location: 'Calama'
       },
       {
         name: 'Claudio Hervera Rojas',
         role: 'ASESOR COMERCIAL',
         email: 'chervera@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Claudio_Hervera_Rojas.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/claudio-hervera-rojas-e7869c81.webp',
         location: 'Talca'
       },
       {
         name: 'Michel Carvajal Carvacho',
         role: 'ASESOR COMERCIAL',
         email: 'mcarvajal@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Michel_Carvajal_COMP.webp?v=1769089936',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/michel-carvajal-comp-ff0a9872.webp',
         location: 'Calama'
       },
       {
         name: 'Natalie Galván Sierra',
         role: 'ASESOR COMERCIAL',
         email: 'ngalvan@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NatalieGalvanv2-ezgif.com-video-to-webp-converter.webp?v=1773344345',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/nataliegalvanv2-ezgif-com-video-to-webp-converter-aedc1a1c.webp',
         location: 'Antofagasta'
       },
       {
@@ -92,27 +91,26 @@ const teamByArea: TeamArea[] = [
         name: 'Javiera Montiel Riquelme',
         role: 'CONTROL DE CALIDAD Y FINANZAS',
         email: 'jmontiel@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Javiera_Montiel.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/javiera-montiel-c1fa14a1.webp',
         location: 'Santiago'
       },
       {
         name: 'Karla Rojas Palomino',
         role: 'FACTURACIÓN',
         email: 'krojas@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karla.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/karla-f2578d5a.webp',
         location: 'Calama'
       },
       // {
       //   name: 'Alexis Rodríguez Lobos',
       //   role: 'RECURSOS HUMANOS',
       //   email: 'arodriguez@insecap.cl',
-      //   photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/AlexisWEBP.webp?v=1781196862'
       // },
       {
         name: 'Gabriela Hormazabal Cerda',
         role: 'COBRANZAS',
         email: 'ghormazabal@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/GabrielaWEBP.webp?v=1781196357',
+        // TODO: foto pendiente (la de Shopify ya no existía; se muestran las iniciales).
         location: 'Santiago'
       },
     ]
@@ -124,21 +122,21 @@ const teamByArea: TeamArea[] = [
         name: 'Liliana Herrera Altamirano',
         role: 'LÍDER DE DESARROLLO',
         email: 'lherrera@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lili.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/lili-170b846f.webp',
         location: 'Antofagasta'
       },
       {
         name: 'Jorge Muñoz',
         role: 'TUTOR DE DESARROLLO DE FACILITADORES',
         email: 'jmunoz@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Jorge.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/jorge-b20417d3.webp',
         location: 'Temuco'
       },
       {
         name: 'Johnson Valencia Rivera',
         role: 'ANALISTA SELECCIÓN Y DESARROLLO DE FACILITADORES',
         email: 'jvalencia@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/JohnsonWEBP.webp?v=1781196190',
+        // TODO: foto pendiente (la de Shopify ya no existía; se muestran las iniciales).
         location: 'Antofagasta'
       },
     ]
@@ -150,14 +148,14 @@ const teamByArea: TeamArea[] = [
         name: 'Franco Picón Viza',
         role: 'DISEÑADOR CURRICULAR',
         email: 'fpicon@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Franco.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/franco-ce011ad2.webp',
         location: 'Antofagasta'
       },
       {
         name: 'Marian Brito Mata',
         role: 'DISEÑADORA EDITORIAL',
         email: 'mbrito@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Marian_COMP.webp?v=1769089936',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/marian-comp-441addda.webp',
         location: 'Antofagasta'
       },
       {
@@ -171,7 +169,7 @@ const teamByArea: TeamArea[] = [
       //   name: 'Cecilia Panozo Díaz',
       //   role: 'DISEÑADORA INSTRUCCIONAL',
       //   email: 'cpanozo@insecap.cl',
-      //   photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/CeciliaWEBP.webp?v=1781196023'
+      //   photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/ceciliawebp-201bc74b.webp'
       // },
     ]
   },
@@ -182,49 +180,49 @@ const teamByArea: TeamArea[] = [
         name: 'César Velásquez Mata',
         role: 'JEFE DE CALIDAD Y SERVICIOS',
         email: 'cvelasquez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Cesar_COMP.webp?v=1769089936',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/cesar-comp-e62f2138.webp',
         location: 'Antofagasta - Santiago'
       },
       {
         name: 'Francisco José Arguinzones Carvajal',
         role: 'SUPERVISOR DE SERVICIO PRESENCIAL',
         email: 'farguinzones@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Francisco.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/francisco-da11bb5a.webp',
         location: 'Calama'
       },
       {
         name: 'Paola Delgado García',
         role: 'GESTIÓN POST CURSO',
         email: 'pdelgado@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/paola_delgado.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/paola-delgado-cf3ba4cd.webp',
         location: 'Antofagasta - Santiago'
       },
       {
         name: 'Andrea Araneda Arevena',
         role: 'COORDINACIÓN LOGÍSTICA',
         email: 'aaraneda@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/AndreaAranedaAravena.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/andreaaranedaaravena-1c25cd25.webp',
         location: 'Santiago'
       },
       {
         name: 'Yilia Molina Rivera',
         role: 'GESTIÓN POST CURSO',
         email: 'ymolina@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Yilia_ORIGINAL.webp?v=1769089937',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/yilia-original-f76fd41e.webp',
         location: 'Calama'
       },
       {
         name: 'Nicolás Aguilar Monardes',
         role: 'COORDINACIÓN LOGÍSTICA',
         email: 'naguilar@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/NicoA_543c82f6-186b-4bbb-90bf-acc011a13e5b.webp?v=1773348098',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/nicoa-543c82f6-186b-4bbb-90bf-acc011a13e5b-460bc018.webp',
         location: 'Antofagasta'
       },
       {
         name: 'Jeinmy Carvajal Diaz',
         role: 'COORDINACIÓN LOGÍSTICA',
         email: 'jcarvajal@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/JeinmyWEBP.webp?v=1781197273',
+        // TODO: foto pendiente (la de Shopify ya no existía; se muestran las iniciales).
         location: 'Calama'
       },
     ]
@@ -235,25 +233,25 @@ const teamByArea: TeamArea[] = [
       {
         name: 'Lucy Condorcett Anza',
         role: 'RECEPCIÓN',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Lucy_Condorcet._con_Fondomp4.webp?v=1769090189',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/lucy-condorcet-con-fondomp4-a0d1b0fb.webp',
         location: 'Calama'
       },
       {
         name: 'Ana Rojas Chung',
         role: 'MANTENCIÓN',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ana_Rojas.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/ana-rojas-fda1ae30.webp',
         location: 'Antofagasta'
       },
       {
         name: 'Ana Avalos Paz',
         role: 'MANTENCIÓN',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ana_Avalos_v2_ultraliviano.webp?v=1770235241',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/ana-avalos-v2-ultraliviano-779cde9d.webp',
         location: 'Calama'
       },
       {
         name: 'Karen Viatela Montoya',
         role: 'MANTENCIÓN',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Karen_Viatela_4c04986b-8cdf-4129-8c28-d9eb07f437aa.webp?v=1773343569',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/karen-viatela-4c04986b-8cdf-4129-8c28-d9eb07f437aa-1e9b7e20.webp',
         location: 'Calama'
       },
     ]
@@ -265,7 +263,7 @@ const teamByArea: TeamArea[] = [
         name: 'Mauricio Barrera Bravo',
         role: 'DISEÑADOR GRÁFICO',
         email: 'mbarrera@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Mau.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/mau-59147168.webp',
         location: 'Antofagasta'
       },
     ]
@@ -277,7 +275,7 @@ const teamByArea: TeamArea[] = [
         name: 'Vanessa Castillo Suárez',
         role: 'SUPERVISORA DE CONEXIONES ONLINE',
         email: 'vcastillo@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Vanessa_Castillo_504ef7de-a946-4084-bb93-59209111834d.webp?v=1769089936',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/vanessa-castillo-504ef7de-a946-4084-bb93-59209111834d-3c84ca88.webp',
         location: 'Talca'
       },
     ]
@@ -289,21 +287,21 @@ const teamByArea: TeamArea[] = [
         name: 'Wilson Carvajal Rozas',
         role: 'JEFE TICA',
         email: 'wcarvajal@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Wilson_Carvajal_v2.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/wilson-carvajal-v2-d67a9031.webp',
         location: 'Antofagasta'
       },
       {
         name: 'Ernes Fuenzalida Tello',
         role: 'DESARROLLADOR DE SOFTWARE',
         email: 'efuenzalida@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Ernes_Fuenzalida.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/ernes-fuenzalida-36ccf2e9.webp',
         location: 'Antofagasta'
       },
       {
         name: 'Luis Fernández Veroiza',
         role: 'ANALISTA PROGRAMADOR',
         email: 'lfernandez@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Luis.webp?v=1769089386',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/luis-e91b2cfa.webp',
         location: 'Santiago'
       },
 
@@ -311,7 +309,7 @@ const teamByArea: TeamArea[] = [
         name: 'Renato Morales Constancio',
         role: 'INFRAESTRUCTURA TI',
         email: 'rmorales@insecap.cl',
-        photo: 'https://cdn.shopify.com/s/files/1/0711/9827/7676/files/Renato_-_copia.webp?v=1776264169',
+        photo: 'https://storageisecap.sfo2.digitaloceanspaces.com/repositorio/catalogo-web/renato-copia-af9d2495.webp',
         location: 'Antofagasta'
       }
     ]
@@ -354,7 +352,7 @@ const MemberCard = ({ member, delay = 0, contactLabel }: { member: TeamMember; d
       <div className="relative w-full aspect-[3/3.4] overflow-hidden bg-gradient-to-br from-slate-100 to-blue-50">
         <Avatar className="w-full h-full rounded-none">
           <AvatarImage
-            src={member.photo && shopifyImage(member.photo, 480)}
+            src={member.photo}
             alt={member.name}
             className="object-cover object-top w-full h-full transition-transform duration-500 group-hover:scale-110"
           />

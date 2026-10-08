@@ -12,7 +12,7 @@
  */
 import { matchPath } from 'react-router-dom';
 
-import { isCursoSeoIndexable } from '../data/cursos-seo';
+import { isCursoSeoIndexable } from '../data/cursos-base';
 import { isSimulatorsEnabled } from './featureFlags';
 import { getLocaleFromPath, stripLocaleFromPath } from './locale-routing';
 import { supportedLanguages, type AppLanguage } from './translations';

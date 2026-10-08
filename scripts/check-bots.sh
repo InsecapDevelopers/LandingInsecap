@@ -152,8 +152,8 @@ for l in en pt; do
 done
 robots=$(curl -s "$B/es/cursos/trabajo-en-altura" | grep -o 'name="robots" content="[^"]*"' | head -1)
 check "/es/cursos/trabajo-en-altura indexable ($robots)" test -n "$robots" -a -z "$(grep -i 'noindex' <<<"$robots")"
-n=$(curl -s "$B/es/cursos/trabajo-en-altura" | count 'Última actualización')
-check "/es/cursos/trabajo-en-altura 'Última actualización'=$n" test "$n" -eq 1
+n=$(curl -s "$B/es/cursos/trabajo-en-altura" | count 'Puede ejecutarse con SENCE')
+check "/es/cursos/trabajo-en-altura 'Puede ejecutarse con SENCE'=$n" test "$n" -eq 1
 c=$(status "$B/es/cursos/no-existe"); check "/es/cursos/no-existe → 404 ($c)" test "$c" = 404
 
 # 10. 301 de las URLs antiguas: un solo salto (el destino responde 200), con prefijo y conservando la query.
@@ -170,7 +170,7 @@ redirect_ok /en/experiencia-y-respaldo /en/acreditaciones
 redirect_ok "/es/cursos-empresas?gclid=T" "/es/cursos?gclid=T"
 redirect_ok /pt/cursos-empresas/ /pt/cursos
 redirect_ok /es/especialidades/sap-pm /es/sap-pm
-redirect_ok /es/curso/ea-no-existe-en-shopify /es/cursos
+redirect_ok /es/curso/ea-handle-desconocido /es/cursos
 redirect_ok /es/curso-empresa/curso-no-existe /es/cursos
 # Sin prefijo de idioma: al destino final en un salto (no /es/cursos-empresas → /es/cursos).
 redirect_ok /cursos-empresas /es/cursos

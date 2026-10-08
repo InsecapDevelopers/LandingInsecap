@@ -1,133 +1,46 @@
-import React from 'react';
+import { lazy, Suspense } from 'react';
 import Header from '@/components/Header';
 import SEO from '@/components/SEO';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/PageHero';
-import { Mail, Phone, MapPin } from 'lucide-react';
-import { toast } from 'sonner';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
-import { CONTACT_EMAIL, sedes } from '@/data/sedes';
 
+// Mismo chunk que el formulario del pie (ContactCTA). El prerender espera onAllReady, así que sale en el HTML.
+const OpenCourseRequestForm = lazy(() => import('@/components/OpenCourseRequestForm'));
+
+/**
+ * /contacto: solo el formulario. Sedes, teléfonos y correo (NAP de src/data/sedes.ts) van en el
+ * footer de esta misma página y en /sedes/:sede.
+ */
 const Contact = () => {
-  const { locale, localizedPath } = useLocalizedPath();
-  const { t } = useTranslation();
+  const { locale } = useLocalizedPath();
 
   const content = {
-    es: {
-      title: 'Contáctanos',
-      subtitle: 'Estamos a tu servicio',
-      breadcrumb: 'Contacto',
-      toastTitle: 'Mensaje enviado',
-      toastDescription: 'Nos pondremos en contacto contigo a la brevedad.',
-      locationsTag: 'Nuestras Sedes',
-      locationsTitle: 'Nos encontramos en las siguientes regiones',
-      writeUs: 'Escríbenos',
-      writeUsText: 'Si tienes alguna consulta no dudes en escribirnos:',
-      mapAlt: 'Mapa de sedes Insecap',
-    },
-    en: {
-      title: 'Contact Us',
-      subtitle: 'We are here to help',
-      breadcrumb: 'Contact',
-      toastTitle: 'Message sent',
-      toastDescription: 'We will contact you shortly.',
-      locationsTag: 'Our Locations',
-      locationsTitle: 'We are present in the following regions',
-      writeUs: 'Write to us',
-      writeUsText: 'If you have any questions, feel free to contact us:',
-      mapAlt: 'Insecap locations map',
-    },
-    pt: {
-      title: 'Fale Conosco',
-      subtitle: 'Estamos ao seu dispor',
-      breadcrumb: 'Contato',
-      toastTitle: 'Mensagem enviada',
-      toastDescription: 'Entraremos em contato com você em breve.',
-      locationsTag: 'Nossas Filiais',
-      locationsTitle: 'Estamos presentes nas seguintes regiões',
-      writeUs: 'Escreva para nós',
-      writeUsText: 'Se tiver alguma dúvida, não hesite em nos escrever:',
-      mapAlt: 'Mapa das unidades Insecap',
-    },
+    es: { title: 'Contacto', subtitle: 'Estamos a tu servicio', breadcrumb: 'Contacto' },
+    en: { title: 'Contact', subtitle: 'We are here to help', breadcrumb: 'Contact' },
+    pt: { title: 'Contato', subtitle: 'Estamos ao seu dispor', breadcrumb: 'Contato' },
   }[locale];
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    toast.success(content.toastTitle, { description: content.toastDescription });
-  };
-
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <Header />
-      
+
       <SEO url="/contacto" />
 
-      <main>
-        <PageHero 
-          title={content.title}
-          subtitle={content.subtitle}
-          breadcrumbs={[{ label: content.breadcrumb }]}
-        />
+      <main className="pb-20">
+        <PageHero title={content.title} subtitle={content.subtitle} breadcrumbs={[{ label: content.breadcrumb }]} />
 
-        {/* Sedes Section */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-8 md:px-14 lg:px-16">
-            <div className="text-center mb-16">
-              <span className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-2 block">{content.locationsTag}</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-blue-950">{content.locationsTitle}</h2>
-            </div>
-
-            <div className="max-w-6xl mx-auto mb-20">
-              <img 
-                src="https://cdn.shopify.com/s/files/1/0711/9827/7676/files/nosotros_cedes.svg?v=1769433643" 
-                alt={content.mapAlt} 
-                loading="lazy"
-                decoding="async"
-                className="w-full h-auto"
-              />
-            </div>
-
-            {/* NAP único desde src/data/sedes.ts */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {sedes.map((sede) => (
-                <address key={sede.slug} className="not-italic flex flex-col items-center text-center p-8 rounded-2xl bg-slate-50 border border-slate-100 transition-all hover:shadow-lg">
-                  <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
-                    <MapPin className="w-8 h-8 text-white -rotate-3" aria-hidden="true" />
-                  </div>
-                  <h3 className="text-xl font-bold text-blue-950 mb-4">
-                    <Link to={localizedPath(`/sedes/${sede.slug}`)} className="hover:underline">
-                      {t(`contactCTA.branches.${sede.slug}`)}
-                    </Link>
-                  </h3>
-                  <div className="space-y-2 text-gray-600">
-                    <p>{sede.direccion}, {sede.ciudad}</p>
-                    <p className="flex items-center justify-center gap-2">
-                      <Phone className="w-4 h-4 text-blue-600" aria-hidden="true" />
-                      <a href={`tel:${sede.telefonoE164}`} className="hover:underline">{sede.telefono}</a>
-                    </p>
-                  </div>
-                </address>
-              ))}
-
-              {/* Escríbenos */}
-              <address className="not-italic flex flex-col items-center text-center p-8 rounded-2xl bg-slate-50 border border-slate-100 transition-all hover:shadow-lg">
-                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 rotate-3">
-                  <Mail className="w-8 h-8 text-white -rotate-3" aria-hidden="true" />
-                </div>
-                <h3 className="text-xl font-bold text-blue-950 mb-4">{content.writeUs}</h3>
-                <p className="text-gray-600 mb-2">{content.writeUsText}</p>
-                <a href={`mailto:${CONTACT_EMAIL}`} className="text-blue-600 font-semibold hover:underline">
-                  {CONTACT_EMAIL}
-                </a>
-              </address>
-            </div>
+        <div className="container mx-auto -mt-8 px-8 md:px-14 lg:px-16 relative z-10">
+          <div className="mx-auto max-w-2xl rounded-2xl bg-card p-6 shadow-xl md:p-10">
+            <Suspense fallback={null}>
+              <OpenCourseRequestForm />
+            </Suspense>
           </div>
-        </section>
+        </div>
       </main>
 
-      <Footer />
+      {/* El formulario ya está arriba: el pie no lo repite. */}
+      <Footer showContact={false} />
     </div>
   );
 };

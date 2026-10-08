@@ -10,7 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, ArrowRight, Newspaper, ChevronLeft, ChevronRight } from 'lucide-react';
-import { formatArticleDate, ShopifyArticle } from '@/lib/shopify';
+import { formatArticleDate, type NewsArticle } from '@/lib/newsData';
 import { NEWS_PER_PAGE, newsListQuery } from '@/lib/queries';
 import { SITE_URL } from '@/lib/locale-routing';
 import PageHero from '@/components/PageHero';
@@ -18,7 +18,7 @@ import { useLocalizedPath } from '@/hooks/use-localized-path';
 
 const ARTICLES_PER_PAGE = NEWS_PER_PAGE;
 
-const ArticleCard = ({ article }: { article: ShopifyArticle }) => {
+const ArticleCard = ({ article }: { article: NewsArticle }) => {
   const { localizedPath } = useLocalizedPath();
   const { t } = useTranslation();
 
