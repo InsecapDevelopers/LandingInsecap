@@ -78,7 +78,8 @@ export const buildCsp = (hashes, env = {}) => {
     `style-src 'self' 'unsafe-inline'`,
     `img-src ${list("'self'", 'data:', 'blob:', STORAGE, GOOGLE, META, CLARITY)}`,
     `font-src 'self' data:`,
-    `media-src ${list("'self'", STORAGE)}`,
+    // blob:: la voz de Capin en /forede llega como audio de /tts y se reproduce desde un blob.
+    `media-src ${list("'self'", 'blob:', STORAGE)}`,
     `connect-src ${list("'self'", apis, GOOGLE, META, CLARITY)}`,
     // Mapas de AboutUs, muro de la fama del TMS (HonorTeam) y los iframes de conversión de Google/Meta.
     `frame-src ${list("'self'", 'https://maps.google.com', GOOGLE, META, apis)}`,

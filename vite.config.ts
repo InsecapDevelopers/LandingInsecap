@@ -8,6 +8,10 @@ export default defineConfig(({ command, mode }) => {
   const tmsPlusTarget = env.TMS_PLUS_PROXY_TARGET || 'https://api-plus.insecap.cl';
   // Capin (RAG-service) local: la burbuja llama a /capin/chat y el proxy evita CORS en dev.
   const capinTarget = env.CAPIN_PROXY_TARGET || 'http://localhost:8000';
+  // Voz de /forede en dev: /tts va a ElevenLabs con la clave de .env o de la terminal (sin VITE_:
+  // no entra al bundle), igual que nginx en producción (nginx-templates/nginx-voz/).
+  const vozClave = env.ELEVENLABS_API_KEY || '';
+  const vozId = env.ELEVENLABS_VOICE_ID || 'NDcVpQJv7Naa7ZKrqtEk';
   // Fecha del build en hora de Chile (AAAA-MM-DD). Fija el "hoy" de los filtros por fecha
   // (openCourses.ts) para que el HTML prerenderizado y la hidratación coincidan; el cron diario
   // del deploy la renueva. BUILD_DATE permite fijarla a mano. En dev no se define: usa new Date().
@@ -23,6 +27,12 @@ export default defineConfig(({ command, mode }) => {
         ignored: ['**/.env', '**/.env.local', '**/.env.*'],
       },
       proxy: {
+        '/tts': {
+          target: 'https://api.elevenlabs.io',
+          changeOrigin: true,
+          rewrite: () => `/v1/text-to-speech/${vozId}/stream?output_format=mp3_44100_64`,
+          headers: { 'xi-api-key': vozClave, Accept: 'audio/mpeg' },
+        },
         '/capin': {
           target: capinTarget,
           changeOrigin: true,

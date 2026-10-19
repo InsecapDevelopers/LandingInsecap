@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import {
-  ErrorCapin, MAX_PREGUNTA, preguntar, type ComercialTurno, type EventoChat, type MensajeChat, type PasoCapin,
+  ErrorCapin, MAX_PREGUNTA, preguntar, whatsappUrl, type ComercialTurno, type EventoChat, type MensajeChat, type PasoCapin,
 } from './api';
 import './capin.css';
 
@@ -482,14 +482,6 @@ function ChatCapin({ t, onCerrar }: { t: Textos; onCerrar: () => void }) {
     </section>
   );
 }
-
-/** wa.me del teléfono si es un celular chileno (WhatsApp necesita uno): 569XXXXXXXX, +56 9… o 9 XXXX XXXX.
- *  Misma regla que `whatsapp()` de RAG-service (capin/domain/chat_publico.py). */
-const whatsappUrl = (telefono: string): string | null => {
-  let digitos = telefono.replace(/\D/g, '');
-  if (digitos.length === 9 && digitos.startsWith('9')) digitos = `56${digitos}`;
-  return digitos.length === 11 && digitos.startsWith('569') ? `https://wa.me/${digitos}` : null;
-};
 
 /** Contacto del comercial de turno: correo y teléfono, que abre WhatsApp si es celular. */
 function TarjetaComercial({ c, etiqueta, escribirWa }: { c: ComercialTurno; etiqueta: string; escribirWa: string }) {

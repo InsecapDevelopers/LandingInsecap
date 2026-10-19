@@ -203,6 +203,10 @@ export const resources = {
             title: 'Inscripción a cursos abiertos',
             description: 'Formulario de inscripción a los cursos abiertos de INSECAP: elige el curso y la fecha, completa tus datos y envía tu solicitud para reservar tu cupo.',
           },
+          forede: {
+            title: 'Capín, asistente de cursos por voz',
+            description: 'Conversa con Capín, el asistente de INSECAP: pregúntale por voz o por escrito qué cursos de capacitación hay y cuánto dura cada uno, y te responde.',
+          },
           cursos: {
             title: 'Cursos de capacitación para empresas en Chile',
             description: 'Catálogo de {{cursos}} cursos de capacitación para empresas en Chile, en {{areas}} áreas: seguridad, operación de equipos, electricidad y más. INSECAP, OTEC SENCE.',
@@ -623,6 +627,10 @@ export const resources = {
             title: 'Open course registration',
             description: 'Registration form for INSECAP open courses: choose the course and date, fill in your details and send your request to book a seat with our team in Chile.',
           },
+          forede: {
+            title: 'Capín, voice course assistant',
+            description: 'Talk to Capín, the INSECAP course assistant: ask by voice or in writing which training courses we offer and how long each one lasts, and hear the answer.',
+          },
           cursos: {
             title: 'Corporate training courses in Chile',
             description: 'Catalog of {{cursos}} corporate training courses in Chile across {{areas}} areas: safety, equipment operation, electricity and more. INSECAP, SENCE-accredited OTEC.',
@@ -1042,6 +1050,10 @@ export const resources = {
           'formulario/cursos-abiertos': {
             title: 'Inscrição em cursos abertos',
             description: 'Formulário de inscrição nos cursos abertos da INSECAP: escolha o curso e a data, preencha seus dados e envie sua solicitação para reservar uma vaga.',
+          },
+          forede: {
+            title: 'Capín, assistente de cursos por voz',
+            description: 'Converse com o Capín, assistente da INSECAP: pergunte por voz ou por escrito quais cursos de capacitação existem e quanto dura cada um, e ouça a resposta.',
           },
           cursos: {
             title: 'Cursos de capacitação para empresas no Chile',

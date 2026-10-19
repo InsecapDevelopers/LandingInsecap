@@ -108,6 +108,14 @@ export const seoRoutes: SeoRoute[] = [
     indexable: false,
     prerender: true,
   },
+  // Capin a pantalla completa con voz (eventos): oculta, sin enlaces y fuera de sitemap y llms.txt.
+  {
+    path: 'forede',
+    kind: 'utilidad',
+    translated: ALL,
+    indexable: false,
+    prerender: true,
+  },
 ];
 
 export const isDynamicSeoRoute = (route: SeoRoute) => route.path.includes(':');

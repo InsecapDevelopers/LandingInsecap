@@ -395,6 +395,9 @@ v=$(grep -i '^referrer-policy:' <<<"$h" | cut -d' ' -f2-);          check "Refer
 v=$(grep -i '^cross-origin-opener-policy:' <<<"$h" | cut -d' ' -f2-); check "Cross-Origin-Opener-Policy: $v" test "$v" = same-origin
 v=$(grep -i '^permissions-policy:' <<<"$h" | cut -d' ' -f2-)
 check "Permissions-Policy: $v" grep -q 'camera=()' <<<"$v"
+# Voz de /forede: POST /tts existe (503 sin clave, 400/422 de ElevenLabs con este cuerpo vacío).
+n=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' -d '{}' "$B/tts")
+check "POST /tts existe ($n)" test "$n" != 404
 v=$(grep -i '^strict-transport-security:' <<<"$h" | cut -d' ' -f2-)
 n=$(grep -ci '^strict-transport-security:' <<<"$h")
 check "HSTS: $v (una sola cabecera, sin preload ni includeSubDomains)" \
