@@ -1,6 +1,7 @@
 # Voz de la vista /forede: POST /tts reenvía una frase a ElevenLabs con la clave del servidor.
 # Plantilla: la entrada de la imagen de nginx la copia a /tmp/nginx-voz/tts.conf al arrancar,
-# reemplazando ${ELEVENLABS_API_KEY} y ${ELEVENLABS_VOICE_ID} (Dockerfile: NGINX_ENVSUBST_*).
+# reemplazando ${ELEVENLABS_API_KEY}, ${ELEVENLABS_VOICE_ID} y ${NGINX_LOCAL_RESOLVERS}
+# (Dockerfile: NGINX_ENVSUBST_*).
 # El cuerpo es el de ElevenLabs ({"text", "model_id", "language_code"}): lo arma
 # src/components/capin/api.ts.
 location = /tts {
@@ -17,8 +18,10 @@ location = /tts {
     }
 
     # Con variable, el nombre se resuelve en cada pedido: si el DNS falla al arrancar, el sitio
-    # levanta igual (sin ella, nginx no inicia si no resuelve api.elevenlabs.io).
-    resolver 1.1.1.1 8.8.8.8 valid=300s ipv6=off;
+    # levanta igual (sin ella, nginx no inicia si no resuelve api.elevenlabs.io). Los resolvers son
+    # los del propio contenedor (/etc/resolv.conf; en el VPS, el DNS de Docker 127.0.0.11, porque
+    # el servidor no deja salir DNS directo a 1.1.1.1/8.8.8.8): NGINX_ENTRYPOINT_LOCAL_RESOLVERS.
+    resolver ${NGINX_LOCAL_RESOLVERS} valid=300s ipv6=off;
     resolver_timeout 5s;
     set $voz_destino "https://api.elevenlabs.io/v1/text-to-speech/${ELEVENLABS_VOICE_ID}/stream?output_format=mp3_44100_64";
     proxy_pass $voz_destino;
