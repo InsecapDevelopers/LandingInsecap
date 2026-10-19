@@ -47,6 +47,8 @@ const CursoCategoria = lazyPage(() => import("./pages/CursoCategoria"));
 const SedeDetail = lazyPage(() => import("./pages/SedeDetail"));
 const FranquiciaSence = lazyPage(() => import("./pages/FranquiciaSence"));
 const PreguntasFrecuentes = lazyPage(() => import("./pages/PreguntasFrecuentes"));
+// Vista oculta (sin enlaces, noindex): Capin a pantalla completa con voz, para eventos.
+const Forede = lazyPage(() => import("./pages/Forede"));
 
 /** Un QueryClient por render en el servidor y uno por sesión en el cliente.
  *  staleTime alto: los datos llegan prerenderizados en #__RQ__ y no deben volver a pedirse al hidratar. */
@@ -131,6 +133,7 @@ export const routeDefinitions = [
   { path: 'politica-de-privacidad', element: <PrivacyPolicy /> },
   { path: 'contacto', element: <Contact /> },
   { path: 'formulario/cursos-abiertos', element: <OpenCourseForm /> },
+  { path: 'forede', element: <Forede /> },
   { path: 'acreditaciones', element: <ExperienciaYRespaldo /> },
   { path: 'sedes/:sede', element: <SedeDetail /> },
   { path: 'franquicia-sence', element: <FranquiciaSence /> },
@@ -204,6 +207,18 @@ export const AppRoutes = () => (
   </Suspense>
 );
 
+/** Botones flotantes. La vista /forede (Capin a pantalla completa) no los lleva. */
+const Flotantes = () => {
+  const { pathname } = useLocation();
+  if (/^\/[a-z]{2}\/forede\/?$/.test(pathname)) return null;
+  return (
+    <>
+      <BackToTop />
+      {isCapinChatEnabled && <CapinBubble />}
+    </>
+  );
+};
+
 interface AppShellProps {
   queryClient: QueryClient;
   /** Solo en el servidor: react-helmet-async deja aquí los tags del <head>. */
@@ -218,12 +233,11 @@ export const AppShell = ({ queryClient, helmetContext, dehydratedState }: AppShe
     <QueryClientProvider client={queryClient}>
       <HydrationBoundary state={dehydratedState}>
         <Toaster />
-        <BackToTop />
+        <Flotantes />
         <ScrollToTop />
         <MetaPixelPageView />
         <AttributionTracker />
         <RouteMeta />
-        {isCapinChatEnabled && <CapinBubble />}
         <AppRoutes />
       </HydrationBoundary>
     </QueryClientProvider>

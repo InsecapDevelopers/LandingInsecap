@@ -1,0 +1,75 @@
+/* Vista /forede: Capin a pantalla completa con voz. Las animaciones respetan reduced-motion. */
+
+.forede-fondo {
+    background:
+        radial-gradient(60rem 40rem at 15% 20%, hsl(var(--insecap-blue) / 0.45), transparent 60%),
+        radial-gradient(50rem 35rem at 90% 85%, hsl(var(--insecap-cyan-ink) / 0.4), transparent 60%),
+        hsl(228 60% 11%);
+}
+
+/* Capin en reposo flota; al hablar se balancea y el halo crece con el volumen (--nivel, 0 a 1). */
+.forede-capin {
+    --nivel: 0;
+    animation: forede-flota 4.5s ease-in-out infinite;
+}
+
+.forede-capin[data-estado="hablando"] {
+    animation: forede-habla 0.9s ease-in-out infinite;
+}
+
+.forede-halo {
+    transform: scale(calc(0.85 + var(--nivel) * 0.45));
+    opacity: calc(0.35 + var(--nivel) * 0.55);
+    transition: transform 90ms linear, opacity 90ms linear;
+}
+
+.forede-capin[data-estado="escuchando"] .forede-halo {
+    animation: forede-escucha 1.4s ease-out infinite;
+}
+
+@keyframes forede-flota {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+}
+
+@keyframes forede-habla {
+    0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+    50% { transform: translateY(-8px) rotate(1.5deg); }
+}
+
+@keyframes forede-escucha {
+    0% { transform: scale(0.85); opacity: 0.7; }
+    100% { transform: scale(1.35); opacity: 0; }
+}
+
+/* Cada frase entra cuando empieza a sonar. */
+.forede-frase {
+    animation: forede-frase 0.45s ease-out both;
+}
+
+@keyframes forede-frase {
+    from { opacity: 0; transform: translateY(8px); filter: blur(4px); }
+    to { opacity: 1; transform: none; filter: none; }
+}
+
+.forede-mic[data-escuchando="true"]::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 9999px;
+    border: 3px solid hsl(var(--insecap-cyan));
+    animation: forede-escucha 1.2s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .forede-capin,
+    .forede-capin[data-estado="hablando"],
+    .forede-capin[data-estado="escuchando"] .forede-halo,
+    .forede-frase,
+    .forede-mic[data-escuchando="true"]::after {
+        animation: none;
+    }
+    .forede-halo {
+        transition: none;
+    }
+}

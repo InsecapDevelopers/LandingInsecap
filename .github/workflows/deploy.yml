@@ -164,19 +164,28 @@ jobs:
         continue-on-error: true
         run: node scripts/indexnow.mjs snapshot https://insecap.cl indexnow-old
 
+      # La clave de ElevenLabs (voz de /forede) llega al contenedor en tiempo de ejecución: un compose
+      # adicional temporal se la pasa desde el secreto ELEVENLABS_API_KEY, sin tocar el
+      # docker-compose.yml del VPS. Sin el secreto, /tts responde 503 y la vista sigue en texto.
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
+          envs: ELEVENLABS_API_KEY
           script: |
             set -e
             cd ${{ secrets.VPS_APP_DIR }}
             echo "${{ secrets.GHCR_PULL_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            docker compose pull
-            docker compose up -d --remove-orphans
+            voz=$(mktemp --suffix=.yml)
+            trap 'rm -f "$voz"' EXIT
+            printf 'services:\n  web:\n    environment:\n      ELEVENLABS_API_KEY: "${ELEVENLABS_API_KEY}"\n' > "$voz"
+            docker compose -f docker-compose.yml -f "$voz" pull
+            docker compose -f docker-compose.yml -f "$voz" up -d --remove-orphans
             docker image prune -f
 
       # Avisa a IndexNow (Bing, Yandex…) las URLs nuevas, retiradas o con <lastmod> distinto.

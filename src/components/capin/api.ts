@@ -98,3 +98,32 @@ export async function preguntar(
   }
   if (pendiente.trim()) onEvento(JSON.parse(pendiente) as EventoChat);
 }
+
+// Voz de la vista /forede: `POST /tts` del propio sitio reenvía la frase a ElevenLabs y le agrega
+// la clave del lado del servidor (nginx en producción, nginx-templates/nginx-voz/; el proxy de Vite
+// en dev). El navegador nunca ve la clave.
+const MODELO_VOZ = 'eleven_flash_v2_5'; // el de menor latencia; habla español con language_code
+
+/** Audio MP3 de una frase; null si la voz no está disponible (sin clave, límite o error). */
+export async function vozDe(texto: string, signal?: AbortSignal): Promise<Blob | null> {
+  try {
+    const r = await fetch('/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
+      body: JSON.stringify({ text: texto, model_id: MODELO_VOZ, language_code: 'es' }),
+      signal,
+    });
+    return r.ok ? await r.blob() : null;
+  } catch {
+    return null; // sin voz se sigue en texto
+  }
+}
+
+/** wa.me del teléfono si es un celular chileno (WhatsApp necesita uno): 569XXXXXXXX, +56 9… o 9 XXXX XXXX.
+ *  Misma regla que `whatsapp()` de RAG-service (capin/domain/chat_publico.py). */
+export const whatsappUrl = (telefono: string): string | null => {
+  let digitos = telefono.replace(/\D/g, '');
+  if (digitos.length === 9 && digitos.startsWith('9')) digitos = `56${digitos}`;
+  return digitos.length === 11 && digitos.startsWith('569') ? `https://wa.me/${digitos}` : null;
+};

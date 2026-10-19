@@ -5,6 +5,10 @@ services:
     container_name: insecap-landing
     restart: unless-stopped
     pull_policy: always
+    # Voz de /forede: nginx la usa en POST /tts (nginx-templates/nginx-voz/). En el VPS la pasa el
+    # workflow de deploy con un compose adicional; vacía, /tts responde 503.
+    environment:
+      ELEVENLABS_API_KEY: "${ELEVENLABS_API_KEY:-}"
     ports:
       # Expone solo en localhost; tu reverse proxy (Nginx del VPS)
       # hace TLS y routing del dominio insecap.cl.
