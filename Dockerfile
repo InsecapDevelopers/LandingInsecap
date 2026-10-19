@@ -55,12 +55,14 @@ FROM nginx:1.27-alpine AS runtime
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY snippets/security-headers.conf /etc/nginx/snippets/security-headers.conf
 # Voz de /forede: la entrada de la imagen convierte las plantillas en /tmp/nginx-voz/*.conf al
-# arrancar (/tmp es escribible aunque el contenedor sea read_only). Solo reemplaza las variables
-# ELEVENLABS_*: los $uri, $host… de nginx quedan intactos. La clave llega en tiempo de ejecución
-# (docker compose, ver .github/workflows/deploy.yml), nunca en la imagen.
+# arrancar (/tmp es escribible aunque el contenedor sea read_only). Solo reemplaza ELEVENLABS_* y
+# NGINX_LOCAL_RESOLVERS (los DNS del contenedor, que arma NGINX_ENTRYPOINT_LOCAL_RESOLVERS): los
+# $uri, $host… de nginx quedan intactos. La clave llega en tiempo de ejecución (docker compose,
+# ver .github/workflows/deploy.yml), nunca en la imagen.
 COPY nginx-templates/ /etc/nginx/templates/
 ENV NGINX_ENVSUBST_OUTPUT_DIR=/tmp \
-    NGINX_ENVSUBST_FILTER=ELEVENLABS \
+    NGINX_ENVSUBST_FILTER="ELEVENLABS|NGINX_LOCAL_RESOLVERS" \
+    NGINX_ENTRYPOINT_LOCAL_RESOLVERS=1 \
     ELEVENLABS_API_KEY= \
     ELEVENLABS_VOICE_ID=NDcVpQJv7Naa7ZKrqtEk
 # 301 de las URLs antiguas (generado en el build; fuera de la raíz pública)
