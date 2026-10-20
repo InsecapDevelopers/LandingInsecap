@@ -1,4 +1,5 @@
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Send, Loader2, CheckCircle2, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,6 +9,7 @@ import { toast } from 'sonner';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { formatRut } from '@/lib/insecapUtils';
 import { getSessionsWithoutCalendar } from '@/lib/openCourses';
+import { openCoursesQuery } from '@/lib/queries';
 import { getAttributionPayload } from '@/lib/attribution';
 import { Link } from 'react-router-dom';
 
@@ -42,14 +44,13 @@ const formatDate = (iso: string) => {
 // Sentinel: ningún curso real usa este id. Al elegirlo se pide texto libre en vez de idCalendarizacionAbierta.
 const CURSO_NO_LISTADO = '-1';
 
-// Fechas ofertadas que todavía no tienen calendarización cargada en el TMS (id negativo en
-// src/lib/openCourses.ts). Se listan igual para que se puedan solicitar; viajan como texto
-// libre (cursoInteres), no como idCalendarizacionAbierta.
+// Fechas ofertadas que todavía no tienen calendarización en el TMS (getSessionsWithoutCalendar).
+// Se listan igual para que se puedan solicitar; viajan como texto libre (cursoInteres), no como
+// idCalendarizacionAbierta.
 //
 // OJO: una fecha así NO genera interesado en el R08 del TMS — el backend solo lo crea cuando
-// llega un idCalendarizacionAbierta real (ContactoPublicoController). Al cargar el curso en el
-// TMS, cambiar su id negativo por el real en openCourses.ts y desaparece de esta lista.
-const CURSOS_SIN_CALENDARIZACION = getSessionsWithoutCalendar();
+// llega un idCalendarizacionAbierta real (ContactoPublicoController). Al cargar en el TMS el
+// "N° de curso abierto (R02)" de esa fecha (Gestión Página Web > Cursos Abiertos), desaparece de esta lista.
 
 // Aclaraciones por calendarización (id que entrega /cursos-particulares). Para cursos cuya
 // distribución horaria no se deduce de las fechas del select.
@@ -104,6 +105,8 @@ const OpenCourseRequestForm = ({
 
   // Ids estables entre el prerender y la hidratación para asociar cada <label> con su control.
   const fid = useId();
+  const { data: cursosAbiertos } = useQuery(openCoursesQuery());
+  const sinCalendarizacion = useMemo(() => getSessionsWithoutCalendar(cursosAbiertos ?? []), [cursosAbiertos]);
   const [formData, setFormData] = useState(buildInitialFormState);
   const [ciudades, setCiudades] = useState<Ciudad[]>([]);
   const [cursos, setCursos] = useState<CursoParticular[]>([]);
@@ -135,7 +138,7 @@ const OpenCourseRequestForm = ({
   const cursoNoListadoSelected = showCursoSelect && formData.idCalendarizacionAbierta === CURSO_NO_LISTADO;
 
   // Cursos ofertados sin calendarización, filtrados por la modalidad elegida.
-  const cursosSinCalendarizacion = CURSOS_SIN_CALENDARIZACION.filter(
+  const cursosSinCalendarizacion = sinCalendarizacion.filter(
     (c) => c.modalidad === formData.modalidadEjecucion
   );
   const cursoSinCalendarizacionSelected = cursosSinCalendarizacion.find(
@@ -177,7 +180,7 @@ const OpenCourseRequestForm = ({
         const preseleccionValida =
           preselectedCalendarizacionId &&
           (data.some((curso) => String(curso.id) === preselectedCalendarizacionId) ||
-            CURSOS_SIN_CALENDARIZACION.some((c) => c.id === preselectedCalendarizacionId));
+            sinCalendarizacion.some((c) => c.id === preselectedCalendarizacionId));
         setFormData((prev) => ({
           ...prev,
           idCalendarizacionAbierta: preseleccionValida ? preselectedCalendarizacionId : '',
@@ -185,7 +188,7 @@ const OpenCourseRequestForm = ({
       })
       .catch(() => setCursos([]))
       .finally(() => setLoadingCursos(false));
-  }, [showCursoSelect, formData.modalidadEjecucion, preselectedCalendarizacionId]);
+  }, [showCursoSelect, formData.modalidadEjecucion, preselectedCalendarizacionId, sinCalendarizacion]);
 
   const content = {
     es: {

@@ -25,6 +25,8 @@ import {
   newsAllQuery,
   newsArticleQuery,
   newsListQuery,
+  openCoursesQuery,
+  teamQuery,
 } from "./lib/queries";
 import {
   buildSeoRouteUrl,
@@ -137,6 +139,17 @@ export async function prefetchRoute(url: string, queryClient: QueryClient): Prom
 
   if (match("/")) {
     await prefetchShared(queryClient, newsListQuery(1, NEWS_SLIDER_COUNT));
+    await prefetchShared(queryClient, openCoursesQuery());
+    return;
+  }
+
+  if (match("/cursos-abiertos") || match("/formulario/cursos-abiertos")) {
+    await prefetchShared(queryClient, openCoursesQuery());
+    return;
+  }
+
+  if (match("/nuestro-equipo")) {
+    await prefetchShared(queryClient, teamQuery());
     return;
   }
 

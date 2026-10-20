@@ -12,8 +12,10 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from '@/components/ui/carousel';
+import { useQuery } from '@tanstack/react-query';
 import { coursesForMonth, getUpcomingBatches, matchMonthParam } from '@/lib/openCourses';
-import { localImage } from '@/lib/images';
+import { openCoursesQuery } from '@/lib/queries';
+import { posterImage } from '@/lib/images';
 
 const OFFER_HREF = '/formulario/cursos-abiertos';
 
@@ -62,10 +64,12 @@ const OpenCourseOffer = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   // Lo ya dictado se descarta solo: en octubre las fechas de septiembre no aparecen.
-  const { courses, months } = useMemo(() => getUpcomingBatches(), []);
+  const { data } = useQuery(openCoursesQuery());
+  const { courses, months } = useMemo(() => getUpcomingBatches(data ?? []), [data]);
   // ?mes=octubre abre la home con esa tanda ya elegida (enlaces de campaña).
   const [searchParams] = useSearchParams();
-  const [mes, setMes] = useState(matchMonthParam(searchParams.get('mes'), months) ?? months[0]);
+  const [mesElegido, setMes] = useState<string>();
+  const mes = mesElegido ?? matchMonthParam(searchParams.get('mes'), months) ?? months[0];
   const offers = coursesForMonth(mes ?? '', courses);
 
   useEffect(() => {
@@ -182,7 +186,7 @@ const OpenCourseOffer = () => {
                     <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
                       {/* Bajo el pliegue (después del VideoHero): todas lazy. */}
                       <img
-                        {...localImage(offer.image, [640, 1080], '(min-width: 1024px) 600px, calc(100vw - 4rem)')}
+                        {...posterImage(offer.image, [640, 1080], '(min-width: 1024px) 600px, calc(100vw - 4rem)')}
                         alt={t('openOffer.posterAlt', { course: `${offer.title} ${offer.titleHighlight}` })}
                         width={1080}
                         height={1080}

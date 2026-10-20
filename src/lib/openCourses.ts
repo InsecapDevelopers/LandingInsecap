@@ -1,13 +1,10 @@
-// ponytail: catálogo estático de cursos abiertos. La oferta cambia una vez al mes y se
-// edita aquí; conectar a la API de calendarizaciones cuando exista el flujo real.
-//
-// Fuente única para la sección de la home (OpenCourseOffer) y la página de catálogo
-// (OpenCoursesCatalog): antes cada una tenía su copia de las fechas y se desincronizaban.
-import { getCasaMatriz } from '../data/sedes';
+// Cursos abiertos: se cargan en el TMS Plus (Gestión Página Web > Cursos Abiertos) y la web los
+// lee de /api/publica/cursos-abiertos. Fuente única para la home (OpenCourseOffer), el catálogo
+// (OpenCoursesCatalog) y el formulario de inscripción.
 
 export interface OpenCourseSession {
   /** id de calendarización del TMS; preselecciona la fecha en el formulario.
-   *  Negativo = sin calendarización todavía (ver CURSOS_SIN_CALENDARIZACION del formulario). */
+   *  Empieza con "-" = sin calendarización todavía (ver getSessionsWithoutCalendar). */
   id: string;
   /** Fecha de inicio en ISO, para ordenar y descartar las que ya pasaron. */
   date: string;
@@ -19,7 +16,7 @@ export interface OpenCourseSession {
 export interface OpenCourseBatch {
   /** Etiqueta de la tanda, tal como se muestra ("Octubre 2026"). */
   month: string;
-  /** Afiche sin ancho ni extensión: se sirve con localImage (src/lib/images.ts). */
+  /** Afiche: URL de Spaces, o ruta local sin ancho ni extensión (los que venían en el código; ver posterImage). */
   image: string;
   sessions: OpenCourseSession[];
 }
@@ -50,172 +47,60 @@ export interface OpenCourse {
   batches: OpenCourseBatch[];
 }
 
-// Afiches recomprimidos en public/ (Fase 6): `<base>-640.webp` y `<base>-1080.webp`. Los originales
-// (JPEG de 0,4–2 MB) están en storageisecap.sfo2.digitaloceanspaces.com/noticias/<base>.jpeg.
-// Afiche nuevo: `cwebp -q 80 -resize 640 0 afiche.jpg -o <base>-640.webp` y lo mismo con 1080.
-const IMG = '/images/cursos-abiertos/';
-// NAP único (Fase 8): la dirección de la casa matriz sale de src/data/sedes.ts.
-const CALAMA = `${getCasaMatriz().ciudad} · ${getCasaMatriz().direccion}`;
+export interface ApiCursoAbierto {
+  id: number;
+  titulo: string;
+  tituloDestacado: string;
+  codigoWeb: string;
+  descripcion: string;
+  duracion: string;
+  modalidad: string;
+  modalidadId: '1' | '2';
+  ubicacion: string | null;
+  nota: string | null;
+  tandas: { mes: string; imagen: string; fechas: { fecha: string; ciudad: string | null; idCalendarizacion: number | null }[] }[];
+}
 
-export const OPEN_COURSES: OpenCourse[] = [
-  {
-    title: 'Trabajo en',
-    titleHighlight: 'Altura Física',
-    webCode: 'WEB-ALTURA',
-    description:
-      'Curso presencial con práctica en torres de entrenamiento y equipos reales. Dirigido a trabajadores que realizan labores sobre nivel y necesitan acreditar competencias para faena.',
-    duration: '8 horas',
-    modalityId: '1',
-    modality: 'Presencial',
-    location: CALAMA,
-    batches: [
-      {
-        month: 'Septiembre 2026',
-        image: `${IMG}fd2e0110-4a81-4300-96b6-7182af43300a`,
-        sessions: [
-          { id: '-10', date: '2026-09-01', label: '01-09-2026' },
-          { id: '-11', date: '2026-09-08', label: '08-09-2026' },
-          { id: '-12', date: '2026-09-22', label: '22-09-2026' },
-        ],
-      },
-      {
-        month: 'Octubre 2026',
-        image: `${IMG}altura-fisica-presencial-calama-octubre-051216ec`,
-        sessions: [
-          { id: '-20', date: '2026-10-06', label: '06-10-2026' },
-          { id: '-21', date: '2026-10-15', label: '15-10-2026' },
-          { id: '-22', date: '2026-10-27', label: '27-10-2026' },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'Técnicas de',
-    titleHighlight: 'Aislación y Bloqueo',
-    webCode: 'WEB-AISLACION',
-    description:
-      'Curso presencial sobre procedimientos LOTO con simulador de bloqueo eléctrico. Dirigido a personal de mantenimiento y operaciones que interviene equipos energizados.',
-    duration: '5,54 horas',
-    modalityId: '1',
-    modality: 'Presencial',
-    location: CALAMA,
-    batches: [
-      {
-        month: 'Septiembre 2026',
-        image: `${IMG}eca834f1-d559-4c72-9b1d-49e8539cb04c`,
-        sessions: [
-          { id: '-13', date: '2026-09-03', label: '03-09-2026' },
-          { id: '-14', date: '2026-09-10', label: '10-09-2026' },
-          { id: '-15', date: '2026-09-24', label: '24-09-2026' },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'Espacios',
-    titleHighlight: 'Confinados',
-    webCode: 'WEB-CONFINADOS',
-    description:
-      'Curso presencial con práctica en rescate y control de atmósferas peligrosas. Dirigido a trabajadores que ingresan a espacios confinados y a quienes supervisan la maniobra.',
-    duration: '8 horas',
-    modalityId: '1',
-    modality: 'Presencial',
-    location: CALAMA,
-    batches: [
-      {
-        month: 'Septiembre 2026',
-        image: `${IMG}27bda1db-b09b-4276-8435-a3b2b2989bf8`,
-        sessions: [
-          { id: '-16', date: '2026-09-04', label: '04-09-2026' },
-          { id: '-17', date: '2026-09-11', label: '11-09-2026' },
-          { id: '-18', date: '2026-09-25', label: '25-09-2026' },
-        ],
-      },
-      {
-        month: 'Octubre 2026',
-        image: `${IMG}confinados-calama-octubre-38a30e69`,
-        sessions: [
-          { id: '-23', date: '2026-10-08', label: '08-10-2026' },
-          { id: '-24', date: '2026-10-20', label: '20-10-2026' },
-          { id: '-25', date: '2026-10-29', label: '29-10-2026' },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'Manejo de',
-    titleHighlight: 'Sustancias Peligrosas',
-    webCode: 'WEB-SUSTANCIAS',
-    description:
-      'Curso presencial sobre almacenamiento, transporte y manipulación de sustancias peligrosas: clasificación, hojas de datos de seguridad y respuesta ante derrames. Dirigido a quienes operan con productos químicos en faena.',
-    duration: '8 horas',
-    modalityId: '1',
-    modality: 'Presencial',
-    location: CALAMA,
-    batches: [
-      {
-        month: 'Octubre 2026',
-        image: `${IMG}sustancias-peligrosas-calama-62d4c6f9`,
-        sessions: [
-          { id: '-29', date: '2026-10-13', label: '13-10-2026' },
-          { id: '-30', date: '2026-10-22', label: '22-10-2026' },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'SAP PM:',
-    titleHighlight: 'Gestión de Mantenimiento',
-    webCode: 'WEB-SAP-PM',
-    description:
-      'Curso sincrónico sobre el módulo PM de SAP S/4 HANA: avisos, órdenes de trabajo, planes preventivos e indicadores. Dirigido a personal de mantenimiento y planificación que opera el sistema.',
-    duration: '24 horas',
-    modalityId: '2',
-    modality: 'Sincrónico',
-    note: {
-      es: 'La fecha indicada corresponde al primer día (viernes, 4 hrs). Las 24 hrs se distribuyen en viernes de 4 hrs y sábados de 8 hrs; los días siguientes se acuerdan con el facilitador en la primera sesión.',
-      en: 'The date shown is the first day (Friday, 4 hrs). The 24 hrs are split into 4-hr Fridays and 8-hr Saturdays; remaining days are agreed with the instructor in the first session.',
-      pt: 'A data indicada corresponde ao primeiro dia (sexta-feira, 4 h). As 24 h são distribuídas em sextas-feiras de 4 h e sábados de 8 h; os demais dias são combinados com o instrutor na primeira sessão.',
-    },
-    batches: [
-      {
-        month: 'Octubre 2026',
-        image: `${IMG}sap-s4-hana-modulo-pm-jpg-76db2b0c`,
-        sessions: [{ id: '-26', date: '2026-10-01', label: '01-10-2026' }],
-      },
-    ],
-  },
-  {
-    title: 'Formación de',
-    titleHighlight: 'Guardia de Seguridad',
-    webCode: 'WEB-OS10',
-    description:
-      'Curso OS10 blended para quienes buscan desempeñarse como guardia de seguridad: marco legal, procedimientos de control y prevención de riesgos, con los contenidos exigidos por Carabineros para la acreditación. Combina sesiones en línea con jornadas presenciales.',
-    duration: '90 horas',
-    // Blended: el backend no tiene esa modalidad (ModalidadContacto = Presencial | Online),
-    // así que la solicitud viaja como presencial y la sede elegida va en el texto del curso.
-    modalityId: '1',
-    modality: 'Blended',
-    location: 'Calama y/o Santiago',
-    // 90 hrs no caben en un día: la fecha del afiche es el inicio, no la jornada completa.
-    note: {
-      es: 'La fecha indicada corresponde al inicio del curso. Las 90 hrs del OS10 se distribuyen en varias jornadas; el calendario se acuerda con el facilitador en la primera sesión.',
-      en: 'The date shown is the course start. The 90 hrs are spread over several sessions; the schedule is agreed with the instructor in the first session.',
-      pt: 'A data indicada corresponde ao início do curso. As 90 h são distribuídas em várias jornadas; o calendário é combinado com o instrutor na primeira sessão.',
-    },
-    batches: [
-      {
-        month: 'Octubre 2026',
-        image: `${IMG}formacion-guardia-seguridad-edit-octubre-jpg-88c7c408`,
-        // Una fecha por sede: el postulante elige dónde la cursa al inscribirse.
-        sessions: [
-          { id: '-27', date: '2026-10-01', label: '01-10-2026', city: 'Calama' },
-          { id: '-28', date: '2026-10-01', label: '01-10-2026', city: 'Santiago' },
-        ],
-      },
-    ],
-  },
-];
+/**
+ * Sin calendarización la fecha no tiene id en el TMS: se arma uno negativo y estable (curso + fecha +
+ * sede) para el ?fecha= del formulario.
+ */
+const sessionId = (cursoId: number, f: ApiCursoAbierto['tandas'][number]['fechas'][number]) =>
+  f.idCalendarizacion ? String(f.idCalendarizacion) : `-${cursoId}-${f.fecha}${f.ciudad ? `-${f.ciudad.replace(/\W+/g, '')}` : ''}`;
+
+export const toOpenCourse = (c: ApiCursoAbierto): OpenCourse => ({
+  title: c.titulo,
+  titleHighlight: c.tituloDestacado,
+  webCode: c.codigoWeb,
+  description: c.descripcion,
+  duration: c.duracion,
+  modalityId: c.modalidadId,
+  modality: c.modalidad,
+  location: c.ubicacion ?? undefined,
+  // ponytail: la aclaración se carga solo en español; la misma va en los tres idiomas, como la descripción.
+  note: c.nota ? { es: c.nota, en: c.nota, pt: c.nota } : undefined,
+  batches: c.tandas.map((t) => ({
+    month: t.mes,
+    image: t.imagen,
+    sessions: t.fechas.map((f) => ({
+      id: sessionId(c.id, f),
+      date: f.fecha,
+      label: f.fecha.split('-').reverse().join('-'),
+      city: f.ciudad ?? undefined,
+    })),
+  })),
+});
+
+/**
+ * Cursos abiertos del TMS Plus (Gestión Página Web > Cursos Abiertos). En dev va por el proxy de
+ * Vite, como las noticias. Lanza si falla: el prerender prefiere cortarse a publicar la sección vacía.
+ */
+export async function fetchOpenCourses(): Promise<OpenCourse[]> {
+  const base = (import.meta.env.VITE_TMS_PLUS_API_URL || '').replace(/\/+$/, '');
+  const res = await fetch(`${import.meta.env.PROD ? base : ''}/api/publica/cursos-abiertos`);
+  if (!res.ok) throw new Error(`Error al cargar los cursos abiertos: ${res.status}`);
+  return ((await res.json()) as ApiCursoAbierto[]).map(toOpenCourse);
+}
 
 /**
  * Compara contra el día de hoy a medianoche: una fecha de hoy sigue siendo vigente.
@@ -236,7 +121,7 @@ const startOfToday = () => {
  * Tandas con al menos una fecha por ocurrir, en orden cronológico. Lo ya pasado desaparece
  * solo: en octubre las fechas de septiembre no se muestran, sin tener que editar el archivo.
  */
-export function getUpcomingBatches(courses: OpenCourse[] = OPEN_COURSES) {
+export function getUpcomingBatches(courses: OpenCourse[]) {
   const today = startOfToday();
   const months = new Map<string, { month: string; first: number }>();
 
@@ -262,12 +147,11 @@ export function getUpcomingBatches(courses: OpenCourse[] = OPEN_COURSES) {
 }
 
 /**
- * Las fechas vigentes sin calendarización en el TMS (id negativo), aplanadas para el select
- * del formulario. Se deriva del mismo catálogo que las vistas: una fecha editada arriba no
- * puede quedar desincronizada acá abajo.
+ * Las fechas vigentes sin calendarización en el TMS (id que empieza con "-"), aplanadas para el
+ * select del formulario. Se deriva del mismo catálogo que las vistas: no pueden desincronizarse.
  */
-export function getSessionsWithoutCalendar() {
-  return getUpcomingBatches().courses.flatMap((course) =>
+export function getSessionsWithoutCalendar(courses: OpenCourse[]) {
+  return getUpcomingBatches(courses).courses.flatMap((course) =>
     course.batches.flatMap((batch) =>
       batch.sessions
         .filter((s) => s.id.startsWith('-'))
@@ -311,9 +195,9 @@ export function matchMonthParam(param: string | null | undefined, months: string
  * Ciudad de una fecha del catálogo, cuando la trae. Sirve para preseleccionar la ciudad del
  * formulario según la sede elegida en un curso que se dicta en más de una.
  */
-export function getSessionCity(sessionId: string | undefined) {
+export function getSessionCity(courses: OpenCourse[], sessionId: string | undefined) {
   if (!sessionId) return undefined;
-  for (const course of OPEN_COURSES) {
+  for (const course of courses) {
     for (const batch of course.batches) {
       const session = batch.sessions.find((s) => s.id === sessionId);
       if (session) return session.city;

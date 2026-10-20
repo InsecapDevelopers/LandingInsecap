@@ -25,6 +25,13 @@ export const localImage = (base: string, widths: readonly number[], sizes: strin
 });
 
 /**
+ * Afiche de un curso abierto: los que venían en el código son locales (`<base>` sin ancho, ver
+ * localImage); los que se suben desde el TMS ya vienen de Spaces y se usan tal cual.
+ */
+export const posterImage = (url: string, widths: readonly number[], sizes: string): ResponsiveImage =>
+  url.startsWith('/') ? localImage(url, widths, sizes) : { src: url };
+
+/**
  * `fetchpriority="high"` para la imagen LCP: React 18 no conoce la prop `fetchPriority` (avisa y
  * la escribe con mayúsculas), así que se pasa en minúsculas con spread. scripts/prerender.mjs
  * busca este atributo para inyectar el <link rel="preload"> de la imagen.

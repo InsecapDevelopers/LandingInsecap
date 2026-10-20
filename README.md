@@ -1,6 +1,6 @@
 # Insecap Landing
 
-Sitio web institucional y landing de Insecap. SPA construida con Vite + React + TypeScript, estilizada con Tailwind CSS y componentes shadcn/ui. Incluye catálogo de cursos (datos locales de DB_SGC), noticias del TMS Plus, mapas de sedes, simulador y soporte multilenguaje (i18next).
+Sitio web institucional y landing de Insecap. SPA construida con Vite + React + TypeScript, estilizada con Tailwind CSS y componentes shadcn/ui. Incluye catálogo de cursos (datos locales de DB_SGC), noticias, cursos abiertos y Nuestro Equipo del TMS Plus, mapas de sedes, simulador y soporte multilenguaje (i18next).
 
 ## Stack
 
@@ -46,7 +46,7 @@ Crea un archivo `.env.local` en la raíz si necesitas sobreescribir valores. Las
 | Variable             | Uso                                                                         |
 | -------------------- | --------------------------------------------------------------------------- |
 | `TMS_PLUS_PROXY_TARGET` | Target del proxy `/api` en dev server, TMS Plus (default `https://api-plus.insecap.cl`) |
-| `VITE_TMS_PLUS_API_URL` | URL del TMS Plus en producción: contacto, noticias, Trabaja con nosotros, comercial de turno y muro |
+| `VITE_TMS_PLUS_API_URL` | URL del TMS Plus en producción: contacto, noticias, cursos abiertos, Nuestro Equipo, Trabaja con nosotros, comercial de turno y muro |
 | `VITE_*`             | Cualquier variable expuesta al cliente (se embebe en el bundle al build)    |
 
 > El proxy `/api` definido en [vite.config.ts](vite.config.ts) aplica **solo** al servidor de desarrollo. En producción configura el reverse proxy a nivel de infraestructura/CDN.

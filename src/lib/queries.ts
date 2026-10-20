@@ -9,6 +9,8 @@
 import { queryOptions } from '@tanstack/react-query';
 
 import { fetchAllNews, fetchNews, fetchNewsBySlug } from './newsData';
+import { fetchOpenCourses } from './openCourses';
+import { fetchTeam } from './teamData';
 
 /** Noticias por página en /noticias (Blog). */
 export const NEWS_PER_PAGE = 12;
@@ -19,6 +21,8 @@ export const queryKeys = {
   newsList: (page: number, perPage: number) => ['news', 'list', page, perPage] as const,
   newsAll: () => ['news', 'all'] as const,
   newsArticle: (slug: string) => ['news', 'article', slug] as const,
+  openCourses: () => ['open-courses'] as const,
+  team: () => ['team'] as const,
 };
 
 export const newsListQuery = (page: number, perPage: number) =>
@@ -39,4 +43,18 @@ export const newsArticleQuery = (slug: string) =>
   queryOptions({
     queryKey: queryKeys.newsArticle(slug),
     queryFn: () => fetchNewsBySlug(slug),
+  });
+
+/** Cursos abiertos (home, /cursos-abiertos y el formulario de inscripción). */
+export const openCoursesQuery = () =>
+  queryOptions({
+    queryKey: queryKeys.openCourses(),
+    queryFn: fetchOpenCourses,
+  });
+
+/** Nuestro Equipo, por área y ya ordenado. */
+export const teamQuery = () =>
+  queryOptions({
+    queryKey: queryKeys.team(),
+    queryFn: fetchTeam,
   });

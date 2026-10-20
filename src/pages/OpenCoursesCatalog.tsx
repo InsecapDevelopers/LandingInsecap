@@ -8,8 +8,10 @@ import SEO from "@/components/SEO";
 import { ClientTypeSwitch } from "@/components/ClientTypeSwitch";
 import { useTranslation } from "react-i18next";
 import { useLocalizedPath } from "@/hooks/use-localized-path";
+import { useQuery } from "@tanstack/react-query";
 import { coursesForMonth, getUpcomingBatches, matchMonthParam } from "@/lib/openCourses";
-import { localImage } from "@/lib/images";
+import { openCoursesQuery } from "@/lib/queries";
+import { posterImage } from "@/lib/images";
 
 const FORM_HREF = "/formulario/cursos-abiertos";
 
@@ -17,11 +19,13 @@ const OpenCoursesCatalog = () => {
   const { localizedPath, locale } = useLocalizedPath();
   const { t } = useTranslation();
   // Lo ya dictado se descarta solo: en octubre las fechas de septiembre no aparecen.
-  const { courses, months } = useMemo(() => getUpcomingBatches(), []);
+  const { data } = useQuery(openCoursesQuery());
+  const { courses, months } = useMemo(() => getUpcomingBatches(data ?? []), [data]);
   // ?mes=octubre abre la página ya filtrada: sirve para enlazar una tanda desde una campaña.
   const [searchParams, setSearchParams] = useSearchParams();
   const mesDeLaUrl = matchMonthParam(searchParams.get("mes"), months);
-  const [mes, setMes] = useState(mesDeLaUrl ?? months[0]);
+  const [mesElegido, setMes] = useState<string>();
+  const mes = mesElegido ?? mesDeLaUrl ?? months[0];
   const cursos = coursesForMonth(mes ?? "", courses);
 
   const content = {
@@ -128,7 +132,7 @@ const OpenCoursesCatalog = () => {
                   className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
                 >
                   <img
-                    {...localImage(curso.image, [640, 1080], "(min-width: 1024px) 400px, (min-width: 768px) 50vw, calc(100vw - 4rem)")}
+                    {...posterImage(curso.image, [640, 1080], "(min-width: 1024px) 400px, (min-width: 768px) 50vw, calc(100vw - 4rem)")}
                     alt={t('openOffer.posterAltFull', { course: titulo, month: mes, modality: curso.modality })}
                     width={1080}
                     height={1080}
