@@ -237,10 +237,10 @@ const OurTeam = () => {
             <div className="w-24 h-1.5 mx-auto rounded-full bg-gradient-to-r from-[#00B8DE] to-[#485CC7]" />
           </div>
 
-          {/* Gerencia destacada */}
+          {/* Primera área destacada (en el TMS se elige subiéndola al primer lugar; hoy, Gerencia) */}
           <div ref={gerenciaAnim.ref} className="mb-16">
             <div className="flex items-center gap-4 mb-8">
-              <h3 className="text-2xl font-bold text-[#0c1a6b]">{content.management}</h3>
+              <h3 className="text-2xl font-bold text-[#0c1a6b]">{displayAreas[0]?.area}</h3>
               <div className="flex-1 h-px bg-gradient-to-r from-[#485CC7]/50 to-transparent" />
             </div>
             <div className="grid sm:grid-cols-2 max-w-2xl mx-auto gap-6">
