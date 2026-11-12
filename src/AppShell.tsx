@@ -9,6 +9,7 @@ import { Routes, Route, Navigate, Outlet, useLocation, useParams } from "react-r
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useTranslation } from 'react-i18next';
 import BackToTop from "./components/BackToTop";
+import CookieBanner from "./components/CookieBanner";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -241,6 +242,7 @@ export const AppShell = ({ queryClient, helmetContext, dehydratedState }: AppShe
         <AttributionTracker />
         <RouteMeta />
         <AppRoutes />
+        <CookieBanner />
       </HydrationBoundary>
     </QueryClientProvider>
   </HelmetProvider>

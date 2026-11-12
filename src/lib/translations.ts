@@ -7,6 +7,13 @@ export const fallbackLanguage: AppLanguage = 'es';
 export const resources = {
   es: {
     translation: {
+      cookies: {
+        title: 'Uso de cookies',
+        text: 'Usamos cookies propias para que el sitio funcione y, solo si aceptas, de Google, Meta y Microsoft Clarity para medir visitas y mostrar publicidad. Puedes cambiar tu decisión cuando quieras desde el pie de página.',
+        more: 'Política de privacidad',
+        accept: 'Aceptar',
+        reject: 'Rechazar',
+      },
       languageSwitcher: {
         label: 'Idioma',
         options: {
@@ -123,6 +130,7 @@ export const resources = {
         },
         copyright: 'Insecap Capacitación. Todos los derechos reservados.',
         privacy: 'Política de Privacidad',
+        cookies: 'Preferencias de cookies',
         questions: '¿Tienes dudas?',
         social: 'INSECAP en {{network}}',
       },
@@ -438,6 +446,13 @@ export const resources = {
   },
   en: {
     translation: {
+      cookies: {
+        title: 'Cookie use',
+        text: 'We use our own cookies to run the site and, only if you accept, cookies from Google, Meta and Microsoft Clarity to measure visits and show ads. You can change your choice anytime from the footer.',
+        more: 'Privacy policy',
+        accept: 'Accept',
+        reject: 'Reject',
+      },
       languageSwitcher: {
         label: 'Language',
         options: {
@@ -554,6 +569,7 @@ export const resources = {
         },
         copyright: 'Insecap Training. All rights reserved.',
         privacy: 'Privacy policy',
+        cookies: 'Cookie preferences',
         questions: 'Any questions?',
         social: 'INSECAP on {{network}}',
       },
@@ -866,6 +882,13 @@ export const resources = {
   },
   pt: {
     translation: {
+      cookies: {
+        title: 'Uso de cookies',
+        text: 'Usamos cookies próprios para o site funcionar e, só se você aceitar, cookies do Google, Meta e Microsoft Clarity para medir visitas e mostrar anúncios. Você pode mudar sua decisão quando quiser no rodapé.',
+        more: 'Política de privacidade',
+        accept: 'Aceitar',
+        reject: 'Recusar',
+      },
       languageSwitcher: {
         label: 'Idioma',
         options: {
@@ -982,6 +1005,7 @@ export const resources = {
         },
         copyright: 'Insecap Capacitação. Todos os direitos reservados.',
         privacy: 'Política de privacidade',
+        cookies: 'Preferências de cookies',
         questions: 'Tem dúvidas?',
         social: 'INSECAP no {{network}}',
       },
