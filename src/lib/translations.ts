@@ -123,6 +123,7 @@ export const resources = {
         },
         copyright: 'Insecap Capacitación. Todos los derechos reservados.',
         privacy: 'Política de Privacidad',
+        rights: 'Ejercer mis derechos',
         questions: '¿Tienes dudas?',
         social: 'INSECAP en {{network}}',
       },
@@ -194,6 +195,10 @@ export const resources = {
           'politica-de-privacidad': {
             title: 'Condiciones del servicio y datos personales',
             description: 'Condiciones de uso de TMS.INSECAP.CL: cómo INSECAP trata los datos de trabajadores de empresas clientes y coordina reuniones de seguimiento de cursos.',
+          },
+          'derechos-datos': {
+            title: 'Ejercer derechos sobre tus datos personales',
+            description: 'Ejerce tus derechos de acceso, rectificación, supresión, oposición, portabilidad o bloqueo de tus datos personales ante INSECAP. Respuesta en 30 días.',
           },
           'cursos-abiertos': {
             title: 'Cursos abiertos con fecha y cupos disponibles',
@@ -550,6 +555,7 @@ export const resources = {
         },
         copyright: 'Insecap Training. All rights reserved.',
         privacy: 'Privacy policy',
+        rights: 'Exercise my data rights',
         questions: 'Any questions?',
         social: 'INSECAP on {{network}}',
       },
@@ -618,6 +624,10 @@ export const resources = {
           'politica-de-privacidad': {
             title: 'Service terms and personal data',
             description: 'Terms of use of TMS.INSECAP.CL: how INSECAP processes data of client company workers and schedules follow-up meetings to coordinate their training.',
+          },
+          'derechos-datos': {
+            title: 'Exercise your personal data rights',
+            description: 'Exercise your rights of access, rectification, erasure, objection, portability or blocking over the personal data INSECAP holds. Answer within 30 days.',
           },
           'cursos-abiertos': {
             title: 'Open courses with dates and available seats',
@@ -974,6 +984,7 @@ export const resources = {
         },
         copyright: 'Insecap Capacitação. Todos os direitos reservados.',
         privacy: 'Política de privacidade',
+        rights: 'Exercer meus direitos',
         questions: 'Tem dúvidas?',
         social: 'INSECAP no {{network}}',
       },
@@ -1042,6 +1053,10 @@ export const resources = {
           'politica-de-privacidad': {
             title: 'Condições do serviço e dados pessoais',
             description: 'Condições de uso do TMS.INSECAP.CL: como a INSECAP trata dados de trabalhadores de empresas clientes e agenda reuniões de acompanhamento da capacitação.',
+          },
+          'derechos-datos': {
+            title: 'Exercer direitos sobre seus dados pessoais',
+            description: 'Exerça seus direitos de acesso, retificação, eliminação, oposição, portabilidade ou bloqueio dos seus dados pessoais na INSECAP. Resposta em 30 dias.',
           },
           'cursos-abiertos': {
             title: 'Cursos abertos com datas e vagas disponíveis',

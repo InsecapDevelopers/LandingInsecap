@@ -31,6 +31,7 @@ const OurTeam = lazyPage(() => import("./pages/OurTeam"));
 const HonorTeam = lazyPage(() => import("./pages/HonorTeam"));
 const QualityPolicy = lazyPage(() => import("./pages/QualityPolicy"));
 const PrivacyPolicy = lazyPage(() => import("./pages/PrivacyPolicy"));
+const DerechosDatos = lazyPage(() => import("./pages/DerechosDatos"));
 const Contact = lazyPage(() => import("./pages/Contact"));
 const OpenCoursesCatalog = lazyPage(() => import("./pages/OpenCoursesCatalog"));
 const SapSpecialty = lazyPage(() => import("./pages/SapSpecialty"));
@@ -131,6 +132,7 @@ export const routeDefinitions = [
   { path: 'equipo-honor', element: <HonorTeam /> },
   { path: 'politica-calidad', element: <QualityPolicy /> },
   { path: 'politica-de-privacidad', element: <PrivacyPolicy /> },
+  { path: 'derechos-datos', element: <DerechosDatos /> },
   { path: 'contacto', element: <Contact /> },
   { path: 'formulario/cursos-abiertos', element: <OpenCourseForm /> },
   { path: 'forede', element: <Forede /> },

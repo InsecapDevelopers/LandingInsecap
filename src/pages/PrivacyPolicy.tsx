@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   FileText,
   UserCheck,
@@ -25,7 +26,7 @@ const sectionIcons = [
 ];
 
 const PrivacyPolicy = () => {
-  const { locale } = useLocalizedPath();
+  const { locale, localizedPath } = useLocalizedPath();
   const introSection = useScrollAnimation({ threshold: 0.2 });
   const cardsSection = useStaggerAnimation({ threshold: 0.1 });
   const acceptanceSection = useScrollAnimation({ threshold: 0.2 });
@@ -40,6 +41,7 @@ const PrivacyPolicy = () => {
       introText: 'La presente declaración establece los términos y condiciones de uso del sistema TMS.INSECAP.CL, propiedad de INSECAP Capacitación, respecto al tratamiento de datos de trabajadores de empresas externas y la programación de reuniones informativas con fines de coordinación y seguimiento de capacitaciones.',
       acceptance: '7. Aceptación',
       acceptanceText: 'El uso del sistema implica la aceptación plena de estas condiciones. Cualquier modificación será informada por los canales oficiales de INSECAP Capacitación.',
+      rightsLink: 'Ejercer mis derechos sobre mis datos personales',
       sectionData: {
         titles: ['1. Objeto del Servicio', '2. Ingreso de Datos de Participantes Externos', '3. Finalidad del Tratamiento de Datos', '4. Agenda de Reuniones', '5. Responsabilidad del Usuario', '6. Confidencialidad y Seguridad'],
         contentTexts: [
@@ -69,6 +71,7 @@ const PrivacyPolicy = () => {
       introText: 'This statement establishes the terms and conditions for using the TMS.INSECAP.CL system, owned by INSECAP Training, regarding the processing of external company employee data and the scheduling of informational meetings for training coordination and follow-up.',
       acceptance: '7. Acceptance',
       acceptanceText: 'Using the system implies full acceptance of these conditions. Any modification will be communicated through INSECAP Training official channels.',
+      rightsLink: 'Exercise my rights over my personal data',
       sectionData: {
         titles: ['1. Service Subject', '2. Entry of External Participant Data', '3. Purpose of Data Processing', '4. Meeting Schedule', '5. User Responsibility', '6. Confidentiality and Security'],
         contentTexts: [
@@ -98,6 +101,7 @@ const PrivacyPolicy = () => {
       introText: 'Esta declaração estabelece os termos e condições de uso do sistema TMS.INSECAP.CL, propriedade da INSECAP Capacitação, em relação ao tratamento de dados de trabalhadores de empresas externas e ao agendamento de reuniões informativas para a coordenação e o acompanhamento das capacitações.',
       acceptance: '7. Aceitação',
       acceptanceText: 'O uso do sistema implica a aceitação plena destas condições. Qualquer modificação será comunicada pelos canais oficiais da INSECAP Capacitação.',
+      rightsLink: 'Exercer meus direitos sobre meus dados pessoais',
       sectionData: {
         titles: ['1. Objeto do Serviço', '2. Inserção de Dados de Participantes Externos', '3. Finalidade do Tratamento de Dados', '4. Agenda de Reuniões', '5. Responsabilidade do Usuário', '6. Confidencialidade e Segurança'],
         contentTexts: [
@@ -236,6 +240,12 @@ const PrivacyPolicy = () => {
                 <p className="text-blue-100 text-lg leading-relaxed">
                   {content.acceptanceText}
                 </p>
+                <Link
+                  to={localizedPath('/derechos-datos')}
+                  className="inline-block mt-6 font-semibold text-white underline underline-offset-4 hover:text-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary rounded"
+                >
+                  {content.rightsLink}
+                </Link>
               </div>
             </div>
           </div>

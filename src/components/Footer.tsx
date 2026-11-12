@@ -299,12 +299,20 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
           <p className="text-sm text-white/60">
             © {new Date().getFullYear()} {t('footer.copyright')}
           </p>
-          <a
-            href={localizedPath('/politica-de-privacidad')}
-            className="text-sm text-white/60 hover:text-white transition-colors duration-200 underline underline-offset-4"
-          >
-            {t('footer.privacy')}
-          </a>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            <a
+              href={localizedPath('/politica-de-privacidad')}
+              className="text-sm text-white/60 hover:text-white transition-colors duration-200 underline underline-offset-4"
+            >
+              {t('footer.privacy')}
+            </a>
+            <a
+              href={localizedPath('/derechos-datos')}
+              className="text-sm text-white/60 hover:text-white transition-colors duration-200 underline underline-offset-4"
+            >
+              {t('footer.rights')}
+            </a>
+          </div>
         </div>
       </div>
     </footer>
