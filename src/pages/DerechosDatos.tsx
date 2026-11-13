@@ -47,13 +47,13 @@ const content = {
     intro: 'Si INSECAP trata tus datos personales (como participante, relator, contacto de una empresa cliente o postulante), puedes pedirnos que los revisemos, corrijamos, eliminemos o dejemos de usarlos. El trámite es gratuito.',
     rightsHeading: 'Tus derechos',
     rights: {
-      acceso: ['Acceso', 'Saber si tratamos tus datos, cuáles, de dónde vienen, para qué los usamos y a quién se comunican.'],
-      rectificacion: ['Rectificación', 'Corregir datos inexactos, desactualizados o incompletos.'],
-      supresion: ['Supresión', 'Pedir que eliminemos tus datos. Si la ley nos obliga a conservarlos, los bloqueamos y te explicamos el motivo.'],
-      oposicion: ['Oposición', 'Oponerte a tratamientos basados en interés legítimo y a las comunicaciones comerciales.'],
-      portabilidad: ['Portabilidad', 'Recibir tus datos en un formato estructurado y de uso común, o que los enviemos a otro responsable.'],
-      bloqueo: ['Bloqueo', 'Suspender temporalmente el tratamiento mientras resolvemos una rectificación, supresión u oposición.'],
-    } as Record<Derecho, [string, string]>,
+      acceso: ['Acceso', 'Saber si tratamos tus datos, cuáles, de dónde vienen, para qué los usamos y a quién se comunican.', 'Saber qué datos tuyos tenemos y para qué los usamos.'],
+      rectificacion: ['Rectificación', 'Corregir datos inexactos, desactualizados o incompletos.', 'Corregir un dato que está mal o desactualizado.'],
+      supresion: ['Supresión', 'Pedir que eliminemos tus datos. Si la ley nos obliga a conservarlos, los bloqueamos y te explicamos el motivo.', 'Que borremos tus datos.'],
+      oposicion: ['Oposición', 'Oponerte a tratamientos basados en interés legítimo y a las comunicaciones comerciales.', 'Que dejemos de usarlos, por ejemplo para publicidad.'],
+      portabilidad: ['Portabilidad', 'Recibir tus datos en un formato estructurado y de uso común, o que los enviemos a otro responsable.', 'Recibir una copia de tus datos para llevarlos a otro lugar.'],
+      bloqueo: ['Bloqueo', 'Suspender temporalmente el tratamiento mientras resolvemos una rectificación, supresión u oposición.', 'Que pausemos su uso mientras revisamos tu caso.'],
+    } as Record<Derecho, [string, string, string]>,
     termsHeading: 'Plazos',
     terms: 'Acusamos recibo y respondemos dentro de 30 días corridos. Si necesitamos más tiempo, el plazo se puede prorrogar una sola vez por otros 30 días y te avisaremos el motivo. Las solicitudes de bloqueo se atienden en 2 días hábiles.',
     identity: 'Para proteger tus datos verificamos tu identidad antes de responder: te pediremos una copia de tu cédula y, si actúas como representante, el poder que te faculta.',
@@ -117,13 +117,13 @@ const content = {
     intro: 'If INSECAP processes your personal data (as a participant, instructor, client company contact or applicant), you can ask us to review, correct, delete or stop using it. The request is free of charge.',
     rightsHeading: 'Your rights',
     rights: {
-      acceso: ['Access', 'Know whether we process your data, which data, where it comes from, why we use it and who receives it.'],
-      rectificacion: ['Rectification', 'Correct inaccurate, outdated or incomplete data.'],
-      supresion: ['Erasure', 'Ask us to delete your data. If the law requires us to keep it, we block it and explain why.'],
-      oposicion: ['Objection', 'Object to processing based on legitimate interest and to marketing communications.'],
-      portabilidad: ['Portability', 'Receive your data in a structured, commonly used format, or have us send it to another controller.'],
-      bloqueo: ['Blocking', 'Temporarily suspend processing while we resolve a rectification, erasure or objection request.'],
-    } as Record<Derecho, [string, string]>,
+      acceso: ['Access', 'Know whether we process your data, which data, where it comes from, why we use it and who receives it.', 'Know what data we hold about you and why.'],
+      rectificacion: ['Rectification', 'Correct inaccurate, outdated or incomplete data.', 'Fix data that is wrong or outdated.'],
+      supresion: ['Erasure', 'Ask us to delete your data. If the law requires us to keep it, we block it and explain why.', 'Have us delete your data.'],
+      oposicion: ['Objection', 'Object to processing based on legitimate interest and to marketing communications.', 'Have us stop using it, for example for marketing.'],
+      portabilidad: ['Portability', 'Receive your data in a structured, commonly used format, or have us send it to another controller.', 'Get a copy of your data to take elsewhere.'],
+      bloqueo: ['Blocking', 'Temporarily suspend processing while we resolve a rectification, erasure or objection request.', 'Have us pause its use while we review your case.'],
+    } as Record<Derecho, [string, string, string]>,
     termsHeading: 'Response times',
     terms: 'We acknowledge receipt and respond within 30 calendar days. If we need more time, the deadline can be extended once for another 30 days and we will tell you why. Blocking requests are handled within 2 business days.',
     identity: 'To protect your data we verify your identity before responding: we will ask for a copy of your ID card and, if you act as a representative, the power of attorney that authorizes you.',
@@ -187,13 +187,13 @@ const content = {
     intro: 'Se a INSECAP trata seus dados pessoais (como participante, instrutor, contato de uma empresa cliente ou candidato), você pode pedir que os revisemos, corrijamos, eliminemos ou deixemos de usá-los. A solicitação é gratuita.',
     rightsHeading: 'Seus direitos',
     rights: {
-      acceso: ['Acesso', 'Saber se tratamos seus dados, quais, de onde vêm, para que os usamos e a quem são comunicados.'],
-      rectificacion: ['Retificação', 'Corrigir dados inexatos, desatualizados ou incompletos.'],
-      supresion: ['Eliminação', 'Pedir que eliminemos seus dados. Se a lei nos obrigar a conservá-los, nós os bloqueamos e explicamos o motivo.'],
-      oposicion: ['Oposição', 'Opor-se a tratamentos baseados em interesse legítimo e a comunicações comerciais.'],
-      portabilidad: ['Portabilidade', 'Receber seus dados em formato estruturado e de uso comum, ou que os enviemos a outro responsável.'],
-      bloqueo: ['Bloqueio', 'Suspender temporariamente o tratamento enquanto resolvemos uma retificação, eliminação ou oposição.'],
-    } as Record<Derecho, [string, string]>,
+      acceso: ['Acesso', 'Saber se tratamos seus dados, quais, de onde vêm, para que os usamos e a quem são comunicados.', 'Saber quais dados seus temos e para que os usamos.'],
+      rectificacion: ['Retificação', 'Corrigir dados inexatos, desatualizados ou incompletos.', 'Corrigir um dado errado ou desatualizado.'],
+      supresion: ['Eliminação', 'Pedir que eliminemos seus dados. Se a lei nos obrigar a conservá-los, nós os bloqueamos e explicamos o motivo.', 'Que apaguemos seus dados.'],
+      oposicion: ['Oposição', 'Opor-se a tratamentos baseados em interesse legítimo e a comunicações comerciais.', 'Que deixemos de usá-los, por exemplo para publicidade.'],
+      portabilidad: ['Portabilidade', 'Receber seus dados em formato estruturado e de uso comum, ou que os enviemos a outro responsável.', 'Receber uma cópia dos seus dados para levá-los a outro lugar.'],
+      bloqueo: ['Bloqueio', 'Suspender temporariamente o tratamento enquanto resolvemos uma retificação, eliminação ou oposição.', 'Que pausemos o uso enquanto analisamos seu caso.'],
+    } as Record<Derecho, [string, string, string]>,
     termsHeading: 'Prazos',
     terms: 'Confirmamos o recebimento e respondemos em até 30 dias corridos. Se precisarmos de mais tempo, o prazo pode ser prorrogado uma única vez por mais 30 dias e informaremos o motivo. Os pedidos de bloqueio são atendidos em 2 dias úteis.',
     identity: 'Para proteger seus dados, verificamos sua identidade antes de responder: pediremos uma cópia do seu documento de identidade e, se você atuar como representante, a procuração que o autoriza.',
@@ -509,7 +509,7 @@ const DerechosDatos = () => {
                           <label
                             key={d}
                             htmlFor={id(`derecho-${d}`)}
-                            className="flex items-center gap-3 rounded-xl border border-slate-200 px-4 min-h-11 py-2 cursor-pointer hover:border-blue-400"
+                            className="flex items-start gap-3 rounded-xl border border-slate-200 px-4 min-h-11 py-2.5 cursor-pointer hover:border-blue-400"
                           >
                             <Checkbox
                               id={id(`derecho-${d}`)}
@@ -517,8 +517,13 @@ const DerechosDatos = () => {
                               checked={form.derechos.includes(d)}
                               onCheckedChange={(v) => toggleDerecho(d, v === true)}
                               aria-invalid={errores.derechos ? true : undefined}
+                              aria-describedby={id(`derecho-${d}-desc`)}
+                              className="mt-0.5"
                             />
-                            <span className="text-sm text-slate-800">{c.rights[d][0]}</span>
+                            <span>
+                              <span className="block text-sm font-medium text-slate-800">{c.rights[d][0]}</span>
+                              <span id={id(`derecho-${d}-desc`)} className="block text-xs text-slate-500 leading-snug mt-0.5">{c.rights[d][2]}</span>
+                            </span>
                           </label>
                         ))}
                       </div>
