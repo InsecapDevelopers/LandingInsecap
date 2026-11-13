@@ -41,6 +41,9 @@
          ocurra primero (fuera de la medición de Lighthouse; antes era idle con tope de 2 s). La conversión
          del formulario no se pierde: para llenarlo hay que escribir, y eso ya los carga. GTM, cuando
          termina el gtag AW. Clarity lo carga entry-client con import() en el mismo momento (window.__on3p).
+         Ley 21.719 (req #12): nada de esto se inserta sin consentimiento. load() solo corre si el banner
+         (src/components/CookieBanner.tsx) guardó "aceptadas" en localStorage; al aceptar, el banner llama
+         window.__cookies3p(). Sin consentimiento las colas quedan en memoria y no salen del navegador.
          Si cambia este script, recalcular su hash para el CSP (Fase 7). -->
     <script>
       (function(w,d){
@@ -61,8 +64,9 @@
         w.__on3p=function(fn){done?fn():cbs.push(fn);};
         function add(src,cb){var j=d.createElement('script');j.async=true;j.src=src;if(cb){j.onload=j.onerror=cb;}d.head.appendChild(j);}
         var evs=['pointerdown','keydown','touchstart','scroll'];
+        function ok(){try{return JSON.parse(localStorage.getItem('insecap-cookies')||'{}').d==='aceptadas';}catch(e){return false;}}
         function load(){
-          if(done)return;done=true;
+          if(done||!ok())return;done=true;
           evs.forEach(function(e){w.removeEventListener(e,load,true);});
           // GTM va después del gtag AW: si GTM-MPJBBMF también trae AW-817100949 y su etiqueta corre
           // antes de que termine el gtag directo, baja otra copia (~160 KB, medido con LHCI). Con el AW
@@ -73,6 +77,7 @@
           add('https://connect.facebook.net/en_US/fbevents.js');
           while(cbs.length)cbs.shift()();
         }
+        w.__cookies3p=load;
         evs.forEach(function(e){w.addEventListener(e,load,{capture:true,passive:true});});
         function later(){setTimeout(load,6000);}
         d.readyState==='complete'?later():w.addEventListener('load',later);
@@ -88,14 +93,7 @@
 </head>
 
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MPJBBMF"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- Meta Pixel (sin JS): va en el body, una imagen dentro de <noscript> no es válida en el head -->
-    <noscript><img height="1" width="1" alt="" style="display:none"
-    src="https://www.facebook.com/tr?id=3241702786017146&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <!-- Sin <noscript> de GTM ni Meta Pixel: sin JS no hay banner para consentir (Ley 21.719, req #12). -->
     <div id="splash" aria-hidden="true">
       <!-- TODO: reemplazar el texto por el logo SVG oficial de INSECAP (decisiones tarea #8, sección 4, punto 10). -->
       <svg viewBox="0 0 320 60" xmlns="http://www.w3.org/2000/svg"><text x="160" y="45" text-anchor="middle" font-family="Montserrat,system-ui,sans-serif" font-weight="700" font-size="44" letter-spacing="8" fill="#fff">INSECAP</text></svg>

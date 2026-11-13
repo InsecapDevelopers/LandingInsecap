@@ -85,6 +85,8 @@ export const seoRoutes: SeoRoute[] = [
   institucional('relator-trabaja-con-nosotros'),
   institucional('politica-calidad'),
   institucional('politica-de-privacidad'),
+  // Ley 21.719 (req. #4): formulario público de ejercicio de derechos sobre datos personales.
+  institucional('derechos-datos'),
   institucional('cursos-abiertos'),
 
   // Fase 2: índice, categorías y fichas de los 61 temas (src/data/cursos-seo.ts). En /cursos/:slug
