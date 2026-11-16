@@ -7,6 +7,13 @@ export const fallbackLanguage: AppLanguage = 'es';
 export const resources = {
   es: {
     translation: {
+      cookies: {
+        title: 'Uso de cookies',
+        text: 'Usamos cookies propias para que el sitio funcione y, solo si aceptas, de Google, Meta y Microsoft Clarity para medir visitas y mostrar publicidad. Puedes cambiar tu decisión cuando quieras desde el pie de página.',
+        more: 'Política de privacidad',
+        accept: 'Aceptar',
+        reject: 'Rechazar',
+      },
       languageSwitcher: {
         label: 'Idioma',
         options: {
@@ -123,6 +130,7 @@ export const resources = {
         },
         copyright: 'Insecap Capacitación. Todos los derechos reservados.',
         privacy: 'Política de Privacidad',
+        cookies: 'Preferencias de cookies',
         questions: '¿Tienes dudas?',
         social: 'INSECAP en {{network}}',
       },
@@ -194,6 +202,10 @@ export const resources = {
           'politica-de-privacidad': {
             title: 'Condiciones del servicio y datos personales',
             description: 'Condiciones de uso de TMS.INSECAP.CL: cómo INSECAP trata los datos de trabajadores de empresas clientes y coordina reuniones de seguimiento de cursos.',
+          },
+          'derechos-datos': {
+            title: 'Ejercer derechos sobre tus datos personales',
+            description: 'Ejerce tus derechos de acceso, rectificación, supresión, oposición, portabilidad o bloqueo de tus datos personales ante INSECAP. Respuesta en 30 días.',
           },
           'cursos-abiertos': {
             title: 'Cursos abiertos con fecha y cupos disponibles',
@@ -434,6 +446,13 @@ export const resources = {
   },
   en: {
     translation: {
+      cookies: {
+        title: 'Cookie use',
+        text: 'We use our own cookies to run the site and, only if you accept, cookies from Google, Meta and Microsoft Clarity to measure visits and show ads. You can change your choice anytime from the footer.',
+        more: 'Privacy policy',
+        accept: 'Accept',
+        reject: 'Reject',
+      },
       languageSwitcher: {
         label: 'Language',
         options: {
@@ -550,6 +569,7 @@ export const resources = {
         },
         copyright: 'Insecap Training. All rights reserved.',
         privacy: 'Privacy policy',
+        cookies: 'Cookie preferences',
         questions: 'Any questions?',
         social: 'INSECAP on {{network}}',
       },
@@ -618,6 +638,10 @@ export const resources = {
           'politica-de-privacidad': {
             title: 'Service terms and personal data',
             description: 'Terms of use of TMS.INSECAP.CL: how INSECAP processes data of client company workers and schedules follow-up meetings to coordinate their training.',
+          },
+          'derechos-datos': {
+            title: 'Exercise your personal data rights',
+            description: 'Exercise your rights of access, rectification, erasure, objection, portability or blocking over the personal data INSECAP holds. Answer within 30 days.',
           },
           'cursos-abiertos': {
             title: 'Open courses with dates and available seats',
@@ -858,6 +882,13 @@ export const resources = {
   },
   pt: {
     translation: {
+      cookies: {
+        title: 'Uso de cookies',
+        text: 'Usamos cookies próprios para o site funcionar e, só se você aceitar, cookies do Google, Meta e Microsoft Clarity para medir visitas e mostrar anúncios. Você pode mudar sua decisão quando quiser no rodapé.',
+        more: 'Política de privacidade',
+        accept: 'Aceitar',
+        reject: 'Recusar',
+      },
       languageSwitcher: {
         label: 'Idioma',
         options: {
@@ -974,6 +1005,7 @@ export const resources = {
         },
         copyright: 'Insecap Capacitação. Todos os direitos reservados.',
         privacy: 'Política de privacidade',
+        cookies: 'Preferências de cookies',
         questions: 'Tem dúvidas?',
         social: 'INSECAP no {{network}}',
       },
@@ -1042,6 +1074,10 @@ export const resources = {
           'politica-de-privacidad': {
             title: 'Condições do serviço e dados pessoais',
             description: 'Condições de uso do TMS.INSECAP.CL: como a INSECAP trata dados de trabalhadores de empresas clientes e agenda reuniões de acompanhamento da capacitação.',
+          },
+          'derechos-datos': {
+            title: 'Exercer direitos sobre seus dados pessoais',
+            description: 'Exerça seus direitos de acesso, retificação, eliminação, oposição, portabilidade ou bloqueio dos seus dados pessoais na INSECAP. Resposta em 30 dias.',
           },
           'cursos-abiertos': {
             title: 'Cursos abertos com datas e vagas disponíveis',

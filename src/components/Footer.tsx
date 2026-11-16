@@ -305,6 +305,13 @@ const Footer = ({ showContact = true }: { showContact?: boolean }) => {
           >
             {t('footer.privacy')}
           </a>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event('insecap:cookies'))}
+            className="text-sm text-white/60 hover:text-white transition-colors duration-200 underline underline-offset-4"
+          >
+            {t('footer.cookies')}
+          </button>
         </div>
       </div>
     </footer>

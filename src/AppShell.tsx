@@ -9,6 +9,7 @@ import { Routes, Route, Navigate, Outlet, useLocation, useParams } from "react-r
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useTranslation } from 'react-i18next';
 import BackToTop from "./components/BackToTop";
+import CookieBanner from "./components/CookieBanner";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -31,6 +32,7 @@ const OurTeam = lazyPage(() => import("./pages/OurTeam"));
 const HonorTeam = lazyPage(() => import("./pages/HonorTeam"));
 const QualityPolicy = lazyPage(() => import("./pages/QualityPolicy"));
 const PrivacyPolicy = lazyPage(() => import("./pages/PrivacyPolicy"));
+const DerechosDatos = lazyPage(() => import("./pages/DerechosDatos"));
 const Contact = lazyPage(() => import("./pages/Contact"));
 const OpenCoursesCatalog = lazyPage(() => import("./pages/OpenCoursesCatalog"));
 const SapSpecialty = lazyPage(() => import("./pages/SapSpecialty"));
@@ -131,6 +133,7 @@ export const routeDefinitions = [
   { path: 'equipo-honor', element: <HonorTeam /> },
   { path: 'politica-calidad', element: <QualityPolicy /> },
   { path: 'politica-de-privacidad', element: <PrivacyPolicy /> },
+  { path: 'derechos-datos', element: <DerechosDatos /> },
   { path: 'contacto', element: <Contact /> },
   { path: 'formulario/cursos-abiertos', element: <OpenCourseForm /> },
   { path: 'forede', element: <Forede /> },
@@ -239,6 +242,7 @@ export const AppShell = ({ queryClient, helmetContext, dehydratedState }: AppShe
         <AttributionTracker />
         <RouteMeta />
         <AppRoutes />
+        <CookieBanner />
       </HydrationBoundary>
     </QueryClientProvider>
   </HelmetProvider>

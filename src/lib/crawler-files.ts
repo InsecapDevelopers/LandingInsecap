@@ -68,6 +68,7 @@ export const PAGE_SOURCES: Record<string, string[]> = {
   'relator-trabaja-con-nosotros': ['src/pages/BeRelator.tsx', TRANSLATIONS],
   'politica-calidad': ['src/pages/QualityPolicy.tsx', TRANSLATIONS],
   'politica-de-privacidad': ['src/pages/PrivacyPolicy.tsx', TRANSLATIONS],
+  'derechos-datos': ['src/pages/DerechosDatos.tsx', 'src/lib/derechosDatos.ts', TRANSLATIONS],
   'cursos-abiertos': ['src/pages/OpenCoursesCatalog.tsx', 'src/lib/openCourses.ts', TRANSLATIONS],
   cursos: ['src/pages/CursosIndex.tsx', CURSOS_SEO, CATALOG_JSON],
   'cursos/categoria/:area': ['src/pages/CursoCategoria.tsx', CURSOS_SEO, CATALOG_JSON],
