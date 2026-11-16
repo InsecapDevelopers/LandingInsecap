@@ -75,6 +75,9 @@ const templatePath = path.join(DIST, 'index.html');
  * al CSS, a las fuentes ni a la imagen LCP, e hidrata apenas termina de bajar. Con el <script> en el
  * HTML, Lighthouse lo contaba dentro del LCP: en /es el LCP simulado bajaba de 3,6 s a 2,2 s sin él.
  * Este script inline entra al CSP por su hash (dist/csp.conf); su texto cambia con el hash del bundle.
+ * Un module script insertado por JS es async: si viene de caché correría con el HTML a medio parsear
+ * (el FCP llega antes del final del documento) y React hidrataría un DOM incompleto (#418 y luego
+ * insertBefore/removeChild). Por eso go() espera a DOMContentLoaded.
  * El shell (_shell.html, sin HTML que pintar) conserva el <script type="module"> directo: ahí el
  * primer contentful paint lo hace el propio JS.
  */
@@ -85,7 +88,7 @@ if (!entrySrc) {
   console.error('[prerender] La plantilla dist/index.html no tiene el <script type="module"> de la app');
   process.exit(1);
 }
-const deferredEntry = `<script>(function(){var d=0,P=window.PerformanceObserver;function go(){if(d)return;d=1;var s=document.createElement('script');s.type='module';s.crossOrigin='';s.src='${entrySrc}';document.head.appendChild(s)}if(P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf('paint')>=0){new P(function(l,o){if(l.getEntriesByName('first-contentful-paint').length){o.disconnect();setTimeout(go)}}).observe({type:'paint',buffered:true});setTimeout(go,3000)}else requestAnimationFrame(function(){setTimeout(go)})})()</script>`;
+const deferredEntry = `<script>(function(){var d=0,P=window.PerformanceObserver;function go(){if(d)return;if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',go);return}d=1;var s=document.createElement('script');s.type='module';s.crossOrigin='';s.src='${entrySrc}';document.head.appendChild(s)}if(P&&P.supportedEntryTypes&&P.supportedEntryTypes.indexOf('paint')>=0){new P(function(l,o){if(l.getEntriesByName('first-contentful-paint').length){o.disconnect();setTimeout(go)}}).observe({type:'paint',buffered:true});setTimeout(go,3000)}else requestAnimationFrame(function(){setTimeout(go)})})()</script>`;
 const template = rawTemplate.replace(ENTRY_SCRIPT, () => deferredEntry);
 
 for (const mark of [PRELOAD_MARK, HEAD_MARK, ROOT_DIV, TAGLINE_MARK]) {
