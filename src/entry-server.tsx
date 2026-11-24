@@ -196,8 +196,11 @@ export function buildCrawlerFiles(pages: CrawlerPage[], sourceLastmod: (file: st
   return buildCrawlerFilesFrom(pages, { sourceLastmod, dataLastmod: newsLastmod });
 }
 
+/** Lema del splash (index.html) letra a letra: cada una sube con su retraso, como la intro del tour virtual. */
 export function getSplashTagline(locale: AppLanguage): string {
-  return i18n.getFixedT(locale)("splash.tagline");
+  return [...i18n.getFixedT(locale)("splash.tagline")]
+    .map((letra, i) => `<span style="--d:${(0.55 + i * 0.035).toFixed(3)}s">${letra === ' ' ? '&nbsp;' : letra}</span>`)
+    .join('');
 }
 
 export async function render(url: string, queryClient: QueryClient = createQueryClient({ server: true })): Promise<RenderResult> {

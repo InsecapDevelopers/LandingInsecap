@@ -305,13 +305,18 @@ const TourIntroCapa = () => {
   const logoRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    const destino = document.querySelector('[data-logo-destino]')?.getBoundingClientRect();
-    const origen = logoRef.current?.getBoundingClientRect();
-    if (!destino || !origen || !capaRef.current || !origen.width) return;
-    const escala = destino.width / origen.width;
-    capaRef.current.style.setProperty('--vuelo-x', `${destino.left - origen.left}px`);
-    capaRef.current.style.setProperty('--vuelo-y', `${destino.top - origen.top}px`);
-    capaRef.current.style.setProperty('--vuelo-s', String(escala));
+    const medir = () => {
+      const destino = document.querySelector('[data-logo-destino]')?.getBoundingClientRect();
+      const origen = logoRef.current?.getBoundingClientRect();
+      if (!destino || !origen || !capaRef.current || !origen.width) return;
+      capaRef.current.style.setProperty('--vuelo-x', `${destino.left - origen.left}px`);
+      capaRef.current.style.setProperty('--vuelo-y', `${destino.top - origen.top}px`);
+      capaRef.current.style.setProperty('--vuelo-s', String(destino.width / origen.width));
+    };
+    medir();
+    // Otra vez justo antes del vuelo (1,2 s): el header ya se acomodó.
+    const id = window.setTimeout(medir, 1150);
+    return () => window.clearTimeout(id);
   }, []);
 
   return (

@@ -432,6 +432,8 @@ body:has(.tour-intro) [data-logo-destino] {
   from { opacity: 0; filter: blur(10px); transform: translateY(28px); }
   to { opacity: 1; filter: blur(0); transform: none; }
 }
+/* Primera visita que entra por el tour: ya corrió el splash del sitio (index.html), mismo efecto. */
+html.splash-hecho .tour-intro { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .tour-intro { display: none; }
   .tour-linea, .tour-entra, body:has(.tour-intro) [data-logo-destino] { animation: none; }
