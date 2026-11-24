@@ -102,6 +102,10 @@ export const getSedeBySlug = (slug: string | undefined): Sede | null =>
 export const getSedeMapsUrl = (sede: Sede): string =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`INSECAP ${sede.direccion}, ${sede.ciudad}, Chile`)}`;
 
+/** Mapa embebido de Google Maps por dirección (frame-src ya permite maps.google.com en scripts/csp.mjs). */
+export const getSedeMapsEmbedUrl = (sede: Sede): string =>
+  `https://maps.google.com/maps?q=${encodeURIComponent(`${sede.direccion}, ${sede.ciudad}, Chile`)}&output=embed&z=16`;
+
 /** Title (keyword, sin marca) y description (140–155) de /sedes/:sede (Fase 3), con el NAP. */
 export const getSedeSeoMeta = (sede: Sede) => ({
   title: `OTEC en ${sede.ciudad}: cursos y capacitación`,

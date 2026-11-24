@@ -17,7 +17,7 @@ import { ArrowDown, ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
-import { getSedeBySlug, getSedeMapsUrl, sedes, type Sede, type SedeSlug } from '@/data/sedes';
+import { getSedeBySlug, getSedeMapsEmbedUrl, getSedeMapsUrl, sedes, type Sede, type SedeSlug } from '@/data/sedes';
 import { TOUR_CALAMA, tourFrameSrc, type TourEstacion, type TourSecuencia } from '@/data/tour-virtual';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { HIGH_PRIORITY } from '@/lib/images';
@@ -498,7 +498,10 @@ const Estacion = ({ sede, estacion, index, total, onVisible }: {
               <motion.span
                 aria-hidden="true"
                 style={{ y: numeroY }}
-                className="absolute right-[4vw] top-[14svh] text-[36vw] font-bold leading-none text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.4)] lg:text-[22vw]"
+                // Relleno cian translúcido (vidrio) en vez de -webkit-text-stroke: en Montserrat Bold el
+                // trazo dibuja los contornos internos que se superponen (el 3 y el 1 salían con rayas).
+                // drop-shadow sigue la silueta del glifo, así el borde queda limpio.
+                className="absolute right-[4vw] top-[14svh] bg-gradient-to-b from-[#00B8DE]/50 via-[#7FDBEF]/25 to-white/10 bg-clip-text text-[36vw] font-bold leading-none text-transparent [filter:drop-shadow(0_0_1px_rgba(255,255,255,0.6))_drop-shadow(0_10px_40px_rgba(0,184,222,0.3))] lg:text-[22vw]"
               >
                 {numero}
               </motion.span>
@@ -644,6 +647,16 @@ const TourCierre = ({ sede, zIndex }: { sede: Sede; zIndex: number }) => {
             ))}
           </ul>
         </nav>
+        <div className="mt-10 h-[340px] overflow-hidden rounded-2xl border border-white/15 shadow-[0_24px_60px_rgba(4,10,30,0.45)] md:h-[420px]">
+          <iframe
+            title={`Mapa de la ${sede.nombre}: ${sede.direccion}, ${sede.ciudad}`}
+            src={getSedeMapsEmbedUrl(sede)}
+            className="h-full w-full border-0"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
       </motion.div>
     </section>
   );
