@@ -49,6 +49,7 @@ const CursoCategoria = lazyPage(() => import("./pages/CursoCategoria"));
 const SedeDetail = lazyPage(() => import("./pages/SedeDetail"));
 const FranquiciaSence = lazyPage(() => import("./pages/FranquiciaSence"));
 const PreguntasFrecuentes = lazyPage(() => import("./pages/PreguntasFrecuentes"));
+const TourVirtual = lazyPage(() => import("./pages/TourVirtual"));
 // Vista oculta (sin enlaces, noindex): Capin a pantalla completa con voz, para eventos.
 const Forede = lazyPage(() => import("./pages/Forede"));
 
@@ -141,6 +142,7 @@ export const routeDefinitions = [
   { path: 'sedes/:sede', element: <SedeDetail /> },
   { path: 'franquicia-sence', element: <FranquiciaSence /> },
   { path: 'preguntas-frecuentes', element: <PreguntasFrecuentes /> },
+  { path: 'tour-virtual', element: <TourVirtual /> },
   { path: 'relator-trabaja-con-nosotros', element: <BeRelator /> },
   { path: 'noticias', element: <Blog /> },
   { path: 'noticias/:slug', element: <ArticleDetail /> },

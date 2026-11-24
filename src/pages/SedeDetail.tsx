@@ -8,6 +8,7 @@ import Pendiente from '@/components/Pendiente';
 import NotFound from '@/pages/NotFound';
 import { CURSOS_MAS_DEMANDADOS, cursoAreas, getCursoSeo, type CursoSeo } from '@/data/cursos-seo';
 import { COBERTURA_VIRTUAL, getSedeBySlug, getSedeMapsUrl, getSedeSeoMeta, sedes } from '@/data/sedes';
+import { TOURS, tourFrameSrc } from '@/data/tour-virtual';
 import { useLocalizedPath } from '@/hooks/use-localized-path';
 import { buildSedeJsonLd } from '@/lib/jsonld';
 import { getRespuestaSede } from '@/data/respuestas';
@@ -41,6 +42,29 @@ const SedeDetail = () => {
           subtitle={sede.nombre}
           breadcrumbs={[{ label: 'Sedes' }, { label: sede.ciudad }]}
         />
+
+        {TOURS[sede.slug] && (
+          <div className="container mx-auto mt-12 px-8 md:px-14 lg:px-16">
+            <Link
+              to={localizedPath('/tour-virtual')}
+              className="group relative flex min-h-[220px] items-end overflow-hidden rounded-[32px] bg-[#0D1C3F] p-8 text-white md:min-h-[280px] md:p-10"
+            >
+              <img
+                src={tourFrameSrc(sede.slug, 'recepcion', 15)}
+                alt=""
+                width={1280}
+                height={720}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <span className="absolute inset-0 bg-gradient-to-t from-[#060d24]/90 via-[#060d24]/40 to-transparent" aria-hidden="true" />
+              <span className="relative">
+                <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-insecap-cyan">Tour virtual</span>
+                <span className="mt-2 block text-2xl font-bold md:text-4xl">Recorre la {sede.nombre} por dentro</span>
+              </span>
+            </Link>
+          </div>
+        )}
 
         <div className="container mx-auto mt-12 grid grid-cols-1 gap-10 px-8 md:px-14 lg:grid-cols-3 lg:px-16">
           <div className="space-y-10 lg:col-span-2">

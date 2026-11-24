@@ -227,6 +227,10 @@ export const resources = {
             title: 'Franquicia tributaria SENCE para capacitación',
             description: 'Capacita con franquicia tributaria SENCE en INSECAP, OTEC acreditada por SENCE (Resolución N° 12208) y certificada en NCh 2728:2015 e ISO 9001:2015.',
           },
+          'tour-virtual': {
+            title: 'Tour virtual de la Casa Matriz Calama',
+            description: 'Recorre por dentro la Casa Matriz de INSECAP en Calama: recepción, salas de clases, sala de computación, sala de simulación y talleres de práctica.',
+          },
           'preguntas-frecuentes': {
             title: 'Preguntas frecuentes sobre cursos y SENCE',
             description: 'Respuestas sobre INSECAP: qué es una OTEC, franquicia SENCE, duración de trabajo en altura, cursos con estándar Codelco, cursos en terreno y e-learning.',
@@ -663,6 +667,10 @@ export const resources = {
             title: 'SENCE tax incentive for training',
             description: 'Train your team with the SENCE tax incentive at INSECAP, an OTEC accredited by SENCE (Resolution No. 12208) and certified under NCh 2728:2015 and ISO 9001.',
           },
+          'tour-virtual': {
+            title: 'Virtual tour of the Calama head office',
+            description: 'Walk through the INSECAP head office in Calama, Chile: reception, classrooms, computer lab, simulation room and hands-on training workshops for courses.',
+          },
           'preguntas-frecuentes': {
             title: 'FAQ about courses and SENCE',
             description: 'Answers about INSECAP: what an OTEC is, the SENCE tax incentive, work at height course length, Codelco-standard courses, on-site training and e-learning.',
@@ -1098,6 +1106,10 @@ export const resources = {
           'franquicia-sence': {
             title: 'Franquia tributária SENCE para capacitação',
             description: 'Capacite sua equipe com a franquia tributária SENCE na INSECAP, OTEC acreditada pelo SENCE (Resolução N° 12208) e certificada na norma NCh 2728:2015.',
+          },
+          'tour-virtual': {
+            title: 'Tour virtual da sede central em Calama',
+            description: 'Conheça por dentro a sede central da INSECAP em Calama, Chile: recepção, salas de aula, sala de informática, sala de simulação e oficinas de prática.',
           },
           'preguntas-frecuentes': {
             title: 'Perguntas frequentes sobre cursos e SENCE',

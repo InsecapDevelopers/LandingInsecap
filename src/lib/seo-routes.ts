@@ -100,6 +100,8 @@ export const seoRoutes: SeoRoute[] = [
   // TODO: indexable cuando INSECAP valide el contenido (sección 4, punto 6).
   datos('franquicia-sence', true, { indexable: false }),
   datos('preguntas-frecuentes'),
+  // TODO: indexable cuando INSECAP valide los nombres y textos de las estaciones (src/data/tour-virtual.ts).
+  datos('tour-virtual', true, { indexable: false }),
   datos('noticias'),
   datos('noticias/:slug'),
 

@@ -76,6 +76,7 @@ export const PAGE_SOURCES: Record<string, string[]> = {
   'sedes/:sede': ['src/pages/SedeDetail.tsx', SEDES, CURSOS_SEO],
   'franquicia-sence': ['src/pages/FranquiciaSence.tsx'],
   'preguntas-frecuentes': ['src/pages/PreguntasFrecuentes.tsx', CURSOS_SEO, SEDES],
+  'tour-virtual': ['src/pages/TourVirtual.tsx', 'src/data/tour-virtual.ts', SEDES],
   noticias: ['src/pages/Blog.tsx'],
   'noticias/:slug': [],
 };
