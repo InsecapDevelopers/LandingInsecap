@@ -156,22 +156,25 @@ const TourHero = ({ sede }: { sede: Sede }) => {
         </motion.div>
 
         <motion.div style={{ opacity: tituloOpacidad }} className="relative z-10 px-6 pt-28 md:px-14 md:pt-32 lg:px-20">
-          <nav aria-label="Migas de pan" className="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
+          <nav aria-label="Migas de pan" style={{ '--d': '2.05s' } as React.CSSProperties} className="tour-entra mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
             <ol className="flex gap-2">
               <li><Link to={localizedPath('/')} className="hover:text-white">Inicio</Link></li>
               <li aria-hidden="true">/</li>
               <li aria-current="page" className="text-white">Tour virtual</li>
             </ol>
           </nav>
-          <h1 className="text-[clamp(3rem,11vw,10rem)] font-bold leading-[0.92] tracking-tight text-white [text-shadow:0_4px_40px_rgba(6,13,36,0.55)]">
-            <motion.span style={{ x: linea1 }} className="block">Tour virtual</motion.span>
-            <motion.span style={{ x: linea2 }} className="mt-2 block text-[0.45em] font-normal leading-tight text-white/75">
-              {sede.nombre}.
+          {/* La sombra va como filtro del h1: las líneas recortan su contenido (overflow) para la entrada. */}
+          <h1 className="text-[clamp(3rem,11vw,10rem)] font-bold leading-[0.92] tracking-tight text-white [filter:drop-shadow(0_4px_24px_rgba(6,13,36,0.55))]">
+            <motion.span style={{ x: linea1 }} className="block overflow-hidden pb-[0.06em]">
+              <span style={{ '--d': '1.7s' } as React.CSSProperties} className="tour-linea">Tour virtual</span>
+            </motion.span>
+            <motion.span style={{ x: linea2 }} className="mt-2 block overflow-hidden pb-[0.08em] text-[0.45em] font-normal leading-tight text-white/75">
+              <span style={{ '--d': '1.85s' } as React.CSSProperties} className="tour-linea">{sede.nombre}.</span>
             </motion.span>
           </h1>
         </motion.div>
 
-        <motion.div style={{ opacity: pista }} className="absolute bottom-8 left-6 z-10 max-w-[38vw] text-white md:left-14 lg:left-20">
+        <motion.div style={{ opacity: pista, '--d': '2.2s' } as unknown as React.CSSProperties} className="tour-entra absolute bottom-8 left-6 z-10 max-w-[38vw] text-white md:left-14 lg:left-20">
           <p className="hidden items-start gap-2 text-sm text-white/80 md:flex">
             <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-insecap-cyan" aria-hidden="true" />
             {sede.direccion}, {sede.ciudad}
@@ -188,26 +191,141 @@ const TourHero = ({ sede }: { sede: Sede }) => {
   );
 };
 
-const Palabra = ({ progress, desde, hasta, children }: { progress: MotionValue<number>; desde: number; hasta: number; children: string }) => {
-  const opacity = useTransform(progress, [desde, hasta], [0.25, 1]);
-  return <motion.span style={{ opacity }}>{children} </motion.span>;
+const FRASE: [string, string] = ['Espacios para aprender,', 'creciendo juntos.'];
+// Degradado de la segunda línea, letra a letra: índigo claro a cian (texto sobre fondo oscuro, no al revés).
+const DESDE = [0x70, 0x80, 0xdb];
+const HASTA = [0x00, 0xb8, 0xde];
+const colorEn = (t: number) => `rgb(${DESDE.map((c, k) => Math.round(c + (HASTA[k] - c) * t)).join(',')})`;
+
+/** Una letra que sube desde abajo, girada y desenfocada, en su tramo del scroll [desde, hasta]. */
+const Letra = ({ progress, desde, hasta, giro, color, children }: {
+  progress: MotionValue<number>;
+  desde: number;
+  hasta: number;
+  giro: number;
+  color?: string;
+  children: string;
+}) => {
+  const y = useTransform(progress, [desde, hasta], ['0.75em', '0em']);
+  const rotate = useTransform(progress, [desde, hasta], [giro, 0]);
+  const opacity = useTransform(progress, [desde, hasta], [0, 1]);
+  const filter = useTransform(progress, [desde, hasta], ['blur(12px)', 'blur(0px)']);
+  return <motion.span style={{ y, rotate, opacity, filter, color }} className="inline-block origin-bottom-left">{children}</motion.span>;
 };
 
-/** Párrafo de respuesta: las palabras se encienden una a una al avanzar el scroll. */
-const TourIntro = ({ sede }: { sede: Sede }) => {
+/** Línea partida en letras (las palabras no se cortan) que entran en cascada dentro del tramo [desde, hasta]. */
+const LineaEnLetras = ({ texto, progress, desde, hasta, giro, degradado = false }: {
+  texto: string;
+  progress: MotionValue<number>;
+  desde: number;
+  hasta: number;
+  giro: number;
+  degradado?: boolean;
+}) => {
+  const total = texto.replace(/ /g, '').length;
+  const tramo = (hasta - desde) * 0.45;
+  let n = 0;
+  return (
+    <span className="block">
+      {texto.split(' ').map((palabra, w) => (
+        <span key={w}>
+          {w > 0 && ' '}
+          <span className="inline-block whitespace-nowrap">
+            {[...palabra].map((letra) => {
+              const i = n++;
+              const inicio = desde + ((hasta - desde - tramo) * i) / Math.max(1, total - 1);
+              return (
+                <Letra key={i} progress={progress} desde={inicio} hasta={inicio + tramo} giro={giro} color={degradado ? colorEn(i / Math.max(1, total - 1)) : undefined}>
+                  {letra}
+                </Letra>
+              );
+            })}
+          </span>
+        </span>
+      ))}
+    </span>
+  );
+};
+
+/**
+ * La frase de la página, al estilo de los titulares de ekiclub: primera línea firme y segunda en
+ * cursiva con degradado. Queda fija mientras sus letras se arman con el scroll; después aparece el
+ * párrafo de respuesta (entidades para buscadores e IA) y una línea que se dibuja bajo la frase.
+ */
+const TourFrase = ({ sede }: { sede: Sede }) => {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.55'] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
   const p = useSuave(scrollYProgress);
-  const palabras = `INSECAP es una OTEC fundada en 2009, con casa matriz en ${sede.direccion}, ${sede.ciudad}. Este recorrido muestra sus instalaciones por dentro: recepción, salas de clases, sala de computación, sala de simulación y talleres de práctica, los espacios donde las personas se capacitan.`.split(' ');
+  const trazo = useTransform(p, [0.66, 0.8], [0, 1]);
+  const bajadaOpacidad = useTransform(p, [0.72, 0.86], [0, 1]);
+  const bajadaY = useTransform(p, [0.72, 0.86], [28, 0]);
+  const bajadaFiltro = useTransform(p, [0.72, 0.86], ['blur(10px)', 'blur(0px)']);
 
   return (
-    <section ref={ref} className="px-6 py-[16svh] md:px-14 lg:px-20">
-      <p data-respuesta="tour" className="mx-auto max-w-6xl text-left text-[clamp(1.5rem,3.6vw,3.25rem)] font-semibold leading-[1.15] tracking-tight text-white">
-        {palabras.map((palabra, i) => (
-          <Palabra key={i} progress={p} desde={i / palabras.length} hasta={(i + 1) / palabras.length}>{palabra}</Palabra>
-        ))}
-      </p>
+    <section ref={ref} className="relative h-[230svh]">
+      <div className="sticky top-0 flex h-[100svh] flex-col justify-center px-6 md:px-14 lg:px-20">
+        <h2
+          aria-label={FRASE.join(' ')}
+          className="text-[clamp(2.75rem,8.5vw,8rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-white"
+        >
+          <span aria-hidden="true">
+            <LineaEnLetras texto={FRASE[0]} progress={p} desde={0.18} hasta={0.48} giro={8} />
+            {/* Montserrat no tiene cursiva autoalojada: el navegador la inclina (sin fuentes nuevas). */}
+            <span className="relative inline-block pb-[0.12em] pr-[0.12em] font-normal italic tracking-[-0.02em]">
+              <LineaEnLetras texto={FRASE[1]} progress={p} desde={0.4} hasta={0.7} giro={-10} degradado />
+              <motion.span
+                style={{ scaleX: trazo }}
+                className="absolute bottom-0 left-0 h-[3px] w-full origin-left rounded-full bg-gradient-to-r from-[#7080DB] to-insecap-cyan"
+              />
+            </span>
+          </span>
+        </h2>
+        <motion.p
+          data-respuesta="tour"
+          style={{ opacity: bajadaOpacidad, y: bajadaY, filter: bajadaFiltro }}
+          className="mt-10 max-w-2xl text-left text-base text-white/75 md:text-lg"
+        >
+          INSECAP es una OTEC fundada en 2009, acreditada por SENCE y certificada en NCh 2728:2015, con casa matriz en
+          {' '}{sede.direccion}, {sede.ciudad}. Recorre por dentro la recepción, las salas de clases, la sala de computación,
+          la sala de simulación y los talleres de práctica.
+        </motion.p>
+      </div>
     </section>
+  );
+};
+
+/**
+ * Intro de la página, como la de ekiclub: capa a pantalla completa con el logo que se revela, sube
+ * "Tour virtual" letra a letra y el logo vuela a su lugar en el header mientras el fondo se apaga.
+ * Es CSS puro (src/index.css, .tour-intro): corre sin JS, no gatea el render y el contenido sigue en
+ * el HTML para bots. JS solo mide el header para que el vuelo aterrice justo sobre el logo real.
+ */
+const TourIntroCapa = () => {
+  const capaRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const destino = document.querySelector('[data-logo-destino]')?.getBoundingClientRect();
+    const origen = logoRef.current?.getBoundingClientRect();
+    if (!destino || !origen || !capaRef.current || !origen.width) return;
+    const escala = destino.width / origen.width;
+    capaRef.current.style.setProperty('--vuelo-x', `${destino.left - origen.left}px`);
+    capaRef.current.style.setProperty('--vuelo-y', `${destino.top - origen.top}px`);
+    capaRef.current.style.setProperty('--vuelo-s', String(escala));
+  }, []);
+
+  return (
+    <div ref={capaRef} className="tour-intro" aria-hidden="true">
+      <div className="tour-intro-fondo" />
+      <div className="tour-intro-centro">
+        <img ref={logoRef} src="/images/insecap-logo.webp" alt="" width={480} height={151} className="tour-intro-logo" />
+        <p className="tour-intro-texto">
+          {[...'Tour virtual'].map((letra, i) => (
+            <span key={i} style={{ '--d': `${0.55 + i * 0.035}s` } as React.CSSProperties}>{letra === ' ' ? '\u00a0' : letra}</span>
+          ))}
+        </p>
+      </div>
+    </div>
   );
 };
 
@@ -462,6 +580,7 @@ const TourVirtual = () => {
 
   return (
     <div style={{ backgroundColor: INK }}>
+      <TourIntroCapa />
       <SEO
         url="/tour-virtual"
         jsonLd={[buildBreadcrumbJsonLd([{ name: 'Inicio', path: localizedPath('/') }, { name: 'Tour virtual' }], localizedPath('/tour-virtual'))]}
@@ -470,7 +589,7 @@ const TourVirtual = () => {
 
       <main lang={locale === 'es' ? undefined : 'es'}>
         <TourHero sede={sede} />
-        <TourIntro sede={sede} />
+        <TourFrase sede={sede} />
         <TourCinta items={estaciones.map((estacion) => estacion.nombre)} />
         <ol className="relative mt-[12svh]">
           {estaciones.map((estacion, index) => (

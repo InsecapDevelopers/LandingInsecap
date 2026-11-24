@@ -160,6 +160,8 @@ const Header = () => {
               <img
                 src="/images/insecap-logo.webp"
                 alt="INSECAP"
+                // Destino del logo que vuela en la intro del tour virtual (TourVirtual.tsx).
+                data-logo-destino=""
                 width={480}
                 height={151}
                 className={`h-auto object-contain transition-all duration-500 ease-in-out ${isAtTop ? 'w-48 2xl:w-60' : 'w-40'

@@ -352,3 +352,87 @@
     }
   }
 }
+/* Tour virtual (TourVirtual.tsx): intro y entrada del título al estilo de ekiclub. CSS puro: corre sin
+   JS y termina oculto (no bloquea el contenido). Línea de tiempo: logo se revela (0–0,6 s), sube
+   "Tour virtual" (0,55–1 s), el logo vuela al header y el fondo se apaga (1,25–1,9 s), suben las
+   líneas del título (1,7 s en adelante). */
+.tour-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  animation: tour-intro-fin 0s linear 2s both;
+}
+.tour-intro-fondo {
+  position: absolute;
+  inset: 0;
+  background: #0D1C3F;
+  animation: tour-intro-apagar 0.65s cubic-bezier(0.16, 1, 0.3, 1) 1.25s both;
+}
+.tour-intro-centro {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+.tour-intro-logo {
+  width: min(62vw, 26rem);
+  height: auto;
+  transform-origin: 0 0;
+  animation:
+    tour-intro-revelar 0.75s cubic-bezier(0.65, 0, 0.35, 1) 0.1s both,
+    tour-intro-vuelo 0.75s cubic-bezier(0.7, 0, 0.2, 1) 1.2s both;
+}
+.tour-intro-texto {
+  display: flex;
+  overflow: hidden;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: #fff;
+  animation: tour-intro-apagar 0.3s ease 1.1s both;
+}
+.tour-intro-texto span {
+  display: inline-block;
+  animation: tour-linea-entra 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) both;
+}
+.tour-linea {
+  display: inline-block;
+  transform-origin: 0 100%;
+  animation: tour-linea-entra 1s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) both;
+}
+.tour-entra {
+  animation: tour-entra 0.8s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) both;
+}
+/* El logo del header se oculta mientras el de la intro vuela hacia él y reaparece al aterrizar. */
+body:has(.tour-intro) [data-logo-destino] {
+  animation: tour-intro-destino 1.95s steps(1, end) both;
+}
+@keyframes tour-intro-revelar {
+  from { clip-path: inset(0 100% 0 0); opacity: 0; filter: blur(8px); }
+  to { clip-path: inset(0 0 0 0); opacity: 1; filter: blur(0); }
+}
+@keyframes tour-intro-vuelo {
+  from { transform: none; opacity: 1; }
+  85% { opacity: 1; }
+  to { transform: translate(var(--vuelo-x, -40vw), var(--vuelo-y, -45vh)) scale(var(--vuelo-s, 0.45)); opacity: 0; }
+}
+@keyframes tour-intro-apagar { to { opacity: 0; } }
+@keyframes tour-intro-fin { to { visibility: hidden; } }
+@keyframes tour-intro-destino { from { visibility: hidden; } to { visibility: visible; } }
+@keyframes tour-linea-entra {
+  from { transform: translateY(115%) rotate(4deg); }
+  to { transform: none; }
+}
+@keyframes tour-entra {
+  from { opacity: 0; filter: blur(10px); transform: translateY(28px); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tour-intro { display: none; }
+  .tour-linea, .tour-entra, body:has(.tour-intro) [data-logo-destino] { animation: none; }
+}
