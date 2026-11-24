@@ -83,11 +83,11 @@ export const TOUR_CALAMA: Tour = {
     },
     {
       clave: 'practica',
-      frames: 125,
+      frames: 152,
       ...H,
       nombre: 'Zona de práctica',
       acento: 'Del aula al terreno.',
-      descripcion: 'Un galpón con estaciones de trabajo, herramientas y equipos de protección personal, demarcado para los ejercicios prácticos.',
+      descripcion: 'Un galpón con estaciones de trabajo, cabinas de soldadura, herramientas y equipos de protección personal, demarcado para los ejercicios prácticos.',
       nivel: 'Primer nivel',
       vista: 'inmersiva',
     },
