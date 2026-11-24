@@ -11,7 +11,7 @@ import type { SedeSlug } from './sedes';
 export interface TourSecuencia {
   /** Carpeta bajo /images/tour/<sede>/. */
   clave: string;
-  /** Cantidad de fotogramas (01.webp … NN.webp). */
+  /** Cantidad de fotogramas (01.webp … NN.webp), a 15 por segundo de video. */
   frames: number;
   width: number;
   height: number;
@@ -34,15 +34,15 @@ export interface Tour {
   estaciones: TourEstacion[];
 }
 
-const H = { width: 1280, height: 720 };
+const H = { width: 960, height: 540 };
 
 export const TOUR_CALAMA: Tour = {
   sede: 'calama',
-  acceso: { clave: 'acceso', frames: 28, ...H },
+  acceso: { clave: 'acceso', frames: 60, ...H },
   estaciones: [
     {
       clave: 'recepcion',
-      frames: 32,
+      frames: 68,
       ...H,
       nombre: 'Recepción',
       acento: 'El punto de partida.',
@@ -52,7 +52,7 @@ export const TOUR_CALAMA: Tour = {
     },
     {
       clave: 'taller',
-      frames: 48,
+      frames: 113,
       ...H,
       nombre: 'Taller Mecánico',
       acento: 'Aprender haciendo.',
@@ -62,7 +62,7 @@ export const TOUR_CALAMA: Tour = {
     },
     {
       clave: 'patio',
-      frames: 46,
+      frames: 105,
       ...H,
       nombre: 'Patio central',
       acento: 'El corazón de la sede.',
@@ -72,9 +72,9 @@ export const TOUR_CALAMA: Tour = {
     },
     {
       clave: 'bloqueo',
-      frames: 40,
-      width: 720,
-      height: 1280,
+      frames: 90,
+      width: 540,
+      height: 960,
       nombre: 'Aislación y Bloqueo',
       acento: 'Tablero de entrenamiento.',
       descripcion: 'Un tablero con dispositivos de bloqueo y un circuito de práctica para ejercitar el procedimiento paso a paso.',
@@ -83,7 +83,7 @@ export const TOUR_CALAMA: Tour = {
     },
     {
       clave: 'practica',
-      frames: 38,
+      frames: 83,
       ...H,
       nombre: 'Zona de práctica',
       acento: 'Del aula al terreno.',
@@ -93,7 +93,7 @@ export const TOUR_CALAMA: Tour = {
     },
     {
       clave: 'clases',
-      frames: 32,
+      frames: 68,
       ...H,
       nombre: 'Sala N° 3',
       acento: 'Salas de clases.',
@@ -103,7 +103,7 @@ export const TOUR_CALAMA: Tour = {
     },
     {
       clave: 'computacion',
-      frames: 64,
+      frames: 158,
       ...H,
       nombre: 'Sala N° 6',
       acento: 'Computación.',
@@ -113,7 +113,7 @@ export const TOUR_CALAMA: Tour = {
     },
     {
       clave: 'simulacion',
-      frames: 64,
+      frames: 165,
       ...H,
       nombre: 'Sala de Simulación',
       acento: 'Nuevos espacios para el aprendizaje.',

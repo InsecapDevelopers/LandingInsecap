@@ -50,10 +50,10 @@ const SedeDetail = () => {
               className="group relative flex min-h-[220px] items-end overflow-hidden rounded-[32px] bg-[#0D1C3F] p-8 text-white md:min-h-[280px] md:p-10"
             >
               <img
-                src={tourFrameSrc(sede.slug, 'recepcion', 15)}
+                src={tourFrameSrc(sede.slug, 'recepcion', 34)}
                 alt=""
-                width={1280}
-                height={720}
+                width={960}
+                height={540}
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />

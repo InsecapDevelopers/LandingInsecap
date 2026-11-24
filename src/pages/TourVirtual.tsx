@@ -21,15 +21,24 @@ const useSuave = (value: MotionValue<number>) => {
   return reducir ? value : resorte;
 };
 
-const suavizar = (x: number) => {
-  const t = Math.min(1, Math.max(0, x));
-  return t * t * (3 - 2 * t);
+/** Orden de descarga de gruesa a fina (uno de cada 16, luego de cada 8…): el recorrido completo se puede scrollear desde el inicio y gana detalle a medida que llegan los demás. */
+const ordenDeCarga = (frames: number, paso: number) => {
+  const orden: number[] = [];
+  const pedidos = new Set<number>();
+  for (const salto of [16, 8, 4, 2, 1].filter((salto) => salto >= paso)) {
+    for (let i = 0; i < frames; i += salto) {
+      if (!pedidos.has(i)) { pedidos.add(i); orden.push(i); }
+    }
+  }
+  if (!pedidos.has(frames - 1)) orden.push(frames - 1);
+  return orden;
 };
 
 /**
  * Secuencia de fotogramas que avanza con `progress` (0 a 1). El HTML lleva el primer fotograma como
  * <img> (póster, sin JS y para bots); el canvas lo tapa cuando cargan los demás, que se piden al
- * acercarse la sección. Entre dos fotogramas se hace un fundido para que el avance se vea continuo.
+ * acercarse la sección. Se dibuja un fundido continuo entre los dos fotogramas listos más cercanos,
+ * así el avance no salta aunque falten cuadros por descargar.
  */
 const Secuencia = ({ sede, secuencia, progress, alt, prioridad = false }: {
   sede: SedeSlug;
@@ -39,27 +48,32 @@ const Secuencia = ({ sede, secuencia, progress, alt, prioridad = false }: {
   prioridad?: boolean;
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imagenes = useRef<Array<HTMLImageElement | undefined>>([]);
-  const paso = useRef(1);
+  const listos = useRef<Array<HTMLImageElement | undefined>>([]);
+  const pendiente = useRef(0);
 
-  const dibujar = (p: number) => {
+  const dibujar = () => {
+    pendiente.current = 0;
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
-    const s = paso.current;
-    const f = Math.min(1, Math.max(0, p)) * Math.floor((secuencia.frames - 1) / s);
-    const i = Math.floor(f);
-    const actual = imagenes.current[i * s];
-    if (!actual?.complete || !actual.naturalWidth) return;
+    const f = Math.min(1, Math.max(0, progress.get())) * (secuencia.frames - 1);
+    let a = Math.floor(f);
+    while (a >= 0 && !listos.current[a]) a--;
+    let b = Math.ceil(f);
+    while (b < secuencia.frames && !listos.current[b]) b++;
+    const antes = listos.current[a];
+    const despues = listos.current[b];
+    if (!antes && !despues) return;
     ctx.globalAlpha = 1;
-    ctx.drawImage(actual, 0, 0, canvas.width, canvas.height);
-    // Fundido solo en el tercio central del paso: quieto en casi cualquier punto, el cuadro se ve nítido.
-    const mezcla = suavizar((f - i - 0.35) / 0.3);
-    const siguiente = imagenes.current[(i + 1) * s];
-    if (mezcla > 0 && siguiente?.complete && siguiente.naturalWidth) {
-      ctx.globalAlpha = mezcla;
-      ctx.drawImage(siguiente, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage((antes ?? despues)!, 0, 0, canvas.width, canvas.height);
+    if (antes && despues && b > a) {
+      ctx.globalAlpha = (f - a) / (b - a);
+      ctx.drawImage(despues, 0, 0, canvas.width, canvas.height);
     }
+  };
+  // Un dibujo por cuadro de pantalla, aunque el scroll y las descargas avisen más seguido.
+  const pedirDibujo = () => {
+    if (!pendiente.current) pendiente.current = requestAnimationFrame(dibujar);
   };
 
   useEffect(() => {
@@ -67,25 +81,33 @@ const Secuencia = ({ sede, secuencia, progress, alt, prioridad = false }: {
     const conexion = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     // Con ahorro de datos queda solo el póster.
     if (!canvas || conexion?.saveData) return;
-    // ponytail: en móvil se carga uno de cada dos fotogramas; si hace falta más ahorro, generar un juego a 640 px.
-    paso.current = window.matchMedia('(max-width: 767px)').matches ? 2 : 1;
+    // ponytail: en móvil se carga uno de cada dos fotogramas (7,5 por segundo de video); si hace falta más ahorro, generar un juego a 640 px.
+    const paso = window.matchMedia('(max-width: 767px)').matches ? 2 : 1;
+    let activo = true;
     const observer = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) return;
       observer.disconnect();
-      for (let i = 0; i < secuencia.frames; i += paso.current) {
+      for (const i of ordenDeCarga(secuencia.frames, paso)) {
         const img = new Image();
-        img.decoding = 'async';
-        img.onload = () => dibujar(progress.get());
         img.src = tourFrameSrc(sede, secuencia.clave, i);
-        imagenes.current[i] = img;
+        // Se marca listo ya decodificado: dibujarlo en el scroll no bloquea el hilo principal.
+        img.decode().then(() => {
+          if (!activo) return;
+          listos.current[i] = img;
+          pedirDibujo();
+        }).catch(() => {});
       }
     }, { rootMargin: '150% 0px' });
     observer.observe(canvas);
-    return () => observer.disconnect();
+    return () => {
+      activo = false;
+      observer.disconnect();
+      cancelAnimationFrame(pendiente.current);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sede, secuencia]);
 
-  useMotionValueEvent(progress, 'change', dibujar);
+  useMotionValueEvent(progress, 'change', pedirDibujo);
 
   return (
     <>
@@ -225,7 +247,8 @@ const Estacion = ({ sede, estacion, index, total, onVisible }: {
   onVisible: (index: number, visible: boolean) => void;
 }) => {
   const ref = useRef<HTMLLIElement>(null);
-  const alto = 260 + estacion.frames;
+  // Largo de scroll según la duración del tramo (15 fotogramas por segundo de video).
+  const alto = 260 + Math.round(estacion.frames * 0.4);
   // Tramos del avance: hasta `a` el panel entra desde abajo; desde `b` lo tapa el siguiente.
   const a = 100 / alto;
   const b = (alto - 100) / alto;
