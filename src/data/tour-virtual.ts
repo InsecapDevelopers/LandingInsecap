@@ -83,7 +83,7 @@ export const TOUR_CALAMA: Tour = {
     },
     {
       clave: 'practica',
-      frames: 83,
+      frames: 125,
       ...H,
       nombre: 'Zona de práctica',
       acento: 'Del aula al terreno.',

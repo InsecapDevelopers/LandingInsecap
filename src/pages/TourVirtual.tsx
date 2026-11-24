@@ -1,6 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from 'framer-motion';
+import {
+  motion,
+  useAnimationFrame,
+  useInView,
+  useMotionValue,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useVelocity,
+  type MotionValue,
+} from 'framer-motion';
 import { ArrowDown, ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -334,25 +346,88 @@ const TourIntroCapa = () => {
   );
 };
 
-/** Cinta con los nombres de las estaciones; se desplaza con el scroll, no con el tiempo. */
+const envolver = (min: number, max: number, v: number) => {
+  const rango = max - min;
+  return ((((v - min) % rango) + rango) % rango) + min;
+};
+
+/**
+ * Una fila de la cinta: avanza sola y el scroll la acelera, le invierte el sentido según hacia dónde
+ * se scrollea y la inclina según la velocidad. Lleva dos copias iguales del contenido, así que
+ * moverla de 0 a -50 % y volver a empezar no se nota. Solo se anima mientras está a la vista.
+ */
+const FilaCinta = ({ items, velocidad, className }: { items: string[]; velocidad: number; className: string }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const reducir = useReducedMotion();
+  const visible = useInView(ref, { margin: '20% 0px' });
+  const base = useMotionValue(0);
+  const { scrollY } = useScroll();
+  const velocidadScroll = useSpring(useVelocity(scrollY), { damping: 50, stiffness: 400 });
+  const impulso = useTransform(velocidadScroll, [0, 1000], [0, 4], { clamp: false });
+  const inclinacion = useTransform(velocidadScroll, [-2500, 2500], [14, -14]);
+  const giroEstrella = useTransform(scrollY, (y) => y * 0.25);
+  const x = useTransform(base, (v) => `${envolver(-50, 0, v)}%`);
+  const sentido = useRef(1);
+
+  useAnimationFrame((_, delta) => {
+    if (reducir || !visible) return;
+    const f = impulso.get();
+    if (f < 0) sentido.current = -1;
+    else if (f > 0) sentido.current = 1;
+    const paso = sentido.current * velocidad * (delta / 1000);
+    base.set(base.get() + paso * (1 + Math.abs(f)));
+  });
+
+  const copia = (clave: string) => (
+    <span key={clave} className="flex shrink-0 items-center gap-[0.4em] pr-[0.4em]">
+      {items.map((item, i) => (
+        <span key={i} className="flex items-center gap-[0.4em]">
+          {item}
+          <motion.span style={{ rotate: giroEstrella }} className="inline-block text-[0.45em] not-italic text-insecap-cyan">✦</motion.span>
+        </span>
+      ))}
+    </span>
+  );
+
+  return (
+    <div ref={ref} className="overflow-hidden">
+      <motion.div style={{ x, skewX: inclinacion }} className={`flex w-max whitespace-nowrap ${className}`}>
+        {copia('a')}
+        {copia('b')}
+      </motion.div>
+    </div>
+  );
+};
+
+/**
+ * Cinta con los nombres de las estaciones, en dos filas que van en sentidos opuestos: la de arriba
+ * en blanco y grande, la de abajo en cursiva más tenue. La banda se endereza y crece al pasar por
+ * la pantalla y se desvanece en los bordes.
+ */
 const TourCinta = ({ items }: { items: string[] }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const x = useTransform(useSuave(scrollYProgress), [0, 1], ['2%', '-55%']);
+  const p = useSuave(scrollYProgress);
+  const rotate = useTransform(p, [0, 1], [-4, 3]);
+  const scale = useTransform(p, [0, 0.5, 1], [0.94, 1, 0.97]);
 
   return (
-    <div ref={ref} aria-hidden="true" className="overflow-hidden border-y border-white/10 py-8">
-      <motion.p
-        style={{ x }}
-        className="flex w-max items-center gap-8 whitespace-nowrap text-[clamp(2.5rem,7vw,6rem)] font-bold uppercase leading-none text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.4)]"
+    <div ref={ref} aria-hidden="true" className="overflow-hidden py-16">
+      <motion.div
+        style={{ rotate, scale }}
+        className="-mx-[5%] flex flex-col gap-2 border-y border-white/15 py-7 [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]"
       >
-        {[...items, ...items].map((item, i) => (
-          <span key={i} className="flex items-center gap-8">
-            {item}
-            <span className="text-[0.4em] text-insecap-cyan [-webkit-text-stroke:0]">✦</span>
-          </span>
-        ))}
-      </motion.p>
+        <FilaCinta
+          items={items}
+          velocidad={-1.6}
+          className="text-[clamp(2.75rem,7.5vw,6.5rem)] font-bold uppercase leading-[1.08] tracking-tight text-white"
+        />
+        <FilaCinta
+          items={[...items].reverse()}
+          velocidad={1.2}
+          className="text-[clamp(1.5rem,3.6vw,3rem)] font-normal italic leading-[1.15] text-white/50"
+        />
+      </motion.div>
     </div>
   );
 };
