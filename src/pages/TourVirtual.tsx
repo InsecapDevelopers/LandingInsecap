@@ -297,7 +297,8 @@ const TourFrase = ({ sede }: { sede: Sede }) => {
           style={{ opacity: bajadaOpacidad, y: bajadaY, filter: bajadaFiltro }}
           className="mt-10 max-w-2xl text-left text-base text-white/75 md:text-lg"
         >
-          INSECAP es una OTEC fundada en 2009, acreditada por SENCE y certificada en NCh 2728:2015, con casa matriz en
+          INSECAP es una OTEC fundada en 2009, acreditada por SENCE y certificada en NCh 2728:2015 y en la norma
+          internacional de calidad ISO 9001:2015, con casa matriz en
           {' '}{sede.direccion}, {sede.ciudad}. Recorre por dentro la recepción, las salas de clases, la sala de computación,
           la sala de simulación y los talleres de práctica.
         </motion.p>
